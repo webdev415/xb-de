@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class C0310Go {
 
     public static C0310Go f982g;

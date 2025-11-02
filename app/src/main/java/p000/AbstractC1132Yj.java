@@ -2,7 +2,6 @@ package p000;
 
 import p000.C2567xe;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1132Yj extends AbstractC1086Xj {
     public static int m4981b(int i, int i2) {
         return i < i2 ? i2 : i;

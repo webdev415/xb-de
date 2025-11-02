@@ -4,7 +4,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1199a3 implements InterfaceC1671e7, InterfaceC0028Ai {
 
     public static C1199a3 f3483d;

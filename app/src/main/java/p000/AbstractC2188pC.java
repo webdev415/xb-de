@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2188pC {
     public abstract int mo9043a(Map.Entry entry);
 

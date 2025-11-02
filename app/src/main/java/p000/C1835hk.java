@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import p000.C1694ek;
 
-/* loaded from: classes.dex */
 public final class C1835hk {
 
     public static final a f5750f = new a(null);

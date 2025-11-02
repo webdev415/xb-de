@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0501Kv extends AbstractC1191Zw {
 
     public boolean f1640b;

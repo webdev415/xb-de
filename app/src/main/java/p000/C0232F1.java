@@ -17,7 +17,6 @@ import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
 
-/* loaded from: classes.dex */
 public class C0232F1 implements InterfaceC0094C1 {
 
     public static C0232F1 f612c;

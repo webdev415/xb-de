@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class DialogC1975kl extends AbstractDialogC2267r {
 
     public final BrowserActivity f6028b;

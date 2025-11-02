@@ -18,7 +18,6 @@ import p000.ResourceCacheManager;
 import p000.C1089Xm;
 import p000.MySQLiteOpenHelper;
 
-/* loaded from: classes.dex */
 public class SiteSettingsManager {
 
     public static SiteSettingsManager instance;

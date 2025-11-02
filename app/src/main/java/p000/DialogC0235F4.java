@@ -12,7 +12,6 @@ import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public class DialogC0235F4 extends AbstractDialogC2267r {
 
     public static String f635g;

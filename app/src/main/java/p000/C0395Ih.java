@@ -12,7 +12,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
 
-/* loaded from: classes.dex */
 public final class C0395Ih implements HostnameVerifier {
 
     public static final C0395Ih f1155a = new C0395Ih();

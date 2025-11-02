@@ -7,7 +7,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
 public class C0786R4 extends AbstractC2175p {
     /* JADX WARN: Removed duplicated region for block: B:28:0x0070  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x0073  */

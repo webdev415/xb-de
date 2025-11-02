@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0581Mj {
     public static final int app_version = 2131558415;
     public static final int define_zxingandroidembedded = 2131558500;

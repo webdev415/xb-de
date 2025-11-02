@@ -10,7 +10,6 @@ import com.mmbox.xbrowser.BrowserDownloadManager;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public class DownloadService extends Service {
 
     public Handler f4498b;

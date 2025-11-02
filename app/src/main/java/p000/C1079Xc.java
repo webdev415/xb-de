@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C1079Xc implements Iterable {
 
     public static final b f3227m = new b(null);

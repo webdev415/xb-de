@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0612ND implements InterfaceC1632dE {
 
     public InterfaceC1632dE[] f1917a;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2208pn extends AbstractC1791gn {
 
     public final InterfaceC0894Tb f6654e;

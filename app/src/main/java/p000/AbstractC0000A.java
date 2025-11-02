@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0000A implements InterfaceC0191E6.c {
 
     public final InterfaceC0986Vb f0l;

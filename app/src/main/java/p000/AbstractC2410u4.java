@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2410u4 {
     public static int m9933a(int i) {
         if (new C2659ze(2, 36).m11028k(i)) {

@@ -3,7 +3,6 @@ package p000;
 import java.util.Comparator;
 import java.util.SortedSet;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2114nm {
     public static Comparator m8795a(SortedSet sortedSet) {
         Comparator comparator = sortedSet.comparator();

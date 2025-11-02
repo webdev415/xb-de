@@ -30,7 +30,6 @@ import p000.C0457Jx;
 import p000.C0595Mx;
 import p000.C0779Qx;
 
-/* loaded from: classes.dex */
 public final class C2145oG extends AbstractC2513wF {
     public C2145oG(C0200EF c0200ef) {
         super(c0200ef);

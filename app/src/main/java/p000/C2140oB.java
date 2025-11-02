@@ -2,7 +2,6 @@ package p000;
 
 import java.util.NoSuchElementException;
 
-/* loaded from: classes.dex */
 public final class C2140oB extends AbstractC2325sB {
 
     public int f6544l = 0;

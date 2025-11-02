@@ -2,7 +2,6 @@ package p000;
 
 import com.google.android.gms.dynamite.descriptors.com.google.android.gms.measurement.dynamite.ModuleDescriptor;
 
-/* loaded from: classes.dex */
 public final class C0161Dd {
 
     public static final int[] f395a;

@@ -24,7 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0074Bi implements InterfaceC0028Ai {
 
     public BrowserActivity f178a;

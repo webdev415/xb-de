@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
-/* loaded from: classes.dex */
 public final class C0746Q9 implements List, Serializable, RandomAccess {
 
     public static final C0746Q9 f2208l = new C0746Q9();

@@ -4,7 +4,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C1299b2 implements InterfaceC0081Bp {
     public static C0325H2 m5619b(String str, BarcodeFormat barcodeFormat, int i, int i2, Charset charset, int i3, int i4) {
         if (barcodeFormat == BarcodeFormat.AZTEC) {

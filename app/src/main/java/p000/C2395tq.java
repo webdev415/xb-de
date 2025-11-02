@@ -3,7 +3,6 @@ package p000;
 import java.util.Iterator;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C2395tq implements InterfaceC0909Tq {
 
     public final boolean f7290l;

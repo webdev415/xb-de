@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class DialogC2666zl extends AbstractDialogC2267r {
 
     public JSONArray f8268b;

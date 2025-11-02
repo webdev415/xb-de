@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0533Lh {
 
     public static final Logger f1717a = Logger.getLogger("okio.Okio");

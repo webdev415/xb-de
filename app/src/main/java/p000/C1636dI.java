@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1636dI implements InterfaceC0813Rm {
 
     public static C1636dI f5310m = new C1636dI();

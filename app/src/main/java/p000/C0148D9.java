@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0148D9 extends IllegalStateException {
     public C0148D9(String str, Throwable th) {
         super(str, th);

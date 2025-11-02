@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0672Oi extends Thread {
 
     public String f2052l = null;

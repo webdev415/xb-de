@@ -7,7 +7,6 @@ import android.view.Choreographer;
 import java.lang.reflect.InvocationTargetException;
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0895Tc {
 
     public static final AbstractC0849Sc f2753a;

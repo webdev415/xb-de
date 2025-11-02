@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0509L2 {
 
     public final byte[] f1650a;

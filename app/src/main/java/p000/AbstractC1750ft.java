@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1750ft {
     public abstract AbstractC1750ft mo3587a(EnumC2075mt enumC2075mt);
 

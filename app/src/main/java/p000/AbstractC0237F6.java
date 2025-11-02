@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0237F6 {
 
     public static final class a extends AbstractC0025Af implements InterfaceC1920jc {

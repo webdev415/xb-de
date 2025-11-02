@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public class C0831S3 {
 
     public static final String f2582n = "S3";

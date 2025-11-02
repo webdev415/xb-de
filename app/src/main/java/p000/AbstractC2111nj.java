@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2111nj {
 
     public static final byte[] f6467a = {48, 49, 53, 0};

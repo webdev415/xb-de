@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2248qh implements InterfaceC1627d9, InterfaceC2640z4 {
 
     public static final C2248qh f6728l = new C2248qh();

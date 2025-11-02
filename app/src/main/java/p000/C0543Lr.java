@@ -3,7 +3,6 @@ package p000;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* loaded from: classes.dex */
 public final class C0543Lr implements Parcelable.Creator {
     @Override
     public final Object createFromParcel(Parcel parcel) {

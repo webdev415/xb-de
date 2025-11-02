@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.Field;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2413u7 {
     public static final void m9991a(int i, int i2) {
         if (i2 <= i) {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import java.util.List;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C0314Gs implements InterfaceC0105CC {
 
     public final C0224Eu f992a;

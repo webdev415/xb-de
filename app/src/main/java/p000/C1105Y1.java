@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1105Y1 {
 
     public boolean f3297a;

@@ -10,7 +10,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
 public class C2363t3 {
 
     public static C2363t3 f7138c;

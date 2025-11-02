@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1120YG implements InterfaceC0982VG {
 
     public static final AbstractC2001lA f3331a;

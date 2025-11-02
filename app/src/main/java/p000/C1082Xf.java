@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.net.ConnectException;
 import java.net.Socket;
 
-/* loaded from: classes.dex */
 public class C1082Xf extends AbstractC2434uj {
 
     public final Socket f3239m;

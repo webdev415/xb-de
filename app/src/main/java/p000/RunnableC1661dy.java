@@ -3,7 +3,6 @@ package p000;
 import java.net.URL;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class RunnableC1661dy implements Runnable {
 
     public final URL f5345l;

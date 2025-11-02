@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C1009Vy implements InterfaceC0800RI {
 
     public final C0596My f3012a;

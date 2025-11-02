@@ -3,7 +3,6 @@ package p000;
 import java.util.Collection;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2042m5 extends AbstractC1996l5 {
     public static boolean m8435p(Collection collection, Iterable iterable) {
         AbstractC0116Ce.m476e(collection, "<this>");

@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Binder;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0918Tz {
     public static Object m4186a(InterfaceC0826Rz interfaceC0826Rz) {
         try {

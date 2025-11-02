@@ -3,7 +3,6 @@ package p000;
 import java.util.Collection;
 import java.util.Collections;
 
-/* loaded from: classes.dex */
 public final class C0759Qd extends AbstractC0992Vh {
 
     public static final int[] f2244b = {1, 1, 1, 1};

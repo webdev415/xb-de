@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-/* loaded from: classes.dex */
 public class C0390Ic {
 
     public static final int f1153a = AbstractC0482Kc.f1572a;

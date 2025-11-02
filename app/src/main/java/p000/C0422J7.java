@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public final class C0422J7 {
 
     public static final String[] f1280b = {"CTRL_PS", " ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "CTRL_LL", "CTRL_ML", "CTRL_DL", "CTRL_BS"};

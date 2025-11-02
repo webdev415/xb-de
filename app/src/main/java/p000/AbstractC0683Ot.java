@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0683Ot {
     public static int m3443a(int i) {
         int[] iArr = {1, 2, 3};

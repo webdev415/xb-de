@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1219ad {
 
     public class a implements InterfaceC1171Zc {

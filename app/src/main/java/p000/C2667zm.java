@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.content.res.Resources;
 
-/* loaded from: classes.dex */
 public class C2667zm {
 
     public final Resources f8277a;

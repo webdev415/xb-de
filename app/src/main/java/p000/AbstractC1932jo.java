@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1932jo {
     public static final void m8204a(InterfaceC1920jc interfaceC1920jc, Object obj, InterfaceC2458v6 interfaceC2458v6) {
         Object objM3695a;

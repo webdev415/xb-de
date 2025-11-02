@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0096C3;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1195a {
 
     public static final byte[] f3481a;

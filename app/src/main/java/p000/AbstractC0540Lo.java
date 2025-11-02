@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.ViewConfiguration;
 import java.lang.reflect.Method;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0540Lo {
 
     public static Method f1734a;

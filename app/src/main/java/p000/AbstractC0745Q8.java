@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0745Q8 {
 
     public static Boolean f2205a;

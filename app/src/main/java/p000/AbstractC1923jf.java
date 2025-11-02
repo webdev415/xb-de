@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1923jf {
 
     public static final C0951Um f5948a = new C0951Um("COMPLETING_ALREADY");

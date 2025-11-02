@@ -2,7 +2,6 @@ package p000;
 
 import com.google.android.gms.dynamite.descriptors.com.google.android.gms.measurement.dynamite.ModuleDescriptor;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1317ba {
 
     public static final int[] f3868a = {5, 7, 10, 11, 12, 14, 18, 20, 24, 28, 36, 42, 48, 56, 62, 68};

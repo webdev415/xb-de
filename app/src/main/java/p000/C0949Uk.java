@@ -10,7 +10,6 @@ import java.security.cert.CertificateException;
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
-/* loaded from: classes.dex */
 public final class C0949Uk implements InterfaceC0070Be {
 
     public static final a f2862b = new a(null);

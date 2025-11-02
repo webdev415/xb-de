@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0062BF {
     public static String m229a(AbstractC2233qB abstractC2233qB) {
         String str;

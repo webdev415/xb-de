@@ -8,7 +8,6 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 import p000.C1825ha;
 
-/* loaded from: classes.dex */
 public class BrowserReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

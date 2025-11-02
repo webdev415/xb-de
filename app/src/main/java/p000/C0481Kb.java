@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public final class C0481Kb implements Parcelable {
     public static final Creator<C0481Kb> CREATOR = new a();
 

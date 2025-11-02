@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0967V1 extends AbstractC2391tm {
 
     public final long f2908a;

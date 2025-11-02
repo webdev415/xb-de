@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import p000.C1063X5;
 import p000.ComponentCallbacks2C1760g2;
 
-/* loaded from: classes.dex */
 public class C1364cb {
 
     public static final Object f3957k = new Object();

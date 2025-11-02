@@ -3,7 +3,6 @@ package p000;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-/* loaded from: classes.dex */
 public final class ViewTreeObserverOnPreDrawListenerC1038Wh implements ViewTreeObserver.OnPreDrawListener, View.OnAttachStateChangeListener {
 
     public final View f3076a;

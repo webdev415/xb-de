@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C2675zu extends AbstractC2167os implements InterfaceC2491vu {
     public C2675zu(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.measurement.api.internal.IEventHandlerProxy");

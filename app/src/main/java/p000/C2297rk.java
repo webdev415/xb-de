@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C2297rk {
     public InterfaceC2246qf m9429a(Class cls) {
         return new C0419J4(cls);

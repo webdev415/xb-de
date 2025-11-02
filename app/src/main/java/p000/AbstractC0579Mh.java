@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0579Mh {
     public static final InterfaceC2501w3 m2883a(InterfaceC1134Yl interfaceC1134Yl) {
         AbstractC0116Ce.m476e(interfaceC1134Yl, "$this$buffer");

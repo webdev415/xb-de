@@ -28,7 +28,6 @@ import p000.DialogC1975kl;
 import p000.InterfaceC0529Ld;
 import p000.InterfaceC0575Md;
 
-/* loaded from: classes.dex */
 public class TabWindowManager extends AbstractC2359t implements InterfaceC0529Ld.a, View.OnClickListener, AbstractScrollableListController.ItemClickListener {
 
     public InterfaceC0575Md tabEventListener;

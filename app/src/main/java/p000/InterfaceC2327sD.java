@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2327sD extends List {
     List m9525a();
 

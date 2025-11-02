@@ -3,7 +3,6 @@ package p000;
 import java.util.List;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0017AG {
     void mo71A(int i, Object obj, InterfaceC1026WE interfaceC1026WE);
 

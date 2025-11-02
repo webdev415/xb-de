@@ -10,7 +10,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'p' uses ext
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* loaded from: classes.dex */
 public class EnumC1634dG {
 
     public static final EnumC1634dG f5287A;

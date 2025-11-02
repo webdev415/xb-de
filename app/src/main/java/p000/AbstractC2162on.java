@@ -3,7 +3,6 @@ package p000;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2162on {
     public static final String m8979b(long j) {
         StringBuilder sb;

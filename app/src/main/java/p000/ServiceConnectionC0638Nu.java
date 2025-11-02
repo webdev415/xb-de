@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IInterface;
 
-/* loaded from: classes.dex */
 public final class ServiceConnectionC0638Nu implements ServiceConnection {
 
     public final int f1979a;

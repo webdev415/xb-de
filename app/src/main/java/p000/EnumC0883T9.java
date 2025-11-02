@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC0883T9 {
     ERROR_CORRECTION,
     CHARACTER_SET,

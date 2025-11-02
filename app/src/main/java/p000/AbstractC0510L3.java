@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0510L3 implements InterfaceC2200pf, Serializable {
 
     public static final Object f1653r = a.f1660l;

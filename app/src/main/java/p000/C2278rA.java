@@ -2,7 +2,6 @@ package p000;
 
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public final class C2278rA extends AbstractC2001lA {
     public C2278rA(C0057BA c0057ba, String str, Boolean bool, boolean z) {
         super(c0057ba, str, bool);

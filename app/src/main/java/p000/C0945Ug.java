@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0945Ug extends C0606N7 {
 
     public boolean f2861c;

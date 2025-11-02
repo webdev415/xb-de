@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.Method;
 
-/* loaded from: classes.dex */
 public final class C1037Wg {
 
     public static final C1037Wg f3070a = new C1037Wg();

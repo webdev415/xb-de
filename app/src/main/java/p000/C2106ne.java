@@ -3,7 +3,6 @@ package p000;
 import java.io.IOException;
 import java.io.InputStream;
 
-/* loaded from: classes.dex */
 public final class C2106ne implements InterfaceC2161om {
 
     public final InputStream f6311l;

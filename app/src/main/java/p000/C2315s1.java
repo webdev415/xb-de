@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/* loaded from: classes.dex */
 public final class C2315s1 extends AbstractC0322H {
 
     public static final a f6993o = new a(null);

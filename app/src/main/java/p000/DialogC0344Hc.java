@@ -13,7 +13,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class DialogC0344Hc extends AbstractDialogC2267r {
 
     public static int[] f1056d = {0, -3674676, -329250, -3358, -137504, -2301199, -1446914, -1839667, -659206};

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractViewOnClickListenerC1638da extends AbstractDialogC2267r implements View.OnClickListener {
 
     public BrowserActivity f5312b;

@@ -23,7 +23,6 @@ import java.util.TimeZone;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2623yo {
 
     public static final byte[] f8127a;

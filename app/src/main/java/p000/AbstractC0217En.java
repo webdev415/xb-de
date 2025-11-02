@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0217En {
 
     public static final AbstractC0217En f535b = new C0996Vl(null, 0, 0);

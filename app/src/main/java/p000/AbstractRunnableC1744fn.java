@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractRunnableC1744fn implements Runnable {
 
     public long f5547l;

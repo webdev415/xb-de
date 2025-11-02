@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0536Lk implements Closeable {
 
     public static final a f1726l = new a(null);

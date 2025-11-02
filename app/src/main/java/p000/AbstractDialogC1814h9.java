@@ -20,7 +20,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
 
     public BrowserActivity f5694b;

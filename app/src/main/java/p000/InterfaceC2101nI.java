@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2101nI {
     boolean mo8449a();
 

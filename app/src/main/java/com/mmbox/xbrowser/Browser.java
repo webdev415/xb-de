@@ -39,7 +39,6 @@ import p000.C2553x9;
 import p000.C2577xo;
 import p000.C2645z9;
 
-/* loaded from: classes.dex */
 public class Browser extends Application {
 
     public static Browser f4236a;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2659ze extends C2567xe {
 
     public static final a f8256p = new a(null);

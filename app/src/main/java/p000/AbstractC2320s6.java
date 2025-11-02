@@ -12,7 +12,6 @@ import android.os.Process;
 import android.text.TextUtils;
 import java.io.File;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2320s6 {
 
     public static final Object f7014a = new Object();

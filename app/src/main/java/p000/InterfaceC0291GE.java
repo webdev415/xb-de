@@ -3,7 +3,6 @@ package p000;
 import android.app.job.JobParameters;
 import android.content.Intent;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0291GE {
     void mo1367a(Intent intent);
 

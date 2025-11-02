@@ -4,7 +4,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public class C0445Jl {
 
     public static C0445Jl f1436e;

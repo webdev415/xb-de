@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0052B5 implements InterfaceC2458v6 {
 
     public static final C0052B5 f120l = new C0052B5();

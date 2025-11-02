@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public final class C1053Ww extends AbstractC0771Qp {
 
     public final AbstractC2454v2 f3160g;

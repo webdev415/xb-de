@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C1221af extends C1877if implements InterfaceC2641z5 {
 
     public final boolean f3540n;

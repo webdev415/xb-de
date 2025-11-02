@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2016lg {
     public static final AbstractC0899Tg m8397a(Throwable th, String str) throws Throwable {
         if (th != null) {

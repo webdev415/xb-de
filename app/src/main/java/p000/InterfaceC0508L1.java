@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0508L1 {
 
     public static final a f1649c = new a(null);

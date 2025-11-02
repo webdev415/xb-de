@@ -3,7 +3,6 @@ package p000;
 import java.io.Serializable;
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public final class C0608N9 implements InterfaceC0191E6, Serializable {
 
     public static final C0608N9 f1911l = new C0608N9();

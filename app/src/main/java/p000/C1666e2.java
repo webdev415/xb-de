@@ -8,7 +8,6 @@ import androidx.lifecycle.AbstractC1255c;
 import java.util.ArrayList;
 import p000.AbstractC0619Nb;
 
-/* loaded from: classes.dex */
 public final class C1666e2 implements Parcelable {
     public static final Creator<C1666e2> CREATOR = new a();
 

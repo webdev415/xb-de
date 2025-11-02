@@ -2,7 +2,6 @@ package p000;
 
 import android.content.SharedPreferences;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0345Hd extends InterfaceC0391Id {
     void mo1572D(String str);
 

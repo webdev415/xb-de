@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC0016AF {
     GOOGLE_ANALYTICS(0),
     GOOGLE_SIGNAL(1),

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public class C0711Pb extends AbstractC0757Qb {
     public static boolean m3543o(Transition transition) {
         return (AbstractC0757Qb.m3651e(transition.getTargetIds()) && AbstractC0757Qb.m3651e(transition.getTargetNames()) && AbstractC0757Qb.m3651e(transition.getTargetTypes())) ? false : true;

@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1675eB extends AbstractList implements InterfaceC1865iD {
 
     public boolean f5401l;

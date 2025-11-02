@@ -113,7 +113,6 @@ import p000.ThemeManager;
 import p000.C2480vj;
 import p000.C2564xb;
 
-/* loaded from: classes.dex */
 public class WebViewBrowserController extends AbsBrowserController implements AbstractScrollableListController.b, View.OnClickListener {
 
     public static final FrameLayout.LayoutParams f4693I = new FrameLayout.LayoutParams(-1, -1);
@@ -2267,7 +2266,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         if (mo5624a()) {
             this.browserActivity.m6218I0().m6403L(str);
         }
-        this.browserActivity.f4241C = str;
+        this.browserActivity.currentUserAgent = str;
         m6801k1(str);
         SiteSettingsManager.getInstance().m6975q(this.f4716p, str, true);
         this.f4709i = 0;

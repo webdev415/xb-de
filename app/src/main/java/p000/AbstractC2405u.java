@@ -3,7 +3,6 @@ package p000;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2405u implements Parcelable {
 
     public final Parcelable f7339l;

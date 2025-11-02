@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.ref.WeakReference;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC0473KC extends AbstractBinderC0195EA {
 
     public static final WeakReference f1552e = new WeakReference(null);

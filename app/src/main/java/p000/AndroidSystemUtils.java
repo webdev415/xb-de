@@ -54,7 +54,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.UUID;
 
-/* loaded from: classes.dex */
 public abstract class AndroidSystemUtils {
 
     public static final DecimalFormat sizeFormatter = new DecimalFormat("0.##");

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1873ib extends Exception {
     public AbstractC1873ib() {
     }

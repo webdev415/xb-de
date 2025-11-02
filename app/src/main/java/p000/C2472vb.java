@@ -2,7 +2,6 @@ package p000;
 
 import android.graphics.Rect;
 
-/* loaded from: classes.dex */
 public class C2472vb extends AbstractC1647dj {
     public static float m10346e(float f) {
         return f < 1.0f ? 1.0f / f : f;

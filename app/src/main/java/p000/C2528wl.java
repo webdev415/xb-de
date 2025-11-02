@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-/* loaded from: classes.dex */
 public final class C2528wl {
 
     public static final int f7891c;

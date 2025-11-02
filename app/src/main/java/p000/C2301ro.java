@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C2301ro {
 
     public InterfaceC0804Rd f6975a;

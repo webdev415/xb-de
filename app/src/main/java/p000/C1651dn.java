@@ -12,7 +12,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.util.Locale;
 
-/* loaded from: classes.dex */
 public class C1651dn extends UtteranceProgressListener implements TextToSpeech.OnInitListener {
 
     public static C1651dn f5331i;

@@ -3,7 +3,6 @@ package p000;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0737Q0 {
     public static final int m3621b(LogRecord logRecord) {
         int iIntValue = logRecord.getLevel().intValue();

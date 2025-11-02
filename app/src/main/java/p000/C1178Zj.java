@@ -2,7 +2,6 @@ package p000;
 
 import android.graphics.Rect;
 
-/* loaded from: classes.dex */
 public class C1178Zj {
 
     public byte[] f3455a;

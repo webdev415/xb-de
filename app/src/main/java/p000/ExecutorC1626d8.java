@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public final class ExecutorC1626d8 extends AbstractC2425ua implements Executor {
 
     public static final ExecutorC1626d8 f5272o = new ExecutorC1626d8();

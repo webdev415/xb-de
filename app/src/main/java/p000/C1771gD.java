@@ -2,7 +2,6 @@ package p000;
 
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public class C1771gD extends IOException {
     public C1771gD(String str) {
         super(str);

@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0634Nq {
     public static Iterator m3338a(Map map) {
         return new C0542Lq(map.keySet().iterator());

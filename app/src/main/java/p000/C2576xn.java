@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2576xn {
 
     public static final C2576xn f8026a = new C2576xn();

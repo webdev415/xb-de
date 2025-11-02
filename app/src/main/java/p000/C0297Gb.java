@@ -3,7 +3,6 @@ package p000;
 import java.lang.reflect.InvocationTargetException;
 import p000.AbstractComponentCallbacksC0159Db;
 
-/* loaded from: classes.dex */
 public class C0297Gb {
 
     public static final C0950Ul f938a = new C0950Ul();

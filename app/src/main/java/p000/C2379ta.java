@@ -2,7 +2,6 @@ package p000;
 
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public final class C2379ta {
 
     public C1742fl.b f7207a;

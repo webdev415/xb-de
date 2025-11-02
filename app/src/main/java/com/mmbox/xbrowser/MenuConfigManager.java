@@ -18,7 +18,6 @@ import p000.C1089Xm;
 import p000.C1199a3;
 import p000.PhoneUtils;
 
-/* loaded from: classes.dex */
 public class MenuConfigManager {
 
     public static MenuConfigManager instance;

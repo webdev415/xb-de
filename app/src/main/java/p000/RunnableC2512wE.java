@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class RunnableC2512wE implements Runnable {
 
     public final ServiceConnectionC1959kE f7814l;

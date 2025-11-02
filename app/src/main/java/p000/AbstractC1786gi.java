@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Comparator;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1786gi implements Comparator {
     public static AbstractC1786gi m7739a(Comparator comparator) {
         return comparator instanceof AbstractC1786gi ? (AbstractC1786gi) comparator : new C2549x5(comparator);

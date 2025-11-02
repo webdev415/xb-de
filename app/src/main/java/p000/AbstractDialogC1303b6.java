@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractDialogC1303b6 extends AbstractDialogC2267r {
 
     public String f3842b;

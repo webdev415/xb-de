@@ -13,7 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1718f7 implements InterfaceC1671e7 {
 
     public final BrowserActivity browserActivity;

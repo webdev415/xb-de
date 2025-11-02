@@ -11,7 +11,6 @@ import com.xbrowser.play.R;
 import p000.AbstractC1900j2;
 import p000.C2478vh;
 
-/* loaded from: classes.dex */
 public class BackgroundPlayService extends Service {
 
     public NotificationManager f4235a;

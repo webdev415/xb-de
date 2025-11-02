@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0116Ce {
     public static boolean m472a(Object obj, Object obj2) {
         return obj == null ? obj2 == null : obj.equals(obj2);

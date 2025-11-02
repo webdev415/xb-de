@@ -32,7 +32,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* loaded from: classes.dex */
 public abstract class FileUtils {
 
     public static final Pattern FILENAME_NUMBERED_PATTERN = Pattern.compile("([^/\\\\]+)_([0-9]{1,3})(\\.\\w{1,5})?$");

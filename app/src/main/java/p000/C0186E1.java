@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 
-/* loaded from: classes.dex */
 public class C0186E1 {
 
     public static C0186E1 f451a;

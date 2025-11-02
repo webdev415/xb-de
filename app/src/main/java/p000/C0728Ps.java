@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0728Ps extends AbstractC1750ft {
 
     public String f2177a;

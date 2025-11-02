@@ -3,7 +3,6 @@ package p000;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-/* loaded from: classes.dex */
 public final class C0700P9 implements ListIterator {
 
     public static final C0700P9 f2091l = new C0700P9();

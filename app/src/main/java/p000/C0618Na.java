@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import p000.AbstractC0257Fh;
 
-/* loaded from: classes.dex */
 public class C0618Na extends AbstractC0552M {
     public static final Creator<C0618Na> CREATOR = new C2673zs();
 

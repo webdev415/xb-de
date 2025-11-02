@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1326bj extends AbstractC1325bi {
 
     public final Object f3877l;

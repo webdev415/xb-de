@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public enum DecodeHintType {
     OTHER(Object.class),
     PURE_BARCODE(Void.class),

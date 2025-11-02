@@ -3,7 +3,6 @@ package p000;
 import java.util.List;
 import p000.InterfaceC0070Be;
 
-/* loaded from: classes.dex */
 public final class C1882ik implements InterfaceC0070Be.a {
 
     public int f5816a;

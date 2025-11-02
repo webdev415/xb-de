@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0279G2 {
     public static C0233F2 m1320a(List list) {
         int size = list.size() << 1;

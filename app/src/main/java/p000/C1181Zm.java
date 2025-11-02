@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C1181Zm implements InterfaceC0511L4 {
 
     public static C1181Zm f3465a;

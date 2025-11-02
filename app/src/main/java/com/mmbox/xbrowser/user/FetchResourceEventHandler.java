@@ -10,7 +10,6 @@ import p000.ApiEndpointsManager;
 import p000.InterfaceC0418J3;
 import p000.InterfaceC0556M3;
 
-/* loaded from: classes.dex */
 public class FetchResourceEventHandler extends AbstractC2313s {
     @Override
     public boolean mo7164a(int i, String str, Object obj) {

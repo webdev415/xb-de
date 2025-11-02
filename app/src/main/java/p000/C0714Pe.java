@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0714Pe extends C0668Oe {
 
     public static final class a {

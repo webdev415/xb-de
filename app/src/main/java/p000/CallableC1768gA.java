@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Callable;
 
-/* loaded from: classes.dex */
 public final class CallableC1768gA implements Callable {
 
     public final C0569MG f5599a;

@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0783R1 extends AbstractC1967kd {
 
     public final String f2311a;

@@ -5,7 +5,6 @@ import javax.net.ssl.SSLSocket;
 import org.conscrypt.Conscrypt;
 import p000.C2045m8;
 
-/* loaded from: classes.dex */
 public final class C2089n6 implements InterfaceC1228am {
 
     public static final b f6302b = new b(null);

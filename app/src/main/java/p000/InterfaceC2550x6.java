@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2550x6 extends InterfaceC0191E6.b {
 
     public static final b f7940a = b.f7941l;

@@ -6,7 +6,6 @@ import android.os.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C1894ix extends AbstractC2167os implements InterfaceC1707ex {
     public C1894ix(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.measurement.internal.IMeasurementService");

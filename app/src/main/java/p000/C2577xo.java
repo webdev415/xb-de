@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2577xo extends AbstractResourceManager {
 
     public class a implements Runnable {

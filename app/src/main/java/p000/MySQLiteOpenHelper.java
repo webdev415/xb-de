@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     public static MySQLiteOpenHelper instance;

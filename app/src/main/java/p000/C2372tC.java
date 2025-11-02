@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C2372tC extends AbstractC2188pC {
     @Override
     public final int mo9043a(Map.Entry entry) {

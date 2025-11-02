@@ -4,7 +4,6 @@ import android.os.HandlerThread;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1807h2 {
 
     public static HandlerThread f5674a;

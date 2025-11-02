@@ -3,7 +3,6 @@ package p000;
 import android.os.Bundle;
 import java.lang.reflect.InvocationTargetException;
 
-/* loaded from: classes.dex */
 public final class RunnableC0885TB implements Runnable {
 
     public final String f2728l;

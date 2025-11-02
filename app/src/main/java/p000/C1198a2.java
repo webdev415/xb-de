@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1198a2 implements InterfaceC1226ak {
     @Override
     public C0720Pk decode(BinaryBitmap binaryBitmap) {

@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.util.List;
 import p000.C1079Xc;
 
-/* loaded from: classes.dex */
 public final class C0490Kk implements Closeable {
 
     public C0280G3 f1580l;

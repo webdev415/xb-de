@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0249FI implements InterfaceC0813Rm {
 
     public static C0249FI f660m = new C0249FI();

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 
-/* loaded from: classes.dex */
 public final class C1782ge {
 
     public final Context f5629a;

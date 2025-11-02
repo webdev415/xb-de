@@ -7,7 +7,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class DialogC2180p4 extends AbstractDialogC2267r {
 
     public BrowserActivity f6624b;

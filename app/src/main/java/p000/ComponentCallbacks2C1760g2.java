@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/* loaded from: classes.dex */
 public final class ComponentCallbacks2C1760g2 implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
 
     public static final ComponentCallbacks2C1760g2 f5578e = new ComponentCallbacks2C1760g2();

@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractDialogC1688ee extends AbstractDialogC2267r {
 
     public BrowserActivity f5421b;

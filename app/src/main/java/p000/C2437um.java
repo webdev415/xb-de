@@ -3,7 +3,6 @@ package p000;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-/* loaded from: classes.dex */
 public final class C2437um {
 
     public static final C2437um f7565e = new C2437um(AbstractC0217En.f535b, 0, 0, 0);

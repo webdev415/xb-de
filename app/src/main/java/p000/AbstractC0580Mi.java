@@ -3,7 +3,6 @@ package p000;
 import p000.C0534Li;
 import p000.C0921U1;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0580Mi {
 
     public static AbstractC0580Mi f1839a = m2885a().mo2905a();

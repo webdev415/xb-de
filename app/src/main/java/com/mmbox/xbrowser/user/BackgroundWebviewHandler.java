@@ -32,7 +32,6 @@ import p000.PhoneUtils;
 import p000.C2061mf;
 import p000.C2107nf;
 
-/* loaded from: classes.dex */
 public class BackgroundWebviewHandler extends AbstractC2313s {
 
     public WebView f5122e = null;

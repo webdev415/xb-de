@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0662OH implements InterfaceC0524LH {
 
     public static final AbstractC2001lA f2022a = new C0057BA(AbstractC1721fA.m7566a("com.google.android.gms.measurement")).m221f().m220e().m219d("measurement.gmscore_feature_tracking", true);

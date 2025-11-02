@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2505w7 {
     public static final String m10433a(Object obj) {
         return obj.getClass().getSimpleName();

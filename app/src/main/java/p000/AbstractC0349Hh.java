@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Objects;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0349Hh {
     public static boolean m1589a(Object obj, Object obj2) {
         return Objects.equals(obj, obj2);

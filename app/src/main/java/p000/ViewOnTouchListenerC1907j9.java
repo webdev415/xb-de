@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import com.mobeta.android.dslv.AbstractC1605a;
 import com.mobeta.android.dslv.DragSortListView;
 
-/* loaded from: classes.dex */
 public class ViewOnTouchListenerC1907j9 extends AbstractC1605a implements View.OnTouchListener, GestureDetector.OnGestureListener {
 
     public final DragSortListView dragSortListView;

@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
-/* loaded from: classes.dex */
 public final class C1668e4 extends C0098C5 {
 
     public static final AtomicIntegerFieldUpdater f5391c = AtomicIntegerFieldUpdater.newUpdater(C1668e4.class, "_resumed");

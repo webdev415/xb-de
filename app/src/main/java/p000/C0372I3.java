@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import p000.C0490Kk;
 import p000.C1079Xc;
 
-/* loaded from: classes.dex */
 public final class C0372I3 {
 
     public static final a f1116c = new a(null);

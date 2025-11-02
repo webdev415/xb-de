@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2527wk extends AbstractC1220ae {
 
     public static final Object[] f7882s;

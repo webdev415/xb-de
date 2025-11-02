@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public class C0528Lc {
 
     public static C0528Lc f1711c;

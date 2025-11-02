@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-/* loaded from: classes.dex */
 public final class C0928U8 extends AbstractC1020W8 implements InterfaceC0697P6, InterfaceC2458v6 {
 
     public static final AtomicReferenceFieldUpdater f2828s = AtomicReferenceFieldUpdater.newUpdater(C0928U8.class, Object.class, "_reusableCancellableContinuation");

@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public final class C1633dF {
 
     public long f5283a;

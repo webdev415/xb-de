@@ -9,7 +9,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
 public class ViewOnClickListenerC2082n extends AbstractDialogC2267r implements View.OnClickListener {
 
     public BrowserActivity f6282b;

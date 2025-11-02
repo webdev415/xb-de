@@ -7,7 +7,6 @@ import android.widget.RadioButton;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractDialogC0904Tl extends AbstractDialogC2267r {
 
     public BrowserActivity f2777b;

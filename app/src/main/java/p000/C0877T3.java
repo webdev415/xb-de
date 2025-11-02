@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0877T3 {
 
     public static final String f2688n = "T3";

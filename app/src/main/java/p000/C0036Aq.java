@@ -7,7 +7,6 @@ import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0036Aq implements InterfaceC0909Tq {
 
     public final Double f90l;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0067Bb implements InterfaceC2161om {
 
     public final InterfaceC2161om f155l;

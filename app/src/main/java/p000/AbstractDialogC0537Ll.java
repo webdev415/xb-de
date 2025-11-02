@@ -6,7 +6,6 @@ import android.widget.Button;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractDialogC0537Ll extends AbstractDialogC2267r {
 
     public BrowserActivity f1730b;

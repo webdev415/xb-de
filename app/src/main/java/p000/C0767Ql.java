@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0767Ql {
 
     public static final a f2288c = new a(null);

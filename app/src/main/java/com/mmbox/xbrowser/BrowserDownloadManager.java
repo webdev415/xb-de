@@ -57,7 +57,6 @@ import p000.InterfaceC0418J3;
 import p000.InterfaceC0556M3;
 import p000.InterfaceC2501w3;
 
-/* loaded from: classes.dex */
 public class BrowserDownloadManager {
 
     public static String DOWNLOAD_START_ACTION = "com.mmbox.xbrowser.download.start";

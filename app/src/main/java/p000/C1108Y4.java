@@ -3,7 +3,6 @@ package p000;
 import java.util.Collection;
 import java.util.Collections;
 
-/* loaded from: classes.dex */
 public final class C1108Y4 extends AbstractC0992Vh {
     public static void m4871h(int i, int[] iArr) {
         for (int i2 = 0; i2 < 9; i2++) {

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0836S8 extends RuntimeException {
 
     public final transient InterfaceC0191E6 f2605l;

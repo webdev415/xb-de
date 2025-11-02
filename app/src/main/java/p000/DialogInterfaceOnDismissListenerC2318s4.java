@@ -14,7 +14,6 @@ import com.xbrowser.play.R;
 import java.util.ArrayList;
 import org.json.JSONException;
 
-/* loaded from: classes.dex */
 public class DialogInterfaceOnDismissListenerC2318s4 extends AbstractDialogC2267r implements DialogInterface.OnDismissListener {
 
     public BrowserActivity f7009b;

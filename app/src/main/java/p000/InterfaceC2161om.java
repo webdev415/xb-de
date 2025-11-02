@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Closeable;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2161om extends Closeable {
     @Override
     void close();

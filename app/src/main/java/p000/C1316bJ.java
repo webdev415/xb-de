@@ -2,7 +2,6 @@ package p000;
 
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public class C1316bJ {
 
     public static final C1316bJ f3863e = new C1316bJ(true, 3, 1, null, null);

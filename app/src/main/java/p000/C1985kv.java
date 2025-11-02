@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0224Eu;
 
-/* loaded from: classes.dex */
 public final class C1985kv extends C0224Eu.a {
 
     public final BinderC1798gu f6042p;

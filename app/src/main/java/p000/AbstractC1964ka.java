@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.InvocationTargetException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1964ka extends AbstractC0283G6 {
 
     public long f6008n;

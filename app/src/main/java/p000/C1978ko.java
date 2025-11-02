@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public final class C1978ko implements InterfaceC0191E6.b, InterfaceC0191E6.c {
 
     public static final C1978ko f6032l = new C1978ko();

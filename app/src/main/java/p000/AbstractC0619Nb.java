@@ -3,7 +3,6 @@ package p000;
 import androidx.lifecycle.AbstractC1255c;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0619Nb {
 
     public int f1930b;

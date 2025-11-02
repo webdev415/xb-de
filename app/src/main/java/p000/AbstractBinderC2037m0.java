@@ -6,7 +6,6 @@ import android.os.RemoteException;
 import android.util.Log;
 import p000.InterfaceC0253Fd;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC2037m0 extends InterfaceC0253Fd.a {
     public static Account m8431Q(InterfaceC0253Fd interfaceC0253Fd) {
         Account accountMo1247b = null;

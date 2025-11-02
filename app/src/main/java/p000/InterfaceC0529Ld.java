@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.view.ContextMenu;
 import android.view.View;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0529Ld {
 
     public interface a {

@@ -5,7 +5,6 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1918ja {
 
     public static final b f5945b = new b(null);

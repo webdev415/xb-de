@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2163oo extends AbstractC0283G6 {
 
     public static final C2163oo f6589n = new C2163oo();

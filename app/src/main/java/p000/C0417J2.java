@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0417J2 {
 
     public final C0325H2 f1255a;

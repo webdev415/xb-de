@@ -12,7 +12,6 @@ import android.util.DisplayMetrics;
 import com.xbrowser.play.R;
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public class C0988Vd {
 
     public static C0988Vd f2965c;

@@ -36,7 +36,6 @@ import p000.AndroidSystemUtils;
 import p000.C1089Xm;
 import p000.PhoneUtils;
 
-/* loaded from: classes.dex */
 public class SharedPreferencesHelper implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static String defaultUserAgent = "Mozilla/5.0 (Linux; Android 13; M2102J2SC Build/TKQ1.220829.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36";

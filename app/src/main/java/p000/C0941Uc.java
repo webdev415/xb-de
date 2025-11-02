@@ -10,7 +10,6 @@ import java.util.List;
 import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
 
-/* loaded from: classes.dex */
 public final class C0941Uc {
 
     public static final a f2850e = new a(null);

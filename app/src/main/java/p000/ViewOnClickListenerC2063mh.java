@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 
-/* loaded from: classes.dex */
 public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements View.OnClickListener {
 
     public BrowserActivity f6225b;

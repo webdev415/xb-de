@@ -18,7 +18,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-/* loaded from: classes.dex */
 public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
 
     public static final a f5511t = new a(null);

@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import p000.AbstractC2434uj;
 
-/* loaded from: classes.dex */
 public class C2619yk extends AbstractC2434uj {
 
     public final Socket f8118n;

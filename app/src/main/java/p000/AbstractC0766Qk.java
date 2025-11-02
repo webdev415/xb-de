@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0766Qk {
     public static final Object m3695a(Throwable th) {
         AbstractC0116Ce.m476e(th, "exception");

@@ -21,7 +21,6 @@ import p000.PhoneUtils;
 import p000.InterfaceC0529Ld;
 import p000.InterfaceC2018li;
 
-/* loaded from: classes.dex */
 public class BrowserFrameLayout extends FrameLayout {
 
     public final int f4430A;

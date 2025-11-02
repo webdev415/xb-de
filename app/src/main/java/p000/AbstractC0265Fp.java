@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0265Fp extends AbstractC2635z {
 
     public static final a f682m = new a(null);

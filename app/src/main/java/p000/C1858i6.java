@@ -12,7 +12,6 @@ import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSocket;
 
-/* loaded from: classes.dex */
 public final class C1858i6 {
 
     public int f5781a;

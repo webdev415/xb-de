@@ -44,7 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2107nf {
 
     public BrowserActivity f6313a;

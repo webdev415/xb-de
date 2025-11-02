@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public final class C2300rn {
 
     public static final Logger f6964i;

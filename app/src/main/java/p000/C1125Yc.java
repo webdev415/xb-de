@@ -2,7 +2,6 @@ package p000;
 
 import p000.C1079Xc;
 
-/* loaded from: classes.dex */
 public final class C1125Yc {
 
     public static final a f3339c = new a(null);

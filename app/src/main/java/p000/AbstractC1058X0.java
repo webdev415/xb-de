@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Binder;
 import android.os.Build;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1058X0 {
 
     public static class a {

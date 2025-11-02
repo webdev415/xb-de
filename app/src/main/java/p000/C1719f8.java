@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1719f8 extends AbstractC2113nl {
 
     public static final C1719f8 f5486t = new C1719f8();

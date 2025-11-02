@@ -17,7 +17,6 @@ import com.mmbox.xbrowser.C1539a;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.OnLongClickListener {
 
     public BrowserActivity f966b;

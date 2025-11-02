@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.net.ssl.SSLSocket;
 
-/* loaded from: classes.dex */
 public final class C1811h6 {
 
     public static final C0281G4[] f5677e;

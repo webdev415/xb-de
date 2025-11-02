@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0126Co;
 
-/* loaded from: classes.dex */
 public final class C1765g7 {
 
     public final int f5590a;

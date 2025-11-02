@@ -2,7 +2,6 @@ package p000;
 
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public final class C2554xA extends AbstractC2001lA {
     public C2554xA(C0057BA c0057ba, String str, Double d, boolean z) {
         super(c0057ba, str, d);

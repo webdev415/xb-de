@@ -3,7 +3,6 @@ package p000;
 import java.util.Arrays;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0946Uh implements InterfaceC1226ak {
     public static float m4263f(int[] iArr, int[] iArr2, float f) {
         int length = iArr.length;

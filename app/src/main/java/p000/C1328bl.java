@@ -3,7 +3,6 @@ package p000;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
-/* loaded from: classes.dex */
 public final class C1328bl {
 
     public final C2498w0 f3880a;

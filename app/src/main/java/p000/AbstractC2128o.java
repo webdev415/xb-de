@@ -22,7 +22,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.mmbox.xbrowser.searchbox.SuggestionInputView;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2128o implements InterfaceC0299Gd {
 
     public static int f6486Q = -11034895;

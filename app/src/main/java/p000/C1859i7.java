@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C1859i7 {
 
     public final int f5785a;

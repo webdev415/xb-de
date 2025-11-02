@@ -8,7 +8,6 @@ import java.util.List;
 import javax.net.ssl.SSLSocket;
 import p000.C2045m8;
 
-/* loaded from: classes.dex */
 public class C0828S0 implements InterfaceC1228am {
 
     public static final C2045m8.a f2564f;

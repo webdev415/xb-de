@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public class C0024Ae {
 
     public static final Collection f67g = m121g("UPC_A", "UPC_E", "EAN_8", "EAN_13", "RSS_14");

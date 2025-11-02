@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C1885in {
 
     public final C1076XI f5825a = new C1076XI();

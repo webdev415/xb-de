@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0070Be {
 
     public interface a {

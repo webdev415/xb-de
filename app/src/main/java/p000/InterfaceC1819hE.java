@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1819hE extends InterfaceC2097nE, Cloneable {
     InterfaceC1912jE mo3523k();
 

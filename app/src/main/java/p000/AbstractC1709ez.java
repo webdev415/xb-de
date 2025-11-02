@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1709ez {
 
     public static InterfaceC1943jz f5475a;

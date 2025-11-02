@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2156oi {
 
     public static final int[] f6577a = new int[0];

@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-/* loaded from: classes.dex */
 public final class C1820hF {
 
     public final C0796RE f5727a;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2113nl extends AbstractC2425ua {
 
     public final int f6474o;

@@ -5,7 +5,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.BrowserControllerListener;
 import java.lang.reflect.Constructor;
 
-/* loaded from: classes.dex */
 public class C1346c3 extends AbstractC2274r6 {
 
     public BrowserActivity f3913k;

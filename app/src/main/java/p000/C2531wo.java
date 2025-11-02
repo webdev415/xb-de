@@ -8,7 +8,6 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2531wo extends AbstractResourceManager {
     public C2531wo(String str) {
         super(str, false);

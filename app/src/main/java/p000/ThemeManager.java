@@ -15,7 +15,6 @@ import com.xbrowser.play.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public class ThemeManager {
 
     public static final int[] f6998j = {-12303292, -12303292};

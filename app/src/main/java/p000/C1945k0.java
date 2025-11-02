@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C1945k0 {
 
     public final Object f5971a;

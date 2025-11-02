@@ -12,7 +12,6 @@ import com.mmbox.xbrowser.C1539a;
 import com.xbrowser.play.R;
 import org.json.JSONException;
 
-/* loaded from: classes.dex */
 public class DialogC0858Sl extends AbstractDialogC2267r {
 
     public BrowserActivity f2661b;

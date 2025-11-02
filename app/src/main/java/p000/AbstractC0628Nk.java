@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0628Nk extends AbstractC2408u2 {
     public AbstractC0628Nk(InterfaceC2458v6 interfaceC2458v6) {
         super(interfaceC2458v6);

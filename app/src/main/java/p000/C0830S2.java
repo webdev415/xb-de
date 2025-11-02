@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0830S2 extends AbstractResourceManager {
     public C0830S2(String str) {
         super(str, false);

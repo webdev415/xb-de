@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.IInterface;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1984ku extends IInterface {
     void beginAdUnitExposure(String str, long j);
 

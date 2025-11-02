@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C2567xe implements Iterable {
 
     public static final a f8004o = new a(null);

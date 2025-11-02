@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0819Rs extends AbstractC1844ht {
 
     public final String f2548c;

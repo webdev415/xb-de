@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public final class C0043Ax {
 
     public String f95a;

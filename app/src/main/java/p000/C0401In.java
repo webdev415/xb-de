@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import com.mmbox.xbrowser.AbstractC1540b;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class C0401In extends AbstractC1540b implements InterfaceC0529Ld.a {
     public C0401In(FrameLayout frameLayout, InterfaceC0529Ld.a aVar, int i, int i2) {
         super(frameLayout, aVar, i, i2);

@@ -11,7 +11,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
 public class ViewOnClickListenerC0166Di extends AbstractDialogC2267r implements View.OnClickListener {
 
     public BrowserActivity f409b;

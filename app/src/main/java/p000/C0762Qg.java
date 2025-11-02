@@ -3,7 +3,6 @@ package p000;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-/* loaded from: classes.dex */
 public class C0762Qg implements InterfaceC0529Ld {
 
     public int f2263i;

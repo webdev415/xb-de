@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0490Kk;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2333sa {
     void mo9530a(C0122Ck c0122Ck);
 

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1331bo extends AbstractC1182Zn {
 
     public static final int[] f3885j = {1, 1, 1, 1, 1, 1};

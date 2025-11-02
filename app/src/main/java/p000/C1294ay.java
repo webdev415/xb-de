@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-/* loaded from: classes.dex */
 public class C1294ay extends BroadcastReceiver {
 
     public final C0200EF f3813a;

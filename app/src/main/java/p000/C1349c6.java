@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0070Be;
 
-/* loaded from: classes.dex */
 public final class C1349c6 implements InterfaceC0070Be {
 
     public static final C1349c6 f3919a = new C1349c6();

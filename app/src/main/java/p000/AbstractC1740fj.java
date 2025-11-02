@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1740fj {
 
     public static String f5509a;

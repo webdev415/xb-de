@@ -3,7 +3,6 @@ package p000;
 import android.os.Process;
 import java.util.concurrent.BlockingQueue;
 
-/* loaded from: classes.dex */
 public final class C1989kz extends Thread {
 
     public final Object f6045l;

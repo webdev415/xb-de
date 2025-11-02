@@ -2,7 +2,6 @@ package p000;
 
 import android.content.Context;
 
-/* loaded from: classes.dex */
 public final class C1774gG {
 
     public final Context f5617a;

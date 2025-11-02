@@ -14,7 +14,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.controllers.WebViewBrowserController;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class ViewOnFocusChangeListenerC0985Va implements View.OnFocusChangeListener, View.OnClickListener, TextWatcher {
 
     public BrowserActivity f2959a;

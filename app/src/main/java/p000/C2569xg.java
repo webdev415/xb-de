@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C2569xg implements InterfaceC1226ak {
 
     public static final C0857Sk[] f8008b = new C0857Sk[0];

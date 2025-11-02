@@ -4,7 +4,6 @@ import java.util.concurrent.Delayed;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public class ScheduledFutureC0055B8 extends AbstractC0460K implements ScheduledFuture {
 
     public final ScheduledFuture f137s;

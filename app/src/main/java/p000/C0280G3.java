@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public final class C0280G3 {
 
     public final boolean f712a;

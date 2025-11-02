@@ -16,7 +16,6 @@ import com.xbrowser.play.R;
 import java.io.File;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
 public class DialogC2021ll extends AbstractDialogC2267r {
 
     public final BrowserActivity f6095b;

@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0550Ly;
 
-/* loaded from: classes.dex */
 public final class C1616cz implements InterfaceC1116YC {
 
     public static final InterfaceC1116YC f5266a = new C1616cz();

@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-/* loaded from: classes.dex */
 public class C1323bg {
 
     public static final AtomicReferenceFieldUpdater f3874a = AtomicReferenceFieldUpdater.newUpdater(C1323bg.class, Object.class, "_cur");

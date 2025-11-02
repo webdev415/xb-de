@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0931UB extends AbstractC1023WB {
 
     public final byte[] f2833c;

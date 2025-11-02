@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1990l extends AbstractC1944k {
     public AbstractC1990l(C0233F2 c0233f2) {
         super(c0233f2);

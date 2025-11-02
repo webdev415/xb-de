@@ -9,7 +9,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSocketFactory;
 import p000.C0069Bd;
 
-/* loaded from: classes.dex */
 public final class C2498w0 {
 
     public final C0069Bd f7766a;

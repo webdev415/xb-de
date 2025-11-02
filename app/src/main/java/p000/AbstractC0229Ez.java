@@ -5,7 +5,6 @@ import android.os.Process;
 import android.os.UserManager;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0229Ez {
 
     public static UserManager f607a;

@@ -2,7 +2,6 @@ package p000;
 
 import android.os.SystemClock;
 
-/* loaded from: classes.dex */
 public class C0835S7 implements InterfaceC0557M4 {
 
     public static final C0835S7 f2604a = new C0835S7();

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class RunnableC0872Sz implements Runnable {
 
     public final String f2678l;

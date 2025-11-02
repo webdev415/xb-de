@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0416J1 extends AbstractC1084Xh {
 
     public static final AtomicReferenceFieldUpdater f1254a = AtomicReferenceFieldUpdater.newUpdater(AbstractC0416J1.class, Object.class, "_consensus");

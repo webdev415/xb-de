@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0979VD {
     AbstractC0795RD mo4367b(Object obj);
 

@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1287ar {
     public static Set m5565a(SQLiteDatabase sQLiteDatabase, String str) {
         HashSet hashSet = new HashSet();

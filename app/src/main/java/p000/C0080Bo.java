@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0080Bo {
 
     public static final C0080Bo[] f198h = m327a();

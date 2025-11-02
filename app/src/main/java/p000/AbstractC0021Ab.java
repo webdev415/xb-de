@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0021Ab implements InterfaceC1134Yl {
 
     public final InterfaceC1134Yl f64l;

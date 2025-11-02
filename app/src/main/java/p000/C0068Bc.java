@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0068Bc implements InterfaceC2483vm {
 
     public final C1885in f156a;

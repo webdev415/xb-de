@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0569MG extends AbstractC0552M {
     public static final Creator<C0569MG> CREATOR = new C0752QF();
 

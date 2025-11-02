@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0614NF extends AbstractC0430JF {
     public static void m3311m(Object obj, C0338HF c0338hf) {
         ((AbstractC0703PC) obj).zzb = c0338hf;

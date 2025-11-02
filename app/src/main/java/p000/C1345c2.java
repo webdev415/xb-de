@@ -10,7 +10,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public class C1345c2 extends AbstractC1540b {
 
     public BrowserActivity f3912t;

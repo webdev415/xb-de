@@ -28,7 +28,6 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 
-/* loaded from: classes.dex */
 public abstract class NetworkUtils {
 
     public static final Pattern URI_SCHEME_PATTERN = Pattern.compile("(?i)((?:http|https|file|m|content|rl|ftp|tel):\\/\\/|(?:inline|data|about|magnet|javascript|x|rl|app|[0-9]{1,20}):|(?:.*:.*@))(.*)");

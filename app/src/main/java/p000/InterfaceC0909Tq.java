@@ -3,7 +3,6 @@ package p000;
 import java.util.Iterator;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0909Tq {
 
     public static final InterfaceC0909Tq f2785d = new C1842hr();

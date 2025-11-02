@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0053B6 {
 
     public static final a f122b = new a(null);

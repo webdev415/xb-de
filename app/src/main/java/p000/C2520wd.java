@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import p000.C2290rd;
 
-/* loaded from: classes.dex */
 public final class C2520wd implements Closeable {
 
     public static final Logger f7857p;

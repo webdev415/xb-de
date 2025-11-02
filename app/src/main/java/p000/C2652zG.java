@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2652zG implements InterfaceC0813Rm {
 
     public static C2652zG f8239m = new C2652zG();

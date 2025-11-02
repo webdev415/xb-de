@@ -7,7 +7,6 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public class C0789R7 {
 
     public static final String f2328k = "R7";

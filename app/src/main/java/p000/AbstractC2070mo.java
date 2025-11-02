@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Future;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2070mo {
     public static Object m8640a(Future future) {
         Object obj;

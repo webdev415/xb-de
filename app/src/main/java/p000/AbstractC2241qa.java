@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.InvocationTargetException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2241qa {
     public static void m9151a(Throwable th, Throwable th2) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         AbstractC0116Ce.m476e(th, "<this>");

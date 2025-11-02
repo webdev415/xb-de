@@ -19,7 +19,6 @@ import p000.PhoneUtils;
 import p000.C1825ha;
 import p000.C2439uo;
 
-/* loaded from: classes.dex */
 public class StdUserEventHandler extends AbstractC2313s {
 
     public class C1587a implements MessageQueue.IdleHandler {

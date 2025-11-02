@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0994Vj {
 
     public static final a f2984l = new a(null);

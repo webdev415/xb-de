@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0117Cf implements InterfaceC2388tj {
 
     public static final Object f289c = new Object();

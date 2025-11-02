@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0173Dp extends C0188E3 {
     @Override
     public void mo776a(C1067X9 c1067x9) {

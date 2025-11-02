@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.security.PrivilegedExceptionAction;
 import sun.misc.Unsafe;
 
-/* loaded from: classes.dex */
 public final class C0889TF implements PrivilegedExceptionAction {
     @Override
     public final Object run() throws IllegalAccessException, SecurityException, IllegalArgumentException {

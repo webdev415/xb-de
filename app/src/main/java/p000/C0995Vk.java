@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Comparator;
 
-/* loaded from: classes.dex */
 public final class C0995Vk implements Comparator {
 
     public static final C0995Vk f2986l = new C0995Vk();

@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0698P7 {
 
     public final byte[] f2078a;

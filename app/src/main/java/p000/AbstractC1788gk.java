@@ -2,7 +2,6 @@ package p000;
 
 import java.net.Proxy;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1788gk {
 
     public static final int[] f5641a;

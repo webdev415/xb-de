@@ -3,7 +3,6 @@ package p000;
 import java.io.Serializable;
 import java.util.Comparator;
 
-/* loaded from: classes.dex */
 public final class C2549x5 extends AbstractC1786gi implements Serializable {
 
     public final Comparator f7939l;

@@ -5,7 +5,6 @@ import android.os.Build;
 import android.view.DisplayCutout;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C1352c9 {
 
     public final DisplayCutout f3930a;

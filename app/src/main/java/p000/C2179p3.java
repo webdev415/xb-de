@@ -16,7 +16,6 @@ import com.mmbox.xbrowser.C1572g;
 import com.xbrowser.play.R;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public class C2179p3 extends AbstractC2359t {
 
     public final int f6613n;

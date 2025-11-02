@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2325sB implements InterfaceC0104CB {
     @Override
     public Object next() {

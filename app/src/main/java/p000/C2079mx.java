@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C2079mx extends AbstractC0501Kv {
 
     public final C1987kx f6276c;

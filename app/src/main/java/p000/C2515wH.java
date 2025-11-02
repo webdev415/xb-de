@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2515wH implements InterfaceC2100nH {
 
     public static final AbstractC2001lA f7824a;

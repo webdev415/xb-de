@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import java.net.URLEncoder;
 
-/* loaded from: classes.dex */
 public class ApiEndpointsManager {
 
     public static ApiEndpointsManager instance;

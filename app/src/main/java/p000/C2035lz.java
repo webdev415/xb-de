@@ -3,7 +3,6 @@ package p000;
 import android.database.ContentObserver;
 import android.os.Handler;
 
-/* loaded from: classes.dex */
 public final class C2035lz extends ContentObserver {
 
     public final C1896iz f6113a;

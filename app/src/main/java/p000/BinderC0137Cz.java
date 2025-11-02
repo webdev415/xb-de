@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class BinderC0137Cz extends AbstractBinderC0473KC {
     public BinderC0137Cz(byte[] bArr) {
         super(bArr);

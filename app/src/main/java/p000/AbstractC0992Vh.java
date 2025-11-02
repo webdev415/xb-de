@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0992Vh implements InterfaceC0081Bp {
 
     public static final Pattern f2983a = Pattern.compile("[0-9]+");

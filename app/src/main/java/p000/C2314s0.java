@@ -3,7 +3,6 @@ package p000;
 import android.os.Build;
 import android.os.ext.SdkExtensions;
 
-/* loaded from: classes.dex */
 public final class C2314s0 {
 
     public static final C2314s0 f6991a = new C2314s0();

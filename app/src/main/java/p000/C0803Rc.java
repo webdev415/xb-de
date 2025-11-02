@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import java.util.concurrent.CancellationException;
 
-/* loaded from: classes.dex */
 public final class C0803Rc extends AbstractC0849Sc implements InterfaceC2091n8 {
     private volatile C0803Rc _immediate;
 

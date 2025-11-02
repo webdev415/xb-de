@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1191Zw extends AbstractC2600yA implements InterfaceC0241FA {
     public AbstractC1191Zw(C2266qz c2266qz) {
         super(c2266qz);

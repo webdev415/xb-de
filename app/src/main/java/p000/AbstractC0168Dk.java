@@ -2,7 +2,6 @@ package p000;
 
 import java.nio.charset.Charset;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0168Dk {
 
     public static final a f416a = new a(null);

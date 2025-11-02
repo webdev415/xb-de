@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public final class C0258Fi implements Serializable {
 
     public final Object f667l;

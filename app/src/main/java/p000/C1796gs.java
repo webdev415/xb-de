@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C1796gs extends AbstractC1935jr {
     @Override
     public final InterfaceC0909Tq mo160b(String str, C2357sy c2357sy, List list) {

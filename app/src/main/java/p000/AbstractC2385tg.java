@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2385tg {
     public static int m9708a(C0050B3 c0050b3) {
         return m9709b(c0050b3, true) + m9709b(c0050b3, false);

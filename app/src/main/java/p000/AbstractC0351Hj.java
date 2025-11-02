@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0351Hj {
 
     public static final int f1064a = 2131165599;

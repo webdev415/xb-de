@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0784R2 {
 
     public String f2313a;

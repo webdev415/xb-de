@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public final class C0659OE implements InterfaceC2331sH {
 
     public final Executor f2013a;

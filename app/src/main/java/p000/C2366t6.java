@@ -4,7 +4,6 @@ import com.mmbox.xbrowser.C1572g;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-/* loaded from: classes.dex */
 public class C2366t6 extends AbstractResourceManager {
     public C2366t6(String str) {
         super(str, false);

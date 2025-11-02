@@ -6,7 +6,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public class C1621d3 {
 
     public ArrayList f5270a = new ArrayList<>();

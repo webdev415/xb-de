@@ -12,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1224ai {
 
     public static C1224ai f3546b;

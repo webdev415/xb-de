@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1767g9 {
 
     public static final a f5598b = new a(null);

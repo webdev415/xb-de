@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1136Yn {
 
     public static final int[] f3361c = {1, 1, 2};

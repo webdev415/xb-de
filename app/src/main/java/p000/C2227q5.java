@@ -3,7 +3,6 @@ package p000;
 import java.io.Serializable;
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public final class C2227q5 implements InterfaceC0191E6, Serializable {
 
     public final InterfaceC0191E6 f6680l;

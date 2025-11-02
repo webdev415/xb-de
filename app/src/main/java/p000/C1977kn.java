@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1977kn implements InterfaceC1931jn {
 
     public final int f6031a;

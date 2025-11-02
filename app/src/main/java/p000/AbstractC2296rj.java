@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2296rj extends AbstractC0510L3 implements InterfaceC2384tf {
 
     public final boolean f6959s;

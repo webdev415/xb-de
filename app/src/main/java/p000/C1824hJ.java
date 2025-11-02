@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import p000.C0365Hx;
 
-/* loaded from: classes.dex */
 public final class C1824hJ {
 
     public C0365Hx f5728a;

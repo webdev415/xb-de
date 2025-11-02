@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0574Mc {
 
     public static AbstractC0574Mc f1821a = new C1065X7();

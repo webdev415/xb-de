@@ -3,7 +3,6 @@ package p000;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public final class C0050B3 {
 
     public final byte[][] f117a;

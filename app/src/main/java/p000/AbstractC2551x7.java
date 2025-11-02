@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2551x7 {
     public static void m10630a(Object obj, StringBuilder sb) {
         String hexString;

@@ -9,7 +9,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.io.File;
 
-/* loaded from: classes.dex */
 public class ViewOnClickListenerC2109nh extends AbstractDialogC2267r implements View.OnClickListener {
 
     public BrowserActivity f6461b;

@@ -10,7 +10,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractDialogC2267r extends Dialog {
 
     public boolean f6858a;

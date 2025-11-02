@@ -3,7 +3,6 @@ package p000;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0671Oh {
 
     public boolean f2050a;

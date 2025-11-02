@@ -3,7 +3,6 @@ package p000;
 import android.os.Bundle;
 import java.util.concurrent.atomic.AtomicReference;
 
-/* loaded from: classes.dex */
 public final class BinderC1798gu extends AbstractBinderC2353su {
 
     public final AtomicReference f5650c = new AtomicReference();

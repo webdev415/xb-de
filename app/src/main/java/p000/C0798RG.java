@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0798RG implements InterfaceC0813Rm {
 
     public static C0798RG f2372m = new C0798RG();

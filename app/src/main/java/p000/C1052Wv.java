@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import p000.C0224Eu;
 
-/* loaded from: classes.dex */
 public final class C1052Wv extends C0224Eu.a {
 
     public final Bundle f3157p;

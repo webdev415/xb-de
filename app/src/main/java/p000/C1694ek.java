@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSocketFactory;
 
-/* loaded from: classes.dex */
 public final class C1694ek implements InterfaceC0418J3 {
 
     public final OkHttpClient f5431A;

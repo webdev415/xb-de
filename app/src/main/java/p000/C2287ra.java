@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import p000.C0490Kk;
 
-/* loaded from: classes.dex */
 public final class C2287ra {
 
     public boolean f6915a;

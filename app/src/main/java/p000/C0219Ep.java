@@ -22,7 +22,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.C1570e;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 
-/* loaded from: classes.dex */
 public class C0219Ep extends WebView {
 
     public static boolean f545E = false;

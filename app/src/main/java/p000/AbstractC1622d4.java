@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1622d4 {
     public static final void m7296a(InterfaceC2458v6 interfaceC2458v6, Throwable th) throws Throwable {
         AbstractC0674Ok.a aVar = AbstractC0674Ok.f2054l;

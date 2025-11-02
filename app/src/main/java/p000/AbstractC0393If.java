@@ -2,7 +2,6 @@ package p000;
 
 import android.content.Context;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0393If {
 
     public interface a {

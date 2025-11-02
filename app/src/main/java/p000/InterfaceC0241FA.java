@@ -2,7 +2,6 @@ package p000;
 
 import android.content.Context;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0241FA {
     Context mo344a();
 

@@ -4,7 +4,6 @@ import java.net.IDN;
 import java.net.InetAddress;
 import java.util.Locale;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2198pd {
     public static final boolean m9059a(String str) {
         int length = str.length();

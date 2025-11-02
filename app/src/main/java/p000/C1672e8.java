@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public class C1672e8 {
 
     public final CharSequence f5393a;

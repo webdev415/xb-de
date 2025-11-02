@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC0893Ta {
     DEX_FILES(0),
     EXTRA_DESCRIPTORS(1),

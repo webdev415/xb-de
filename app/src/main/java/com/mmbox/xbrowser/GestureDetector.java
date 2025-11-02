@@ -7,7 +7,6 @@ import com.xbrowser.play.R;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public class GestureDetector {
 
     public int invalidGestureDistance = 0;

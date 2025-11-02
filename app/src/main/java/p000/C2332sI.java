@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2332sI implements InterfaceC2378tI {
 
     public static final AbstractC2001lA f7030a;

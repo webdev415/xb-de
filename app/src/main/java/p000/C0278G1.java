@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.util.Log;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public class C0278G1 implements InterfaceC0094C1 {
 
     public Context f703a;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C2525wi {
 
     public static final byte[] f7873f = {5, 0};

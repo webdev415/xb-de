@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0282G5 {
     public static final Object m1346a(Object obj, InterfaceC1301b4 interfaceC1301b4) {
         Throwable thM3432b = AbstractC0674Ok.m3432b(obj);

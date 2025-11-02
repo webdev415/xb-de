@@ -3,7 +3,6 @@ package p000;
 import android.graphics.Insets;
 import android.graphics.Rect;
 
-/* loaded from: classes.dex */
 public final class C2337se {
 
     public static final C2337se f7064e = new C2337se(0, 0, 0, 0);

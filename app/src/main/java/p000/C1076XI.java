@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public final class C1076XI extends AbstractC1838hn {
 
     public final Object f3218a = new Object();

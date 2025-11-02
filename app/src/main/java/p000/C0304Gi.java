@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0304Gi extends C1859i7 {
 
     public final C1077Xa f944c;

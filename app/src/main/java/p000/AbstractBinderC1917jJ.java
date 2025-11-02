@@ -4,7 +4,6 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC1917jJ extends AbstractBinderC2488vr implements InterfaceC1333bq {
     public AbstractBinderC1917jJ() {
         super("com.google.android.gms.common.internal.ICertData");

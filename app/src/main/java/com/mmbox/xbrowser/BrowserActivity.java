@@ -130,7 +130,6 @@ import p000.InterfaceC1300b3;
 import p000.ViewOnClickListenerC0166Di;
 import p000.ViewOnClickListenerC1156Z6;
 
-/* loaded from: classes.dex */
 public class BrowserActivity extends Activity implements AbstractC2274r6.c, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, View.OnSystemUiVisibilityChangeListener {
 
     public static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
@@ -248,7 +247,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 public void onDismissed() {
                     Intent intent = new Intent("android.intent.action.VIEW");
                     intent.setFlags(1);
-                    intent.setDataAndType(ApkInstallPermissionRunnable.this.apkUri, "application/vnd.android.package-archive");
+                    intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
                     startActivity(intent);
                 }
 
@@ -1303,7 +1302,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6191B1(String str, String str2) {
-        f4237P.execute(new PageInfoUpdateRunnable(str, str2));
+        backgroundExecutor.execute(new PageInfoUpdateRunnable(str, str2));
     }
 
     public void m6192B2(String str) {
@@ -3154,7 +3153,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         if (SharedPreferencesHelper.getInstance().enterPrivateMode) {
             return;
         }
-        f4237P.execute(new UrlProcessRunnable(str));
+        backgroundExecutor.execute(new UrlProcessRunnable(str));
     }
 
     public boolean m6338m1() {

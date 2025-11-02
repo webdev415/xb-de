@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2548x4 extends AbstractC1327bk {
 
     public static final C2548x4 f7938n;

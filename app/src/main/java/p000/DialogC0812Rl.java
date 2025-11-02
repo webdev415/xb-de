@@ -8,7 +8,6 @@ import android.widget.EditText;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class DialogC0812Rl extends AbstractDialogC2267r {
 
     public BrowserActivity f2415b;

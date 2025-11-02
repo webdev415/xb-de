@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0829S1;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2383te {
 
     public static abstract class a {

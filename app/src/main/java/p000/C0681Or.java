@@ -3,7 +3,6 @@ package p000;
 import java.util.Arrays;
 import java.util.Comparator;
 
-/* loaded from: classes.dex */
 public final class C0681Or implements Comparator {
 
     public final AbstractC0450Jq f2064l;

@@ -3,7 +3,6 @@ package p000;
 import android.os.Bundle;
 import android.os.RemoteException;
 
-/* loaded from: classes.dex */
 public final class RunnableC2373tD implements Runnable {
 
     public final String f7192l;

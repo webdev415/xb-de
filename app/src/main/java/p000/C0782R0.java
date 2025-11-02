@@ -16,7 +16,6 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.X509TrustManager;
 import p000.C2299rm;
 
-/* loaded from: classes.dex */
 public final class C0782R0 extends C0764Qi {
 
     public static final boolean f2305f;

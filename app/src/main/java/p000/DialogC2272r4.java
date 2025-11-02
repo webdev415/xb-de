@@ -14,7 +14,6 @@ import com.xbrowser.play.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class DialogC2272r4 extends AbstractDialogC2267r {
 
     public BrowserActivity f6863b;

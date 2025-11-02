@@ -53,4 +53,5 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:5.3.0")
     // Optional: logging interceptor for debugging HTTP requests/responses
     implementation("com.squareup.okhttp3:logging-interceptor:5.3.0")
+    implementation libs.play.services.measurement.api
 }

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class Player {
 
     public String f7126a = null;

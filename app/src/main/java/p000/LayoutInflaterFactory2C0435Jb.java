@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import p000.AbstractComponentCallbacksC0159Db;
 
-/* loaded from: classes.dex */
 public final class LayoutInflaterFactory2C0435Jb extends AbstractC0389Ib implements LayoutInflater.Factory2 {
 
     public static boolean f1323F = false;

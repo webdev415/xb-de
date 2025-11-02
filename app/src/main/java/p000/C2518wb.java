@@ -41,7 +41,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public class C2518wb extends FrameLayout {
 
     public static C2518wb f7829k;

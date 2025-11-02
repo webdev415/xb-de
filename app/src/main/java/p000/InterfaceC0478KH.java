@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0478KH {
     boolean mo1896a();
 

@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0703PC;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1893iw {
 
     public static final int[] f5832a;

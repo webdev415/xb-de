@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C2476vf {
 
     public int f7676a = 0;

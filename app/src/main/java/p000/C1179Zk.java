@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.OrientationEventListener;
 import android.view.WindowManager;
 
-/* loaded from: classes.dex */
 public class C1179Zk {
 
     public int f3458a;

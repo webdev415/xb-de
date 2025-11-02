@@ -4,7 +4,6 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-/* loaded from: classes.dex */
 public final class C2624yp {
 
     public static final AtomicReferenceFieldUpdater f8139b = AtomicReferenceFieldUpdater.newUpdater(C2624yp.class, Object.class, "lastScheduledTask");

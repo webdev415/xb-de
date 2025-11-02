@@ -3,7 +3,6 @@ package p000;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0388Ia {
 
     public final List f1148a;

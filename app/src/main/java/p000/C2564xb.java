@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class C2564xb {
 
     public static C2564xb f7967f;

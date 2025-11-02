@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import p000.C1651dn;
 
-/* loaded from: classes.dex */
 public class TextToSpeechActivity extends Activity {
 
     public String f4550a;

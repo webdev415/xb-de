@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class C1625d7 extends AbstractC2128o {
     public C1625d7(BrowserActivity browserActivity) {
         super(browserActivity);

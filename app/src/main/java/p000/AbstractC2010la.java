@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2010la extends AbstractC2056ma implements InterfaceC2091n8 {
 
     public static final AtomicReferenceFieldUpdater f6087q = AtomicReferenceFieldUpdater.newUpdater(AbstractC2010la.class, Object.class, "_queue");

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1034Wd extends AbstractCollection implements Serializable {
 
     public static final Object[] f3062l = new Object[0];

@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C0938UI extends AbstractC0954Up implements InterfaceC0253Fd {
     public C0938UI(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.common.internal.IAccountAccessor");

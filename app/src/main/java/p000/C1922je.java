@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1922je {
 
     public final InterfaceC1876ie f5947a;

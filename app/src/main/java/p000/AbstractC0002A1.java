@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0002A1 extends AbstractC2637z1 {
     public static final boolean m4k(Object[] objArr, Object obj) {
         AbstractC0116Ce.m476e(objArr, "<this>");

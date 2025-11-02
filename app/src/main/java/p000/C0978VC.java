@@ -15,7 +15,6 @@ import p000.C0549Lx;
 import p000.C0595Mx;
 import p000.C0779Qx;
 
-/* loaded from: classes.dex */
 public final class C0978VC extends AbstractC2513wF {
     public C0978VC(C0200EF c0200ef) {
         super(c0200ef);

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2452v0 extends AbstractResourceManager {
     public C2452v0(String str) {
         super(str, false);

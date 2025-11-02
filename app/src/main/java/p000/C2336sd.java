@@ -6,7 +6,6 @@ import java.net.ProtocolException;
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public final class C2336sd implements InterfaceC2333sa {
 
     public static final d f7039h = new d(null);

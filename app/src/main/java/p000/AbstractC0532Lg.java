@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.InputEvent;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0532Lg {
 
     public static final b f1715a = new b(null);

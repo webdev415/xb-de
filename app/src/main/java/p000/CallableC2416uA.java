@@ -5,7 +5,6 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
-/* loaded from: classes.dex */
 public final class CallableC2416uA implements Callable {
 
     public final C0569MG f7375a;

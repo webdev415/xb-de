@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2497w extends AbstractC1325bi {
 
     public static final C2497w f7765l = new C2497w();

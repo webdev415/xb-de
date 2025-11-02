@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import android.os.RemoteException;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public final class C0111CI extends AbstractC0552M {
     public static final Creator<C0111CI> CREATOR = new C0525LI();
 

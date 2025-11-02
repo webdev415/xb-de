@@ -2,7 +2,6 @@ package p000;
 
 import android.content.Context;
 
-/* loaded from: classes.dex */
 public class C2670zp {
 
     public static final C2670zp f8279b = new C2670zp();

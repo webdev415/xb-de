@@ -3,7 +3,6 @@ package p000;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/* loaded from: classes.dex */
 public final class C1334br implements Iterator {
 
     public int f3888l = 0;

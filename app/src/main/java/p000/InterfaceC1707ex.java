@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.IInterface;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1707ex extends IInterface {
     List mo799A(String str, String str2, String str3);
 

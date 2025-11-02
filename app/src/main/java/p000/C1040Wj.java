@@ -5,7 +5,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
-/* loaded from: classes.dex */
 public class C1040Wj {
 
     public static final byte f3101a = Byte.parseByte("01110000", 2);

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2157oj {
     public static final int m8966a(int i, int i2, int i3) {
         return m8968c(m8968c(i, i3) - m8968c(i2, i3), i3);

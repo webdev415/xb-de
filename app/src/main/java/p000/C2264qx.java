@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
-/* loaded from: classes.dex */
 public final class C2264qx {
 
     public static final AtomicReference f6819b = new AtomicReference();

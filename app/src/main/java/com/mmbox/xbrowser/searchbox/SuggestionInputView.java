@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 
-/* loaded from: classes.dex */
 public class SuggestionInputView extends AutoCompleteTextView implements TextView.OnEditorActionListener, AdapterView.OnItemClickListener, SuggestionInputAdapter.Callback {
 
     public InputMethodManager inputMethodManager;

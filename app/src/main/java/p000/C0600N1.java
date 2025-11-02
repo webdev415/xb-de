@@ -22,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0600N1 {
 
     public static C0600N1 f1880d;

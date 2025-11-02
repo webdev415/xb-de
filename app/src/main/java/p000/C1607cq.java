@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1607cq extends AbstractC1286aq {
 
     public C1986kw f5259g;

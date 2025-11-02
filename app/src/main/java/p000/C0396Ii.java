@@ -5,7 +5,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0396Ii extends AbstractResourceManager {
     public C0396Ii(String str) {
         super(str, false);

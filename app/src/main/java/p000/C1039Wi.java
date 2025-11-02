@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1039Wi {
 
     public static C1039Wi f3079g;

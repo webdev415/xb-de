@@ -44,7 +44,6 @@ import p000.InterfaceC1300b3;
 import p000.ViewOnClickListenerC0309Gn;
 import p000.ViewOnFocusChangeListenerC0985Va;
 
-/* loaded from: classes.dex */
 public abstract class BrowserActivityDelegate implements BrowserControllerListener {
 
     public static String f4376j = "";

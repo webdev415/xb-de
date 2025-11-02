@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1962kH implements InterfaceC1822hH {
 
     public static final AbstractC2001lA f6004a;

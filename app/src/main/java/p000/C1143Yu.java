@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0224Eu;
 
-/* loaded from: classes.dex */
 public final class C1143Yu extends C0224Eu.a {
 
     public final Boolean f3365p;

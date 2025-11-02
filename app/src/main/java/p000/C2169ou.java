@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C2169ou extends AbstractC2167os implements InterfaceC1984ku {
     public C2169ou(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.measurement.api.internal.IAppMeasurementDynamiteService");

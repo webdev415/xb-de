@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2470vI implements InterfaceC0813Rm {
 
     public static C2470vI f7662m = new C2470vI();

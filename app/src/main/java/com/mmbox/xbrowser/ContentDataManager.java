@@ -62,7 +62,6 @@ import p000.InterfaceC0418J3;
 import p000.InterfaceC0556M3;
 import p000.MySQLiteOpenHelper;
 
-/* loaded from: classes.dex */
 public class ContentDataManager {
 
     public static ContentDataManager instance;

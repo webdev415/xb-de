@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractDialogC0814Rn extends AbstractDialogC2267r {
 
     public String f2421b;

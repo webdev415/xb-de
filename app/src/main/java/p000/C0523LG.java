@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0523LG extends AbstractC0450Jq {
 
     public final InterfaceC0706PF f1702n;

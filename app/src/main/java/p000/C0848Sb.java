@@ -7,7 +7,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class C0848Sb {
 
     public static C0848Sb f2629k;

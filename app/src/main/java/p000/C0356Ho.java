@@ -13,7 +13,6 @@ import com.mmbox.xbrowser.C1571f;
 import com.xbrowser.play.R;
 import org.json.JSONException;
 
-/* loaded from: classes.dex */
 public class C0356Ho implements InterfaceC0529Ld.a {
 
     public static C0356Ho f1076l;

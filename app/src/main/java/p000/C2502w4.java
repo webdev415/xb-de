@@ -2,7 +2,6 @@ package p000;
 
 import java.nio.charset.Charset;
 
-/* loaded from: classes.dex */
 public final class C2502w4 {
 
     public static final C2502w4 f7788a = new C2502w4();

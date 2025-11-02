@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0423J8 extends C0377I8 {
 
     public final boolean f1294c;

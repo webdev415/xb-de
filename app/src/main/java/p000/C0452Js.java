@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C0452Js extends AbstractC2167os implements InterfaceC2627ys {
     public C0452Js(IBinder iBinder) {
         super(iBinder, "com.google.android.finsky.externalreferrer.IGetInstallReferrerService");

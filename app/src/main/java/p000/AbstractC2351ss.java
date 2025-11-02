@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2351ss {
 
     public static final ClassLoader f7080a = AbstractC2351ss.class.getClassLoader();

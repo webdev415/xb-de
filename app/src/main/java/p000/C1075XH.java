@@ -3,7 +3,6 @@ package p000;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-/* loaded from: classes.dex */
 public final class C1075XH {
 
     public final Object f3215a = new Object();

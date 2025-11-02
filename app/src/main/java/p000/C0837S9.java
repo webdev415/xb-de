@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-/* loaded from: classes.dex */
 public final class C0837S9 implements Set, Serializable {
 
     public static final C0837S9 f2606l = new C0837S9();

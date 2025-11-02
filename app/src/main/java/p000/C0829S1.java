@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC2383te;
 
-/* loaded from: classes.dex */
 public final class C0829S1 extends AbstractC2383te {
 
     public final String f2572a;

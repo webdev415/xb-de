@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC2550x6;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0191E6 {
 
     public static final class a {

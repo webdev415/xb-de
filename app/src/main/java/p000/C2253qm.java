@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C2253qm implements Cloneable {
 
     public static final Object f6732p = new Object();

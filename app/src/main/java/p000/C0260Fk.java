@@ -2,7 +2,6 @@ package p000;
 
 import java.net.Proxy;
 
-/* loaded from: classes.dex */
 public final class C0260Fk {
 
     public static final C0260Fk f676a = new C0260Fk();

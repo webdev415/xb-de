@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0054B7 {
 
     public static final char[] f124b;

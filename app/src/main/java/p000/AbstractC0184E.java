@@ -7,7 +7,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0184E extends AbstractC2543x implements List {
 
     public static final a f444l = new a(null);

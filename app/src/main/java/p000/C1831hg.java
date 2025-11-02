@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public class C1831hg implements InterfaceC2229q7 {
 
     public static C1831hg f5741g;

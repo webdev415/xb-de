@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Handler;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1795gr {
 
     public static volatile Handler f5646d;

@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2530wn {
 
     public static final C0951Um f7898a = new C0951Um("NO_THREAD_ELEMENTS");

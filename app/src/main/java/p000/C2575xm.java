@@ -2,7 +2,6 @@ package p000;
 
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public final class C2575xm extends IOException {
 
     public final EnumC1159Z9 f8025l;

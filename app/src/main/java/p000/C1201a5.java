@@ -3,7 +3,6 @@ package p000;
 import java.util.Collection;
 import java.util.Collections;
 
-/* loaded from: classes.dex */
 public class C1201a5 extends AbstractC0992Vh {
     public static int m5099h(boolean[] zArr, int i, int i2) {
         for (int i3 = 0; i3 < 9; i3++) {

@@ -3,7 +3,6 @@ package p000;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/* loaded from: classes.dex */
 public class C0855Si {
 
     public static final class a {

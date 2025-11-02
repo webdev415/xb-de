@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/* loaded from: classes.dex */
 public final class C2499w1 implements Collection, Set {
 
     public static final int[] f7777p = new int[0];

@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1300b3 extends InterfaceC0345Hd {
     Drawable mo5621A(int i);
 

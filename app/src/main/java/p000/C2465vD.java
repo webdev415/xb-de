@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2465vD implements InterfaceC2557xD {
     public static InterfaceC1865iD m10328c(Object obj, long j) {
         return (InterfaceC1865iD) AbstractC0476KF.m2320B(obj, j);

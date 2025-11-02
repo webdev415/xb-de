@@ -12,7 +12,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.io.ByteArrayOutputStream;
 
-/* loaded from: classes.dex */
 public class C0896Td {
 
     public static C0896Td f2754b;

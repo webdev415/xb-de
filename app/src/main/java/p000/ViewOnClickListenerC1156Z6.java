@@ -12,7 +12,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class ViewOnClickListenerC1156Z6 extends AbstractDialogC2267r implements View.OnClickListener {
 
     public BrowserActivity f3389b;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0001A0 extends C0857Sk {
 
     public final float f2c;

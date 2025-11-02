@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2477vg {
     public static float m10354a(float f, float f2, float f3, float f4) {
         double d = f - f3;

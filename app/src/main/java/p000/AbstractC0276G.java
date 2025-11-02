@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0276G implements InterfaceC1738fh {
     @Override
     public abstract Map mo1311a();

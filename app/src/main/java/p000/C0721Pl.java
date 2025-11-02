@@ -6,7 +6,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0721Pl extends AbstractResourceManager {
 
     public class a implements Runnable {

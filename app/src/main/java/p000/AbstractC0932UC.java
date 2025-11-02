@@ -3,7 +3,6 @@ package p000;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0932UC {
 
     public static final Charset f2839a;

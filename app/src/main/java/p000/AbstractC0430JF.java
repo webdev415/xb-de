@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0430JF {
     public abstract int mo1874a(Object obj);
 

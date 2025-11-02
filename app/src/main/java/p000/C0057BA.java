@@ -2,7 +2,6 @@ package p000;
 
 import android.net.Uri;
 
-/* loaded from: classes.dex */
 public final class C0057BA {
 
     public final String f139a;

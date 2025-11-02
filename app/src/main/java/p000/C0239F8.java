@@ -3,7 +3,6 @@ package p000;
 import java.util.Arrays;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public class C0239F8 extends C0285G8 {
 
     public final List f650l;

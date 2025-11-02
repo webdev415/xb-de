@@ -36,7 +36,6 @@ import p000.C2406u0;
 import p000.C2518wb;
 import p000.InterfaceC1300b3;
 
-/* loaded from: classes.dex */
 public class VideoSniffingManager {
 
     public static VideoSniffingManager instance;

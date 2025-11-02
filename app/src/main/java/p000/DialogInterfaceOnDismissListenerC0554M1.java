@@ -8,7 +8,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import org.json.JSONException;
 
-/* loaded from: classes.dex */
 public class DialogInterfaceOnDismissListenerC0554M1 extends AbstractDialogC2267r implements DialogInterface.OnDismissListener {
 
     public BrowserActivity f1748b;

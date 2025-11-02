@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1031Wa extends C0857Sk {
 
     public final float f3050c;

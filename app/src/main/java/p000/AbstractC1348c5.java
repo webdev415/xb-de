@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1348c5 {
     public static void m5730a(Object obj, Object obj2) {
         if (obj == null) {

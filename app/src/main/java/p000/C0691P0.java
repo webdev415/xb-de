@@ -3,7 +3,6 @@ package p000;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
-/* loaded from: classes.dex */
 public final class C0691P0 extends Handler {
 
     public static final C0691P0 f2071a = new C0691P0();
