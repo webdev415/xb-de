@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pop_menu_container"
+    android:background="@drawable/default_context_menu_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ListView
+        android:gravity="center"
+        android:id="@+id/pop_menu_list_view"
+        android:padding="3dp"
+        android:focusable="true"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:divider="@drawable/default_list_diver"
+        android:overScrollMode="never"/>
+    <ImageView
+        android:layout_gravity="top|center_horizontal"
+        android:id="@+id/top_more"
+        android:background="@drawable/default_std_item_bg"
+        android:padding="3dp"
+        android:visibility="invisible"
+        android:layout_width="@dimen/scroll_indictor_height"
+        android:layout_height="@dimen/scroll_indictor_height"
+        android:src="@drawable/ic_more_up"/>
+    <ImageView
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/bottom_more"
+        android:padding="3dp"
+        android:visibility="invisible"
+        android:layout_width="@dimen/scroll_indictor_height"
+        android:layout_height="@dimen/scroll_indictor_height"
+        android:src="@drawable/ic_more_down"
+        android:contentDescription="@null"/>
+</FrameLayout>

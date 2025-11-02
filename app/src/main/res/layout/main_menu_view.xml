@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:id="@+id/main_menu_gridview"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:listSelector="@android:color/transparent"
+    android:horizontalSpacing="8dp"
+    android:verticalSpacing="8dp"
+    android:stretchMode="columnWidth"
+    android:columnWidth="@dimen/main_menu_col_width"
+    android:numColumns="4"
+    android:overScrollMode="never"/>

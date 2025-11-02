@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="settings_default_search_choices">
+        <item>@string/search_name_google</item>
+        <item>@string/search_name_yahoo</item>
+        <item>@string/search_name_duckduckgo</item>
+        <item>@string/search_name_bing</item>
+        <item>@string/search_name_ask</item>
+        <item>@string/search_name_baidu</item>
+        <item>@string/search_name_yandex</item>
+    </array>
+    <array name="settings_default_search_values">
+        <item>https://www.google.com/search?q=%keywords%</item>
+        <item>https://search.yahoo.com/mobile/s?p=%keywords%</item>
+        <item>https://duckduckgo.com/?q=%keywords%</item>
+        <item>https://www.bing.com/search?q=%keywords%</item>
+        <item>http://www.ask.com/web?q=%keywords%</item>
+        <item>https://m.baidu.com/s?from=1013843g&amp;word=%keywords%</item>
+        <item>https://www.yandex.com/search/touch/?text=%keywords%</item>
+    </array>
+    <array name="settings_language_code">
+        <item />
+        <item>en</item>
+        <item>zh-CN</item>
+        <item>zh-TW</item>
+        <item>ru</item>
+        <item>de</item>
+        <item>ko</item>
+        <item>tr</item>
+        <item>ar</item>
+    </array>
+    <array name="settings_language_list">
+        <item>Auto</item>
+        <item>English</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
+        <item>Pусский</item>
+        <item>Deutsch</item>
+        <item>한국어</item>
+        <item>Türkçe</item>
+        <item>Arabic(عربي)</item>
+    </array>
+</resources>

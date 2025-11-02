@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="bottom"
+    android:orientation="vertical"
+    android:id="@+id/float_video_control_box"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/bookmark_video"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_video_bookmark"/>
+    <Button
+        android:textSize="7sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:id="@+id/adjust_speed"
+        android:background="@drawable/ic_video_speed"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:clickable="true"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="1.0x"/>
+    <ImageView
+        android:id="@+id/video_rotation"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_screen_rotation"/>
+</LinearLayout>

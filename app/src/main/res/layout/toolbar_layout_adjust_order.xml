@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal"
+    android:id="@+id/adjust_order_toolbar"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <Button
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:id="@+id/toolbar_btn_ok"
+        android:padding="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_text_finish"
+        android:layout_weight="1"
+        style="@style/StdBarElement"/>
+</LinearLayout>

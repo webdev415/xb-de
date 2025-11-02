@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="alpha" format="float">
+    </attr>
+    <attr name="click_remove_id" format="integer">
+    </attr>
+    <attr name="collapsed_height" format="dimension">
+    </attr>
+    <attr name="drag_enabled" format="boolean">
+    </attr>
+    <attr name="drag_handle_id" format="integer">
+    </attr>
+    <attr name="drag_scroll_start" format="float">
+    </attr>
+    <attr name="drag_start_mode">
+        <enum name="onDown" value="0" />
+        <enum name="onMove" value="1" />
+        <enum name="onLongPress" value="2" />
+    </attr>
+    <attr name="drop_animation_duration" format="integer">
+    </attr>
+    <attr name="fling_handle_id" format="integer">
+    </attr>
+    <attr name="float_alpha" format="float">
+    </attr>
+    <attr name="float_background_color" format="color">
+    </attr>
+    <attr name="font" format="reference">
+    </attr>
+    <attr name="fontProviderAuthority" format="string">
+    </attr>
+    <attr name="fontProviderCerts" format="reference">
+    </attr>
+    <attr name="fontProviderFetchStrategy">
+        <enum name="blocking" value="0" />
+        <enum name="async" value="1" />
+    </attr>
+    <attr name="fontProviderFetchTimeout" format="integer">
+        <enum name="forever" value="-1" />
+    </attr>
+    <attr name="fontProviderPackage" format="string">
+    </attr>
+    <attr name="fontProviderQuery" format="string">
+    </attr>
+    <attr name="fontProviderSystemFontFamily" format="string">
+    </attr>
+    <attr name="fontStyle">
+        <enum name="normal" value="0" />
+        <enum name="italic" value="1" />
+    </attr>
+    <attr name="fontVariationSettings" format="string">
+    </attr>
+    <attr name="fontWeight" format="integer">
+    </attr>
+    <attr name="lStar" format="float">
+    </attr>
+    <attr name="max_drag_scroll_speed" format="float">
+    </attr>
+    <attr name="menu_item_cmd" format="reference">
+    </attr>
+    <attr name="menu_item_icon" format="integer">
+    </attr>
+    <attr name="menu_item_title" format="string">
+    </attr>
+    <attr name="nestedScrollViewStyle" format="reference">
+    </attr>
+    <attr name="queryPatterns" format="reference">
+    </attr>
+    <attr name="remove_animation_duration" format="integer">
+    </attr>
+    <attr name="remove_enabled" format="boolean">
+    </attr>
+    <attr name="remove_mode">
+        <enum name="clickRemove" value="0" />
+        <enum name="flingRemove" value="1" />
+    </attr>
+    <attr name="shortcutMatchRequired" format="boolean">
+    </attr>
+    <attr name="slide_shuffle_speed" format="float">
+    </attr>
+    <attr name="sort_enabled" format="boolean">
+    </attr>
+    <attr name="strokeWidth" format="dimension">
+    </attr>
+    <attr name="title_margin_right" format="dimension">
+    </attr>
+    <attr name="track_drag_sort" format="boolean">
+    </attr>
+    <attr name="ttcIndex" format="integer">
+    </attr>
+    <attr name="use_default_controller" format="boolean">
+    </attr>
+    <attr name="vpiCirclePageIndicatorStyle" format="reference">
+    </attr>
+    <attr name="vpiIconPageIndicatorStyle" format="reference">
+    </attr>
+    <attr name="vpiLinePageIndicatorStyle" format="reference">
+    </attr>
+    <attr name="vpiTabPageIndicatorStyle" format="reference">
+    </attr>
+    <attr name="vpiTitlePageIndicatorStyle" format="reference">
+    </attr>
+    <attr name="vpiUnderlinePageIndicatorStyle" format="reference">
+    </attr>
+    <declare-styleable name="LinePageIndicator">
+        <attr name="centered" format="boolean"/>
+        <attr name="gapWidth" format="dimension"/>
+        <attr name="lineWidth" format="dimension"/>
+        <attr name="selectedColor" format="color"/>
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="unselectedColor" format="color"/>
+    </declare-styleable>
+</resources>

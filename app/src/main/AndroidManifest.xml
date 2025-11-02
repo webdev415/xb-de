@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:mimeType="video/*"/>
+        </intent>
+    </queries>
+    <queries>
+        <package android:name="com.x.addon.qrscan"/>
+        <package android:name="com.x.addon.qrscan.play"/>
+        <package android:name="com.x.addon.wechatshare"/>
+        <package android:name="com.dv.adm.pay"/>
+        <package android:name="com.dv.adm"/>
+        <package android:name="idm.internet.download.manager.plus"/>
+        <package android:name="idm.internet.download.manager"/>
+        <package android:name="com.coolapk.market"/>
+        <package android:name="com.tencent.android.qqdownloader"/>
+        <package android:name="com.hihonor.appmarket"/>
+        <package android:name="com.x.addon.cast"/>
+        <package android:name="com.youdao.dict"/>
+        <package android:name="com.eusoft.eudic"/>
+        <package android:name="com.olimsoft.android.oplayer"/>
+        <package android:name="cn.coldlake.stellarmobile"/>
+        <package android:name="org.freedownloadmanager.fdm"/>
+        <package android:name="com.xunlei.downloadprovider"/>
+        <package android:name="com.gianlu.aria2app"/>
+        <package android:name="com.tencent.mm"/>
+        <package android:name="cast.video.screenmirroring.casttotv"/>
+        <package android:name="video.player.videoplayer"/>
+    </queries>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION"/>
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID"/>
+    <permission
+        android:name="com.xbrowser.play.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.xbrowser.play.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
+    <application
+        android:theme="@style/BrowserTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.mmbox.xbrowser.Browser"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:extractNativeLibs="false"
+        android:usesCleartextTraffic="true"
+        android:resizeableActivity="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        tools:ignore="NewApi,UnusedAttribute">
+        <provider
+            android:name="com.mmbox.xbrowser.provider.BrowserProvider"
+            android:readPermission="com.mmbox.xbrowser.permission.READ_HISTORY_BOOKMARKS"
+            android:writePermission="com.mmbox.xbrowser.permission.WRITE_HISTORY_BOOKMARKS"
+            android:authorities="com.xbrowser.play"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.xbrowser.play.fileProvider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <activity
+            android:label="@string/app_name"
+            android:name="com.mmbox.xbrowser.BrowserActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"
+            android:alwaysRetainTaskState="true"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:scheme="wtloginmqq"/>
+                <data android:scheme="mmbox"/>
+                <data android:scheme="javascript"/>
+                <data android:scheme="x"/>
+                <data android:mimeType="text/html"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="application/xhtml+xml"/>
+                <data android:mimeType="application/vnd.wap.xhtml+xml"/>
+                <data android:scheme="rl"/>
+                <data android:scheme="about"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:scheme="file"/>
+                <data android:scheme="content"/>
+                <data android:scheme="mmbox"/>
+                <data android:scheme="javascript"/>
+                <data android:scheme="x"/>
+                <data android:scheme="rl"/>
+                <data android:scheme="about"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="http"/>
+                <data android:scheme="file"/>
+                <data android:scheme="https"/>
+                <data android:scheme="mmbox"/>
+                <data android:scheme="content"/>
+                <data android:mimeType="text/html"/>
+                <data android:mimeType="text/htm"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="application/xhtml+xml"/>
+                <data android:mimeType="application/vnd.wap.xhtml+xml"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.WEB_SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.WEB_SEARCH"/>
+                <action android:name="action.resume_page_foreground"/>
+                <action android:name="android.intent.action.MEDIA_SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="file"/>
+                <data android:scheme="content"/>
+                <data android:scheme="x"/>
+                <data android:scheme="rl"/>
+                <data android:mimeType="text/html"/>
+                <data android:mimeType="text/htm"/>
+                <data android:mimeType="text/plain"/>
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="application/xhtml+xml"/>
+                <data android:mimeType="text/javascript"/>
+                <data android:mimeType="application/x-javascript"/>
+                <data android:mimeType="application/javascript"/>
+                <data android:mimeType="application/vnd.wap.xhtml+xml"/>
+                <data android:host="*"/>
+                <data android:mimeType="message/rfc822"/>
+                <data android:pathPattern="/.*\\.mhtml"/>
+                <data android:pathPattern="/.*\\.mht"/>
+                <data android:pathPattern="/.*\\.html"/>
+                <data android:pathPattern="/.*\\.htm"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+                <data android:pathPattern=".*\\.xb"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/BrowserTheme"
+            android:name="com.mmbox.xbrowser.SearchBarActivity"
+            android:exported="false"/>
+        <activity
+            android:label="@string/search_in_browser"
+            android:name="com.mmbox.xbrowser.SearchInBrowserActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/zxing_CaptureTheme"
+            android:name="com.mmbox.xbrowser.QrScanActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/GenQrCodeTheme"
+            android:name="com.mmbox.xbrowser.GenQrCodeActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/zxing_CaptureTheme"
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:label="@string/tts_text_selection"
+            android:name="com.mmbox.xbrowser.TextToSpeechActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/CasterDialog"
+            android:name="com.mmbox.xbrowser.CasterActivity"
+            android:exported="false"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"/>
+        <service
+            android:name="com.mmbox.xbrowser.DownloadService"
+            android:exported="false"
+            android:stopWithTask="false"
+            android:foregroundServiceType="dataSync"/>
+        <service
+            android:name="com.mmbox.xbrowser.BackgroundPlayService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback"/>
+    </application>
+</manifest>

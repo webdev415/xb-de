@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="fill_horizontal"
+        android:id="@+id/username_edit"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/http_auth_name"
+        android:scrollHorizontally="true"
+        android:layout_weight="1"
+        android:inputType="text"
+        android:textCursorDrawable="@null"/>
+    <EditText
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="fill_horizontal"
+        android:id="@+id/password_edit"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/http_auth_pwd"
+        android:scrollHorizontally="true"
+        android:layout_weight="1"
+        android:inputType="textPassword"
+        android:textCursorDrawable="@null"/>
+</TableLayout>

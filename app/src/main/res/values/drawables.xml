@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="black">#ff000000</drawable>
+    <drawable name="default_dlg_btn_cancel_normal">#ddd</drawable>
+    <drawable name="default_dlg_btn_cancel_pressed">#a0b0b0</drawable>
+    <drawable name="default_dlg_btn_ok_normal">#579ef1</drawable>
+    <drawable name="default_dlg_btn_ok_pressed">#57bbf1</drawable>
+    <drawable name="default_list_diver">#cccccc</drawable>
+    <drawable name="default_std_item_focused">#f0f0f0</drawable>
+    <drawable name="default_std_item_pressed">#f0f0f0</drawable>
+    <drawable name="night_dlg_btn_cancel_normal">#ddd</drawable>
+    <drawable name="night_dlg_btn_cancel_pressed">#a0b0b0</drawable>
+    <drawable name="night_dlg_btn_ok_normal">#24476d</drawable>
+    <drawable name="night_dlg_btn_ok_pressed">#38618e</drawable>
+    <drawable name="night_list_diver">#88383e58</drawable>
+    <drawable name="night_std_item_focused">#88383e58</drawable>
+    <drawable name="night_std_item_pressed">#88383e58</drawable>
+    <drawable name="notification_template_icon_bg">#3333b5e5</drawable>
+    <drawable name="notification_template_icon_low_bg">#0cffffff</drawable>
+    <drawable name="white">#ffffffff</drawable>
+</resources>

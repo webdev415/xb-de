@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:textColor="@color/black"
+            android:id="@+id/status_nav_bar_immersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/status_and_nav_bar_immersion"/>
+        <RadioButton
+            android:textColor="@color/black"
+            android:id="@+id/status_bar_immersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:checked="true"
+            android:text="@string/status_bar_immersion"/>
+        <RadioButton
+            android:textColor="@color/black"
+            android:id="@+id/disable_immersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/disable_immersion"/>
+    </RadioGroup>
+</RelativeLayout>

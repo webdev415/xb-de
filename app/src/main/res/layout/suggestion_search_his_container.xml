@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/sug_search_his_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="0dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/title_search_his"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/search_his_title"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/btn_clean_search_his"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_clean_search_his"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <com.mmbox.widget.FlowLayout
+        android:id="@+id/hot_words"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:baselineAligned="false"/>
+</LinearLayout>

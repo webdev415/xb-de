@@ -1,0 +1,8 @@
+package p000;
+
+import java.util.Map;
+
+/* loaded from: classes.dex */
+public interface InterfaceC0652O7 {
+    C0606N7 mo3383a(Map map);
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RadioGroup
+        android:id="@+id/recovery_tab_setting_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:textColor="@color/neutral_text_color"
+            android:id="@+id/recovery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:checked="true"
+            android:text="@string/recover_tabs"/>
+        <RadioButton
+            android:textColor="@color/neutral_text_color"
+            android:id="@+id/recovery_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/recover_tabs_query"/>
+        <RadioButton
+            android:textColor="@color/neutral_text_color"
+            android:id="@+id/recovery_never"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/recover_tabs_never"/>
+    </RadioGroup>
+</RelativeLayout>

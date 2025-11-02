@@ -1,0 +1,80 @@
+package p000;
+
+import android.os.Bundle;
+import android.text.TextUtils;
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+public final class C2672zr {
+
+    public final String f8281a;
+
+    public final String f8282b;
+
+    public final String f8283c;
+
+    public final long f8284d;
+
+    public final long f8285e;
+
+    public final C0175Dr f8286f;
+
+    public C2672zr(C2266qz c2266qz, String str, String str2, String str3, long j, long j2, Bundle bundle) {
+        C0175Dr c0175Dr;
+        AbstractC1085Xi.m4795d(str2);
+        AbstractC1085Xi.m4795d(str3);
+        this.f8281a = str2;
+        this.f8282b = str3;
+        this.f8283c = TextUtils.isEmpty(str) ? null : str;
+        this.f8284d = j;
+        this.f8285e = j2;
+        if (j2 != 0 && j2 > j) {
+            c2266qz.mo349g().m9623L().m10617b("Event created with reverse previous/current timestamps. appId", C2356sx.m9613v(str2));
+        }
+        if (bundle == null || bundle.isEmpty()) {
+            c0175Dr = new C0175Dr(new Bundle());
+        } else {
+            Bundle bundle2 = new Bundle(bundle);
+            Iterator<String> it = bundle2.keySet().iterator();
+            while (it.hasNext()) {
+                String next = it.next();
+                if (next == null) {
+                    c2266qz.mo349g().m9618G().m10616a("Param name can't be null");
+                } else {
+                    Object objM10518s0 = c2266qz.m9230L().m10518s0(next, bundle2.get(next));
+                    if (objM10518s0 == null) {
+                        c2266qz.mo349g().m9623L().m10617b("Param value can't be null", c2266qz.m9222D().m9212f(next));
+                    } else {
+                        c2266qz.m9230L().m10491O(bundle2, next, objM10518s0);
+                    }
+                }
+                it.remove();
+            }
+            c0175Dr = new C0175Dr(bundle2);
+        }
+        this.f8286f = c0175Dr;
+    }
+
+    public final C2672zr m11051a(C2266qz c2266qz, long j) {
+        return new C2672zr(c2266qz, this.f8283c, this.f8281a, this.f8282b, this.f8284d, j, this.f8286f);
+    }
+
+    public final String toString() {
+        return "Event{appId='" + this.f8281a + "', name='" + this.f8282b + "', params=" + String.valueOf(this.f8286f) + "}";
+    }
+
+    public C2672zr(C2266qz c2266qz, String str, String str2, String str3, long j, long j2, C0175Dr c0175Dr) {
+        AbstractC1085Xi.m4795d(str2);
+        AbstractC1085Xi.m4795d(str3);
+        AbstractC1085Xi.m4801j(c0175Dr);
+        this.f8281a = str2;
+        this.f8282b = str3;
+        this.f8283c = TextUtils.isEmpty(str) ? null : str;
+        this.f8284d = j;
+        this.f8285e = j2;
+        if (j2 != 0 && j2 > j) {
+            c2266qz.mo349g().m9623L().m10618c("Event created with reverse previous/current timestamps. appId, name", C2356sx.m9613v(str2), C2356sx.m9613v(str3));
+        }
+        this.f8286f = c0175Dr;
+    }
+}

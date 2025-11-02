@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/muti_window_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/default_menu_bgcolor"
+    android:orientation="vertical"
+    android:paddingTop="20dp">
+
+    <com.mobeta.android.dslv.DragSortListView
+        android:id="@+id/muti_window_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:cacheColorHint="#00000000"
+        android:divider="#00000000"
+        android:focusable="true"
+        android:gravity="center"
+        android:listSelector="@android:color/transparent"
+        app:drag_handle_id="@+id/menu_item_icon"
+        app:float_background_color="@color/transparent"
+        app:remove_enabled="true"
+        app:remove_mode="flingRemove" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <ImageButton
+            android:id="@+id/btn_clean_all_tab"
+            style="@style/StdBarElement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/ic_clean_tab" />
+
+        <ImageButton
+            android:id="@+id/btn_new_window"
+            style="@style/StdBarElement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="@string/des_btn_new_tab"
+            android:padding="8dp"
+            android:src="@drawable/ic_action_add" />
+
+        <ImageButton
+            android:id="@+id/btn_crete_incognito_tab"
+            style="@style/StdBarElement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="@string/des_btn_new_tab"
+            android:padding="8dp"
+            android:src="@drawable/ic_main_menu_incognito" />
+    </LinearLayout>
+</LinearLayout>
