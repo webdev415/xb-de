@@ -393,12 +393,12 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
     }
 
     public final void m7621j(int i, int i2, int i3, InterfaceC0418J3 interfaceC0418J3, AbstractC1918ja abstractC1918ja) throws IOException {
-        C0122Ck c0122CkM7623l = m7623l();
-        C0069Bd c0069BdM498i = c0122CkM7623l.m498i();
+        Request requestM7623L = m7623l();
+        C0069Bd c0069BdM498i = requestM7623L.getUrl();
         for (int i4 = 0; i4 < 21; i4++) {
             m7619h(i, i2, interfaceC0418J3, abstractC1918ja);
-            c0122CkM7623l = m7622k(i2, i3, c0122CkM7623l, c0069BdM498i);
-            if (c0122CkM7623l == null) {
+            requestM7623L = m7622k(i2, i3, requestM7623L, c0069BdM498i);
+            if (requestM7623L == null) {
                 return;
             }
             Socket socket = this.f5512c;
@@ -412,7 +412,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         }
     }
 
-    public final C0122Ck m7622k(int i, int i2, C0122Ck c0122Ck, C0069Bd c0069Bd) throws IOException {
+    public final Request m7622k(int i, int i2, Request request, C0069Bd c0069Bd) throws IOException {
         String str = "CONNECT " + AbstractC2623yo.m10916L(c0069Bd, true) + " HTTP/1.1";
         while (true) {
             InterfaceC2547x3 interfaceC2547x3 = this.f5517h;
@@ -423,13 +423,13 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
             TimeUnit timeUnit = TimeUnit.MILLISECONDS;
             interfaceC2547x3.mo239d().mo439g(i, timeUnit);
             interfaceC2501w3.mo114d().mo439g(i2, timeUnit);
-            c2336sd.m9552A(c0122Ck.m494e(), str);
+            c2336sd.m9552A(request.m494e(), str);
             c2336sd.mo9532c();
-            C0490Kk.a aVarMo9534e = c2336sd.mo9534e(false);
+            Response.a aVarMo9534e = c2336sd.mo9534e(false);
             AbstractC0116Ce.m473b(aVarMo9534e);
-            C0490Kk c0490KkM2404c = aVarMo9534e.m2419r(c0122Ck).m2404c();
+            Response c0490KkM2404c = aVarMo9534e.m2419r(request).m2404c();
             c2336sd.m9561z(c0490KkM2404c);
-            int iM2396j = c0490KkM2404c.m2396j();
+            int iM2396j = c0490KkM2404c.getStatus();
             if (iM2396j == 200) {
                 if (interfaceC2547x3.mo7341c().mo7333K() && interfaceC2501w3.mo5929c().mo7333K()) {
                     return null;
@@ -437,23 +437,23 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
                 throw new IOException("TLS tunnel buffered too many bytes!");
             }
             if (iM2396j != 407) {
-                throw new IOException("Unexpected response code for CONNECT: " + c0490KkM2404c.m2396j());
+                throw new IOException("Unexpected response code for CONNECT: " + c0490KkM2404c.getStatus());
             }
-            C0122Ck c0122CkMo2575a = this.f5528s.m5675a().m10417h().mo2575a(this.f5528s, c0490KkM2404c);
-            if (c0122CkMo2575a == null) {
+            Request requestMo2575A = this.f5528s.m5675a().m10417h().mo2575a(this.f5528s, c0490KkM2404c);
+            if (requestMo2575A == null) {
                 throw new IOException("Failed to authenticate with proxy");
             }
-            if (AbstractC0538Lm.m2720l("close", C0490Kk.m2383w(c0490KkM2404c, "Connection", null, 2, null), true)) {
-                return c0122CkMo2575a;
+            if (AbstractC0538Lm.m2720l("close", Response.m2383w(c0490KkM2404c, "Connection", null, 2, null), true)) {
+                return requestMo2575A;
             }
-            c0122Ck = c0122CkMo2575a;
+            request = requestMo2575A;
         }
     }
 
-    public final C0122Ck m7623l() {
-        C0122Ck c0122CkM500b = new C0122Ck.a().m506h(this.f5528s.m5675a().m10421l()).m503e("CONNECT", null).m501c("Host", AbstractC2623yo.m10916L(this.f5528s.m5675a().m10421l(), true)).m501c("Proxy-Connection", "Keep-Alive").m501c("User-Agent", "okhttp/4.9.1").m500b();
-        C0122Ck c0122CkMo2575a = this.f5528s.m5675a().m10417h().mo2575a(this.f5528s, new C0490Kk.a().m2419r(c0122CkM500b).m2417p(EnumC2342sj.HTTP_1_1).m2408g(407).m2414m("Preemptive Authenticate").m2403b(AbstractC2623yo.f8129c).m2420s(-1L).m2418q(-1L).m2411j("Proxy-Authenticate", "OkHttp-Preemptive").m2404c());
-        return c0122CkMo2575a != null ? c0122CkMo2575a : c0122CkM500b;
+    public final Request m7623l() {
+        Request requestM500B = new Request.a().m506h(this.f5528s.m5675a().m10421l()).m503e("CONNECT", null).m501c("Host", AbstractC2623yo.m10916L(this.f5528s.m5675a().m10421l(), true)).m501c("Proxy-Connection", "Keep-Alive").m501c("User-Agent", "okhttp/4.9.1").m500b();
+        Request requestMo2575A = this.f5528s.m5675a().m10417h().mo2575a(this.f5528s, new Response.a().m2419r(requestM500B).m2417p(EnumC2342sj.HTTP_1_1).m2408g(407).m2414m("Preemptive Authenticate").m2403b(AbstractC2623yo.f8129c).m2420s(-1L).m2418q(-1L).m2411j("Proxy-Authenticate", "OkHttp-Preemptive").m2404c());
+        return requestMo2575A != null ? requestMo2575A : requestM500B;
     }
 
     public final void m7624m(C1858i6 c1858i6, int i, InterfaceC0418J3 interfaceC0418J3, AbstractC1918ja abstractC1918ja) throws Throwable {

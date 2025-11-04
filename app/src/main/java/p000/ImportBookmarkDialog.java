@@ -8,18 +8,15 @@ import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-public abstract class AbstractDialogC1688ee extends AbstractDialogC2267r {
+public abstract class BaseDialogC1688Ee extends BaseDialog {
 
-    public BrowserActivity f5421b;
+    public BrowserActivity browserActivity;
 
     public class a implements View.OnClickListener {
-        public a() {
-        }
-
         @Override
         public void onClick(View view) {
-            AbstractDialogC1688ee.this.m7417d();
-            AbstractDialogC1688ee.this.dismiss();
+            BaseDialogC1688Ee.this.m7417d();
+            BaseDialogC1688Ee.this.dismiss();
         }
     }
 
@@ -29,20 +26,20 @@ public abstract class AbstractDialogC1688ee extends AbstractDialogC2267r {
 
         @Override
         public void onClick(View view) {
-            AbstractDialogC1688ee.this.m7416c();
-            AbstractDialogC1688ee.this.dismiss();
+            BaseDialogC1688Ee.this.m7416c();
+            BaseDialogC1688Ee.this.dismiss();
         }
     }
 
-    public AbstractDialogC1688ee(BrowserActivity browserActivity) {
+    public BaseDialogC1688Ee(BrowserActivity browserActivity) {
         super(browserActivity);
-        this.f5421b = browserActivity;
+        this.browserActivity = browserActivity;
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_import_bm);
-        ((TextView) findViewById(R.id.text_info)).setText(String.format(this.f5421b.getString(R.string.str_import_bookmark_text), MySQLiteOpenHelper.getInstance().m7489C0() + ""));
+        ((TextView) findViewById(R.id.text_info)).setText(String.format(this.browserActivity.getString(R.string.str_import_bookmark_text), MySQLiteOpenHelper.getInstance().m7489C0() + ""));
         ((Button) findViewById(R.id.btn_ok)).setOnClickListener(new a());
         ((Button) findViewById(R.id.btn_cancel)).setOnClickListener(new b());
     }

@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-public class DialogC1975kl extends AbstractDialogC2267r {
+public class DialogC1975kl extends BaseDialog {
 
     public final BrowserActivity f6028b;
 
@@ -27,7 +27,7 @@ public class DialogC1975kl extends AbstractDialogC2267r {
             if (TextUtils.isEmpty(string)) {
                 string = DialogC1975kl.this.f6028b.getString(R.string.default_tabs_folder_name);
             }
-            DialogC1975kl.this.f6028b.m6383z2(string);
+            DialogC1975kl.this.f6028b.saveBookmarkWithTabs(string);
             DialogC1975kl.this.dismiss();
         }
     }
@@ -48,7 +48,7 @@ public class DialogC1975kl extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_save_all_tabs);
         ((Button) findViewById(R.id.btn_ok)).setOnClickListener(new a());
         ((Button) findViewById(R.id.btn_cancel)).setOnClickListener(new b());

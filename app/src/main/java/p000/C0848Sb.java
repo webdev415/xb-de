@@ -1,5 +1,6 @@
 package p000;
 
+import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
@@ -7,162 +8,151 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-public class C0848Sb {
+public class FloatButtonController {
 
-    public static C0848Sb f2629k;
+    public static FloatButtonController instance;
 
-    public BrowserActivity f2630a;
+    public BrowserActivity browserActivity;
+    public View fullscreenFloatBtnHolder;
+    public long lastTouchTime;
+    public float offsetX;
+    public float offsetY;
+    public int lastX;
+    public int lastY;
+    public int btnRightMargin;
+    public int btnBottomMargin;
 
-    public View f2631b;
+    private static final int MAX_TOUCH_DELTA = 10;
+    private static final int MAX_CLICK_TIME = 200;
 
-    public long f2632c;
-
-    public float f2633d;
-
-    public float f2634e;
-
-    public int f2635f;
-
-    public int f2636g;
-
-    public int f2637h;
-
-    public int f2638i;
-
-    public int f2639j;
-
-    public class a implements View.OnClickListener {
-        public a() {
+    // Singleton instance
+    public static FloatButtonController getInstance() {
+        if (instance == null) {
+            instance = new FloatButtonController();
         }
-
-        @Override
-        public void onClick(View view) {
-            C0848Sb.this.f2630a.getBrowserFrameLayout().m6457f();
-        }
+        return instance;
     }
 
-    public class b implements View.OnTouchListener {
+    // Hide the floating button
+    public void hideFloatingButton() {
+        this.fullscreenFloatBtnHolder.setVisibility(View.INVISIBLE);
+    }
 
-        public float f2641a;
+    // Initialize the floating button
+    public void init(BrowserActivity browserActivity) {
+        this.browserActivity = browserActivity;
+        this.fullscreenFloatBtnHolder = browserActivity.findViewById(R.id.fullscreen_float_btn_holder);
 
-        public float f2642b;
+        // Load margins from resources
+        this.btnRightMargin = (int) this.browserActivity.getResources().getDimension(R.dimen.full_screen_float_btn_right_margin);
+        this.btnBottomMargin = (int) this.browserActivity.getResources().getDimension(R.dimen.full_screen_float_btn_bottom_margin);
 
-        public b() {
-        }
+        // Set button click listener
+        this.fullscreenFloatBtnHolder.setOnClickListener(view -> this.browserActivity.getBrowserFrameLayout().m6457f());
 
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            int actionMasked = motionEvent.getActionMasked();
-            if (actionMasked == 0) {
-                C0848Sb.this.f2633d = view.getX() - motionEvent.getRawX();
-                C0848Sb.this.f2634e = view.getY() - motionEvent.getRawY();
-                this.f2641a = motionEvent.getRawX();
-                this.f2642b = motionEvent.getRawY();
-                C0848Sb.this.f2632c = System.currentTimeMillis();
-                C0848Sb.this.f2637h = 0;
-            } else if (actionMasked == 1) {
-                long jCurrentTimeMillis = System.currentTimeMillis() - C0848Sb.this.f2632c;
-                float fAbs = Math.abs(motionEvent.getRawX() - this.f2641a);
-                float fAbs2 = Math.abs(motionEvent.getRawY() - this.f2642b);
-                if (jCurrentTimeMillis < 200 && fAbs < 10.0f && fAbs2 < 10.0f) {
+        // Load last position from SharedPreferences
+        this.lastX = SharedPreferencesHelper.getInstance().getInt("last_float_btn_x", -1);
+        this.lastY = SharedPreferencesHelper.getInstance().getInt("last_float_btn_y", -1);
+
+        // Set touch listener
+        this.fullscreenFloatBtnHolder.setOnTouchListener(new View.OnTouchListener() {
+
+            private float initialTouchX;
+            private float initialTouchY;
+
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getActionMasked();
+
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        onActionDown(view, motionEvent);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        onActionUp(view, motionEvent);
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        onActionMove(view, motionEvent);
+                        break;
+
+                    default:
+                        return false;
+                }
+
+                return true;
+            }
+
+            private void onActionDown(View view, MotionEvent motionEvent) {
+                offsetX = view.getX() - motionEvent.getRawX();
+                offsetY = view.getY() - motionEvent.getRawY();
+                initialTouchX = motionEvent.getRawX();
+                initialTouchY = motionEvent.getRawY();
+                lastTouchTime = System.currentTimeMillis();
+            }
+
+            private void onActionUp(View view, MotionEvent motionEvent) {
+                long elapsedTime = System.currentTimeMillis() - lastTouchTime;
+                float deltaX = Math.abs(motionEvent.getRawX() - initialTouchX);
+                float deltaY = Math.abs(motionEvent.getRawY() - initialTouchY);
+
+                // If the touch was quick and small, perform a click
+                if (elapsedTime < MAX_CLICK_TIME && deltaX < MAX_TOUCH_DELTA && deltaY < MAX_TOUCH_DELTA) {
                     view.performClick();
                 }
-            } else {
-                if (actionMasked != 2) {
-                    return false;
-                }
-                float rawX = motionEvent.getRawX() + C0848Sb.this.f2633d;
-                float rawY = motionEvent.getRawY() + C0848Sb.this.f2634e;
-                int width = C0848Sb.this.f2630a.getWindow().getDecorView().getWidth();
-                int height = C0848Sb.this.f2630a.getWindow().getDecorView().getHeight();
-                int width2 = view.getWidth();
-                int height2 = view.getHeight();
-                if (rawX < 0.0f) {
-                    rawX = 0.0f;
-                } else {
-                    float f = width - width2;
-                    if (rawX > f) {
-                        rawX = f;
-                    }
-                }
-                if (rawY < 0.0f) {
-                    rawY = 0.0f;
-                } else {
-                    float f2 = height - height2;
-                    if (rawY > f2) {
-                        rawY = f2;
-                    }
-                }
-                view.setY(rawY);
+            }
+
+            private void onActionMove(View view, MotionEvent motionEvent) {
+                float rawX = motionEvent.getRawX() + offsetX;
+                float rawY = motionEvent.getRawY() + offsetY;
+
+                // Ensure the floating button stays within screen bounds
+                rawX = clamp(rawX, 0, browserActivity.getWindow().getDecorView().getWidth() - view.getWidth());
+                rawY = clamp(rawY, 0, browserActivity.getWindow().getDecorView().getHeight() - view.getHeight());
+
                 view.setX(rawX);
-                C0848Sb.this.f2637h = 2;
-                C0848Sb.this.f2635f = (int) view.getX();
-                C0848Sb.this.f2636g = (int) view.getY();
+                view.setY(rawY);
+
+                // Save the position for later use
+                lastX = (int) rawX;
+                lastY = (int) rawY;
             }
-            return true;
-        }
+        });
     }
 
-    public class c implements Runnable {
-        public c() {
-        }
+    // Save the button position to SharedPreferences
+    public void savePosition() {
+        SharedPreferencesHelper.getInstance().putInt("last_float_btn_x", (int) fullscreenFloatBtnHolder.getX());
+        SharedPreferencesHelper.getInstance().putInt("last_float_btn_y", (int) fullscreenFloatBtnHolder.getY());
+    }
 
-        @Override
-        public void run() {
-            View view;
-            int height;
-            if (C0848Sb.this.f2636g <= 0 || C0848Sb.this.f2635f >= C0848Sb.this.f2630a.getWindow().getDecorView().getWidth() - C0848Sb.this.f2631b.getWidth() || C0848Sb.this.f2636g <= 0 || C0848Sb.this.f2636g >= C0848Sb.this.f2630a.getWindow().getDecorView().getHeight() - C0848Sb.this.f2631b.getHeight()) {
-                C0848Sb.this.f2631b.setX((r0.f2630a.getWindow().getDecorView().getWidth() - C0848Sb.this.f2631b.getWidth()) - C0848Sb.this.f2639j);
-                C0848Sb c0848Sb = C0848Sb.this;
-                view = c0848Sb.f2631b;
-                height = (c0848Sb.f2630a.getWindow().getDecorView().getHeight() - C0848Sb.this.f2631b.getHeight()) - C0848Sb.this.f2638i;
+    // Restore the button's last position
+    public void restorePosition() {
+        fullscreenFloatBtnHolder.post(() -> {
+            if (lastY <= 0 || lastX >= browserActivity.getWindow().getDecorView().getWidth() - fullscreenFloatBtnHolder.getWidth() ||
+                    lastY <= 0 || lastY >= browserActivity.getWindow().getDecorView().getHeight() - fullscreenFloatBtnHolder.getHeight()) {
+                // Position button at the bottom-right corner if out of bounds
+                fullscreenFloatBtnHolder.setX(browserActivity.getWindow().getDecorView().getWidth() - fullscreenFloatBtnHolder.getWidth() - btnRightMargin);
+                fullscreenFloatBtnHolder.setY(browserActivity.getWindow().getDecorView().getHeight() - fullscreenFloatBtnHolder.getHeight() - btnBottomMargin);
             } else {
-                C0848Sb.this.f2631b.setX(r0.f2635f);
-                C0848Sb c0848Sb2 = C0848Sb.this;
-                view = c0848Sb2.f2631b;
-                height = c0848Sb2.f2636g;
+                fullscreenFloatBtnHolder.setX(lastX);
+                fullscreenFloatBtnHolder.setY(lastY);
             }
-            view.setY(height);
-            C0848Sb.this.f2631b.setVisibility(View.VISIBLE);
-        }
+            fullscreenFloatBtnHolder.setVisibility(View.VISIBLE);
+        });
     }
 
-    public static C0848Sb m4048n() {
-        if (f2629k == null) {
-            f2629k = new C0848Sb();
-        }
-        return f2629k;
-    }
-
-    public void m4049o() {
-        this.f2631b.setVisibility(View.INVISIBLE);
-    }
-
-    public void m4050p(BrowserActivity browserActivity) {
-        this.f2630a = browserActivity;
-        this.f2631b = browserActivity.findViewById(R.id.fullscreen_float_btn_holder);
-        this.f2639j = (int) this.f2630a.getResources().getDimension(R.dimen.full_screen_float_btn_right_margin);
-        this.f2638i = (int) this.f2630a.getResources().getDimension(R.dimen.full_screen_float_btn_bottom_margin);
-        this.f2631b.setOnClickListener(new a());
-        this.f2635f = SharedPreferencesHelper.getInstance().getInt("last_float_btn_x", -1);
-        this.f2636g = SharedPreferencesHelper.getInstance().getInt("last_float_btn_y", -1);
-        this.f2631b.setOnTouchListener(new b());
-    }
-
-    public void m4051q() {
-        SharedPreferencesHelper.getInstance().putInt("last_float_btn_x", (int) this.f2631b.getX());
-        SharedPreferencesHelper.getInstance().putInt("last_float_btn_y", (int) this.f2631b.getY());
-    }
-
-    public void m4052r() {
-        this.f2631b.post(new c());
-    }
-
-    public boolean m4053s(MotionEvent motionEvent) {
-        float x = motionEvent.getX();
-        float y = motionEvent.getY();
+    // Check if the motion event is within the floating button's bounds
+    public boolean isTouchInside(MotionEvent motionEvent) {
         Rect rect = new Rect();
-        this.f2631b.getHitRect(rect);
-        return rect.contains((int) x, (int) y);
+        fullscreenFloatBtnHolder.getHitRect(rect);
+        return rect.contains((int) motionEvent.getX(), (int) motionEvent.getY());
+    }
+
+    // Clamp value to a given range
+    private float clamp(float value, float min, float max) {
+        return Math.max(min, Math.min(value, max));
     }
 }

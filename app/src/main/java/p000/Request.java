@@ -2,7 +2,6 @@ package p000;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import p000.C1079Xc;
 
 public final class C0122Ck {
 
@@ -123,7 +122,7 @@ public final class C0122Ck {
         public a(C0122Ck c0122Ck) {
             AbstractC0116Ce.m476e(c0122Ck, "request");
             this.f303e = new LinkedHashMap();
-            this.f299a = c0122Ck.m498i();
+            this.f299a = c0122Ck.getUrl();
             this.f300b = c0122Ck.m496g();
             this.f302d = c0122Ck.m490a();
             this.f303e = c0122Ck.m492c().isEmpty() ? new LinkedHashMap() : AbstractC2339sg.m9578j(c0122Ck.m492c());
@@ -182,7 +181,7 @@ public final class C0122Ck {
         return new a(this);
     }
 
-    public final C0069Bd m498i() {
+    public final C0069Bd getUrl() {
         return this.f294b;
     }
 

@@ -20,7 +20,7 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import java.util.ArrayList;
 
-public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
+public abstract class BaseDialogC1814H9 extends BaseDialog {
 
     public BrowserActivity f5694b;
 
@@ -66,33 +66,7 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
         }
     }
 
-    public class b implements View.OnClickListener {
-        public b() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            AbstractDialogC1814h9.this.mo6444h();
-        }
-    }
-
-    public class c implements View.OnClickListener {
-
-        public final View f5710a;
-
-        public c(View view) {
-            this.f5710a = view;
-        }
-
-        @Override
-        public void onClick(View view) {
-            AbstractDialogC1814h9 abstractDialogC1814h9 = AbstractDialogC1814h9.this;
-            if (abstractDialogC1814h9.f5703k) {
-                return;
-            }
-            abstractDialogC1814h9.m7813j(this.f5710a);
-        }
-    }
+    public class c implements
 
     public class d implements CompoundButton.OnCheckedChangeListener {
         public d() {
@@ -119,10 +93,10 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
         @Override
         public void onClick(View view) {
             if (TextUtils.isEmpty(this.f5713a.getEditableText().toString())) {
-                Toast.makeText(AbstractDialogC1814h9.this.f5694b, R.string.toast_invalid_url, Toast.LENGTH_SHORT).show();
+                Toast.makeText(f5694b, R.string.toast_invalid_url, Toast.LENGTH_SHORT).show();
             } else {
-                AbstractDialogC1814h9.this.mo6443g();
-                AbstractDialogC1814h9.this.dismiss();
+                mo6443g();
+                dismiss();
             }
         }
     }
@@ -133,7 +107,7 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
 
         @Override
         public void onClick(View view) {
-            AbstractDialogC1814h9.this.mo6442f();
+            mo6442f();
         }
     }
 
@@ -143,8 +117,8 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
 
         @Override
         public void onClick(View view) {
-            AbstractDialogC1814h9.this.mo6441e();
-            AbstractDialogC1814h9.this.dismiss();
+            mo6441e();
+            dismiss();
         }
     }
 
@@ -156,7 +130,7 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
 
             @Override
             public void run() {
-                AbstractDialogC1814h9.this.f5703k = false;
+                f5703k = false;
             }
         }
 
@@ -165,7 +139,7 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
 
         @Override
         public void onDismiss() {
-            AbstractDialogC1814h9.this.f5694b.getHandler().postDelayed(new a(), 100L);
+            f5694b.getHandler().postDelayed(new a(), 100L);
         }
     }
 
@@ -183,16 +157,16 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
             public void onClick(View view) {
                 CheckBox checkBox;
                 int i;
-                C1224ai.a aVar = (C1224ai.a) AbstractDialogC1814h9.this.f5705m.get(this.f5720a);
-                AbstractDialogC1814h9.this.f5702j.setText(aVar.f3549b);
+                C1224ai.a aVar = (C1224ai.a) f5705m.get(this.f5720a);
+                f5702j.setText(aVar.f3549b);
                 SharedPreferencesHelper.getInstance().putString("default_downloader", aVar.f3548a);
-                AbstractDialogC1814h9.this.f5699g.dismiss();
-                if (AbstractDialogC1814h9.this.f5700h != null) {
+                f5699g.dismiss();
+                if (f5700h != null) {
                     if (aVar.f3548a.equals("com.x.browser.downloader") || aVar.f3548a.equals("com.android.providers.downloads")) {
-                        checkBox = AbstractDialogC1814h9.this.f5700h;
+                        checkBox = f5700h;
                         i = 8;
                     } else {
-                        checkBox = AbstractDialogC1814h9.this.f5700h;
+                        checkBox = f5700h;
                         i = 0;
                     }
                     checkBox.setVisibility(i);
@@ -204,8 +178,8 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
         }
 
         public C1224ai.a m7814a(String str) {
-            for (int i = 0; i < AbstractDialogC1814h9.this.f5705m.size(); i++) {
-                C1224ai.a aVar = (C1224ai.a) AbstractDialogC1814h9.this.f5705m.get(i);
+            for (int i = 0; i < f5705m.size(); i++) {
+                C1224ai.a aVar = (C1224ai.a) f5705m.get(i);
                 if (aVar.f3548a.equals(str)) {
                     return aVar;
                 }
@@ -215,12 +189,12 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
 
         @Override
         public C1224ai.a getItem(int i) {
-            return (C1224ai.a) AbstractDialogC1814h9.this.f5705m.get(i);
+            return (C1224ai.a) f5705m.get(i);
         }
 
         @Override
         public int getCount() {
-            return AbstractDialogC1814h9.this.f5705m.size();
+            return f5705m.size();
         }
 
         @Override
@@ -230,20 +204,20 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            TextView textView = (TextView) View.inflate(AbstractDialogC1814h9.this.f5694b, R.layout.downloader_item, null).findViewById(R.id.downloader_title);
+            TextView textView = (TextView) View.inflate(f5694b, R.layout.downloader_item, null).findViewById(R.id.downloader_title);
             textView.setClickable(true);
             textView.setOnClickListener(new a(i));
-            textView.setText(((C1224ai.a) AbstractDialogC1814h9.this.f5705m.get(i)).f3549b);
+            textView.setText(((C1224ai.a) f5705m.get(i)).f3549b);
             return textView;
         }
     }
 
-    public AbstractDialogC1814h9(BrowserActivity browserActivity) {
+    public BaseDialogC1814H9(BrowserActivity browserActivity) {
         this(browserActivity, true);
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_download_confirm);
         ImageView imageView = (ImageView) findViewById(R.id.rename);
         TextView textView = (TextView) findViewById(R.id.title_info);
@@ -256,25 +230,29 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
         textView3.setText(this.f5697e);
         textView4.setText(this.f5698f);
         imageView.setOnClickListener(new a(textView3, imageView));
-        imageView2.setOnClickListener(new b());
+        imageView2.setOnClickListener(view -> mo6444h());
         if (SharedPreferencesHelper.getInstance().enterNightMode) {
             imageView.setColorFilter(-7829368);
         } else {
             imageView.clearColorFilter();
         }
-        View viewFindViewById = findViewById(R.id.downloader_selector);
+        View vDownloaderSelector = findViewById(R.id.downloader_selector);
         if (this.f5704l) {
-            viewFindViewById.setOnClickListener(new c(viewFindViewById));
+            vDownloaderSelector.setOnClickListener(view -> {
+                if (!f5703k) {
+                    m7813j(vDownloaderSelector);
+                }
+            });
             String strM6871P = SharedPreferencesHelper.getInstance().getString("default_downloader", "com.x.browser.downloader");
             CheckBox checkBox = (CheckBox) findViewById(R.id.as_default_downloader);
             this.f5700h = checkBox;
             if (checkBox != null) {
-                if (!TextUtils.isEmpty(strM6871P) && !strM6871P.equals("com.x.browser.downloader") && !strM6871P.equals("com.android.providers.downloads") && C2406u0.m9882f().m9883a(strM6871P)) {
+                if (!TextUtils.isEmpty(strM6871P) && !strM6871P.equals("com.x.browser.downloader") && !strM6871P.equals("com.android.providers.downloads") && C2406u0.getInstance().m9883a(strM6871P)) {
                     this.f5700h.setVisibility(View.VISIBLE);
                 }
                 this.f5700h.setOnCheckedChangeListener(new d());
             }
-            this.f5702j = (TextView) viewFindViewById.findViewById(R.id.download_name);
+            this.f5702j = (TextView) vDownloaderSelector.findViewById(R.id.download_name);
             C1224ai.a aVarM7814a = this.f5701i.m7814a(strM6871P);
             if (aVarM7814a != null) {
                 this.f5702j.setText(aVarM7814a.f3549b);
@@ -283,7 +261,7 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
                 this.f5702j.setText(R.string.title_default_downloader);
             }
         } else {
-            viewFindViewById.setVisibility(View.GONE);
+            vDownloaderSelector.setVisibility(View.GONE);
         }
         ((Button) findViewById(R.id.btn_ok)).setOnClickListener(new e(textView3));
         ((Button) findViewById(R.id.btn_copy_link)).setOnClickListener(new f());
@@ -291,7 +269,7 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
     }
 
     public final void m7811d() {
-        this.f5705m = C1224ai.m5285e().m5292h("downloader");
+        this.f5705m = C1224ai.getInstance().m5292h("downloader");
     }
 
     public abstract void mo6441e();
@@ -329,7 +307,7 @@ public abstract class AbstractDialogC1814h9 extends AbstractDialogC2267r {
         this.f5703k = true;
     }
 
-    public AbstractDialogC1814h9(BrowserActivity browserActivity, boolean z) {
+    public BaseDialogC1814H9(BrowserActivity browserActivity, boolean z) {
         super(browserActivity);
         this.f5694b = null;
         this.f5695c = null;

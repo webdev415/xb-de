@@ -67,7 +67,7 @@ public class DialogC0812Rl extends AbstractDialogC2267r {
     public void m3827c() throws Resources.NotFoundException {
         AndroidSystemUtils.m8689W(getContext(), ((EditText) findViewById(R.id.text_info)).getEditableText().toString(), this.f2417d, getContext().getResources().getString(R.string.share_sign), getContext().getResources().getString(R.string.choose_app));
         if (this.f2418e == 0) {
-            C1825ha.m7824d().m7828e(7);
+            EventQueueManager.getInstance().processEvent(7);
         }
     }
 

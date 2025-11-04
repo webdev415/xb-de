@@ -6,7 +6,7 @@ import android.widget.Button;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-public abstract class AbstractDialogC0537Ll extends AbstractDialogC2267r {
+public abstract class BaseDialogC0537Ll extends BaseDialog {
 
     public BrowserActivity f1730b;
 
@@ -16,18 +16,18 @@ public abstract class AbstractDialogC0537Ll extends AbstractDialogC2267r {
 
         @Override
         public void onClick(View view) {
-            AbstractDialogC0537Ll.this.mo317b();
-            AbstractDialogC0537Ll.this.dismiss();
+            BaseDialogC0537Ll.this.mo317b();
+            BaseDialogC0537Ll.this.dismiss();
         }
     }
 
-    public AbstractDialogC0537Ll(BrowserActivity browserActivity) {
+    public BaseDialogC0537Ll(BrowserActivity browserActivity) {
         super(browserActivity);
         this.f1730b = browserActivity;
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_set_default_browser);
         ((Button) findViewById(R.id.btn_go)).setOnClickListener(new a());
     }

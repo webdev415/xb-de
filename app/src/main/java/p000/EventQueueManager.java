@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class C1825ha {
 
-    public static C1825ha f5732c;
+    public static C1825ha instance;
 
     public final ArrayList f5733a = new ArrayList<>();
 
@@ -26,11 +26,11 @@ public class C1825ha {
         }
     }
 
-    public static C1825ha m7824d() {
-        if (f5732c == null) {
-            f5732c = new C1825ha();
+    public static C1825ha getInstance() {
+        if (instance == null) {
+            instance = new C1825ha();
         }
-        return f5732c;
+        return instance;
     }
 
     public void m7825a() {
@@ -56,7 +56,7 @@ public class C1825ha {
     }
 
     public void m7826b(long j) {
-        this.f5734b.remove(Long.valueOf(j));
+        this.f5734b.remove(j);
         try {
             MySQLiteOpenHelper.getInstance().getWritableDatabase().execSQL("DELETE FROM event_queue WHERE tran_id=" + j);
         } catch (Exception unused) {
@@ -64,7 +64,7 @@ public class C1825ha {
     }
 
     public void m7827c(AbstractC2313s abstractC2313s) throws SQLException {
-        this.f5734b.put(Long.valueOf(abstractC2313s.m9456c()), abstractC2313s);
+        this.f5734b.put(abstractC2313s.m9456c(), abstractC2313s);
         MySQLiteOpenHelper.getInstance().getWritableDatabase().execSQL("INSERT INTO event_queue(tran_id,event_id,event_params,status ) VALUES (" + abstractC2313s.f6987a + ", " + abstractC2313s.f6988b + ",'" + abstractC2313s.f6989c + "',0)");
     }
 
@@ -81,9 +81,8 @@ public class C1825ha {
     }
 
     public void m7831h(long j, int i, String str, Object obj) {
-        Iterator it = this.f5733a.iterator();
-        while (it.hasNext()) {
-            a aVar = (a) it.next();
+        for (Object o : this.f5733a) {
+            a aVar = (a) o;
             if (aVar.f5735a == i) {
                 try {
                     AbstractC2313s abstractC2313s = (AbstractC2313s) aVar.f5736b.newInstance();

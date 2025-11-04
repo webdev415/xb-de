@@ -2,11 +2,11 @@ package p000;
 
 public class Player {
 
-    public String f7126a = null;
+    public String title = null;
 
-    public String f7127b = null;
+    public String intro = null;
 
-    public String packageName = null;
+    public String id = null;
 
     public String f7129d = null;
 
@@ -16,7 +16,7 @@ public class Player {
 
     public int type = 0;
 
-    public int f7133h = 0;
+    public int extPoint = 0;
 
     public boolean f7134i = false;
 

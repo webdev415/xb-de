@@ -17,7 +17,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.mmbox.widget.messagebox.C1418a;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.C1541c;
@@ -1381,7 +1381,7 @@ public class C2061mf {
     }
 
     public void m8530e(String str, String str2) {
-        C1418a.m6110b().m6117h(BrowserActivity.getActivity().getBrowserFrameLayout(), JsonUtils.getString(new JSONObject(str2), "text"), BrowserActivity.getActivity().getString(R.string.btn_text_ok), new j("_" + str + "_GM_notification"));
+        MessageBoxManager.getInstance().m6117h(BrowserActivity.getActivity().getBrowserFrameLayout(), JsonUtils.getString(new JSONObject(str2), "text"), BrowserActivity.getActivity().getString(R.string.btn_text_ok), new j("_" + str + "_GM_notification"));
     }
 
     public String m8531e0() throws JSONException {
@@ -2129,7 +2129,7 @@ public class C2061mf {
 
             @Override
             public void run() {
-                C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getString(R.string.toast_post_script_success), BrowserActivity.getActivity().getString(R.string.btn_text_view), new C2718a(), false);
+                MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getString(R.string.toast_post_script_success), BrowserActivity.getActivity().getString(R.string.btn_text_view), new C2718a(), false);
             }
 
             public class C2718a implements MessageBoxBase.MessageBoxListener {
@@ -2168,7 +2168,7 @@ public class C2061mf {
 
         @Override
         public void run() {
-            C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getString(R.string.toast_found_tampermonkey_script), BrowserActivity.getActivity().getString(R.string.btn_text_install), new a(), false);
+            MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getString(R.string.toast_found_tampermonkey_script), BrowserActivity.getActivity().getString(R.string.btn_text_install), new a(), false);
         }
 
         public class a implements MessageBoxBase.MessageBoxListener {

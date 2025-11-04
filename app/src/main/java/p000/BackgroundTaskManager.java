@@ -6,18 +6,17 @@ import java.util.concurrent.Executors;
 
 public abstract class AbstractC1807h2 {
 
-    public static HandlerThread f5674a;
+    public static HandlerThread handlerThread;
 
-    public static ExecutorService f5675b;
+    public static ExecutorService executorService;
 
     static {
-        HandlerThread handlerThread = new HandlerThread("BackgroundHandler", 1);
-        f5674a = handlerThread;
+        handlerThread = new HandlerThread("BackgroundHandler", 1);
         handlerThread.start();
-        f5675b = Executors.newCachedThreadPool();
+        executorService = Executors.newCachedThreadPool();
     }
 
     public static void m7778a(Runnable runnable) {
-        f5675b.execute(runnable);
+        executorService.execute(runnable);
     }
 }

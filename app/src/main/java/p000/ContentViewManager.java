@@ -57,29 +57,29 @@ public abstract class AbstractC2274r6 {
                 try {
                     InterfaceC0345Hd interfaceC0345HdM9333l = dVar.m9333l();
                     if (interfaceC0345HdM9333l != null) {
-                        AbstractC2274r6.this.f6877d.removeView(interfaceC0345HdM9333l.mo1695d());
+                        f6877d.removeView(interfaceC0345HdM9333l.mo1695d());
                         interfaceC0345HdM9333l.mo1576g();
                     }
                     dVar.m9331j();
-                    AbstractC2274r6.this.f6874a.remove(dVar);
+                    f6874a.remove(dVar);
                 } catch (Throwable th) {
                     Log.w("ContentViewManager", "destroy tab failed: " + th);
                 }
             }
             if (!this.f6884l.isEmpty()) {
-                AbstractC2274r6.this.f6875b.post(this);
+                f6875b.post(this);
                 return;
             }
-            if (AbstractC2274r6.this.f6874a.isEmpty()) {
-                AbstractC2274r6.this.f6876c = -1;
+            if (f6874a.isEmpty()) {
+                f6876c = -1;
             } else {
-                if (AbstractC2274r6.this.f6876c < 0 || AbstractC2274r6.this.f6876c >= AbstractC2274r6.this.f6874a.size()) {
-                    AbstractC2274r6.this.f6876c = 0;
+                if (f6876c < 0 || f6876c >= f6874a.size()) {
+                    f6876c = 0;
                 }
                 AbstractC2274r6 abstractC2274r6 = AbstractC2274r6.this;
                 abstractC2274r6.m9298V(abstractC2274r6.f6876c);
             }
-            AbstractC2274r6.this.f6881h = false;
+            f6881h = false;
             Runnable runnable = this.f6885m;
             if (runnable != null) {
                 runnable.run();
@@ -109,13 +109,13 @@ public abstract class AbstractC2274r6 {
 
     public class d {
 
-        public String f6888a;
+        public String f6888a = null;
 
-        public boolean f6889b = false;
+        public boolean lock = false;
 
         public String f6890c = "";
 
-        public int f6891d = -1;
+        public int index = -1;
 
         public int f6892e = -1;
 
@@ -128,7 +128,6 @@ public abstract class AbstractC2274r6 {
         public ArrayList f6893f = new ArrayList<>();
 
         public d(String str) {
-            this.f6888a = null;
             this.f6888a = str;
             if (TextUtils.isEmpty(str)) {
                 this.f6888a = System.currentTimeMillis() + "";
@@ -141,7 +140,7 @@ public abstract class AbstractC2274r6 {
             if (interfaceC0345HdMo5705r instanceof WebViewBrowserController) {
                 ((WebViewBrowserController) interfaceC0345HdMo5705r).m6792b1(this.f6888a, c1697en.f5460a, c1697en.f5461b);
                 this.f6893f.add(interfaceC0345HdMo5705r);
-                this.f6891d = 0;
+                this.index = 0;
             }
         }
 
@@ -152,38 +151,35 @@ public abstract class AbstractC2274r6 {
                 this.f6894g = webViewBrowserController.mo1574c();
                 this.f6895h = webViewBrowserController.mo1573b();
             }
-            if (this.f6893f.size() == 0 && this.f6896i) {
-                editor.putBoolean(str + ".lock", this.f6889b);
+            if (this.f6893f.isEmpty() && this.f6896i) {
+                editor.putBoolean(str + ".lock", this.lock);
                 return;
             }
             int size = this.f6893f.size();
             editor.putInt(str + ".size", size);
-            editor.putInt(str + ".index", this.f6891d);
-            editor.putBoolean(str + ".lock", this.f6889b);
+            editor.putInt(str + ".index", this.index);
+            editor.putBoolean(str + ".lock", this.lock);
             for (int i = 0; i < size; i++) {
                 InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(i);
                 String str2 = str + ".v_" + i;
                 interfaceC0345Hd.mo1585v(str2, editor);
                 editor.putString(str2 + ".c" + i, interfaceC0345Hd.getClass().getName());
-                StringBuilder sb = new StringBuilder();
-                sb.append(str2);
-                sb.append(".pkg");
-                editor.putString(sb.toString(), interfaceC0345Hd.getPackageName());
+                editor.putString(str2 + ".pkg", interfaceC0345Hd.getPackageName());
                 if (interfaceC0345Hd instanceof WebViewBrowserController) {
                     WebViewBrowserController webViewBrowserController2 = (WebViewBrowserController) interfaceC0345Hd;
-                    String strMo1574c = webViewBrowserController2.mo1574c();
-                    String strMo1573b = webViewBrowserController2.mo1573b();
-                    if (strMo1574c == null || strMo1574c.length() == 0) {
-                        strMo1574c = strMo1573b;
+                    String lastTitle = webViewBrowserController2.mo1574c();
+                    String lastUrl = webViewBrowserController2.mo1573b();
+                    if (lastTitle == null || lastTitle.length() == 0) {
+                        lastTitle = lastUrl;
                     }
-                    editor.putString(str2 + ".last_title", strMo1574c);
-                    editor.putString(str2 + ".last_url", strMo1573b);
+                    editor.putString(str2 + ".last_title", lastTitle);
+                    editor.putString(str2 + ".last_url", lastUrl);
                 }
             }
         }
 
         public void m9324C(boolean z) {
-            this.f6889b = z;
+            this.lock = z;
         }
 
         public void m9325d(InterfaceC0345Hd interfaceC0345Hd) {
@@ -200,24 +196,24 @@ public abstract class AbstractC2274r6 {
         public void m9327f(InterfaceC0345Hd interfaceC0345Hd, boolean z) {
             Log.i("tab", ">>>>>  add new tab:" + z);
             int iIndexOf = this.f6893f.indexOf(interfaceC0345Hd);
-            int i = this.f6891d;
-            InterfaceC0345Hd interfaceC0345Hd2 = (i < 0 || i >= this.f6893f.size()) ? null : (InterfaceC0345Hd) this.f6893f.get(this.f6891d);
+            int i = this.index;
+            InterfaceC0345Hd interfaceC0345Hd2 = (i < 0 || i >= this.f6893f.size()) ? null : (InterfaceC0345Hd) this.f6893f.get(this.index);
             if (iIndexOf < 0) {
-                m9330i(this.f6891d + 1);
+                m9330i(this.index + 1);
                 int size = this.f6893f.size();
-                int i2 = this.f6891d;
+                int i2 = this.index;
                 if (i2 != size) {
                     for (int i3 = size - 1; i3 >= i2; i3--) {
                         InterfaceC0345Hd interfaceC0345Hd3 = (InterfaceC0345Hd) this.f6893f.remove(i3);
-                        if (AbstractC2274r6.this.f6883j != null) {
-                            AbstractC2274r6.this.f6883j.mo6299c(interfaceC0345Hd3);
+                        if (f6883j != null) {
+                            f6883j.mo6299c(interfaceC0345Hd3);
                         }
                         interfaceC0345Hd3.mo1577k();
                     }
                 }
                 this.f6893f.add(interfaceC0345Hd);
             } else {
-                InterfaceC0345Hd interfaceC0345Hd4 = (InterfaceC0345Hd) this.f6893f.get(this.f6891d);
+                InterfaceC0345Hd interfaceC0345Hd4 = (InterfaceC0345Hd) this.f6893f.get(this.index);
                 if (interfaceC0345Hd4 != null) {
                     interfaceC0345Hd4.mo1576g();
                 }
@@ -227,41 +223,41 @@ public abstract class AbstractC2274r6 {
                 if (interfaceC0345Hd2 != null) {
                     interfaceC0345Hd2.mo1576g();
                 }
-                AbstractC2274r6.this.m9301Y(interfaceC0345Hd);
+                m9301Y(interfaceC0345Hd);
             }
         }
 
         public boolean m9328g() {
-            int i = this.f6891d;
+            int i = this.index;
             if (i < 0) {
                 return false;
             }
-            return ((InterfaceC0345Hd) this.f6893f.get(i)).mo1575e() || this.f6891d < this.f6893f.size() - 1;
+            return ((InterfaceC0345Hd) this.f6893f.get(i)).mo1575e() || this.index < this.f6893f.size() - 1;
         }
 
         public boolean m9329h() {
-            int i = this.f6891d;
+            int i = this.index;
             if (i < 0) {
                 return false;
             }
-            return ((InterfaceC0345Hd) this.f6893f.get(i)).mo1586x() || this.f6891d > 0;
+            return ((InterfaceC0345Hd) this.f6893f.get(i)).mo1586x() || this.index > 0;
         }
 
         public final void m9330i(int i) {
-            this.f6891d = i;
+            this.index = i;
         }
 
         public void m9331j() {
             for (int i = 0; i < this.f6893f.size(); i++) {
                 InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(i);
-                AbstractC2274r6.this.f6877d.removeView(interfaceC0345Hd.mo1695d());
-                if (AbstractC2274r6.this.f6883j != null) {
-                    AbstractC2274r6.this.f6883j.mo6299c(interfaceC0345Hd);
+                f6877d.removeView(interfaceC0345Hd.mo1695d());
+                if (f6883j != null) {
+                    f6883j.mo6299c(interfaceC0345Hd);
                 }
                 interfaceC0345Hd.mo1577k();
             }
             this.f6893f.clear();
-            this.f6891d = -1;
+            this.index = -1;
         }
 
         public InterfaceC0345Hd m9332k(int i) {
@@ -269,16 +265,16 @@ public abstract class AbstractC2274r6 {
         }
 
         public InterfaceC0345Hd m9333l() {
-            int i = this.f6891d;
+            int i = this.index;
             if (i < 0 || i >= this.f6893f.size()) {
                 return null;
             }
-            return (InterfaceC0345Hd) this.f6893f.get(this.f6891d);
+            return (InterfaceC0345Hd) this.f6893f.get(this.index);
         }
 
         public ArrayList m9334m() {
             ArrayList arrayList = new ArrayList<>();
-            if (this.f6891d < 0) {
+            if (this.index < 0) {
                 return arrayList;
             }
             for (int i = 0; i < this.f6893f.size(); i++) {
@@ -292,7 +288,7 @@ public abstract class AbstractC2274r6 {
         }
 
         public int m9336o() {
-            return this.f6891d;
+            return this.index;
         }
 
         public String m9337p() {
@@ -312,32 +308,32 @@ public abstract class AbstractC2274r6 {
         }
 
         public void m9340s() {
-            InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(this.f6891d);
+            InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(this.index);
             if (interfaceC0345Hd.mo1586x()) {
                 interfaceC0345Hd.mo1580n();
             } else if (m9329h()) {
-                m9330i(this.f6891d - 1);
-                InterfaceC0345Hd interfaceC0345Hd2 = (InterfaceC0345Hd) this.f6893f.get(this.f6891d);
+                m9330i(this.index - 1);
+                InterfaceC0345Hd interfaceC0345Hd2 = (InterfaceC0345Hd) this.f6893f.get(this.index);
                 interfaceC0345Hd.mo1576g();
-                AbstractC2274r6.this.m9301Y(interfaceC0345Hd2);
+                m9301Y(interfaceC0345Hd2);
             }
-            if (AbstractC2274r6.this.f6883j != null) {
-                AbstractC2274r6.this.f6883j.mo6294b();
+            if (f6883j != null) {
+                f6883j.mo6294b();
             }
         }
 
         public void m9341t() {
-            InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(this.f6891d);
+            InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(this.index);
             if (interfaceC0345Hd.mo1575e()) {
                 interfaceC0345Hd.mo1578l();
             } else if (m9328g()) {
-                m9330i(this.f6891d + 1);
-                InterfaceC0345Hd interfaceC0345Hd2 = (InterfaceC0345Hd) this.f6893f.get(this.f6891d);
+                m9330i(this.index + 1);
+                InterfaceC0345Hd interfaceC0345Hd2 = (InterfaceC0345Hd) this.f6893f.get(this.index);
                 interfaceC0345Hd.mo1576g();
-                AbstractC2274r6.this.m9301Y(interfaceC0345Hd2);
+                m9301Y(interfaceC0345Hd2);
             }
-            if (AbstractC2274r6.this.f6883j != null) {
-                AbstractC2274r6.this.f6883j.mo6304d();
+            if (f6883j != null) {
+                f6883j.mo6304d();
             }
         }
 
@@ -348,7 +344,7 @@ public abstract class AbstractC2274r6 {
         public void m9343v() {
             if (this.f6896i) {
                 this.f6896i = false;
-                m9347z(this.f6888a, AbstractC2274r6.this.f6882i);
+                m9347z(this.f6888a, f6882i);
             }
         }
 
@@ -357,61 +353,61 @@ public abstract class AbstractC2274r6 {
         }
 
         public boolean m9345x() {
-            return this.f6889b;
+            return this.lock;
         }
 
         public void m9346y(String str, SharedPreferences sharedPreferences) {
             this.f6896i = true;
-            AbstractC2274r6.this.f6882i = sharedPreferences;
+            f6882i = sharedPreferences;
             int i = sharedPreferences.getInt(str + ".size", 0);
             int i2 = sharedPreferences.getInt(str + ".index", 0);
-            this.f6889b = sharedPreferences.getBoolean(str + ".lock", false);
+            this.lock = sharedPreferences.getBoolean(str + ".lock", false);
             int iMax = i > 0 ? (i2 < 0 || i2 >= i) ? Math.max(0, Math.min(i2, i - 1)) : i2 : 0;
             String str2 = str + ".v_" + iMax;
             this.f6894g = sharedPreferences.getString(str2 + ".last_title", "");
             this.f6895h = sharedPreferences.getString(str2 + ".last_url", "");
-            this.f6891d = iMax;
+            this.index = iMax;
         }
 
         public boolean m9347z(String str, SharedPreferences sharedPreferences) {
             try {
                 try {
                     int i = sharedPreferences.getInt(str + ".size", 0);
-                    this.f6891d = sharedPreferences.getInt(str + ".index", 0);
-                    this.f6889b = sharedPreferences.getBoolean(str + ".lock", false);
-                    String packageName = AbstractC2274r6.this.f6878e.getPackageName();
+                    this.index = sharedPreferences.getInt(str + ".index", 0);
+                    this.lock = sharedPreferences.getBoolean(str + ".lock", false);
+                    String packageName = f6878e.getPackageName();
                     for (int i2 = 0; i2 < i; i2++) {
                         String str2 = str + ".v_" + i2;
                         String string = sharedPreferences.getString(str2 + ".c" + i2, "");
                         if (string.equals(WebViewBrowserController.class.getName())) {
-                            InterfaceC0345Hd interfaceC0345HdMo5705r = AbstractC2274r6.this.mo5705r(packageName, string);
+                            InterfaceC0345Hd interfaceC0345HdMo5705r = mo5705r(packageName, string);
                             if (interfaceC0345HdMo5705r.mo1582r(str2, sharedPreferences)) {
                                 this.f6893f.add(interfaceC0345HdMo5705r);
                             }
                         }
                     }
                     if (this.f6893f.size() != 0) {
-                        if (this.f6891d >= this.f6893f.size() - 1) {
-                            this.f6891d = this.f6893f.size() - 1;
+                        if (this.index >= this.f6893f.size() - 1) {
+                            this.index = this.f6893f.size() - 1;
                         }
                         return true;
                     }
-                    this.f6891d = -1;
+                    this.index = -1;
                     if (-1 >= this.f6893f.size() - 1) {
-                        this.f6891d = this.f6893f.size() - 1;
+                        this.index = this.f6893f.size() - 1;
                     }
                     return false;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    if (this.f6891d < this.f6893f.size() - 1) {
+                    if (this.index < this.f6893f.size() - 1) {
                         return false;
                     }
-                    this.f6891d = this.f6893f.size() - 1;
+                    this.index = this.f6893f.size() - 1;
                     return false;
                 }
             } catch (Throwable th) {
-                if (this.f6891d >= this.f6893f.size() - 1) {
-                    this.f6891d = this.f6893f.size() - 1;
+                if (this.index >= this.f6893f.size() - 1) {
+                    this.index = this.f6893f.size() - 1;
                 }
                 throw th;
             }
@@ -530,7 +526,7 @@ public abstract class AbstractC2274r6 {
         ArrayList arrayList = new ArrayList<>(this.f6874a.size());
         for (int i = 0; i < this.f6874a.size(); i++) {
             d dVar = (d) this.f6874a.get(i);
-            if (!dVar.f6889b) {
+            if (!dVar.lock) {
                 arrayList.add(dVar);
             }
         }
@@ -664,9 +660,8 @@ public abstract class AbstractC2274r6 {
     }
 
     public void m9296T(ArrayList arrayList) {
-        Iterator it = arrayList.iterator();
-        while (it.hasNext()) {
-            C1697en c1697en = (C1697en) it.next();
+        for (Object o : arrayList) {
+            C1697en c1697en = (C1697en) o;
             d dVar = new d(null);
             dVar.m9322A(c1697en);
             this.f6874a.add(dVar);
@@ -789,7 +784,7 @@ public abstract class AbstractC2274r6 {
             this.f6876c = i3;
         }
         for (int i5 = 0; i5 < arrayList.size(); i5++) {
-            ((d) this.f6874a.get(i5)).f6889b = ((InterfaceC0529Ld) arrayList.get(i5)).mo2680s();
+            ((d) this.f6874a.get(i5)).lock = ((InterfaceC0529Ld) arrayList.get(i5)).mo2680s();
         }
     }
 
@@ -903,7 +898,7 @@ public abstract class AbstractC2274r6 {
     }
 
     public final InterfaceC0345Hd m9316y() {
-        if (this.f6874a.size() <= 0) {
+        if (this.f6874a.isEmpty()) {
             return null;
         }
         int i = this.f6876c;

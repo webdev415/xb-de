@@ -16,35 +16,13 @@ import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-public abstract class AbstractViewOnClickListenerC1638da extends AbstractDialogC2267r implements View.OnClickListener {
+public abstract class BaseViewOnClickListenerC1638Da extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f5312b;
 
     public String f5313c;
 
     public String f5314d;
-
-    public class a implements View.OnClickListener {
-        public a() {
-        }
-
-        @Override
-        public void onClick(View view) throws SQLException {
-            AbstractViewOnClickListenerC1638da.this.dismiss();
-            AbstractViewOnClickListenerC1638da.this.mo6386e();
-        }
-    }
-
-    public class b implements View.OnClickListener {
-        public b() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            AbstractViewOnClickListenerC1638da.this.dismiss();
-            AbstractViewOnClickListenerC1638da.this.mo6385d();
-        }
-    }
 
     public class c extends URLSpan {
         public c(String str) {
@@ -53,11 +31,11 @@ public abstract class AbstractViewOnClickListenerC1638da extends AbstractDialogC
 
         @Override
         public void onClick(View view) {
-            AbstractViewOnClickListenerC1638da.this.mo6387f(this);
+            mo6387f(this);
         }
     }
 
-    public AbstractViewOnClickListenerC1638da(BrowserActivity browserActivity) {
+    public BaseViewOnClickListenerC1638Da(BrowserActivity browserActivity) {
         super(browserActivity);
         this.f5313c = null;
         this.f5314d = null;
@@ -66,7 +44,7 @@ public abstract class AbstractViewOnClickListenerC1638da extends AbstractDialogC
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_elua_info);
         TextView textView = (TextView) findViewById(R.id.title_info);
         if (!TextUtils.isEmpty(this.f5313c)) {
@@ -96,13 +74,19 @@ public abstract class AbstractViewOnClickListenerC1638da extends AbstractDialogC
         if (!TextUtils.isEmpty(strM7320b)) {
             button.setText(strM7320b);
         }
-        button.setOnClickListener(new a());
+        button.setOnClickListener(view -> {
+            dismiss();
+            mo6386e();
+        });
         Button button2 = (Button) findViewById(R.id.btn_ok);
         String strMo6384c = mo6384c();
         if (!TextUtils.isEmpty(strMo6384c)) {
             button2.setText(strMo6384c);
         }
-        button2.setOnClickListener(new b());
+        button2.setOnClickListener(view -> {
+            dismiss();
+            mo6385d();
+        });
     }
 
     public String m7320b() {
@@ -125,7 +109,7 @@ public abstract class AbstractViewOnClickListenerC1638da extends AbstractDialogC
         getContext().startActivity(intent);
     }
 
-    public AbstractViewOnClickListenerC1638da(BrowserActivity browserActivity, String str, String str2) {
+    public BaseViewOnClickListenerC1638Da(BrowserActivity browserActivity, String str, String str2) {
         super(browserActivity);
         this.f5313c = null;
         this.f5314d = null;

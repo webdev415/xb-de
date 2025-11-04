@@ -9,17 +9,15 @@ public class C2453v1 extends C0950Ul implements Map {
     public AbstractC2108ng f7619s;
 
     public class a extends AbstractC2108ng {
-        public a() {
-        }
 
         @Override
         public void mo8770a() {
-            C2453v1.this.clear();
+            clear();
         }
 
         @Override
         public Object mo8771b(int i, int i2) {
-            return C2453v1.this.f2869m[(i << 1) + i2];
+            return f2869m[(i << 1) + i2];
         }
 
         @Override
@@ -29,36 +27,33 @@ public class C2453v1 extends C0950Ul implements Map {
 
         @Override
         public int mo8773d() {
-            return C2453v1.this.f2870n;
+            return f2870n;
         }
 
         @Override
         public int mo8774e(Object obj) {
-            return C2453v1.this.m4280f(obj);
+            return m4280f(obj);
         }
 
         @Override
         public int mo8775f(Object obj) {
-            return C2453v1.this.m4282h(obj);
+            return m4282h(obj);
         }
 
         @Override
         public void mo8776g(Object obj, Object obj2) {
-            C2453v1.this.put(obj, obj2);
+            put(obj, obj2);
         }
 
         @Override
         public void mo8777h(int i) {
-            C2453v1.this.m4284j(i);
+            m4284j(i);
         }
 
         @Override
         public Object mo8778i(int i, Object obj) {
-            return C2453v1.this.m4285k(i, obj);
+            return m4285k(i, obj);
         }
-    }
-
-    public C2453v1() {
     }
 
     @Override

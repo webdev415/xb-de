@@ -59,23 +59,23 @@ public class C1089Xm {
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            C0490Kk c0490Kk2;
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            Response response2;
             String str;
-            C0490Kk c0490Kk3;
+            Response response3;
             String str2;
             StringBuilder sb;
             int iM10253j;
             String str3 = " version:";
             String str4 = " state:";
             String strM10252i = " execute pull ";
-            if (c0490Kk.m2396j() == 200) {
-                String strM2399p = c0490Kk.m2399p("Content-Type");
+            if (response.getStatus() == 200) {
+                String strM2399p = response.getContentType("Content-Type");
                 if (strM2399p != null && strM2399p.indexOf("/json") >= 0) {
                     try {
                         try {
-                            this.f3275b.updateFromJson(c0490Kk.m2392a().m2714l());
-                            c0490Kk.m2392a().close();
+                            this.f3275b.updateFromJson(response.m2392a().m2714l());
+                            response.m2392a().close();
                             sb = new StringBuilder();
                             sb.append(" execute pull ");
                             strM10252i = this.f3275b.getResourceType();
@@ -87,10 +87,10 @@ public class C1089Xm {
                             sb.append(this.f3275b.getCurrentVersion());
                             Log.i("xsync", sb.toString());
                             str2 = iM10253j;
-                            c0490Kk3 = sb;
+                            response3 = sb;
                         } catch (Exception e) {
                             e.printStackTrace();
-                            c0490Kk.m2392a().close();
+                            response.m2392a().close();
                             StringBuilder sb2 = new StringBuilder();
                             sb2.append(" execute pull ");
                             strM10252i = this.f3275b.getResourceType();
@@ -102,14 +102,14 @@ public class C1089Xm {
                             sb2.append(this.f3275b.getCurrentVersion());
                             Log.i("xsync", sb2.toString());
                             str2 = iM10253j2;
-                            c0490Kk3 = sb2;
+                            response3 = sb2;
                             if (this.f3275b.getState() != 9) {
                                 int iM10253j3 = this.f3275b.getState();
                                 str4 = iM10253j2;
                                 str3 = iM10253j3;
-                                c0490Kk = sb2;
+                                response = sb2;
                                 str = iM10253j2;
-                                c0490Kk2 = sb2;
+                                response2 = sb2;
                                 if (iM10253j3 == 1) {
                                 }
                             }
@@ -120,24 +120,24 @@ public class C1089Xm {
                             abstractResourceManager.setState(1);
                             str4 = str2;
                             str3 = abstractResourceManager;
-                            c0490Kk = c0490Kk3;
+                            response = response3;
                         } else {
                             int iM10253j4 = this.f3275b.getState();
                             str4 = iM10253j;
                             str3 = iM10253j4;
-                            c0490Kk = sb;
+                            response = sb;
                             str = iM10253j;
-                            c0490Kk2 = sb;
+                            response2 = sb;
                             if (iM10253j4 == 1) {
                                 C1089Xm c1089Xm = C1089Xm.this;
                                 C1089Xm.m4814b(c1089Xm, -2147483392);
                                 str4 = str;
                                 str3 = c1089Xm;
-                                c0490Kk = c0490Kk2;
+                                response = response2;
                             }
                         }
                     } catch (Throwable th) {
-                        c0490Kk.m2392a().close();
+                        response.m2392a().close();
                         Log.i("xsync", strM10252i + this.f3275b.getResourceType() + str4 + this.f3275b.getState() + str3 + this.f3275b.getCurrentVersion());
                         if (this.f3275b.getState() == 9) {
                             C1089Xm.m4814b(C1089Xm.this, -2147483644);
@@ -173,20 +173,20 @@ public class C1089Xm {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
             C1089Xm c1089Xm;
             int i;
-            if (c0490Kk.m2396j() == 200) {
-                String strM2399p = c0490Kk.m2399p("Content-Type");
+            if (response.getStatus() == 200) {
+                String strM2399p = response.getContentType("Content-Type");
                 if (strM2399p != null && strM2399p.indexOf("/json") >= 0) {
                     try {
                         try {
-                            this.f3278b.updateFromJson(c0490Kk.m2392a().m2714l());
+                            this.f3278b.updateFromJson(response.m2392a().m2714l());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } finally {
-                        c0490Kk.m2392a().close();
+                        response.m2392a().close();
                     }
                 }
                 c1089Xm = C1089Xm.this;
@@ -218,16 +218,16 @@ public class C1089Xm {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            if (c0490Kk.m2396j() == 200) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            if (response.getStatus() == 200) {
                 try {
                     try {
-                        this.f3281b.updateFromJson(c0490Kk.m2392a().m2714l());
+                        this.f3281b.updateFromJson(response.m2392a().m2714l());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } finally {
-                    c0490Kk.m2392a().close();
+                    response.m2392a().close();
                     C1089Xm.this.f3267f = true;
                     this.f3281b.sync();
                     C1089Xm.m4814b(C1089Xm.this, -2147481600);
@@ -257,14 +257,14 @@ public class C1089Xm {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            if (c0490Kk.m2396j() == 200) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            if (response.getStatus() == 200) {
                 try {
                     try {
-                        this.f3284b.updateFromJson(c0490Kk.m2392a().m2714l());
+                        this.f3284b.updateFromJson(response.m2392a().m2714l());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        c0490Kk.m2392a().close();
+                        response.m2392a().close();
                         if (this.f3284b.getState() == 8) {
                             if ((C1089Xm.this.f3264c & (-2147483640)) != -2147483640) {
                             }
@@ -272,7 +272,7 @@ public class C1089Xm {
                         }
                     }
                 } finally {
-                    c0490Kk.m2392a().close();
+                    response.m2392a().close();
                     if (this.f3284b.getState() == 8) {
                         if ((C1089Xm.this.f3264c & (-2147483640)) != -2147483640) {
                             C1089Xm.m4814b(C1089Xm.this, -2147482624);
@@ -530,7 +530,7 @@ public class C1089Xm {
                 Log.i("sync-resource", "pull:" + abstractResourceManager.getResourceType() + " url:" + str);
                 byte[] bytes = abstractResourceManager.toJsonWithUser().getBytes();
                 AbstractCryptoUtils.toggleBytes(bytes);
-                this.f3265d.m2004y(new C0122Ck.a().m507i(str).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes)).m500b()).mo1791i(new c(z, abstractResourceManager));
+                this.f3265d.m2004y(new Request.a().m507i(str).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes)).m500b()).mo1791i(new c(z, abstractResourceManager));
             } else if (abstractResourceManager.getState() != 13) {
                 i = 7;
                 if (abstractResourceManager.getState() == 4) {
@@ -544,7 +544,7 @@ public class C1089Xm {
                     Log.i("sync-resource", "force push :" + abstractResourceManager.getResourceType() + "  " + str2);
                     byte[] bytes2 = abstractResourceManager.toJsonWithIncrement().getBytes();
                     AbstractCryptoUtils.toggleBytes(bytes2);
-                    this.f3265d.m2004y(new C0122Ck.a().m507i(str2).m499a("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes2))).m500b()).mo1791i(new e(z, abstractResourceManager));
+                    this.f3265d.m2004y(new Request.a().m507i(str2).m499a("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes2))).m500b()).mo1791i(new e(z, abstractResourceManager));
                 } else {
                     if (abstractResourceManager.getState() != 7) {
                         return;
@@ -556,7 +556,7 @@ public class C1089Xm {
                     String string = sb.toString();
                     byte[] bytes3 = abstractResourceManager.toJsonWithIncrement().getBytes();
                     AbstractCryptoUtils.toggleBytes(bytes3);
-                    this.f3265d.m2004y(new C0122Ck.a().m507i(string).m499a("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes3))).m500b()).mo1791i(new f(z, abstractResourceManager));
+                    this.f3265d.m2004y(new Request.a().m507i(string).m499a("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes3))).m500b()).mo1791i(new f(z, abstractResourceManager));
                 }
             } else {
                 if (!abstractResourceManager.isEnabled) {
@@ -566,7 +566,7 @@ public class C1089Xm {
                 Log.i("sync-resource", "pull:" + abstractResourceManager.getResourceType() + " url:" + str3);
                 byte[] bytes4 = abstractResourceManager.toJsonWithUser().getBytes();
                 AbstractCryptoUtils.toggleBytes(bytes4);
-                this.f3265d.m2004y(new C0122Ck.a().m507i(str3).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes4)).m500b()).mo1791i(new d(z, abstractResourceManager));
+                this.f3265d.m2004y(new Request.a().m507i(str3).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes4)).m500b()).mo1791i(new d(z, abstractResourceManager));
             }
             return;
         } catch (Exception e2) {

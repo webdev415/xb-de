@@ -1,6 +1,6 @@
 package p000;
 
-public final class C0819Rs extends AbstractC1844ht {
+public final class FileComplianceOptions extends AbstractC1844ht {
 
     public final String f2548c;
 
@@ -10,7 +10,7 @@ public final class C0819Rs extends AbstractC1844ht {
 
     public final EnumC2075mt f2551f;
 
-    public C0819Rs(String str, boolean z, boolean z2, InterfaceC0636Ns interfaceC0636Ns, InterfaceC0544Ls interfaceC0544Ls, EnumC2075mt enumC2075mt) {
+    public FileComplianceOptions(String str, boolean z, boolean z2, InterfaceC0636Ns interfaceC0636Ns, InterfaceC0544Ls interfaceC0544Ls, EnumC2075mt enumC2075mt) {
         this.f2548c = str;
         this.f2549d = z;
         this.f2550e = z2;

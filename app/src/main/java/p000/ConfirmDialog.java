@@ -8,7 +8,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import com.xbrowser.play.R;
 
-public abstract class AbstractDialogC1303b6 extends AbstractDialogC2267r {
+public abstract class BaseDialogC1303B6 extends BaseDialog {
 
     public String f3842b;
 
@@ -24,8 +24,8 @@ public abstract class AbstractDialogC1303b6 extends AbstractDialogC2267r {
 
         @Override
         public void onClick(View view) {
-            AbstractDialogC1303b6.this.mo316c();
-            AbstractDialogC1303b6.this.dismiss();
+            BaseDialogC1303B6.this.mo316c();
+            BaseDialogC1303B6.this.dismiss();
         }
     }
 
@@ -35,17 +35,17 @@ public abstract class AbstractDialogC1303b6 extends AbstractDialogC2267r {
 
         @Override
         public void onClick(View view) {
-            AbstractDialogC1303b6.this.mo315b();
-            AbstractDialogC1303b6.this.dismiss();
+            BaseDialogC1303B6.this.mo315b();
+            BaseDialogC1303B6.this.dismiss();
         }
     }
 
-    public AbstractDialogC1303b6(Context context) {
+    public BaseDialogC1303B6(Context context) {
         this(context, 0);
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         int i;
         setContentView(R.layout.dlg_confirm);
         TextView textView = (TextView) findViewById(R.id.title_info);
@@ -90,7 +90,7 @@ public abstract class AbstractDialogC1303b6 extends AbstractDialogC2267r {
         show();
     }
 
-    public AbstractDialogC1303b6(Context context, int i) {
+    public BaseDialogC1303B6(Context context, int i) {
         super(context);
         this.f3842b = null;
         this.f3843c = null;
