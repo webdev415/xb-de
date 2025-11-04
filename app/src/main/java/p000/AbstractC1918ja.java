@@ -35,14 +35,14 @@ public abstract class AbstractC1918ja {
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
     }
 
-    public void m8132a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+    public void m8132a(InterfaceC0418J3 interfaceC0418J3, Response response) {
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
-        AbstractC0116Ce.m476e(c0490Kk, "cachedResponse");
+        AbstractC0116Ce.m476e(response, "cachedResponse");
     }
 
-    public void m8133b(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+    public void m8133b(InterfaceC0418J3 interfaceC0418J3, Response response) {
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
-        AbstractC0116Ce.m476e(c0490Kk, "response");
+        AbstractC0116Ce.m476e(response, "response");
     }
 
     public void m8134c(InterfaceC0418J3 interfaceC0418J3) {
@@ -126,9 +126,9 @@ public abstract class AbstractC1918ja {
         AbstractC0116Ce.m476e(iOException, "ioe");
     }
 
-    public void m8150s(InterfaceC0418J3 interfaceC0418J3, C0122Ck c0122Ck) {
+    public void m8150s(InterfaceC0418J3 interfaceC0418J3, Request request) {
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+        AbstractC0116Ce.m476e(request, "request");
     }
 
     public void m8151t(InterfaceC0418J3 interfaceC0418J3) {
@@ -148,17 +148,17 @@ public abstract class AbstractC1918ja {
         AbstractC0116Ce.m476e(iOException, "ioe");
     }
 
-    public void m8155x(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+    public void m8155x(InterfaceC0418J3 interfaceC0418J3, Response response) {
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
-        AbstractC0116Ce.m476e(c0490Kk, "response");
+        AbstractC0116Ce.m476e(response, "response");
     }
 
     public void m8156y(InterfaceC0418J3 interfaceC0418J3) {
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
     }
 
-    public void m8157z(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+    public void m8157z(InterfaceC0418J3 interfaceC0418J3, Response response) {
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
-        AbstractC0116Ce.m476e(c0490Kk, "response");
+        AbstractC0116Ce.m476e(response, "response");
     }
 }

@@ -1,23 +1,20 @@
 package p000;
 
-import p000.AbstractC0580Mi;
-import p000.C0534Li;
+public final class PersistedInstallationEntry extends AbstractC0580Mi {
 
-public final class C0921U1 extends AbstractC0580Mi {
+    public final String firebaseInstallationId;
 
-    public final String f2799b;
+    public final C0534Li.a registrationStatus;
 
-    public final C0534Li.a f2800c;
+    public final String authToken;
 
-    public final String f2801d;
+    public final String refreshToken;
 
-    public final String f2802e;
+    public final long expiresInSecs;
 
-    public final long f2803f;
+    public final long tokenCreationEpochInSecs;
 
-    public final long f2804g;
-
-    public final String f2805h;
+    public final String fisError;
 
     public static final class b extends a {
 
@@ -51,7 +48,7 @@ public final class C0921U1 extends AbstractC0580Mi {
                 str = str + " tokenCreationEpochInSecs";
             }
             if (str.isEmpty()) {
-                return new C0921U1(this.f2806a, this.f2807b, this.f2808c, this.f2809d, this.f2810e.longValue(), this.f2811f.longValue(), this.f2812g);
+                return new PersistedInstallationEntry(this.f2806a, this.f2807b, this.f2808c, this.f2809d, this.f2810e.longValue(), this.f2811f.longValue(), this.f2812g);
             }
             throw new IllegalStateException("Missing required properties:" + str);
         }
@@ -112,34 +109,34 @@ public final class C0921U1 extends AbstractC0580Mi {
         }
     }
 
-    public C0921U1(String str, C0534Li.a aVar, String str2, String str3, long j, long j2, String str4) {
-        this.f2799b = str;
-        this.f2800c = aVar;
-        this.f2801d = str2;
-        this.f2802e = str3;
-        this.f2803f = j;
-        this.f2804g = j2;
-        this.f2805h = str4;
+    public PersistedInstallationEntry(String str, C0534Li.a aVar, String str2, String str3, long j, long j2, String str4) {
+        this.firebaseInstallationId = str;
+        this.registrationStatus = aVar;
+        this.authToken = str2;
+        this.refreshToken = str3;
+        this.expiresInSecs = j;
+        this.tokenCreationEpochInSecs = j2;
+        this.fisError = str4;
     }
 
     @Override
     public String mo2886b() {
-        return this.f2801d;
+        return this.authToken;
     }
 
     @Override
     public long mo2887c() {
-        return this.f2803f;
+        return this.expiresInSecs;
     }
 
     @Override
     public String mo2888d() {
-        return this.f2799b;
+        return this.firebaseInstallationId;
     }
 
     @Override
     public String mo2889e() {
-        return this.f2805h;
+        return this.fisError;
     }
 
     public boolean equals(Object obj) {
@@ -152,10 +149,10 @@ public final class C0921U1 extends AbstractC0580Mi {
             return false;
         }
         AbstractC0580Mi abstractC0580Mi = (AbstractC0580Mi) obj;
-        String str3 = this.f2799b;
+        String str3 = this.firebaseInstallationId;
         if (str3 != null ? str3.equals(abstractC0580Mi.mo2888d()) : abstractC0580Mi.mo2888d() == null) {
-            if (this.f2800c.equals(abstractC0580Mi.mo2891g()) && ((str = this.f2801d) != null ? str.equals(abstractC0580Mi.mo2886b()) : abstractC0580Mi.mo2886b() == null) && ((str2 = this.f2802e) != null ? str2.equals(abstractC0580Mi.mo2890f()) : abstractC0580Mi.mo2890f() == null) && this.f2803f == abstractC0580Mi.mo2887c() && this.f2804g == abstractC0580Mi.mo2892h()) {
-                String str4 = this.f2805h;
+            if (this.registrationStatus.equals(abstractC0580Mi.mo2891g()) && ((str = this.authToken) != null ? str.equals(abstractC0580Mi.mo2886b()) : abstractC0580Mi.mo2886b() == null) && ((str2 = this.refreshToken) != null ? str2.equals(abstractC0580Mi.mo2890f()) : abstractC0580Mi.mo2890f() == null) && this.expiresInSecs == abstractC0580Mi.mo2887c() && this.tokenCreationEpochInSecs == abstractC0580Mi.mo2892h()) {
+                String str4 = this.fisError;
                 String strMo2889e = abstractC0580Mi.mo2889e();
                 if (str4 == null) {
                     if (strMo2889e == null) {
@@ -171,31 +168,31 @@ public final class C0921U1 extends AbstractC0580Mi {
 
     @Override
     public String mo2890f() {
-        return this.f2802e;
+        return this.refreshToken;
     }
 
     @Override
     public C0534Li.a mo2891g() {
-        return this.f2800c;
+        return this.registrationStatus;
     }
 
     @Override
     public long mo2892h() {
-        return this.f2804g;
+        return this.tokenCreationEpochInSecs;
     }
 
     public int hashCode() {
-        String str = this.f2799b;
-        int iHashCode = ((((str == null ? 0 : str.hashCode()) ^ 1000003) * 1000003) ^ this.f2800c.hashCode()) * 1000003;
-        String str2 = this.f2801d;
+        String str = this.firebaseInstallationId;
+        int iHashCode = ((((str == null ? 0 : str.hashCode()) ^ 1000003) * 1000003) ^ this.registrationStatus.hashCode()) * 1000003;
+        String str2 = this.authToken;
         int iHashCode2 = (iHashCode ^ (str2 == null ? 0 : str2.hashCode())) * 1000003;
-        String str3 = this.f2802e;
+        String str3 = this.refreshToken;
         int iHashCode3 = (iHashCode2 ^ (str3 == null ? 0 : str3.hashCode())) * 1000003;
-        long j = this.f2803f;
+        long j = this.expiresInSecs;
         int i = (iHashCode3 ^ ((int) (j ^ (j >>> 32)))) * 1000003;
-        long j2 = this.f2804g;
+        long j2 = this.tokenCreationEpochInSecs;
         int i2 = (i ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003;
-        String str4 = this.f2805h;
+        String str4 = this.fisError;
         return i2 ^ (str4 != null ? str4.hashCode() : 0);
     }
 
@@ -205,6 +202,6 @@ public final class C0921U1 extends AbstractC0580Mi {
     }
 
     public String toString() {
-        return "PersistedInstallationEntry{firebaseInstallationId=" + this.f2799b + ", registrationStatus=" + this.f2800c + ", authToken=" + this.f2801d + ", refreshToken=" + this.f2802e + ", expiresInSecs=" + this.f2803f + ", tokenCreationEpochInSecs=" + this.f2804g + ", fisError=" + this.f2805h + "}";
+        return "PersistedInstallationEntry{firebaseInstallationId=" + this.firebaseInstallationId + ", registrationStatus=" + this.registrationStatus + ", authToken=" + this.authToken + ", refreshToken=" + this.refreshToken + ", expiresInSecs=" + this.expiresInSecs + ", tokenCreationEpochInSecs=" + this.tokenCreationEpochInSecs + ", fisError=" + this.fisError + "}";
     }
 }

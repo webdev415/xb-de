@@ -174,11 +174,11 @@ public final class BinderC0183Dz extends AbstractBinderC1614cx {
 
     public final C0635Nr m811T(C0635Nr c0635Nr, C0569MG c0569mg) {
         C0175Dr c0175Dr;
-        if ("_cmp".equals(c0635Nr.f1974l) && (c0175Dr = c0635Nr.f1975m) != null && c0175Dr.m783d() != 0) {
-            String strM788o = c0635Nr.f1975m.m788o("_cis");
+        if ("_cmp".equals(c0635Nr.name) && (c0175Dr = c0635Nr.params) != null && c0175Dr.m783d() != 0) {
+            String strM788o = c0635Nr.params.m788o("_cis");
             if ("referrer broadcast".equals(strM788o) || "referrer API".equals(strM788o)) {
                 this.f441c.mo349g().m9621J().m10617b("Event has been filtered ", c0635Nr.toString());
-                return new C0635Nr("_cmpx", c0635Nr.f1975m, c0635Nr.f1976n, c0635Nr.f1977o);
+                return new C0635Nr("_cmpx", c0635Nr.params, c0635Nr.origin, c0635Nr.f1977o);
             }
         }
         return c0635Nr;
@@ -228,32 +228,32 @@ public final class BinderC0183Dz extends AbstractBinderC1614cx {
             this.f441c.mo349g().m9622K().m10617b("EES not loaded for", c0569mg.f1787l);
         } else {
             try {
-                Map mapM8915L = this.f441c.m965x0().m8915L(c0635Nr.f1975m.m785h(), true);
-                String strM3491a = AbstractC0701PA.m3491a(c0635Nr.f1974l);
+                Map mapM8915L = this.f441c.m965x0().m8915L(c0635Nr.params.m785h(), true);
+                String strM3491a = AbstractC0701PA.m3491a(c0635Nr.name);
                 if (strM3491a == null) {
-                    strM3491a = c0635Nr.f1974l;
+                    strM3491a = c0635Nr.name;
                 }
-                zM10610d = c2534wr.m10610d(new C1888iq(strM3491a, c0635Nr.f1977o, mapM8915L));
+                zM10610d = c2534wr.m10610d(new Event(strM3491a, c0635Nr.f1977o, mapM8915L));
             } catch (C0222Es unused) {
-                this.f441c.mo349g().m9618G().m10618c("EES error. appId, eventName", c0569mg.f1788m, c0635Nr.f1974l);
+                this.f441c.mo349g().m9618G().m10618c("EES error. appId, eventName", c0569mg.f1788m, c0635Nr.name);
                 zM10610d = false;
             }
             if (zM10610d) {
                 if (c2534wr.m10613g()) {
-                    this.f441c.mo349g().m9622K().m10617b("EES edited event", c0635Nr.f1974l);
+                    this.f441c.mo349g().m9622K().m10617b("EES edited event", c0635Nr.name);
                     c0635Nr = this.f441c.m965x0().m8916M(c2534wr.m10607a().m7476d());
                 }
                 m816Y(c0635Nr, c0569mg);
                 if (c2534wr.m10612f()) {
-                    for (C1888iq c1888iq : c2534wr.m10607a().m7478f()) {
-                        this.f441c.mo349g().m9622K().m10617b("EES logging created event", c1888iq.m8006e());
-                        m816Y(this.f441c.m965x0().m8916M(c1888iq), c0569mg);
+                    for (Event event : c2534wr.m10607a().m7478f()) {
+                        this.f441c.mo349g().m9622K().m10617b("EES logging created event", event.m8006e());
+                        m816Y(this.f441c.m965x0().m8916M(event), c0569mg);
                     }
                     return;
                 }
                 return;
             }
-            this.f441c.mo349g().m9622K().m10617b("EES was not applied to event", c0635Nr.f1974l);
+            this.f441c.mo349g().m9622K().m10617b("EES was not applied to event", c0635Nr.name);
         }
         m816Y(c0635Nr, c0569mg);
     }
@@ -341,7 +341,7 @@ public final class BinderC0183Dz extends AbstractBinderC1614cx {
         AbstractC1085Xi.m4795d(str);
         AbstractC1085Xi.m4801j(c0635Nr);
         m810S(str, true);
-        this.f441c.mo349g().m9617F().m10617b("Log and bundle. event", this.f441c.m948n0().m9209b(c0635Nr.f1974l));
+        this.f441c.mo349g().m9617F().m10617b("Log and bundle. event", this.f441c.m948n0().m9209b(c0635Nr.name));
         long jMo2816b = this.f441c.mo345b().mo2816b() / 1000000;
         try {
             byte[] bArr = (byte[]) this.f441c.mo354l().m7373A(new CallableC2232qA(this, c0635Nr, str)).get();
@@ -349,15 +349,15 @@ public final class BinderC0183Dz extends AbstractBinderC1614cx {
                 this.f441c.mo349g().m9618G().m10617b("Log and bundle returned null. appId", C2356sx.m9613v(str));
                 bArr = new byte[0];
             }
-            this.f441c.mo349g().m9617F().m10619d("Log and bundle processed. event, size, time_ms", this.f441c.m948n0().m9209b(c0635Nr.f1974l), Integer.valueOf(bArr.length), Long.valueOf((this.f441c.mo345b().mo2816b() / 1000000) - jMo2816b));
+            this.f441c.mo349g().m9617F().m10619d("Log and bundle processed. event, size, time_ms", this.f441c.m948n0().m9209b(c0635Nr.name), Integer.valueOf(bArr.length), Long.valueOf((this.f441c.mo345b().mo2816b() / 1000000) - jMo2816b));
             return bArr;
         } catch (InterruptedException e) {
             e = e;
-            this.f441c.mo349g().m9618G().m10619d("Failed to log and bundle. appId, event, error", C2356sx.m9613v(str), this.f441c.m948n0().m9209b(c0635Nr.f1974l), e);
+            this.f441c.mo349g().m9618G().m10619d("Failed to log and bundle. appId, event, error", C2356sx.m9613v(str), this.f441c.m948n0().m9209b(c0635Nr.name), e);
             return null;
         } catch (ExecutionException e2) {
             e = e2;
-            this.f441c.mo349g().m9618G().m10619d("Failed to log and bundle. appId, event, error", C2356sx.m9613v(str), this.f441c.m948n0().m9209b(c0635Nr.f1974l), e);
+            this.f441c.mo349g().m9618G().m10619d("Failed to log and bundle. appId, event, error", C2356sx.m9613v(str), this.f441c.m948n0().m9209b(c0635Nr.name), e);
             return null;
         }
     }

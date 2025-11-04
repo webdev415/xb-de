@@ -13,10 +13,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
-import p000.C0410Iw;
-import p000.C0425JA;
-import p000.C0502Kw;
-import p000.C0548Lw;
 
 public final class C0596My extends AbstractC2513wF implements InterfaceC0220Eq {
 
@@ -44,15 +40,15 @@ public final class C0596My extends AbstractC2513wF implements InterfaceC0220Eq {
 
     public C0596My(C0200EF c0200ef) {
         super(c0200ef);
-        this.f1867d = new C2453v1();
-        this.f1868e = new C2453v1();
-        this.f1869f = new C2453v1();
-        this.f1870g = new C2453v1();
-        this.f1871h = new C2453v1();
-        this.f1875l = new C2453v1();
-        this.f1876m = new C2453v1();
-        this.f1877n = new C2453v1();
-        this.f1872i = new C2453v1();
+        this.f1867d = new ScriptMap();
+        this.f1868e = new ScriptMap();
+        this.f1869f = new ScriptMap();
+        this.f1870g = new ScriptMap();
+        this.f1871h = new ScriptMap();
+        this.f1875l = new ScriptMap();
+        this.f1876m = new ScriptMap();
+        this.f1877n = new ScriptMap();
+        this.f1872i = new ScriptMap();
         this.f1873j = new C1101Xy(this, 20);
         this.f1874k = new C1009Vy(this);
     }
@@ -89,13 +85,13 @@ public final class C0596My extends AbstractC2513wF implements InterfaceC0220Eq {
     }
 
     public static Map m3212z(C0548Lw c0548Lw) {
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         if (c0548Lw != null) {
             for (C0732Pw c0732Pw : c0548Lw.m2754V()) {
-                c2453v1.put(c0732Pw.m3593H(), c0732Pw.m3594I());
+                scriptMap.put(c0732Pw.m3593H(), c0732Pw.m3594I());
             }
         }
-        return c2453v1;
+        return scriptMap;
     }
 
     public final C0548Lw m3213C(String str, byte[] bArr) {
@@ -135,9 +131,9 @@ public final class C0596My extends AbstractC2513wF implements InterfaceC0220Eq {
 
     public final void m3215F(String str, C0548Lw.a aVar) {
         HashSet hashSet = new HashSet();
-        C2453v1 c2453v1 = new C2453v1();
-        C2453v1 c2453v12 = new C2453v1();
-        C2453v1 c2453v13 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
+        ScriptMap c2453v12 = new ScriptMap();
+        ScriptMap c2453v13 = new ScriptMap();
         if (aVar != null) {
             Iterator it = aVar.m2767z().iterator();
             while (it.hasNext()) {
@@ -155,7 +151,7 @@ public final class C0596My extends AbstractC2513wF implements InterfaceC0220Eq {
                         aVar.m2763v(i, aVarM2562u);
                     }
                     if (aVarM2562u.m2566y() && aVarM2562u.m2564w()) {
-                        c2453v1.put(strM2563v, Boolean.TRUE);
+                        scriptMap.put(strM2563v, Boolean.TRUE);
                     }
                     if (aVarM2562u.m2567z() && aVarM2562u.m2565x()) {
                         c2453v12.put(aVarM2562u.m2563v(), Boolean.TRUE);
@@ -171,7 +167,7 @@ public final class C0596My extends AbstractC2513wF implements InterfaceC0220Eq {
             }
         }
         this.f1868e.put(str, hashSet);
-        this.f1869f.put(str, c2453v1);
+        this.f1869f.put(str, scriptMap);
         this.f1870g.put(str, c2453v12);
         this.f1872i.put(str, c2453v13);
     }

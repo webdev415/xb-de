@@ -86,8 +86,8 @@ public class C2390tl {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) throws IllegalAccessException, JSONException, IOException, IllegalArgumentException, InvocationTargetException {
-            if (c0490Kk.m2396j() != 200) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) throws IllegalAccessException, JSONException, IOException, IllegalArgumentException, InvocationTargetException {
+            if (response.getStatus() != 200) {
                 Log.i("fetch-search-sug", ">>>>>> fetch suggestion failed:");
                 if (this.f7249a != null) {
                     BrowserActivity.getActivity().runOnUiThread(new c());
@@ -95,19 +95,19 @@ public class C2390tl {
                 }
                 return;
             }
-            String strM2399p = c0490Kk.m2399p("Content-Type");
-            String strM2714l = c0490Kk.m2392a().m2714l();
+            String strM2399p = response.getContentType("Content-Type");
+            String strM2714l = response.body().m2714l();
             if (strM2399p != null && (strM2399p.indexOf("/json") >= 0 || strM2399p.indexOf("text/") >= 0)) {
                 ArrayList arrayListM9742m = C2390tl.this.m9742m(strM2714l, this.f7250b);
                 if (this.f7249a != null) {
                     BrowserActivity.getActivity().runOnUiThread(new b(arrayListM9742m));
                 }
             }
-            c0490Kk.m2392a().close();
+            response.body().close();
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
             Log.i("fetch-search-sug", ">>>>>> fetch suggestion failed:");
             if (this.f7249a != null) {
                 BrowserActivity.getActivity().runOnUiThread(new RunnableC2722a());
@@ -131,7 +131,7 @@ public class C2390tl {
         void mo7158b();
     }
 
-    public static C2390tl m9731f() {
+    public static C2390tl getInstance() {
         if (f7238j == null) {
             f7238j = new C2390tl();
         }
@@ -141,8 +141,8 @@ public class C2390tl {
     public final void m9732b(ArrayList arrayList, int i, String str) {
         ArrayList arrayListMo9040g;
         int size;
-        AbstractC2221q abstractC2221q = (AbstractC2221q) C2275r7.m9348e().m9352d(str);
-        if (abstractC2221q == null || (arrayListMo9040g = abstractC2221q.mo9040g()) == null || (size = arrayListMo9040g.size()) <= 0) {
+        DataSource dataSource = (DataSource) C2275r7.m9348e().m9352d(str);
+        if (dataSource == null || (arrayListMo9040g = dataSource.mo9040g()) == null || (size = arrayListMo9040g.size()) <= 0) {
             return;
         }
         int i2 = 0;
@@ -180,8 +180,8 @@ public class C2390tl {
 
     public final C2476vf m9734d(String str, String str2) {
         ArrayList arrayListMo9040g;
-        AbstractC2221q abstractC2221q = (AbstractC2221q) C2275r7.m9348e().m9352d(str2);
-        if (abstractC2221q == null || (arrayListMo9040g = abstractC2221q.mo9040g()) == null) {
+        DataSource dataSource = (DataSource) C2275r7.m9348e().m9352d(str2);
+        if (dataSource == null || (arrayListMo9040g = dataSource.mo9040g()) == null) {
             return null;
         }
         for (int i = 0; i < arrayListMo9040g.size(); i++) {
@@ -222,7 +222,7 @@ public class C2390tl {
         }
     }
 
-    public void m9739j() {
+    public void init() {
         this.f7247h = new Random();
         m9741l();
         m9740k();
@@ -308,8 +308,8 @@ public class C2390tl {
 
     public void m9744o(String str, c cVar) {
         String strM9738i = m9738i(str);
-        C0122Ck.a aVarM507i = new C0122Ck.a().m507i(strM9738i);
-        aVarM507i.m499a("User-Agent", SharedPreferencesHelper.defaultUserAgent);
-        this.f7248i.m2004y(aVarM507i.m500b()).mo1791i(new a(cVar, strM9738i));
+        Request.Builder builderVarM507I = new Request.Builder().url(strM9738i);
+        builderVarM507I.addHeader("User-Agent", SharedPreferencesHelper.defaultUserAgent);
+        this.f7248i.newCall(builderVarM507I.m500b()).mo1791i(new a(cVar, strM9738i));
     }
 }

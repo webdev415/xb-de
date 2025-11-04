@@ -107,7 +107,7 @@ public final class C0280G3 {
             Code decompiled incorrectly, please refer to instructions dump.
             To view partially-correct code enable 'Show inconsistent code' option in preferences
         */
-        public final C0280G3 m1336b(C1079Xc r32) {
+        public final C0280G3 m1336b(Headers r32) {
             /*
                 Method dump skipped, instructions count: 415
                 To view this dump change 'Code comments level' option to 'DEBUG'

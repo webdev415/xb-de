@@ -14,8 +14,8 @@ public class C1860i8 implements InterfaceC2347so {
         this.f5788b = c0206Ec;
     }
 
-    public static C0420J5 m7873c() {
-        return C0420J5.m1796e(InterfaceC2347so.class).m1813b(C0193E8.m876k(AbstractC0301Gf.class)).m1816e(new InterfaceC0604N5() {
+    public static Component m7873c() {
+        return Component.m1796e(InterfaceC2347so.class).m1813b(Dependency.m876k(AbstractC0301Gf.class)).m1816e(new InterfaceC0604N5() {
             @Override
             public final Object mo432a(InterfaceC0466K5 interfaceC0466K5) {
                 return C1860i8.m7874d(interfaceC0466K5);

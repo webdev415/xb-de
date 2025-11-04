@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class C2323s9 extends AbstractC2221q {
+public class C2323s9 extends DataSource {
 
     public static final Pattern f7023h = Pattern.compile("window\\.baidu\\.sug\\((.*)\\);");
 

@@ -6,14 +6,14 @@ import java.lang.reflect.Method;
 
 public abstract class AbstractC0172Do {
 
-    public final C2453v1 f430a;
+    public final ScriptMap f430a;
 
-    public final C2453v1 f431b;
+    public final ScriptMap f431b;
 
-    public final C2453v1 f432c;
+    public final ScriptMap f432c;
 
-    public AbstractC0172Do(C2453v1 c2453v1, C2453v1 c2453v12, C2453v1 c2453v13) {
-        this.f430a = c2453v1;
+    public AbstractC0172Do(ScriptMap scriptMap, ScriptMap c2453v12, ScriptMap c2453v13) {
+        this.f430a = scriptMap;
         this.f431b = c2453v12;
         this.f432c = c2453v13;
     }

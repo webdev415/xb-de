@@ -9,7 +9,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.io.File;
 
-public class ViewOnClickListenerC2109nh extends AbstractDialogC2267r implements View.OnClickListener {
+public class ViewOnClickListenerC2109nh extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f6461b;
 
@@ -57,7 +57,7 @@ public class ViewOnClickListenerC2109nh extends AbstractDialogC2267r implements 
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_single_text_field);
         EditText editText = (EditText) findViewById(R.id.edit_text);
         editText.setHint(R.string.dlg_bm_dir_hit);

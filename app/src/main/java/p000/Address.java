@@ -7,9 +7,8 @@ import java.util.Objects;
 import javax.net.SocketFactory;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSocketFactory;
-import p000.C0069Bd;
 
-public final class C2498w0 {
+public final class Address {
 
     public final C0069Bd f7766a;
 
@@ -33,7 +32,7 @@ public final class C2498w0 {
 
     public final ProxySelector f7776k;
 
-    public C2498w0(String str, int i, InterfaceC1767g9 interfaceC1767g9, SocketFactory socketFactory, SSLSocketFactory sSLSocketFactory, HostnameVerifier hostnameVerifier, C2087n4 c2087n4, InterfaceC0508L1 interfaceC0508L1, Proxy proxy, List list, List list2, ProxySelector proxySelector) {
+    public Address(String str, int i, InterfaceC1767g9 interfaceC1767g9, SocketFactory socketFactory, SSLSocketFactory sSLSocketFactory, HostnameVerifier hostnameVerifier, C2087n4 c2087n4, InterfaceC0508L1 interfaceC0508L1, Proxy proxy, List list, List list2, ProxySelector proxySelector) {
         AbstractC0116Ce.m476e(str, "uriHost");
         AbstractC0116Ce.m476e(interfaceC1767g9, "dns");
         AbstractC0116Ce.m476e(socketFactory, "socketFactory");
@@ -66,9 +65,9 @@ public final class C2498w0 {
         return this.f7769d;
     }
 
-    public final boolean m10413d(C2498w0 c2498w0) {
-        AbstractC0116Ce.m476e(c2498w0, "that");
-        return AbstractC0116Ce.m472a(this.f7769d, c2498w0.f7769d) && AbstractC0116Ce.m472a(this.f7774i, c2498w0.f7774i) && AbstractC0116Ce.m472a(this.f7767b, c2498w0.f7767b) && AbstractC0116Ce.m472a(this.f7768c, c2498w0.f7768c) && AbstractC0116Ce.m472a(this.f7776k, c2498w0.f7776k) && AbstractC0116Ce.m472a(this.f7775j, c2498w0.f7775j) && AbstractC0116Ce.m472a(this.f7771f, c2498w0.f7771f) && AbstractC0116Ce.m472a(this.f7772g, c2498w0.f7772g) && AbstractC0116Ce.m472a(this.f7773h, c2498w0.f7773h) && this.f7766a.m253l() == c2498w0.f7766a.m253l();
+    public final boolean m10413d(Address address) {
+        AbstractC0116Ce.m476e(address, "that");
+        return AbstractC0116Ce.m472a(this.f7769d, address.f7769d) && AbstractC0116Ce.m472a(this.f7774i, address.f7774i) && AbstractC0116Ce.m472a(this.f7767b, address.f7767b) && AbstractC0116Ce.m472a(this.f7768c, address.f7768c) && AbstractC0116Ce.m472a(this.f7776k, address.f7776k) && AbstractC0116Ce.m472a(this.f7775j, address.f7775j) && AbstractC0116Ce.m472a(this.f7771f, address.f7771f) && AbstractC0116Ce.m472a(this.f7772g, address.f7772g) && AbstractC0116Ce.m472a(this.f7773h, address.f7773h) && this.f7766a.m253l() == address.f7766a.m253l();
     }
 
     public final HostnameVerifier m10414e() {
@@ -76,9 +75,9 @@ public final class C2498w0 {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof C2498w0) {
-            C2498w0 c2498w0 = (C2498w0) obj;
-            if (AbstractC0116Ce.m472a(this.f7766a, c2498w0.f7766a) && m10413d(c2498w0)) {
+        if (obj instanceof Address) {
+            Address address = (Address) obj;
+            if (AbstractC0116Ce.m472a(this.f7766a, address.f7766a) && m10413d(address)) {
                 return true;
             }
         }

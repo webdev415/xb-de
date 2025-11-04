@@ -3,7 +3,6 @@ package p000;
 import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
-import p000.C0096C3;
 
 public abstract class AbstractC2658zd {
 
@@ -17,15 +16,15 @@ public abstract class AbstractC2658zd {
         f8255b = aVar.m395c("\t ,=");
     }
 
-    public static final List m11019a(C1079Xc c1079Xc, String str) {
-        AbstractC0116Ce.m476e(c1079Xc, "$this$parseChallenges");
+    public static final List m11019a(Headers headers, String str) {
+        AbstractC0116Ce.m476e(headers, "$this$parseChallenges");
         AbstractC0116Ce.m476e(str, "headerName");
         ArrayList arrayList = new ArrayList<>();
-        int size = c1079Xc.size();
+        int size = headers.size();
         for (int i = 0; i < size; i++) {
-            if (AbstractC0538Lm.m2720l(str, c1079Xc.m4738f(i), true)) {
+            if (AbstractC0538Lm.m2720l(str, headers.m4738f(i), true)) {
                 try {
-                    m11021c(new C2409u3().mo5925H(c1079Xc.m4740h(i)), arrayList);
+                    m11021c(new C2409u3().mo5925H(headers.m4740h(i)), arrayList);
                 } catch (EOFException e) {
                     C0764Qi.f2268c.m3690g().m3679j("Unable to parse challenge", 5, e);
                 }
@@ -34,13 +33,13 @@ public abstract class AbstractC2658zd {
         return arrayList;
     }
 
-    public static final boolean m11020b(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "$this$promisesBody");
-        if (AbstractC0116Ce.m472a(c0490Kk.m2390S().m496g(), "HEAD")) {
+    public static final boolean m11020b(Response response) {
+        AbstractC0116Ce.m476e(response, "$this$promisesBody");
+        if (AbstractC0116Ce.m472a(response.getRequest().m496g(), "HEAD")) {
             return false;
         }
-        int iM2396j = c0490Kk.m2396j();
-        return (((iM2396j >= 100 && iM2396j < 200) || iM2396j == 204 || iM2396j == 304) && AbstractC2623yo.m10944s(c0490Kk) == -1 && !AbstractC0538Lm.m2720l("chunked", C0490Kk.m2383w(c0490Kk, "Transfer-Encoding", null, 2, null), true)) ? false : true;
+        int iM2396j = response.getStatus();
+        return (((iM2396j >= 100 && iM2396j < 200) || iM2396j == 204 || iM2396j == 304) && AbstractC2623yo.m10944s(response) == -1 && !AbstractC0538Lm.m2720l("chunked", Response.m2383w(response, "Transfer-Encoding", null, 2, null), true)) ? false : true;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:59:0x0085, code lost:
@@ -199,14 +198,14 @@ public abstract class AbstractC2658zd {
         return null;
     }
 
-    public static final void m11024f(InterfaceC0053B6 interfaceC0053B6, C0069Bd c0069Bd, C1079Xc c1079Xc) {
+    public static final void m11024f(InterfaceC0053B6 interfaceC0053B6, C0069Bd c0069Bd, Headers headers) {
         AbstractC0116Ce.m476e(interfaceC0053B6, "$this$receiveHeaders");
         AbstractC0116Ce.m476e(c0069Bd, "url");
-        AbstractC0116Ce.m476e(c1079Xc, "headers");
+        AbstractC0116Ce.m476e(headers, "headers");
         if (interfaceC0053B6 == InterfaceC0053B6.f121a) {
             return;
         }
-        List listM32e = C0007A6.f14n.m32e(c0069Bd, c1079Xc);
+        List listM32e = C0007A6.f14n.m32e(c0069Bd, headers);
         if (listM32e.isEmpty()) {
             return;
         }

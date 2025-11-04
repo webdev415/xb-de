@@ -23,12 +23,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import p000.AbstractC1883il;
-import p000.C0365Hx;
-import p000.C0425JA;
-import p000.C0457Jx;
-import p000.C0595Mx;
-import p000.C0779Qx;
 
 public final class C2145oG extends AbstractC2513wF {
     public C2145oG(C0200EF c0200ef) {
@@ -752,30 +746,30 @@ public final class C2145oG extends AbstractC2513wF {
         return map;
     }
 
-    public final C0635Nr m8916M(C1888iq c1888iq) {
+    public final C0635Nr m8916M(Event event) {
         Object obj;
-        Bundle bundleM8909C = m8909C(c1888iq.m8008g(), true);
+        Bundle bundleM8909C = m8909C(event.m8008g(), true);
         String string = (!bundleM8909C.containsKey("_o") || (obj = bundleM8909C.get("_o")) == null) ? "app" : obj.toString();
-        String strM3492b = AbstractC0701PA.m3492b(c1888iq.m8006e());
+        String strM3492b = AbstractC0701PA.m3492b(event.m8006e());
         if (strM3492b == null) {
-            strM3492b = c1888iq.m8006e();
+            strM3492b = event.m8006e();
         }
-        return new C0635Nr(strM3492b, new C0175Dr(bundleM8909C), string, c1888iq.m8003a());
+        return new C0635Nr(strM3492b, new C0175Dr(bundleM8909C), string, event.m8003a());
     }
 
-    public final C0365Hx m8917N(C2672zr c2672zr) {
-        C0365Hx.a aVarM1658x = C0365Hx.m1631S().m1658x(c2672zr.f8285e);
-        Iterator it = c2672zr.f8286f.iterator();
+    public final C0365Hx m8917N(Event_ event) {
+        C0365Hx.a aVarM1658x = C0365Hx.m1631S().m1658x(event.f8285e);
+        Iterator it = event.params.iterator();
         while (it.hasNext()) {
             String str = (String) it.next();
             C0457Jx.a aVarM2210x = C0457Jx.m2185U().m2210x(str);
-            Object objM787k = c2672zr.f8286f.m787k(str);
+            Object objM787k = event.params.m787k(str);
             AbstractC1085Xi.m4801j(objM787k);
             m8921a0(aVarM2210x, objM787k);
             aVarM1658x.m1644A(aVarM2210x);
         }
-        if (mo347e().m10818t(AbstractC0818Rr.f2522n1) && !TextUtils.isEmpty(c2672zr.f8283c) && c2672zr.f8286f.m787k("_o") == null) {
-            aVarM1658x.m1645B((C0457Jx) ((AbstractC0703PC) C0457Jx.m2185U().m2210x("_o").m2200A(c2672zr.f8283c).m3526o()));
+        if (mo347e().m10818t(AbstractC0818Rr.f2522n1) && !TextUtils.isEmpty(event.f8283c) && event.params.m787k("_o") == null) {
+            aVarM1658x.m1645B((C0457Jx) ((AbstractC0703PC) C0457Jx.m2185U().m2210x("_o").m2200A(event.f8283c).m3526o()));
         }
         return (C0365Hx) ((AbstractC0703PC) aVarM1658x.m3526o());
     }

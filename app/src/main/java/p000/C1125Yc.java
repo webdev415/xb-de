@@ -1,7 +1,5 @@
 package p000;
 
-import p000.C1079Xc;
-
 public final class C1125Yc {
 
     public static final a f3339c = new a(null);
@@ -25,8 +23,8 @@ public final class C1125Yc {
         this.f3340a = 262144;
     }
 
-    public final C1079Xc m4936a() {
-        C1079Xc.a aVar = new C1079Xc.a();
+    public final Headers m4936a() {
+        Headers.a aVar = new Headers.a();
         while (true) {
             String strM4937b = m4937b();
             if (strM4937b.length() == 0) {

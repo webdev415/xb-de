@@ -1,32 +1,32 @@
 package p000;
 
-public final class C0967V1 extends AbstractC2391tm {
+public final class StartupTime extends AbstractC2391tm {
 
-    public final long f2908a;
+    public final long epochMillis;
 
-    public final long f2909b;
+    public final long elapsedRealtime;
 
-    public final long f2910c;
+    public final long uptimeMillis;
 
-    public C0967V1(long j, long j2, long j3) {
-        this.f2908a = j;
-        this.f2909b = j2;
-        this.f2910c = j3;
+    public StartupTime(long j, long j2, long j3) {
+        this.epochMillis = j;
+        this.elapsedRealtime = j2;
+        this.uptimeMillis = j3;
     }
 
     @Override
     public long mo4307b() {
-        return this.f2909b;
+        return this.elapsedRealtime;
     }
 
     @Override
     public long mo4308c() {
-        return this.f2908a;
+        return this.epochMillis;
     }
 
     @Override
     public long mo4309d() {
-        return this.f2910c;
+        return this.uptimeMillis;
     }
 
     public boolean equals(Object obj) {
@@ -37,18 +37,18 @@ public final class C0967V1 extends AbstractC2391tm {
             return false;
         }
         AbstractC2391tm abstractC2391tm = (AbstractC2391tm) obj;
-        return this.f2908a == abstractC2391tm.mo4308c() && this.f2909b == abstractC2391tm.mo4307b() && this.f2910c == abstractC2391tm.mo4309d();
+        return this.epochMillis == abstractC2391tm.mo4308c() && this.elapsedRealtime == abstractC2391tm.mo4307b() && this.uptimeMillis == abstractC2391tm.mo4309d();
     }
 
     public int hashCode() {
-        long j = this.f2908a;
-        long j2 = this.f2909b;
+        long j = this.epochMillis;
+        long j2 = this.elapsedRealtime;
         int i = (((((int) (j ^ (j >>> 32))) ^ 1000003) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003;
-        long j3 = this.f2910c;
+        long j3 = this.uptimeMillis;
         return i ^ ((int) ((j3 >>> 32) ^ j3));
     }
 
     public String toString() {
-        return "StartupTime{epochMillis=" + this.f2908a + ", elapsedRealtime=" + this.f2909b + ", uptimeMillis=" + this.f2910c + "}";
+        return "StartupTime{epochMillis=" + this.epochMillis + ", elapsedRealtime=" + this.elapsedRealtime + ", uptimeMillis=" + this.uptimeMillis + "}";
     }
 }

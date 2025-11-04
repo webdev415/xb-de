@@ -31,7 +31,7 @@ public final class C0481Kb implements Parcelable {
 
     public C0481Kb(Parcel parcel) {
         this.f1570o = null;
-        this.f1567l = parcel.createTypedArrayList(C0573Mb.CREATOR);
+        this.f1567l = parcel.createTypedArrayList(FragmentState.CREATOR);
         this.f1568m = parcel.createStringArrayList();
         this.f1569n = (C1666e2[]) parcel.createTypedArray(C1666e2.CREATOR);
         this.f1570o = parcel.readString();

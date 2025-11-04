@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.xbrowser.play.R;
 
-public abstract class BaseDialogC0814Rn extends BaseDialog {
+public abstract class TwoOptionsDialog extends BaseDialog {
 
     public String title;
 
@@ -15,14 +15,14 @@ public abstract class BaseDialogC0814Rn extends BaseDialog {
 
     public String strBtn2;
 
-    public boolean f2424e;
+    public boolean btnClicked;
 
-    public BaseDialogC0814Rn(Context context) {
+    public TwoOptionsDialog(Context context) {
         super(context);
         this.title = null;
         this.strBtn1 = null;
         this.strBtn2 = null;
-        this.f2424e = false;
+        this.btnClicked = false;
         this.bottom = true;
     }
 
@@ -34,39 +34,30 @@ public abstract class BaseDialogC0814Rn extends BaseDialog {
         textView.setText(this.strBtn1);
         TextView textView2 = (TextView) findViewById(R.id.btn_option2);
         textView2.setText(this.strBtn2);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mo3830c();
-                f2424e = true;
-                dismiss();
-            }
+        textView.setOnClickListener(view -> {
+            onButton1Clicked();
+            btnClicked = true;
+            dismiss();
         });
-        textView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mo3831d();
-                f2424e = true;
-                dismiss();
-            }
+        textView2.setOnClickListener(view -> {
+            onButton2Clicked();
+            btnClicked = true;
+            dismiss();
         });
-        setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                if (!f2424e) {
-                    mo3829b();
-                }
+        setOnDismissListener(dialogInterface -> {
+            if (!btnClicked) {
+                onDismissClicked();
             }
         });
     }
 
-    public abstract void mo3829b();
+    public abstract void onDismissClicked();
 
-    public abstract void mo3830c();
+    public abstract void onButton1Clicked();
 
-    public abstract void mo3831d();
+    public abstract void onButton2Clicked();
 
-    public void m3832e(String title, String strBtn1, String strBtn2) {
+    public void show(String title, String strBtn1, String strBtn2) {
         this.title = title;
         this.strBtn1 = strBtn1;
         this.strBtn2 = strBtn2;

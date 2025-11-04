@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import p000.C1825ha;
+import p000.EventQueueManager;
 
 public class BrowserReceiver extends BroadcastReceiver {
     @Override
@@ -30,7 +30,7 @@ public class BrowserReceiver extends BroadcastReceiver {
             }
             Log.i("wifi-state", "============  wifi state" + networkInfo.getState());
             if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
-                C1825ha.m7824d().m7825a();
+                EventQueueManager.getInstance().loadEvents();
                 if (BrowserActivity.getActivity() == null) {
                     return;
                 }
@@ -47,7 +47,7 @@ public class BrowserReceiver extends BroadcastReceiver {
                     return;
                 }
                 if ((action.equals("android.intent.action.PACKAGE_ADDED") || action.equals("android.intent.action.PACKAGE_REMOVED")) && BrowserActivity.getActivity() != null) {
-                    BrowserActivity.getActivity().m6218I0().mo6430h0();
+                    BrowserActivity.getActivity().getActivityDelegate().mo6430h0();
                     return;
                 }
                 return;

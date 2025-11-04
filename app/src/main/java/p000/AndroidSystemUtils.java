@@ -44,6 +44,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -398,7 +399,7 @@ public abstract class AndroidSystemUtils {
             browserActivity.startActivity(intent);
         } catch (Exception unused) {
             Toast.makeText(browserActivity, "Set as default Browser failed", Toast.LENGTH_SHORT).show();
-            browserActivity.m6361u0("updateToggleOStatus('#set-as-default-browser',false);");
+            browserActivity.updateTitle("updateToggleOStatus('#set-as-default-browser',false);");
         }
     }
 
@@ -413,43 +414,46 @@ public abstract class AndroidSystemUtils {
         }
     }
 
-    public static final void m8689W(Context context, String str, String str2, String str3, String str4) {
-        m8690X(context, str, str2, str3, str4, null, null);
+    public static void share(Context context, String subject, String body, String shareTitle) {
+        share(context, subject, body, shareTitle, null, null);
     }
 
-    public static final void m8690X(Context context, String str, String str2, String str3, String str4, String str5, String str6) {
-        Intent intentM4223g;
-        if (TextUtils.isEmpty(str5)) {
-            intentM4223g = new Intent("android.intent.action.SEND");
-            intentM4223g.putExtra("android.intent.extra.TEXT", str + " \n" + str2);
-            intentM4223g.putExtra("android.intent.extra.SUBJECT", str);
-            if (str6 == null) {
-                intentM4223g.setType("text/plain");
+    public static void share(Context context, String subject, String body, String shareTitle, String filePath, String mimeType) {
+        Intent shareIntent;
+
+        // If filePath is empty, create an intent to share text
+        if (TextUtils.isEmpty(filePath)) {
+            shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, subject + " \n" + body);
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+
+            // Set the MIME type for the text message
+            if (mimeType == null) {
+                shareIntent.setType("text/plain");
             } else {
-                intentM4223g.setType(str6);
+                shareIntent.setType(mimeType);
             }
         } else {
-            intentM4223g = FileUtils.createShareFileIntent(context, str5);
+            // If filePath is provided, create an intent to share a file
+            shareIntent = FileUtils.createShareFileIntent(context, filePath);
         }
+
+        // Attempt to start the sharing activity
         try {
-            context.startActivity(Intent.createChooser(intentM4223g, str4));
-        } catch (ActivityNotFoundException unused) {
+            context.startActivity(Intent.createChooser(shareIntent, shareTitle));
+        } catch (ActivityNotFoundException e) {
+            // Handle exception if no app is found to handle the intent
         }
     }
 
-    public static String m8691Y(InputStream inputStream) throws IOException {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] bArr = new byte[1024];
-            while (true) {
-                int i = inputStream.read(bArr);
-                if (i == -1) {
-                    byteArrayOutputStream.flush();
-                    inputStream.close();
-                    return byteArrayOutputStream.toString();
-                }
-                byteArrayOutputStream.write(bArr, 0, i);
+    public static String readStreamToString(InputStream inputStream) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesRead);
             }
+            return baos.toString(StandardCharsets.UTF_8.name());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -722,7 +726,7 @@ public abstract class AndroidSystemUtils {
         return sb.toString();
     }
 
-    public static String m8713u() {
+    public static String getSId() {
         return "_" + UUID.randomUUID().toString();
     }
 

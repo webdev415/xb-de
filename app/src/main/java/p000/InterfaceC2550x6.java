@@ -1,7 +1,5 @@
 package p000;
 
-import p000.InterfaceC0191E6;
-
 public interface InterfaceC2550x6 extends InterfaceC0191E6.b {
 
     public static final b f7940a = b.f7941l;
@@ -30,10 +28,10 @@ public interface InterfaceC2550x6 extends InterfaceC0191E6.b {
         public static InterfaceC0191E6 m10629b(InterfaceC2550x6 interfaceC2550x6, c cVar) {
             AbstractC0116Ce.m476e(cVar, "key");
             if (!(cVar instanceof AbstractC0000A)) {
-                return InterfaceC2550x6.f7940a == cVar ? C0608N9.f1911l : interfaceC2550x6;
+                return InterfaceC2550x6.f7940a == cVar ? EmptyCoroutineContext.f1911l : interfaceC2550x6;
             }
             AbstractC0000A abstractC0000A = (AbstractC0000A) cVar;
-            return (!abstractC0000A.m0a(interfaceC2550x6.getKey()) || abstractC0000A.m1b(interfaceC2550x6) == null) ? interfaceC2550x6 : C0608N9.f1911l;
+            return (!abstractC0000A.m0a(interfaceC2550x6.getKey()) || abstractC0000A.m1b(interfaceC2550x6) == null) ? interfaceC2550x6 : EmptyCoroutineContext.f1911l;
         }
     }
 

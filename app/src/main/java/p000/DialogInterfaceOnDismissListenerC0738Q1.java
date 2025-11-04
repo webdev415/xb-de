@@ -8,7 +8,7 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import org.json.JSONException;
 
-public class DialogInterfaceOnDismissListenerC0738Q1 extends AbstractDialogC2267r implements DialogInterface.OnDismissListener {
+public class DialogInterfaceOnDismissListenerC0738Q1 extends BaseDialog implements DialogInterface.OnDismissListener {
 
     public BrowserActivity f2190b;
 
@@ -51,7 +51,7 @@ public class DialogInterfaceOnDismissListenerC0738Q1 extends AbstractDialogC2267
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_auto_update_setting);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.update_setting_group);
         radioGroup.check(m3624d(SharedPreferencesHelper.getInstance().adRuleUpdateCircle));
@@ -61,6 +61,6 @@ public class DialogInterfaceOnDismissListenerC0738Q1 extends AbstractDialogC2267
 
     @Override
     public void onDismiss(DialogInterface dialogInterface) throws JSONException {
-        C1199a3.m5090f().m5096h(this.f2191c);
+        C1199a3.getInstance().m5096h(this.f2191c);
     }
 }

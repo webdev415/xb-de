@@ -18,7 +18,7 @@ import java.util.Map;
 
 public final class C0413Iz implements InterfaceC0643Nz {
 
-    public static final Map f1238h = new C2453v1();
+    public static final Map f1238h = new ScriptMap();
 
     public static final String[] f1239i = {"key", "value"};
 
@@ -120,7 +120,7 @@ public final class C0413Iz implements InterfaceC0643Nz {
                     cursorQuery.close();
                     return mapEmptyMap2;
                 }
-                Map c2453v1 = count <= 256 ? new C2453v1(count) : new HashMap<>(count, 1.0f);
+                Map c2453v1 = count <= 256 ? new ScriptMap(count) : new HashMap<>(count, 1.0f);
                 while (cursorQuery.moveToNext()) {
                     c2453v1.put(cursorQuery.getString(0), cursorQuery.getString(1));
                 }

@@ -51,7 +51,7 @@ public final class C2566xd {
 
         public final C2409u3 f7991l = new C2409u3();
 
-        public C1079Xc f7992m;
+        public Headers f7992m;
 
         public boolean f7993n;
 
@@ -122,9 +122,9 @@ public final class C2566xd {
                         }
                         C2428ud c2428udM10686g = C2566xd.this.m10686g();
                         int iM10689j = C2566xd.this.m10689j();
-                        C1079Xc c1079Xc = this.f7992m;
-                        AbstractC0116Ce.m473b(c1079Xc);
-                        c2428udM10686g.m10060x0(iM10689j, z, AbstractC2623yo.m10914J(c1079Xc));
+                        Headers headers = this.f7992m;
+                        AbstractC0116Ce.m473b(headers);
+                        c2428udM10686g.m10060x0(iM10689j, z, AbstractC2623yo.m10914J(headers));
                     } else if (z2) {
                         while (this.f7991l.m9911Y() > 0) {
                             m10706a(true);
@@ -202,7 +202,7 @@ public final class C2566xd {
 
         public final C2409u3 f7997m = new C2409u3();
 
-        public C1079Xc f7998n;
+        public Headers f7998n;
 
         public boolean f7999o;
 
@@ -315,8 +315,8 @@ public final class C2566xd {
             this.f8001q = z;
         }
 
-        public final void m10713j(C1079Xc c1079Xc) {
-            this.f7998n = c1079Xc;
+        public final void m10713j(Headers headers) {
+            this.f7998n = headers;
         }
 
         public final void m10714k(long j) {
@@ -433,7 +433,7 @@ public final class C2566xd {
         }
     }
 
-    public C2566xd(int i, C2428ud c2428ud, boolean z, boolean z2, C1079Xc c1079Xc) {
+    public C2566xd(int i, C2428ud c2428ud, boolean z, boolean z2, Headers headers) {
         AbstractC0116Ce.m476e(c2428ud, "connection");
         this.f7989m = i;
         this.f7990n = c2428ud;
@@ -444,7 +444,7 @@ public final class C2566xd {
         this.f7984h = new b(z);
         this.f7985i = new d();
         this.f7986j = new d();
-        if (c1079Xc == null) {
+        if (headers == null) {
             if (!m10699t()) {
                 throw new IllegalStateException("remotely-initiated streams should have headers".toString());
             }
@@ -452,7 +452,7 @@ public final class C2566xd {
             if (!(!m10699t())) {
                 throw new IllegalStateException("locally-initiated streams shouldn't have headers yet".toString());
             }
-            arrayDeque.add(c1079Xc);
+            arrayDeque.add(headers);
         }
     }
 
@@ -464,7 +464,7 @@ public final class C2566xd {
         this.f7979c = j;
     }
 
-    public final synchronized C1079Xc m10677C() {
+    public final synchronized Headers m10677C() {
         Object objRemoveFirst;
         this.f7985i.m1474r();
         while (this.f7981e.isEmpty() && this.f7987k == null) {
@@ -487,7 +487,7 @@ public final class C2566xd {
         }
         objRemoveFirst = this.f7981e.removeFirst();
         AbstractC0116Ce.m475d(objRemoveFirst, "headersQueue.removeFirst()");
-        return (C1079Xc) objRemoveFirst;
+        return (Headers) objRemoveFirst;
     }
 
     public final void m10678D() throws InterruptedException, InterruptedIOException {
@@ -704,9 +704,9 @@ public final class C2566xd {
         throw new AssertionError(sb.toString());
     }
 
-    public final void m10703x(C1079Xc c1079Xc, boolean z) {
+    public final void m10703x(Headers headers, boolean z) {
         boolean zM10700u;
-        AbstractC0116Ce.m476e(c1079Xc, "headers");
+        AbstractC0116Ce.m476e(headers, "headers");
         if (AbstractC2623yo.f8134h && Thread.holdsLock(this)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Thread ");
@@ -720,10 +720,10 @@ public final class C2566xd {
         synchronized (this) {
             try {
                 if (this.f7982f && z) {
-                    this.f7983g.m10713j(c1079Xc);
+                    this.f7983g.m10713j(headers);
                 } else {
                     this.f7982f = true;
-                    this.f7981e.add(c1079Xc);
+                    this.f7981e.add(headers);
                 }
                 if (z) {
                     this.f7983g.m10712i(true);

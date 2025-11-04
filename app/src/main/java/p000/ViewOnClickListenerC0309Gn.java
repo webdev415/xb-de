@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.BrowserActivityDelegate;
-import com.mmbox.xbrowser.C1539a;
+import com.mmbox.xbrowser.ContentDataManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
@@ -151,8 +151,8 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
         }
         int i = this.f979o;
         if ((i == 0 || i == 0) && (imageButton = (ImageButton) this.f966b.findViewById(R.id.toolbar_btn_forward)) != null) {
-            String strM6855G = SharedPreferencesHelper.getInstance().m6855G("long_press_forward_btn");
-            if (!this.f966b.m6221J() && (TextUtils.isEmpty(strM6855G) || strM6855G.equals("not_set") || strM6855G.equals("none"))) {
+            String strM6855G = SharedPreferencesHelper.getInstance().getDefaultActionForKey("long_press_forward_btn");
+            if (!this.f966b.isNextTabValid() && (TextUtils.isEmpty(strM6855G) || strM6855G.equals("not_set") || strM6855G.equals("none"))) {
                 z = false;
             }
             imageButton.setEnabled(z);
@@ -170,8 +170,8 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
             ThemeManager.getInstance().m9500u().mo1389h(imageButton);
             int i = this.f979o;
             if (i == 0 || i == 0) {
-                String strM6855G = SharedPreferencesHelper.getInstance().m6855G("long_press_forward_btn");
-                if (!this.f966b.m6221J() && (TextUtils.isEmpty(strM6855G) || strM6855G.equals("not_set") || strM6855G.equals("none"))) {
+                String strM6855G = SharedPreferencesHelper.getInstance().getDefaultActionForKey("long_press_forward_btn");
+                if (!this.f966b.isNextTabValid() && (TextUtils.isEmpty(strM6855G) || strM6855G.equals("not_set") || strM6855G.equals("none"))) {
                     z = false;
                 }
                 imageButton.setEnabled(z);
@@ -181,10 +181,10 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
     }
 
     public final void m1426D() {
-        String strM6855G = SharedPreferencesHelper.getInstance().m6855G("long_press_back_btn");
+        String strM6855G = SharedPreferencesHelper.getInstance().getDefaultActionForKey("long_press_back_btn");
         ImageView imageView = (ImageView) this.f966b.findViewById(R.id.toolbar_btn_back);
         if (imageView != null) {
-            imageView.setEnabled(this.f966b.m6217I() || !(TextUtils.isEmpty(strM6855G) || strM6855G.equals("not_set") || strM6855G.equals("none")));
+            imageView.setEnabled(this.f966b.isPreviousTabValid() || !(TextUtils.isEmpty(strM6855G) || strM6855G.equals("not_set") || strM6855G.equals("none")));
             ThemeManager.getInstance().m9500u().mo1389h(imageView);
         }
     }
@@ -198,11 +198,11 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
     public void m1427E() {
         /*
             r3 = this;
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             int r0 = r0.f4890Y
             r1 = 4097(0x1001, float:5.741E-42)
             if (r0 != r1) goto L1f
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             java.lang.String r1 = "search-bar-at-top.toolbar_layout"
             java.lang.String r2 = "layout_1"
             java.lang.String r0 = r0.m6871P(r1, r2)
@@ -211,7 +211,7 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
             if (r0 == 0) goto L43
             goto L3f
         L1f:
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             java.lang.String r1 = "search-bar-at-bottom.toolbar_layout"
             java.lang.String r2 = "layout_4"
             java.lang.String r0 = r0.m6871P(r1, r2)
@@ -350,7 +350,7 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
     }
 
     public final int m1430m() {
-        String strM6855G = SharedPreferencesHelper.getInstance().m6855G("push_bottom_toolbar_up");
+        String strM6855G = SharedPreferencesHelper.getInstance().getDefaultActionForKey("push_bottom_toolbar_up");
         return strM6855G.equals("search") ? R.drawable.ic_search : strM6855G.equals("refresh") ? R.drawable.ic_refresh : strM6855G.equals("close_tab") ? R.drawable.ic_stop_or_close : R.drawable.ic_home;
     }
 
@@ -359,7 +359,7 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
     }
 
     public final void m1432o() {
-        this.f966b.m6218I0().mo6439y(SharedPreferencesHelper.getInstance().m6855G("push_bottom_toolbar_up"));
+        this.f966b.getActivityDelegate().mo6439y(SharedPreferencesHelper.getInstance().getDefaultActionForKey("push_bottom_toolbar_up"));
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:14:0x004a, code lost:
@@ -368,7 +368,7 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
      */
     /* JADX WARN: Code restructure failed: missing block: B:33:0x00a5, code lost:
     
-        if ((com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I().f4890Y & 4098) == 4098) goto L15;
+        if ((com.mmbox.xbrowser.SharedPreferencesHelper.getInstance().f4890Y & 4098) == 4098) goto L15;
      */
     @Override
     /*
@@ -391,41 +391,41 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
         String str;
         int id = view.getId();
         if (id == R.id.toolbar_btn_back) {
-            boolean zMo6439y = this.f966b.m6218I0().mo6439y(SharedPreferencesHelper.getInstance().m6855G("long_press_back_btn"));
+            boolean zMo6439y = this.f966b.getActivityDelegate().mo6439y(SharedPreferencesHelper.getInstance().getDefaultActionForKey("long_press_back_btn"));
             if (zMo6439y) {
                 return zMo6439y;
             }
-            this.f966b.m6218I0().mo6411T();
+            this.f966b.getActivityDelegate().mo6411T();
             return true;
         }
         if (id != R.id.toolbox_btn) {
             switch (id) {
                 case R.id.toolbar_btn_forward /* 2131165564 */:
-                    browserActivityDelegateM6218I0 = this.f966b.m6218I0();
+                    browserActivityDelegateM6218I0 = this.f966b.getActivityDelegate();
                     sharedPreferencesHelperM6833I = SharedPreferencesHelper.getInstance();
                     str = "long_press_forward_btn";
                     break;
                 case R.id.toolbar_btn_home /* 2131165565 */:
-                    browserActivityDelegateM6218I0 = this.f966b.m6218I0();
+                    browserActivityDelegateM6218I0 = this.f966b.getActivityDelegate();
                     sharedPreferencesHelperM6833I = SharedPreferencesHelper.getInstance();
                     str = "long_press_home";
                     break;
                 case R.id.toolbar_btn_menu /* 2131165566 */:
-                    browserActivityDelegateM6218I0 = this.f966b.m6218I0();
+                    browserActivityDelegateM6218I0 = this.f966b.getActivityDelegate();
                     sharedPreferencesHelperM6833I = SharedPreferencesHelper.getInstance();
                     str = "long_press_menu";
                     break;
                 case R.id.toolbar_btn_muti_window /* 2131165567 */:
-                    browserActivityDelegateM6218I0 = this.f966b.m6218I0();
+                    browserActivityDelegateM6218I0 = this.f966b.getActivityDelegate();
                     sharedPreferencesHelperM6833I = SharedPreferencesHelper.getInstance();
                     str = "long_press_multi_tab";
                     break;
                 default:
                     return false;
             }
-            strM6855G = sharedPreferencesHelperM6833I.m6855G(str);
+            strM6855G = sharedPreferencesHelperM6833I.getDefaultActionForKey(str);
         } else {
-            browserActivityDelegateM6218I0 = this.f966b.m6218I0();
+            browserActivityDelegateM6218I0 = this.f966b.getActivityDelegate();
             strM6855G = "copy_url";
         }
         browserActivityDelegateM6218I0.mo6439y(strM6855G);
@@ -457,7 +457,7 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
         int i;
         a aVar;
         this.f969e = (int) this.f966b.getResources().getDimension(R.dimen.toolbar_indicator_threshold);
-        boolean z = !SharedPreferencesHelper.getInstance().m6855G("push_bottom_toolbar_up").equals("none");
+        boolean z = !SharedPreferencesHelper.getInstance().getDefaultActionForKey("push_bottom_toolbar_up").equals("none");
         this.f972h = (ImageView) this.f966b.findViewById(R.id.toolbar_push_indicator);
         if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 4098) == 4098) {
             browserActivity = this.f966b;
@@ -512,7 +512,7 @@ public class ViewOnClickListenerC0309Gn implements View.OnClickListener, View.On
         TextView textView = (TextView) this.f966b.findViewById(R.id.blocking_indicator_top);
         TextView textView2 = (TextView) this.f966b.findViewById(R.id.blocking_indicator_bottom);
         if (SharedPreferencesHelper.getInstance().showAdBlockToast && !TextUtils.isEmpty(str) && str.startsWith("http")) {
-            int iM6601Y = C1539a.getInstance().m6601Y(str);
+            int iM6601Y = ContentDataManager.getInstance().m6601Y(str);
             if (iM6601Y > 0) {
                 if (textView != null) {
                     textView.setVisibility(View.VISIBLE);

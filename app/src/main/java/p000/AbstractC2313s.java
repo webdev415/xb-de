@@ -14,7 +14,7 @@ public abstract class AbstractC2313s {
 
     public void m9455b() {
         this.f6990d = true;
-        C1825ha.m7824d().m7826b(m9456c());
+        EventQueueManager.getInstance().removeEvent(m9456c());
     }
 
     public long m9456c() {

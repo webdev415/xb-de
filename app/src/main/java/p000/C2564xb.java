@@ -22,7 +22,7 @@ public class C2564xb {
 
     public boolean f7970c = false;
 
-    public static C2564xb m10653b() {
+    public static C2564xb getInstance() {
         if (f7967f == null) {
             f7967f = new C2564xb();
         }
@@ -34,7 +34,7 @@ public class C2564xb {
         this.f7970c = false;
     }
 
-    public void m10655c(Activity activity) {
+    public void init(Activity activity) {
         this.f7968a = activity;
         this.f7969b = new FrameLayout(activity);
         this.f7969b.addView(View.inflate(this.f7968a, R.layout.float_message_box, null));

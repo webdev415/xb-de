@@ -10,7 +10,7 @@ import java.util.Map;
 
 public final class C0287GA implements InterfaceC0643Nz {
 
-    public static final Map f863g = new C2453v1();
+    public static final Map f863g = new ScriptMap();
 
     public final SharedPreferences f864a;
 

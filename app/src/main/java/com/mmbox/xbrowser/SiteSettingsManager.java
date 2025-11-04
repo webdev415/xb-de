@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import p000.DatabaseColumns;
 import p000.ResourceCacheManager;
-import p000.C1089Xm;
+import p000.SyncManager;
 import p000.MySQLiteOpenHelper;
 
 public class SiteSettingsManager {
@@ -255,7 +255,7 @@ public class SiteSettingsManager {
         if (i != 0 && i == 1) {
             ContentDataManager.getInstance().m6613e1(str);
         }
-        C1089Xm.getInstance().m4822j("syncable_host").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_host").incrementVersion();
     }
 
     public void m6952U(String str) {
@@ -265,7 +265,7 @@ public class SiteSettingsManager {
 
     public void m6953V(int i) {
         MySQLiteOpenHelper.getInstance().getWritableDatabase().delete("host_list", "host_type = ? ", new String[]{i + ""});
-        BrowserActivity.getActivity().m6361u0("native_call_clearHosts()");
+        BrowserActivity.getActivity().updateTitle("native_call_clearHosts()");
     }
 
     public void m6954W() {
@@ -373,7 +373,7 @@ public class SiteSettingsManager {
                 cursorQuery.close();
             }
         }
-        C1089Xm.getInstance().m4822j("syncable_host").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_host").incrementVersion();
         return -1L;
     }
 
@@ -390,7 +390,7 @@ public class SiteSettingsManager {
             ContentDataManager.getInstance().m6560D(str);
         }
         m6950S();
-        C1089Xm.getInstance().m4822j("syncable_host").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_host").incrementVersion();
     }
 
     public boolean m6959a0(String str) {
@@ -604,7 +604,7 @@ public class SiteSettingsManager {
             this.cachedUrl = null;
         }
         if (str.startsWith("http")) {
-            m6972n(webView, ResourceCacheManager.getInstance().m2046a(str, 1004));
+            m6972n(webView, ResourceCacheManager.getInstance().getUrlOrFilePath(str, 1004));
         } else if (str.startsWith("file:///")) {
             webView.getSettings().setJavaScriptEnabled(true);
             webView.getSettings().setLoadsImagesAutomatically(true);

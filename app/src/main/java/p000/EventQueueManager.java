@@ -4,91 +4,87 @@ import android.database.Cursor;
 import android.database.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-public class C1825ha {
+public class EventQueueManager {
 
-    public static C1825ha instance;
+    // Singleton instance
+    private static EventQueueManager instance;
 
-    public final ArrayList f5733a = new ArrayList<>();
+    // List of event handlers
+    private final List<EventHandlerRegistration> eventHandlers = new ArrayList<>();
 
-    public final HashMap f5734b = new HashMap<>();
+    // Map of transaction IDs to event handlers
+    private final Map<Long, AbstractC2313s> transactionHandlers = new HashMap<>();
 
-    public class a {
-
-        public int f5735a;
-
-        public Class f5736b;
-
-        public a(int i, Class cls) {
-            this.f5735a = i;
-            this.f5736b = cls;
-        }
-    }
-
-    public static C1825ha getInstance() {
+    // Singleton getInstance
+    public static EventQueueManager getInstance() {
         if (instance == null) {
-            instance = new C1825ha();
+            instance = new EventQueueManager();
         }
         return instance;
     }
 
-    public void m7825a() {
-        try {
-            Cursor cursorQuery = MySQLiteOpenHelper.getInstance().getReadableDatabase().query("event_queue", DatabaseColumns.EVENT_QUEUE, null, null, null, null, null, null);
-            if (cursorQuery != null) {
-                if (cursorQuery.moveToFirst()) {
-                    do {
-                        long j = cursorQuery.getLong(cursorQuery.getColumnIndex("tran_id"));
-                        int i = cursorQuery.getInt(cursorQuery.getColumnIndex("event_id"));
-                        String string = cursorQuery.getString(cursorQuery.getColumnIndex("event_params"));
-                        m7826b(j);
-                        if (i != 0) {
-                            m7831h(j, i, string, null);
-                        }
-                    } while (cursorQuery.moveToNext());
-                }
-                cursorQuery.close();
+    // Load events from the database
+    public void loadEvents() {
+        try (Cursor cursor = MySQLiteOpenHelper.getInstance().getReadableDatabase().query(
+                "event_queue", DatabaseColumns.EVENT_QUEUE, null, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    long transactionId = cursor.getLong(cursor.getColumnIndex("tran_id"));
+                    int eventId = cursor.getInt(cursor.getColumnIndex("event_id"));
+                    String eventParams = cursor.getString(cursor.getColumnIndex("event_params"));
+                    removeEvent(transactionId);
+                    if (eventId != 0) {
+                        processEvent(transactionId, eventId, eventParams, null);
+                    }
+                } while (cursor.moveToNext());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void m7826b(long j) {
-        this.f5734b.remove(j);
+    // Remove an event from the database
+    public void removeEvent(long transactionId) {
+        this.transactionHandlers.remove(transactionId);
         try {
-            MySQLiteOpenHelper.getInstance().getWritableDatabase().execSQL("DELETE FROM event_queue WHERE tran_id=" + j);
-        } catch (Exception unused) {
+            MySQLiteOpenHelper.getInstance().getWritableDatabase().execSQL("DELETE FROM event_queue WHERE tran_id=" + transactionId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public void m7827c(AbstractC2313s abstractC2313s) throws SQLException {
-        this.f5734b.put(abstractC2313s.m9456c(), abstractC2313s);
-        MySQLiteOpenHelper.getInstance().getWritableDatabase().execSQL("INSERT INTO event_queue(tran_id,event_id,event_params,status ) VALUES (" + abstractC2313s.f6987a + ", " + abstractC2313s.f6988b + ",'" + abstractC2313s.f6989c + "',0)");
+    // Add event to the queue
+    public void addEvent(AbstractC2313s eventHandler) throws SQLException {
+        this.transactionHandlers.put(eventHandler.m9456c(), eventHandler);
+        MySQLiteOpenHelper.getInstance().getWritableDatabase().execSQL(
+                "INSERT INTO event_queue(tran_id,event_id,event_params,status ) VALUES (" +
+                        eventHandler.f6987a + ", " + eventHandler.f6988b + ",'" + eventHandler.f6989c + "',0)");
     }
 
-    public void m7828e(int i) {
-        m7829f(i, null);
+    // Process event with parameters
+    public void processEvent(int eventId) {
+        processEvent(eventId, null);
     }
 
-    public void m7829f(int i, String str) {
-        m7831h(System.currentTimeMillis(), i, str, null);
+    public void processEvent(int eventId, String eventParams) {
+        processEvent(eventId, eventParams, null);
     }
 
-    public void m7830g(int i, String str, Object obj) {
-        m7831h(System.currentTimeMillis(), i, str, obj);
+    public void processEvent(int eventId, String eventParams, Object additionalData) {
+        processEvent(System.currentTimeMillis(), eventId, eventParams, additionalData);
     }
 
-    public void m7831h(long j, int i, String str, Object obj) {
-        for (Object o : this.f5733a) {
-            a aVar = (a) o;
-            if (aVar.f5735a == i) {
+    public void processEvent(long timestamp, int eventId, String eventParams, Object additionalData) {
+        for (EventHandlerRegistration registration : eventHandlers) {
+            if (registration.eventId == eventId) {
                 try {
-                    AbstractC2313s abstractC2313s = (AbstractC2313s) aVar.f5736b.newInstance();
-                    abstractC2313s.m9458e(j);
-                    if (!abstractC2313s.m9457d(i, str, obj)) {
-                        m7827c(abstractC2313s);
+                    AbstractC2313s eventHandler = (AbstractC2313s) registration.eventClass.newInstance();
+                    eventHandler.m9458e(timestamp);
+                    if (!eventHandler.m9457d(eventId, eventParams, additionalData)) {
+                        addEvent(eventHandler);
                     }
                 } catch (IllegalAccessException | InstantiationException e) {
                     e.printStackTrace();
@@ -97,7 +93,19 @@ public class C1825ha {
         }
     }
 
-    public void m7832i(int i, Class cls) {
-        this.f5733a.add(new a(i, cls));
+    // Register an event type handler
+    public void registerEventHandler(int eventId, Class<? extends AbstractC2313s> eventClass) {
+        this.eventHandlers.add(new EventHandlerRegistration(eventId, eventClass));
+    }
+
+    // Internal class for event handler registration
+    private static class EventHandlerRegistration {
+        private final int eventId;
+        private final Class<? extends AbstractC2313s> eventClass;
+
+        public EventHandlerRegistration(int eventId, Class<? extends AbstractC2313s> eventClass) {
+            this.eventId = eventId;
+            this.eventClass = eventClass;
+        }
     }
 }

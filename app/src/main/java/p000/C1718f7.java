@@ -4,9 +4,9 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import com.mmbox.xbrowser.BrowserActivity;
-import com.mmbox.xbrowser.C1539a;
-import com.mmbox.xbrowser.C1541c;
-import com.mmbox.xbrowser.C1572g;
+import com.mmbox.xbrowser.ContentDataManager;
+import com.mmbox.xbrowser.BrowserDownloadManager;
+import com.mmbox.xbrowser.MenuConfigManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import org.json.JSONArray;
@@ -47,11 +47,11 @@ public class C1718f7 implements InterfaceC1671e7 {
             jSONObject.put("cache_dir", PhoneUtils.getInstance().getCacheDir());
             jSONObject.put("backup_user_data_dir", PhoneUtils.getInstance().getBackupDir());
             jSONObject.put("use_memory", AndroidSystemUtils.formatFileSize(AndroidSystemUtils.getMemoryUsed()));
-            jSONObject.put("url_rules", C1539a.getInstance().getUrlRules());
-            jSONObject.put("element_rules", C1539a.getInstance().getElementRules());
-            jSONObject.put("regular_rules", C1539a.getInstance().getRegularRules());
-            jSONObject.put("exception_rules", C1539a.getInstance().getExceptionRules());
-            jSONObject.put("user_mark_rules", C1539a.getInstance().getUserMarkRules());
+            jSONObject.put("url_rules", ContentDataManager.getInstance().getUrlRules());
+            jSONObject.put("element_rules", ContentDataManager.getInstance().getElementRules());
+            jSONObject.put("regular_rules", ContentDataManager.getInstance().getRegularRules());
+            jSONObject.put("exception_rules", ContentDataManager.getInstance().getExceptionRules());
+            jSONObject.put("user_mark_rules", ContentDataManager.getInstance().getUserMarkRules());
             jSONObject.put("is_default_browser", AndroidSystemUtils.isDefaultBrowser(this.browserActivity));
             jSONObject.put("is_in_china", PhoneUtils.getInstance().isInChina());
         } catch (JSONException e) {
@@ -75,8 +75,8 @@ public class C1718f7 implements InterfaceC1671e7 {
             throw new Exception("unknow data type");
         }
         if (str.equals("rule_file_list")) {
-            C1539a.getInstance().m6594U0();
-            return C1539a.getInstance().m6578M();
+            ContentDataManager.getInstance().m6594U0();
+            return ContentDataManager.getInstance().m6578M();
         }
         if (str.equals("toolbar_layout_setting")) {
             JSONObject jSONObject = new JSONObject();
@@ -104,10 +104,10 @@ public class C1718f7 implements InterfaceC1671e7 {
                 return m7552a();
             }
             if (str.equals("user_scripts")) {
-                return C2061mf.m8471f0().m8531e0();
+                return JSManager.getInstance().m8531e0();
             }
             if (str.equals("downloads")) {
-                return C1541c.m6674q().m6704u();
+                return BrowserDownloadManager.getInstance().m6704u();
             }
             if (str.equals("custom_ua_list")) {
                 return m7554e();
@@ -120,7 +120,7 @@ public class C1718f7 implements InterfaceC1671e7 {
             }
             throw new Exception("unknow data type:" + str);
         }
-        return C1572g.getInstance().m7025g(str);
+        return MenuConfigManager.getInstance().m7025g(str);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class C1718f7 implements InterfaceC1671e7 {
             }
         }
         if (str.equals("main_menu") || str.equals("tool_menu") || str.equals("context_menu")) {
-            C1572g.getInstance().m7040w(str, str2);
+            MenuConfigManager.getInstance().m7040w(str, str2);
             return;
         }
         if (str.equals("rule_file_list")) {
@@ -155,7 +155,7 @@ public class C1718f7 implements InterfaceC1671e7 {
         } else {
             SharedPreferencesHelper.getInstance().putString("custom_search_urls", str2);
         }
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     public final String m7553d() {
@@ -220,7 +220,7 @@ public class C1718f7 implements InterfaceC1671e7 {
         }
         if (!str.equals("show-ad-block-toast") && !str.equals("follow-sys-dark-mode")) {
             if (str.equals("enable_geolocation")) {
-                return SharedPreferencesHelper.getInstance().m6916r();
+                return SharedPreferencesHelper.getInstance().isEnableGeolocation();
             }
             if (!str.equals("use-public-download-dir") && !str.equals("ignore_security_warnings")) {
                 return str.equals("dont-upload-user-exp-data") ? SharedPreferencesHelper.getInstance().dontUploadUserExpData : str.equals("auto-sniff-media") ? SharedPreferencesHelper.getInstance().getBoolean(str, SharedPreferencesHelper.getInstance().autoSniffMedia) : str.equals("auto-clean-web-cache") ? SharedPreferencesHelper.getInstance().getBoolean(str, SharedPreferencesHelper.getInstance().autoCleanWebCache) : str.equals("confirm-when-close-tabs") ? SharedPreferencesHelper.getInstance().getBoolean(str, true) : str.equals("enable-immersive-mode") ? SharedPreferencesHelper.getInstance().enableImmersiveMode : str.equals("disable-pull-to-refresh-gesture") ? SharedPreferencesHelper.getInstance().disablePullToRefreshGesture : str.equals("disable-pull-to-search-gesture") ? SharedPreferencesHelper.getInstance().disablePullToSearchGesture : str.equals("support-quick-gesture") ? SharedPreferencesHelper.getInstance().supportQuickGesture : str.equals("disable-gesture-in-video-fullscreen") ? SharedPreferencesHelper.getInstance().disableGestureInVideoFullscreen : str.equals("support-touch-page-down") ? SharedPreferencesHelper.getInstance().supportTouchPageDown : str.equals("support-volume-page-down") ? SharedPreferencesHelper.getInstance().supportVolumePageDown : str.equals("show-qa-icons") ? !SharedPreferencesHelper.getInstance().getBoolean(str, true) : str.equals("enable-remote-debug") ? SharedPreferencesHelper.getInstance().enableRemoteDebug : str.equals("fullscreen-with-float-btn") ? SharedPreferencesHelper.getInstance().fullscreenWithFloatBtn : str.equals("display-qa-in-single-screen") ? SharedPreferencesHelper.getInstance().getBoolean(str, true) : str.equals("support-multi-win") ? SharedPreferencesHelper.getInstance().supportMultiWindow : str.equals("force-open-in-bg") ? SharedPreferencesHelper.getInstance().forceOpenInBackground : str.equals("force-open-in-new-tab") ? SharedPreferencesHelper.getInstance().forceOpenInNewTab : str.equals("disable-back-forward-gesture") ? SharedPreferencesHelper.getInstance().disableBackForwardGesture : str.equals("block-pop-window") ? SharedPreferencesHelper.getInstance().blockPopWindow : SharedPreferencesHelper.getInstance().getBoolean(str, false);
@@ -281,11 +281,11 @@ public class C1718f7 implements InterfaceC1671e7 {
         } else if (str.equals("fullscreen-with-float-btn")) {
             SharedPreferencesHelper.getInstance().fullscreenWithFloatBtn = z;
             if (SharedPreferencesHelper.getInstance().browserFullscreenMode) {
-                C0848Sb c0848SbM4048n = C0848Sb.m4048n();
+                C0848Sb c0848SbM4048n = C0848Sb.getInstance();
                 if (z) {
-                    c0848SbM4048n.m4052r();
+                    c0848SbM4048n.restorePosition();
                 } else {
-                    c0848SbM4048n.m4049o();
+                    c0848SbM4048n.hideFloatingButton();
                 }
             }
         } else if (str.equals("clean-web-cache-on-exit")) {
@@ -302,8 +302,8 @@ public class C1718f7 implements InterfaceC1671e7 {
             this.browserActivity.m6280X2();
         }
         SharedPreferencesHelper.getInstance().putBoolean(str, z);
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
-        SharedPreferencesHelper.getInstance().loadPreferences();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
+        SharedPreferencesHelper.getInstance().initSettings();
     }
 
     public final void m7560k(String str, String str2) {
@@ -314,6 +314,6 @@ public class C1718f7 implements InterfaceC1671e7 {
             SharedPreferencesHelper.getInstance().m6861J0(str2);
         }
         SharedPreferencesHelper.getInstance().putString(str, str2);
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 }

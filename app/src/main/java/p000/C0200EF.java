@@ -32,11 +32,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import p000.C0135Cx;
-import p000.C0365Hx;
-import p000.C0425JA;
-import p000.C0457Jx;
-import p000.C0595Mx;
 
 public class C0200EF implements InterfaceC0241FA {
 
@@ -481,8 +476,8 @@ public class C0200EF implements InterfaceC0241FA {
                     }
                     C0635Nr c0635Nr = c2303rq.f6986v;
                     if (c0635Nr != null) {
-                        C0175Dr c0175Dr = c0635Nr.f1975m;
-                        m934e0((C0635Nr) AbstractC1085Xi.m4801j(m966y0().m10486K(str, ((C0635Nr) AbstractC1085Xi.m4801j(c2303rq.f6986v)).f1974l, c0175Dr != null ? c0175Dr.m785h() : null, c2303rqM2480H0.f6977m, c2303rq.f6986v.f1977o, true, true)), c0569mg);
+                        C0175Dr c0175Dr = c0635Nr.params;
+                        m934e0((C0635Nr) AbstractC1085Xi.m4801j(m966y0().m10486K(str, ((C0635Nr) AbstractC1085Xi.m4801j(c2303rq.f6986v)).name, c0175Dr != null ? c0175Dr.m785h() : null, c2303rqM2480H0.f6977m, c2303rq.f6986v.f1977o, true, true)), c0569mg);
                     }
                 } else {
                     mo349g().m9623L().m10618c("Conditional user property doesn't exist", C2356sx.m9613v(c2303rq.f6976l), this.f498l.m9222D().m9213g(c2303rq.f6978n.f6158m));
@@ -510,7 +505,7 @@ public class C0200EF implements InterfaceC0241FA {
         }
         Boolean boolM938h = m938h(c2403tyM2488L0);
         if (boolM938h == null) {
-            if (!"_ui".equals(c0635Nr.f1974l)) {
+            if (!"_ui".equals(c0635Nr.name)) {
                 mo349g().m9623L().m10617b("Could not find package. appId", C2356sx.m9613v(str));
             }
         } else if (!boolM938h.booleanValue()) {
@@ -543,7 +538,7 @@ public class C0200EF implements InterfaceC0241FA {
         long j = c0635Nr.f1977o;
         C0043Ax c0043AxM169b = C0043Ax.m169b(c0635Nr);
         mo354l().mo356n();
-        C2514wG.m10459Y((this.f484E == null || (str2 = this.f485F) == null || !str2.equals(str3)) ? null : this.f484E, c0043AxM169b.f98d, false);
+        C2514wG.m10459Y((this.f484E == null || (str2 = this.f485F) == null || !str2.equals(str3)) ? null : this.f484E, c0043AxM169b.params, false);
         C0635Nr c0635NrM170a = c0043AxM169b.m170a();
         m965x0();
         if (C2145oG.m8903f0(c0635NrM170a, c0569mg)) {
@@ -554,13 +549,13 @@ public class C0200EF implements InterfaceC0241FA {
             List list = c0569mg.f1774E;
             if (list == null) {
                 c0635Nr2 = c0635NrM170a;
-            } else if (!list.contains(c0635NrM170a.f1974l)) {
-                mo349g().m9617F().m10619d("Dropping non-safelisted event. appId, event name, origin", str3, c0635NrM170a.f1974l, c0635NrM170a.f1976n);
+            } else if (!list.contains(c0635NrM170a.name)) {
+                mo349g().m9617F().m10619d("Dropping non-safelisted event. appId, event name, origin", str3, c0635NrM170a.name, c0635NrM170a.origin);
                 return;
             } else {
-                Bundle bundleM785h = c0635NrM170a.f1975m.m785h();
+                Bundle bundleM785h = c0635NrM170a.params.m785h();
                 bundleM785h.putLong("ga_safelisted", 1L);
-                c0635Nr2 = new C0635Nr(c0635NrM170a.f1974l, new C0175Dr(bundleM785h), c0635NrM170a.f1976n, c0635NrM170a.f1977o);
+                c0635Nr2 = new C0635Nr(c0635NrM170a.name, new C0175Dr(bundleM785h), c0635NrM170a.origin, c0635NrM170a.f1977o);
             }
             m946l0().m2517b1();
             try {
@@ -613,7 +608,7 @@ public class C0200EF implements InterfaceC0241FA {
                     m934e0(new C0635Nr((C0635Nr) obj2, j), c0569mg);
                 }
                 C0496Kq c0496KqM946l03 = m946l0();
-                String str4 = c0635Nr2.f1974l;
+                String str4 = c0635Nr2.name;
                 AbstractC1085Xi.m4795d(str3);
                 AbstractC1085Xi.m4795d(str4);
                 c0496KqM946l03.mo356n();
@@ -1072,11 +1067,11 @@ public class C0200EF implements InterfaceC0241FA {
     public final void m927Z(C0635Nr c0635Nr, C0569MG c0569mg) {
         AbstractC1085Xi.m4795d(c0569mg.f1787l);
         C0043Ax c0043AxM169b = C0043Ax.m169b(c0635Nr);
-        m966y0().m10490N(c0043AxM169b.f98d, m946l0().m2484J0(c0569mg.f1787l));
+        m966y0().m10490N(c0043AxM169b.params, m946l0().m2484J0(c0569mg.f1787l));
         m966y0().m10506X(c0043AxM169b, m941i0().m10822x(c0569mg.f1787l));
         C0635Nr c0635NrM170a = c0043AxM169b.m170a();
-        if ("_cmp".equals(c0635NrM170a.f1974l) && "referrer API v2".equals(c0635NrM170a.f1975m.m788o("_cis"))) {
-            String strM788o = c0635NrM170a.f1975m.m788o("gclid");
+        if ("_cmp".equals(c0635NrM170a.name) && "referrer API v2".equals(c0635NrM170a.params.m788o("_cis"))) {
+            String strM788o = c0635NrM170a.params.m788o("gclid");
             if (!TextUtils.isEmpty(strM788o)) {
                 m916I(new C2053mG("_lgclid", c0635NrM170a.f1977o, strM788o, "auto"), c0569mg);
             }
@@ -1095,7 +1090,7 @@ public class C0200EF implements InterfaceC0241FA {
             m952q((String) AbstractC1085Xi.m4801j(c2403ty.m9848l()), 204, null, null, null);
             return;
         }
-        C2453v1 c2453v1 = null;
+        ScriptMap scriptMap = null;
         if (!C0616NH.m3312a() || !m941i0().m10818t(AbstractC0818Rr.f2436D0)) {
             String strM10333u = this.f496j.m10333u(c2403ty);
             try {
@@ -1106,15 +1101,15 @@ public class C0200EF implements InterfaceC0241FA {
                 String strM3226Q = m955r0().m3226Q(str);
                 if (c0548LwM3221L != null) {
                     if (!TextUtils.isEmpty(strM3226Q)) {
-                        c2453v1 = new C2453v1();
-                        c2453v1.put("If-Modified-Since", strM3226Q);
+                        scriptMap = new ScriptMap();
+                        scriptMap.put("If-Modified-Since", strM3226Q);
                     }
                     String strM3224O = m955r0().m3224O(str);
                     if (!TextUtils.isEmpty(strM3224O)) {
-                        if (c2453v1 == null) {
-                            c2453v1 = new C2453v1();
+                        if (scriptMap == null) {
+                            scriptMap = new ScriptMap();
                         }
-                        c2453v1.put("If-None-Match", strM3224O);
+                        scriptMap.put("If-None-Match", strM3224O);
                     }
                 }
                 this.f506t = true;
@@ -1124,7 +1119,7 @@ public class C0200EF implements InterfaceC0241FA {
                 c0962UxM953q0.m10440u();
                 AbstractC1085Xi.m4801j(url);
                 AbstractC1085Xi.m4801j(c0522lf);
-                c0962UxM953q0.mo354l().m7379x(new RunnableC1661dy(c0962UxM953q0, str, url, null, c2453v1, c0522lf));
+                c0962UxM953q0.mo354l().m7379x(new RunnableC1661dy(c0962UxM953q0, str, url, null, scriptMap, c0522lf));
                 return;
             } catch (MalformedURLException unused) {
                 mo349g().m9618G().m10618c("Failed to parse config URL. Not fetching. appId", C2356sx.m9613v(c2403ty.m9848l()), strM10333u);
@@ -1137,18 +1132,18 @@ public class C0200EF implements InterfaceC0241FA {
         String strM3226Q2 = m955r0().m3226Q(str2);
         if (c0548LwM3221L2 != null) {
             if (!TextUtils.isEmpty(strM3226Q2)) {
-                c2453v1 = new C2453v1();
-                c2453v1.put("If-Modified-Since", strM3226Q2);
+                scriptMap = new ScriptMap();
+                scriptMap.put("If-Modified-Since", strM3226Q2);
             }
             String strM3224O2 = m955r0().m3224O(str2);
             if (!TextUtils.isEmpty(strM3224O2)) {
-                if (c2453v1 == null) {
-                    c2453v1 = new C2453v1();
+                if (scriptMap == null) {
+                    scriptMap = new ScriptMap();
                 }
-                c2453v1.put("If-None-Match", strM3224O2);
+                scriptMap.put("If-None-Match", strM3224O2);
             }
         }
-        C2453v1 c2453v12 = c2453v1;
+        ScriptMap c2453v12 = scriptMap;
         this.f506t = true;
         C0962Ux c0962UxM953q02 = m953q0();
         InterfaceC0870Sx interfaceC0870Sx = new InterfaceC0870Sx() {

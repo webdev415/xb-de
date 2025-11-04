@@ -429,28 +429,17 @@ public abstract class NetworkUtils {
         }
     }
 
-    public static String getFileExtension(String fileName) {
-        if (fileName == null) {
+    public static String getDomain(String host) {
+        if (host == null) {
             return null;
         }
-
-        fileName = fileName.trim();
-        int lastDot = fileName.lastIndexOf('.');
-        int firstDot = fileName.indexOf('.');
-
-        // No dots — return as is
-        if (firstDot == -1) {
-            return fileName;
-        }
-
-        // Only one dot — return the fileName as is
-        if (firstDot == lastDot) {
-            return fileName;
-        }
-
-        // Return substring after the first dot
-        return fileName.substring(firstDot + 1).trim();
+        int lastDot = host.lastIndexOf('.');
+        int firstDot = host.indexOf('.');
+        if (firstDot == lastDot) return host.trim();
+        if (lastDot > firstDot) return host.substring(firstDot + 1).trim();
+        return host.trim();
     }
+
 
     public static String stripUrlSchemeAndQuery(String url) {
         if (url == null) {
@@ -843,6 +832,6 @@ public abstract class NetworkUtils {
     @NonNull
     public static String getHostFileExtension(@NonNull String url) {
         String host = Uri.parse(url).getHost();
-        return host != null ? getFileExtension(host) : "";
+        return host != null ? getDomain(host) : "";
     }
 }

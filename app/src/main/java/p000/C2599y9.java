@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class C2599y9 extends AbstractC2221q {
+public class C2599y9 extends DataSource {
     @Override
     public ArrayList mo62j(Object obj, int i) throws JSONException {
         ArrayList arrayList = new ArrayList<>();

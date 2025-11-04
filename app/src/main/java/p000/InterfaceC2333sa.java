@@ -1,11 +1,9 @@
 package p000;
 
-import p000.C0490Kk;
-
 public interface InterfaceC2333sa {
-    void mo9530a(C0122Ck c0122Ck);
+    void mo9530a(Request request);
 
-    InterfaceC2161om mo9531b(C0490Kk c0490Kk);
+    InterfaceC2161om mo9531b(Response response);
 
     void mo9532c();
 
@@ -13,11 +11,11 @@ public interface InterfaceC2333sa {
 
     void mo9533d();
 
-    C0490Kk.a mo9534e(boolean z);
+    Response.a mo9534e(boolean z);
 
-    InterfaceC1134Yl mo9535f(C0122Ck c0122Ck, long j);
+    InterfaceC1134Yl mo9535f(Request request, long j);
 
-    long mo9536g(C0490Kk c0490Kk);
+    long mo9536g(Response response);
 
-    C1741fk mo9537h();
+    Connection mo9537h();
 }

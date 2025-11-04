@@ -16,7 +16,7 @@ import p000.ApiEndpointsManager;
 import p000.C0721Pl;
 import p000.C0830S2;
 import p000.C0834S6;
-import p000.C1089Xm;
+import p000.SyncManager;
 import p000.C1831hg;
 import p000.C1949k4;
 import p000.C2062mg;
@@ -92,21 +92,21 @@ public class Browser extends Application {
     }
 
     public final void m6166f() {
-        C1089Xm.getInstance().m4832t(new UserResourceManager("syncable_user_info"));
-        C1089Xm.getInstance().m4832t(new SyncTagQuickAccessManager("syncable_quick_access"));
-        C1089Xm.getInstance().m4832t(new C0830S2("syncable_bookmark"));
-        C1089Xm.getInstance().m4832t(new C2222q0("syncable_ad_rule"));
-        C1089Xm.getInstance().m4832t(new C2244qd("syncable_host"));
-        C1089Xm.getInstance().m4832t(new C2151od("syncable_history"));
-        C1089Xm.getInstance().m4832t(new C0721Pl("syncable_setting"));
-        C1089Xm.getInstance().m4832t(new C2062mg("syncable_menu"));
-        C1089Xm.getInstance().m4832t(new SyncTagSettingManager("syncable_tool_menu"));
-        C1089Xm.getInstance().m4832t(new C2366t6("syncable_context_menu"));
-        C1089Xm.getInstance().m4832t(new C2531wo("syncable_user_script"));
-        C1089Xm.getInstance().m4832t(new C2577xo("syncable_user_tabs"));
-        C1089Xm.getInstance().m4832t(new C0396Ii("syncable_passwd_autofill"));
-        C1089Xm.getInstance().m4832t(new C2452v0("syncable_addr_autofill"));
-        C1089Xm.getInstance().m4832t(new C1949k4("syncable_card_autofill"));
+        SyncManager.getInstance().m4832t(new UserResourceManager("syncable_user_info"));
+        SyncManager.getInstance().m4832t(new SyncTagQuickAccessManager("syncable_quick_access"));
+        SyncManager.getInstance().m4832t(new C0830S2("syncable_bookmark"));
+        SyncManager.getInstance().m4832t(new C2222q0("syncable_ad_rule"));
+        SyncManager.getInstance().m4832t(new C2244qd("syncable_host"));
+        SyncManager.getInstance().m4832t(new C2151od("syncable_history"));
+        SyncManager.getInstance().m4832t(new C0721Pl("syncable_setting"));
+        SyncManager.getInstance().m4832t(new C2062mg("syncable_menu"));
+        SyncManager.getInstance().m4832t(new SyncTagSettingManager("syncable_tool_menu"));
+        SyncManager.getInstance().m4832t(new C2366t6("syncable_context_menu"));
+        SyncManager.getInstance().m4832t(new C2531wo("syncable_user_script"));
+        SyncManager.getInstance().m4832t(new C2577xo("syncable_user_tabs"));
+        SyncManager.getInstance().m4832t(new C0396Ii("syncable_passwd_autofill"));
+        SyncManager.getInstance().m4832t(new C2452v0("syncable_addr_autofill"));
+        SyncManager.getInstance().m4832t(new C1949k4("syncable_card_autofill"));
     }
 
     public final void m6167g() {

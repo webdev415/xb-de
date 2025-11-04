@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import java.util.Iterator;
 
-public final class C2672zr {
+public final class Event_ {
 
-    public final String f8281a;
+    public final String appId;
 
-    public final String f8282b;
+    public final String name;
 
     public final String f8283c;
 
@@ -16,14 +16,14 @@ public final class C2672zr {
 
     public final long f8285e;
 
-    public final C0175Dr f8286f;
+    public final C0175Dr params;
 
-    public C2672zr(C2266qz c2266qz, String str, String str2, String str3, long j, long j2, Bundle bundle) {
+    public Event_(C2266qz c2266qz, String str, String str2, String str3, long j, long j2, Bundle bundle) {
         C0175Dr c0175Dr;
         AbstractC1085Xi.m4795d(str2);
         AbstractC1085Xi.m4795d(str3);
-        this.f8281a = str2;
-        this.f8282b = str3;
+        this.appId = str2;
+        this.name = str3;
         this.f8283c = TextUtils.isEmpty(str) ? null : str;
         this.f8284d = j;
         this.f8285e = j2;
@@ -51,29 +51,29 @@ public final class C2672zr {
             }
             c0175Dr = new C0175Dr(bundle2);
         }
-        this.f8286f = c0175Dr;
+        this.params = c0175Dr;
     }
 
-    public final C2672zr m11051a(C2266qz c2266qz, long j) {
-        return new C2672zr(c2266qz, this.f8283c, this.f8281a, this.f8282b, this.f8284d, j, this.f8286f);
+    public final Event_ m11051a(C2266qz c2266qz, long j) {
+        return new Event_(c2266qz, this.f8283c, this.appId, this.name, this.f8284d, j, this.params);
     }
 
     public final String toString() {
-        return "Event{appId='" + this.f8281a + "', name='" + this.f8282b + "', params=" + String.valueOf(this.f8286f) + "}";
+        return "Event{appId='" + this.appId + "', name='" + this.name + "', params=" + this.params + "}";
     }
 
-    public C2672zr(C2266qz c2266qz, String str, String str2, String str3, long j, long j2, C0175Dr c0175Dr) {
+    public Event_(C2266qz c2266qz, String str, String str2, String str3, long j, long j2, C0175Dr c0175Dr) {
         AbstractC1085Xi.m4795d(str2);
         AbstractC1085Xi.m4795d(str3);
         AbstractC1085Xi.m4801j(c0175Dr);
-        this.f8281a = str2;
-        this.f8282b = str3;
+        this.appId = str2;
+        this.name = str3;
         this.f8283c = TextUtils.isEmpty(str) ? null : str;
         this.f8284d = j;
         this.f8285e = j2;
         if (j2 != 0 && j2 > j) {
             c2266qz.mo349g().m9623L().m10618c("Event created with reverse previous/current timestamps. appId, name", C2356sx.m9613v(str2), C2356sx.m9613v(str3));
         }
-        this.f8286f = c0175Dr;
+        this.params = c0175Dr;
     }
 }

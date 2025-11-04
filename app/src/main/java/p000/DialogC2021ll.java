@@ -7,7 +7,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
-import com.mmbox.widget.messagebox.C1418a;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.controllers.WebViewBrowserController;
@@ -16,7 +16,7 @@ import com.xbrowser.play.R;
 import java.io.File;
 import java.net.URISyntaxException;
 
-public class DialogC2021ll extends AbstractDialogC2267r {
+public class DialogC2021ll extends BaseDialog {
 
     public final BrowserActivity f6095b;
 
@@ -121,7 +121,7 @@ public class DialogC2021ll extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_save_page);
         ((Button) findViewById(R.id.save_as_mht)).setOnClickListener(new c());
         ((Button) findViewById(R.id.save_as_pdf)).setOnClickListener(new d());
@@ -139,7 +139,7 @@ public class DialogC2021ll extends AbstractDialogC2267r {
         BrowserActivity browserActivity;
         String str;
         if (i == 0) {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6095b.m6222J0().m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6095b.getTabManager().m9316y();
             if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
                 return;
             }
@@ -152,7 +152,7 @@ public class DialogC2021ll extends AbstractDialogC2267r {
         } else {
             if (i != 4) {
                 if (i == 1 || i == 2) {
-                    InterfaceC1300b3 interfaceC1300b32 = (InterfaceC1300b3) this.f6095b.m6222J0().m9316y();
+                    InterfaceC1300b3 interfaceC1300b32 = (InterfaceC1300b3) this.f6095b.getTabManager().m9316y();
                     if (interfaceC1300b32 instanceof WebViewBrowserController) {
                         WebView webViewM6770F0 = ((WebViewBrowserController) interfaceC1300b32).m6770F0();
                         String title = webViewM6770F0.getTitle();
@@ -171,7 +171,7 @@ public class DialogC2021ll extends AbstractDialogC2267r {
             browserActivity = this.f6095b;
             str = "_XJSAPI_.save_text()";
         }
-        browserActivity.m6361u0(str);
+        browserActivity.updateTitle(str);
     }
 
     public final void m8412f(String str, String str2, String str3) {
@@ -182,7 +182,7 @@ public class DialogC2021ll extends AbstractDialogC2267r {
     }
 
     public final void m8413g() throws Resources.NotFoundException {
-        C1418a.m6110b().m6117h(this.f6095b.getBrowserFrameLayout(), this.f6095b.getString(R.string.toast_web_page_saved), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_view), new a());
+        MessageBoxManager.getInstance().m6117h(this.f6095b.getBrowserFrameLayout(), this.f6095b.getString(R.string.toast_web_page_saved), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_view), new a());
     }
 
     public class a implements MessageBoxBase.MessageBoxListener {

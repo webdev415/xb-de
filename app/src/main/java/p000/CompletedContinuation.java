@@ -1,55 +1,55 @@
 package p000;
 
-public final class C0006A5 {
+public final class CompletedContinuation {
 
-    public final Object f6a;
+    public final Object result;
 
-    public final InterfaceC0986Vb f7b;
+    public final InterfaceC0986Vb onCancellation;
 
-    public final Object f8c;
+    public final Object idempotentResume;
 
-    public final Throwable f9d;
+    public final Throwable cancelCause;
 
-    public C0006A5(Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th) {
-        this.f6a = obj;
-        this.f7b = interfaceC0986Vb;
-        this.f8c = obj2;
-        this.f9d = th;
+    public CompletedContinuation(Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th) {
+        this.result = obj;
+        this.onCancellation = interfaceC0986Vb;
+        this.idempotentResume = obj2;
+        this.cancelCause = th;
     }
 
-    public static C0006A5 m17b(C0006A5 c0006a5, Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th, int i, Object obj3) {
+    public static CompletedContinuation m17b(CompletedContinuation completedContinuation, Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th, int i, Object obj3) {
         if ((i & 1) != 0) {
-            obj = c0006a5.f6a;
+            obj = completedContinuation.result;
         }
         if ((i & 2) != 0) {
-            c0006a5.getClass();
+            completedContinuation.getClass();
             abstractC1107Y3 = null;
         }
         AbstractC1107Y3 abstractC1107Y32 = abstractC1107Y3;
         if ((i & 4) != 0) {
-            interfaceC0986Vb = c0006a5.f7b;
+            interfaceC0986Vb = completedContinuation.onCancellation;
         }
         InterfaceC0986Vb interfaceC0986Vb2 = interfaceC0986Vb;
         if ((i & 8) != 0) {
-            obj2 = c0006a5.f8c;
+            obj2 = completedContinuation.idempotentResume;
         }
         Object obj4 = obj2;
         if ((i & 16) != 0) {
-            th = c0006a5.f9d;
+            th = completedContinuation.cancelCause;
         }
-        return c0006a5.m18a(obj, abstractC1107Y32, interfaceC0986Vb2, obj4, th);
+        return completedContinuation.m18a(obj, abstractC1107Y32, interfaceC0986Vb2, obj4, th);
     }
 
-    public final C0006A5 m18a(Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th) {
-        return new C0006A5(obj, abstractC1107Y3, interfaceC0986Vb, obj2, th);
+    public final CompletedContinuation m18a(Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th) {
+        return new CompletedContinuation(obj, abstractC1107Y3, interfaceC0986Vb, obj2, th);
     }
 
     public final boolean m19c() {
-        return this.f9d != null;
+        return this.cancelCause != null;
     }
 
     public final void m20d(C1347c4 c1347c4, Throwable th) {
-        InterfaceC0986Vb interfaceC0986Vb = this.f7b;
+        InterfaceC0986Vb interfaceC0986Vb = this.onCancellation;
         if (interfaceC0986Vb != null) {
             c1347c4.m5715k(interfaceC0986Vb, th);
         }
@@ -59,29 +59,29 @@ public final class C0006A5 {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof C0006A5)) {
+        if (!(obj instanceof CompletedContinuation)) {
             return false;
         }
-        C0006A5 c0006a5 = (C0006A5) obj;
-        return AbstractC0116Ce.m472a(this.f6a, c0006a5.f6a) && AbstractC0116Ce.m472a(null, null) && AbstractC0116Ce.m472a(this.f7b, c0006a5.f7b) && AbstractC0116Ce.m472a(this.f8c, c0006a5.f8c) && AbstractC0116Ce.m472a(this.f9d, c0006a5.f9d);
+        CompletedContinuation completedContinuation = (CompletedContinuation) obj;
+        return AbstractC0116Ce.m472a(this.result, completedContinuation.result) && AbstractC0116Ce.m472a(null, null) && AbstractC0116Ce.m472a(this.onCancellation, completedContinuation.onCancellation) && AbstractC0116Ce.m472a(this.idempotentResume, completedContinuation.idempotentResume) && AbstractC0116Ce.m472a(this.cancelCause, completedContinuation.cancelCause);
     }
 
     public int hashCode() {
-        Object obj = this.f6a;
+        Object obj = this.result;
         int iHashCode = (obj == null ? 0 : obj.hashCode()) * 961;
-        InterfaceC0986Vb interfaceC0986Vb = this.f7b;
+        InterfaceC0986Vb interfaceC0986Vb = this.onCancellation;
         int iHashCode2 = (iHashCode + (interfaceC0986Vb == null ? 0 : interfaceC0986Vb.hashCode())) * 31;
-        Object obj2 = this.f8c;
+        Object obj2 = this.idempotentResume;
         int iHashCode3 = (iHashCode2 + (obj2 == null ? 0 : obj2.hashCode())) * 31;
-        Throwable th = this.f9d;
+        Throwable th = this.cancelCause;
         return iHashCode3 + (th != null ? th.hashCode() : 0);
     }
 
     public String toString() {
-        return "CompletedContinuation(result=" + this.f6a + ", cancelHandler=" + ((Object) null) + ", onCancellation=" + this.f7b + ", idempotentResume=" + this.f8c + ", cancelCause=" + this.f9d + ')';
+        return "CompletedContinuation(result=" + this.result + ", cancelHandler=" + null + ", onCancellation=" + this.onCancellation + ", idempotentResume=" + this.idempotentResume + ", cancelCause=" + this.cancelCause + ')';
     }
 
-    public C0006A5(Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th, int i, AbstractC0881T7 abstractC0881T7) {
+    public CompletedContinuation(Object obj, AbstractC1107Y3 abstractC1107Y3, InterfaceC0986Vb interfaceC0986Vb, Object obj2, Throwable th, int i, AbstractC0881T7 abstractC0881T7) {
         this(obj, (i & 2) != 0 ? null : abstractC1107Y3, (i & 4) != 0 ? null : interfaceC0986Vb, (i & 8) != 0 ? null : obj2, (i & 16) != 0 ? null : th);
     }
 }

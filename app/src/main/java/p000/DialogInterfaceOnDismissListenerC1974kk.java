@@ -8,7 +8,7 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import org.json.JSONException;
 
-public class DialogInterfaceOnDismissListenerC1974kk extends AbstractDialogC2267r implements DialogInterface.OnDismissListener {
+public class DialogInterfaceOnDismissListenerC1974kk extends BaseDialog implements DialogInterface.OnDismissListener {
 
     public BrowserActivity f6026b;
 
@@ -45,7 +45,7 @@ public class DialogInterfaceOnDismissListenerC1974kk extends AbstractDialogC2267
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_recovery_tab_setting);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.recovery_tab_setting_group);
         radioGroup.check(m8301d(SharedPreferencesHelper.getInstance().recoveryTabType));
@@ -55,6 +55,6 @@ public class DialogInterfaceOnDismissListenerC1974kk extends AbstractDialogC2267
 
     @Override
     public void onDismiss(DialogInterface dialogInterface) throws JSONException {
-        C1199a3.m5090f().m5096h("tab_revert_way");
+        C1199a3.getInstance().m5096h("tab_revert_way");
     }
 }

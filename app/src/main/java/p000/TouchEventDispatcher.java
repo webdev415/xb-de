@@ -5,11 +5,11 @@ import android.os.Handler;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-public final class C0022Ac {
+public final class TouchEventDispatcher {
 
     public final GestureDetector f65a;
 
-    public C0022Ac(Context context, GestureDetector.OnGestureListener onGestureListener) {
+    public TouchEventDispatcher(Context context, GestureDetector.OnGestureListener onGestureListener) {
         this(context, onGestureListener, null);
     }
 
@@ -17,7 +17,7 @@ public final class C0022Ac {
         return this.f65a.onTouchEvent(motionEvent);
     }
 
-    public C0022Ac(Context context, GestureDetector.OnGestureListener onGestureListener, Handler handler) {
+    public TouchEventDispatcher(Context context, GestureDetector.OnGestureListener onGestureListener, Handler handler) {
         this.f65a = new GestureDetector(context, onGestureListener, handler);
     }
 }

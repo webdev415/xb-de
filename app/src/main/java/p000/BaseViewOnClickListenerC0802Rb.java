@@ -17,7 +17,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-public abstract class AbstractViewOnClickListenerC0802Rb extends AbstractDialogC2267r implements View.OnClickListener {
+public abstract class BaseViewOnClickListenerC0802Rb extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f2384b;
 
@@ -50,8 +50,8 @@ public abstract class AbstractViewOnClickListenerC0802Rb extends AbstractDialogC
 
         @Override
         public void onClick(View view) {
-            AbstractViewOnClickListenerC0802Rb.this.dismiss();
-            AbstractViewOnClickListenerC0802Rb.this.mo3815c();
+            BaseViewOnClickListenerC0802Rb.this.dismiss();
+            BaseViewOnClickListenerC0802Rb.this.mo3815c();
         }
     }
 
@@ -62,11 +62,11 @@ public abstract class AbstractViewOnClickListenerC0802Rb extends AbstractDialogC
 
         @Override
         public void onClick(View view) {
-            AbstractViewOnClickListenerC0802Rb.this.m3816d(this);
+            BaseViewOnClickListenerC0802Rb.this.m3816d(this);
         }
     }
 
-    public AbstractViewOnClickListenerC0802Rb(BrowserActivity browserActivity) {
+    public BaseViewOnClickListenerC0802Rb(BrowserActivity browserActivity) {
         super(browserActivity);
         this.f2385c = null;
         this.f2386d = null;
@@ -75,7 +75,7 @@ public abstract class AbstractViewOnClickListenerC0802Rb extends AbstractDialogC
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_fraud_alert);
         TextView textView = (TextView) findViewById(R.id.title_info);
         if (!TextUtils.isEmpty(this.f2385c)) {

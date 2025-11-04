@@ -1,12 +1,12 @@
 package p000;
 
 import android.util.Log;
-import com.mmbox.xbrowser.C1539a;
+import com.mmbox.xbrowser.ContentDataManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import java.io.File;
 import java.util.ArrayList;
 
-public class C2369t9 extends AbstractC2221q {
+public class C2369t9 extends DataSource {
     @Override
     public String mo8842b() {
         return "browser.blacklist";
@@ -27,8 +27,8 @@ public class C2369t9 extends AbstractC2221q {
         if (i == 5) {
             String strMo9039e = mo9039e();
             try {
-                File file = new File(ResourceCacheManager.getInstance().m2046a(strMo9039e, 1));
-                String strM2046a = ResourceCacheManager.getInstance().m2046a(strMo9039e, 9);
+                File file = new File(ResourceCacheManager.getInstance().getUrlOrFilePath(strMo9039e, 1));
+                String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(strMo9039e, 9);
                 FileUtils.copyFile(file, new File(strM2046a));
                 SharedPreferencesHelper.getInstance().putString("black-list", strM2046a);
             } catch (Exception e) {
@@ -36,7 +36,7 @@ public class C2369t9 extends AbstractC2221q {
                 e.printStackTrace();
             }
         }
-        Log.i("ad-block", "load total rules:" + C1539a.getInstance().getUrlRules());
+        Log.i("ad-block", "load total rules:" + ContentDataManager.getInstance().getUrlRules());
         return new ArrayList<>();
     }
 }

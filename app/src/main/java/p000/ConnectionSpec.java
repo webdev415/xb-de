@@ -6,19 +6,19 @@ import java.util.List;
 import java.util.Objects;
 import javax.net.ssl.SSLSocket;
 
-public final class C1811h6 {
+public final class ConnectionSpec {
 
     public static final C0281G4[] f5677e;
 
     public static final C0281G4[] f5678f;
 
-    public static final C1811h6 f5679g;
+    public static final ConnectionSpec f5679g;
 
-    public static final C1811h6 f5680h;
+    public static final ConnectionSpec f5680h;
 
-    public static final C1811h6 f5681i;
+    public static final ConnectionSpec f5681i;
 
-    public static final C1811h6 f5682j;
+    public static final ConnectionSpec f5682j;
 
     public static final b f5683k = new b(null);
 
@@ -40,16 +40,16 @@ public final class C1811h6 {
 
         public boolean f5691d;
 
-        public a(C1811h6 c1811h6) {
-            AbstractC0116Ce.m476e(c1811h6, "connectionSpec");
-            this.f5688a = c1811h6.m7796f();
-            this.f5689b = c1811h6.f5686c;
-            this.f5690c = c1811h6.f5687d;
-            this.f5691d = c1811h6.m7798h();
+        public a(ConnectionSpec connectionSpec) {
+            AbstractC0116Ce.m476e(connectionSpec, "connectionSpec");
+            this.f5688a = connectionSpec.m7796f();
+            this.f5689b = connectionSpec.f5686c;
+            this.f5690c = connectionSpec.f5687d;
+            this.f5691d = connectionSpec.m7798h();
         }
 
-        public final C1811h6 m7800a() {
-            return new C1811h6(this.f5688a, this.f5691d, this.f5689b, this.f5690c);
+        public final ConnectionSpec m7800a() {
+            return new ConnectionSpec(this.f5688a, this.f5691d, this.f5689b, this.f5690c);
         }
 
         public final a m7801b(C0281G4... c0281g4Arr) {
@@ -163,7 +163,7 @@ public final class C1811h6 {
         f5682j = new a(false).m7800a();
     }
 
-    public C1811h6(boolean z, boolean z2, String[] strArr, String[] strArr2) {
+    public ConnectionSpec(boolean z, boolean z2, String[] strArr, String[] strArr2) {
         this.f5684a = z;
         this.f5685b = z2;
         this.f5686c = strArr;
@@ -172,12 +172,12 @@ public final class C1811h6 {
 
     public final void m7793c(SSLSocket sSLSocket, boolean z) throws CloneNotSupportedException {
         AbstractC0116Ce.m476e(sSLSocket, "sslSocket");
-        C1811h6 c1811h6M7797g = m7797g(sSLSocket, z);
-        if (c1811h6M7797g.m7799i() != null) {
-            sSLSocket.setEnabledProtocols(c1811h6M7797g.f5687d);
+        ConnectionSpec connectionSpecM7797G = m7797g(sSLSocket, z);
+        if (connectionSpecM7797G.m7799i() != null) {
+            sSLSocket.setEnabledProtocols(connectionSpecM7797G.f5687d);
         }
-        if (c1811h6M7797g.m7794d() != null) {
-            sSLSocket.setEnabledCipherSuites(c1811h6M7797g.f5686c);
+        if (connectionSpecM7797G.m7794d() != null) {
+            sSLSocket.setEnabledCipherSuites(connectionSpecM7797G.f5686c);
         }
     }
 
@@ -207,25 +207,25 @@ public final class C1811h6 {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof C1811h6)) {
+        if (!(obj instanceof ConnectionSpec)) {
             return false;
         }
         if (obj == this) {
             return true;
         }
         boolean z = this.f5684a;
-        C1811h6 c1811h6 = (C1811h6) obj;
-        if (z != c1811h6.f5684a) {
+        ConnectionSpec connectionSpec = (ConnectionSpec) obj;
+        if (z != connectionSpec.f5684a) {
             return false;
         }
-        return !z || (Arrays.equals(this.f5686c, c1811h6.f5686c) && Arrays.equals(this.f5687d, c1811h6.f5687d) && this.f5685b == c1811h6.f5685b);
+        return !z || (Arrays.equals(this.f5686c, connectionSpec.f5686c) && Arrays.equals(this.f5687d, connectionSpec.f5687d) && this.f5685b == connectionSpec.f5685b);
     }
 
     public final boolean m7796f() {
         return this.f5684a;
     }
 
-    public final C1811h6 m7797g(SSLSocket sSLSocket, boolean z) throws CloneNotSupportedException {
+    public final ConnectionSpec m7797g(SSLSocket sSLSocket, boolean z) throws CloneNotSupportedException {
         String[] enabledCipherSuites;
         String[] enabledProtocols;
         if (this.f5686c != null) {

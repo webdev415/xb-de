@@ -4,7 +4,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListAdapter;
@@ -13,7 +12,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-public class DialogC0344Hc extends AbstractDialogC2267r {
+public class ThemeDialog extends BaseDialog {
 
     public static int[] colors = {0, 0xFFC7EDCC, 0xFFFAF9DE, 0xFFFFF2E2, 0xFFFDE6E0, 0xFFDCE2F1, 0xFFE9EBFE, 0xFFE3EDCD, 0xFFF5F0FA};
 
@@ -23,15 +22,15 @@ public class DialogC0344Hc extends AbstractDialogC2267r {
 
     public BaseAdapter adapter;
 
-    public class a extends BaseAdapter {
+    public class ThemeAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return colors.length;
         }
 
         @Override
-        public Object getItem(int i) {
-            return colors[i];
+        public Object getItem(int position) {
+            return colors[position];
         }
 
         @Override
@@ -42,50 +41,51 @@ public class DialogC0344Hc extends AbstractDialogC2267r {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             int color = 0xFFEDEDED;
-            View viewInflate = View.inflate(browserActivity, R.layout.choose_color_item, null);
-            GradientDrawable gradientDrawable = (GradientDrawable) viewInflate.findViewById(R.id.color_item).getBackground().mutate();
+            View root = View.inflate(browserActivity, R.layout.choose_color_item, null);
+            GradientDrawable drawable = (GradientDrawable) root.findViewById(R.id.color_item).getBackground().mutate();
             if (m1571d(position)) {
-                gradientDrawable.setStroke(5, -11034895);
-                gradientDrawable.setColor(DialogC0344Hc.colors[position]);
+                drawable.setStroke(5, 0xFF579EF1);
+                drawable.setColor(ThemeDialog.colors[position]);
             }
             if (position == 0) {
-                ((TextView) viewInflate.findViewById(R.id.item_text)).setText(R.string.default_title);
+                ((TextView) root.findViewById(R.id.item_text)).setText(R.string.default_title);
             } else {
-                color = DialogC0344Hc.colors[position];
+                color = ThemeDialog.colors[position];
             }
-            gradientDrawable.setColor(color);
-            return viewInflate;
+            drawable.setColor(color);
+            return root;
         }
     }
 
-    public DialogC0344Hc(BrowserActivity browserActivity) {
+    public ThemeDialog(BrowserActivity browserActivity) {
         super(browserActivity);
         this.browserActivity = null;
-        this.adapter = new a();
+        this.adapter = new ThemeAdapter();
         this.browserActivity = browserActivity;
     }
 
-    public static String m1570c(int i) {
-        int i2 = 0;
-        while (true) {
-            int[] iArr = colors;
-            if (i2 >= iArr.length) {
-                return themes[0];
-            }
-            if (iArr[i2] == i) {
-                return themes[i2];
-            }
-            i2++;
+    public static String getThemeForColor(int color) {
+        if (colors.length != themes.length) {
+            throw new IllegalArgumentException("Colors and themes arrays must have the same length.");
         }
+
+        for (int i = 0; i < colors.length; i++) {
+            if (colors[i] == color) {
+                return themes[i];
+            }
+        }
+
+        // Return default theme if no match is found
+        return themes.length > 0 ? themes[0] : null;
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_choose_color);
         GridView gridView = (GridView) findViewById(R.id.color_list);
         gridView.setAdapter((ListAdapter) this.adapter);
         gridView.setOnItemClickListener((parent, view, position, id) -> {
-            browserActivity.m6301c1(DialogC0344Hc.colors[position], true);
+            browserActivity.m6301c1(ThemeDialog.colors[position], true);
             adapter.notifyDataSetChanged();
         });
     }

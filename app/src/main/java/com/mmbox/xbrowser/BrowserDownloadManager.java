@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -19,11 +20,15 @@ import android.util.Log;
 import android.webkit.CookieManager;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
 import androidx.core.content.FileProvider;
+
 import com.mmbox.xbrowser.provider.BrowserProvider;
 import com.xbrowser.play.R;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -33,11 +38,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import p000.NetworkUtils;
 import p000.FileUtils;
 import p000.DatabaseColumns;
@@ -45,9 +54,7 @@ import p000.AbstractC1900j2;
 import p000.AndroidSystemUtils;
 import p000.AbstractC2086n3;
 import p000.AbstractC2132o3;
-import p000.AbstractDialogC1303b6;
-import p000.C0122Ck;
-import p000.C0490Kk;
+import p000.ConfirmDialog;
 import p000.C0801Ra;
 import p000.C1199a3;
 import p000.PhoneUtils;
@@ -67,11 +74,11 @@ public class BrowserDownloadManager {
 
     public static BrowserDownloadManager instance = null;
 
-    public HashMap downloadRetryMap = new HashMap<>(3);
+    public HashMap<String, String> downloadRetryMap = new HashMap<>(3);
 
     public BrowserActivity browserActivity = null;
 
-    public HashMap activeDownloadsMap = new HashMap<>(3);
+    public HashMap<String, DownloadItem> activeDownloadsMap = new HashMap<>(3);
 
     public ArrayList downloadTasksList = new ArrayList<>(3);
 
@@ -104,61 +111,52 @@ public class BrowserDownloadManager {
 
     public class DownloadInfoCallback implements InterfaceC0556M3 {
 
-        public final DownloadCallback f4631a;
+        public final DownloadCallback callback;
 
-        public final String f4632b;
+        public final String url;
 
-        public DownloadInfoCallback(DownloadCallback jVar, String str) {
-            this.f4631a = jVar;
-            this.f4632b = str;
+        public DownloadInfoCallback(DownloadCallback callback, String url) {
+            this.callback = callback;
+            this.url = url;
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) throws IOException {
-            if (c0490Kk.m2396j() != 200) {
-                if (c0490Kk.m2396j() != 403 || downloadRetryMap.containsKey(this.f4632b)) {
-                    j jVar = this.f4631a;
-                    if (jVar != null) {
-                        jVar.mo6445a(this.f4632b);
-                        return;
+        public void onSuccess(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            if (response.code() == 200) {
+                String contentType = response.header("Content-Type");
+                long contentLength = response.body().contentLength();
+                String contentDisposition = response.header("Content-Disposition");
+                byte[] bArr = new byte[32];
+                response.body().byteStream().read(bArr);
+                try {
+                    String str2 = new String(bArr, StandardCharsets.UTF_8);
+                    if (str2.contains("#EXT")) {
+                        contentType = "application/x-mpegurl";
+                    } else if (str2.contains("mp4")) {
+                        contentType = "video/mp4";
                     }
-                    return;
+                } catch (Exception unused) {
                 }
-                HashMap map = downloadRetryMap;
-                String str = this.f4632b;
-                map.put(str, str);
-                m6691g(this.f4632b, null, this.f4631a);
-                return;
-            }
-            String strM2399p = c0490Kk.m2399p("Content-Type");
-            long jMo2711i = c0490Kk.m2392a().mo2711i();
-            String strM2399p2 = c0490Kk.m2399p("Content-Disposition");
-            byte[] bArr = new byte[32];
-            c0490Kk.m2392a().m2708a().read(bArr);
-            try {
-                String str2 = new String(bArr, StandardCharsets.UTF_8);
-                if (str2.indexOf("#EXT") >= 0) {
-                    strM2399p = "application/x-mpegurl";
-                } else if (str2.indexOf("mp4") >= 0) {
-                    strM2399p = "video/mp4";
+                if (callback != null) {
+                    callback.onSuccess(this.url, contentType, contentDisposition, contentLength);
+                    downloadRetryMap.remove(this.url);
                 }
-            } catch (Exception unused) {
+                interfaceC0418J3.cancel();
+                response.body().close();
+            } else {
+                if (response.code() == 403 && !downloadRetryMap.containsKey(this.url)) {
+                    downloadRetryMap.put(url, url);
+                    m6691g(this.url, null, this.callback);
+                } else if (callback != null) {
+                    callback.onFailed(this.url);
+                }
             }
-            String str3 = strM2399p;
-            j jVar2 = this.f4631a;
-            if (jVar2 != null) {
-                jVar2.mo6446b(this.f4632b, str3, strM2399p2, jMo2711i);
-                downloadRetryMap.remove(this.f4632b);
-            }
-            interfaceC0418J3.cancel();
-            c0490Kk.m2392a().close();
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            j jVar = this.f4631a;
-            if (jVar != null) {
-                jVar.mo6445a(this.f4632b);
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            if (callback != null) {
+                callback.onFailed(this.url);
             }
         }
     }
@@ -182,7 +180,7 @@ public class BrowserDownloadManager {
         }
     }
 
-    public class RemoveDownloadDialog extends AbstractDialogC1303b6 {
+    public class RemoveDownloadDialog extends ConfirmDialog {
 
         public final String f4636f;
 
@@ -193,14 +191,14 @@ public class BrowserDownloadManager {
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() {
+        public void onOK() {
             CheckBox checkBox = (CheckBox) findViewById(R.id.another_condition);
-            C1541c.m6674q().m6680F(this.f4636f, checkBox != null && checkBox.isChecked());
-            C1199a3.m5090f().m5098j("notify_remove_download", "downloadId", this.f4636f);
+            BrowserDownloadManager.getInstance().m6680F(this.f4636f, checkBox != null && checkBox.isChecked());
+            C1199a3.getInstance().m5098j("notify_remove_download", "downloadId", this.f4636f);
         }
     }
 
@@ -228,7 +226,7 @@ public class BrowserDownloadManager {
         }
     }
 
-    public class WiFiConfirmDialog extends AbstractDialogC1303b6 {
+    public class WiFiConfirmDialog extends ConfirmDialog {
 
         public final DownloadItem f4641f;
 
@@ -242,12 +240,12 @@ public class BrowserDownloadManager {
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
             this.f4641f.downloadStatus = 5;
         }
 
         @Override
-        public void mo316c() {
+        public void onOK() {
             l lVar = this.f4642g;
             i iVar = this.f4641f;
             lVar.executeDownload(iVar.downloadUrl, iVar.userAgent, iVar.referer, iVar.totalBytes, iVar.fileName, null);
@@ -296,7 +294,7 @@ public class BrowserDownloadManager {
 
         public NotificationBuilder f4658o = null;
 
-        public DownloadStatusCallback f4659p = null;
+        public DownloadStatusCallback callback = null;
 
         public DownloadItem() {
         }
@@ -332,9 +330,9 @@ public class BrowserDownloadManager {
     }
 
     public interface DownloadCallback {
-        void mo6445a(String str);
+        void onFailed(String str);
 
-        void mo6446b(String str, String str2, String str3, long j);
+        void onSuccess(String str, String str2, String str3, long j);
     }
 
     public interface DownloadStatusCallback {
@@ -373,15 +371,13 @@ public class BrowserDownloadManager {
 
             @Override
             public void run() {
-                l lVar = l.this;
-                i iVar = lVar.currentDownload;
-                if (iVar != null && iVar.downloadSpeed == 0) {
-                    iVar.downloadStatus = 4;
-                    m6687M(iVar);
-                    l lVar2 = l.this;
-                    m6688N(lVar2.currentDownload);
+                i iVar = currentDownload;
+                if (currentDownload != null && currentDownload.downloadSpeed == 0) {
+                    currentDownload.downloadStatus = 4;
+                    m6687M(currentDownload);
+                    m6688N(currentDownload);
                 }
-                l.this.currentDownload = null;
+                currentDownload = null;
             }
         }
 
@@ -395,11 +391,11 @@ public class BrowserDownloadManager {
 
             public final String userAgent;
 
-            public final HashMap headers;
+            public final HashMap<String, String> headers;
 
             public final String filePath;
 
-            public DownloadExecutorRunnable(long j, String str, String str2, String str3, HashMap map, String str4) {
+            public DownloadExecutorRunnable(long j, String str, String str2, String str3, HashMap<String, String> map, String str4) {
                 this.totalBytes = j;
                 this.downloadUrl = str;
                 this.fileName = str2;
@@ -408,67 +404,137 @@ public class BrowserDownloadManager {
                 this.filePath = str4;
             }
 
-            /* JADX WARN: Can't wrap try/catch for region: R(23:14|125|15|16|(21:123|18|25|(1:27)|28|(2:126|30)|34|(4:121|36|(2:39|37)|131)|43|(1:47)|48|(1:50)|120|51|(6:68|(1:78)(5:118|74|79|(2:80|(3:82|(2:84|130)(2:85|129)|86)(1:128))|87)|77|79|(3:80|(0)(0)|86)|87)(2:56|(2:65|(1:67))(1:60))|88|(1:90)|113|(1:115)|116|117)(1:24)|23|25|(0)|28|(0)|34|(0)|43|(2:45|47)|48|(0)|120|51|(4:53|55|68|(8:70|78|77|79|(3:80|(0)(0)|86)|87|88|(0))(0))(0)|113|(0)|116|117) */
-            /* JADX WARN: Code restructure failed: missing block: B:63:0x017a, code lost:
-            
-                r0 = move-exception;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:92:0x0236, code lost:
-            
-                r2 = r20.f4680r.currentDownload;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:93:0x023c, code lost:
-            
-                if (r2.downloadStatus != 2) goto L94;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:94:0x023e, code lost:
-            
-                r2.downloadStatus = 4;
-                r2 = r2.f4659p;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:95:0x0243, code lost:
-            
-                if (r2 != null) goto L96;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:96:0x0245, code lost:
-            
-                r2.mo6506a();
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:97:0x0248, code lost:
-            
-                r0.printStackTrace();
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:98:0x024b, code lost:
-            
-                r10.m2392a().close();
-                r0 = r20.f4680r.outputStream;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:99:0x0256, code lost:
-            
-                if (r0 != null) goto L100;
-             */
-            /* JADX WARN: Removed duplicated region for block: B:115:0x0291  */
-            /* JADX WARN: Removed duplicated region for block: B:121:0x008a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:126:0x007c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:128:0x0222 A[EDGE_INSN: B:128:0x0222->B:87:0x0222 BREAK  A[LOOP:0: B:80:0x01f4->B:86:0x0219], SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:27:0x0067 A[Catch: Exception -> 0x0057, TryCatch #5 {Exception -> 0x0057, blocks: (B:15:0x002f, B:18:0x004b, B:25:0x0063, B:27:0x0067, B:28:0x0070, B:34:0x0086, B:43:0x00ae, B:45:0x00b8, B:47:0x00be, B:48:0x00fb, B:50:0x011b, B:88:0x0225, B:90:0x0232, B:101:0x0259, B:103:0x0266, B:104:0x0269, B:98:0x024b, B:42:0x00ab, B:33:0x0083, B:24:0x0060, B:23:0x005c, B:22:0x005a, B:36:0x008a, B:37:0x0092, B:39:0x0098, B:51:0x012f, B:53:0x0135, B:56:0x013e, B:58:0x0146, B:60:0x0154, B:65:0x017d, B:67:0x0187, B:68:0x018c, B:70:0x0194, B:72:0x019c, B:74:0x01a2, B:79:0x01e5, B:80:0x01f4, B:82:0x01fa, B:84:0x0212, B:86:0x0219, B:87:0x0222, B:76:0x01bb, B:77:0x01d8, B:78:0x01db, B:92:0x0236, B:94:0x023e, B:96:0x0245, B:97:0x0248, B:30:0x007c), top: B:125:0x002f, inners: #2, #3, #4, #6 }] */
-            /* JADX WARN: Removed duplicated region for block: B:50:0x011b A[Catch: Exception -> 0x0057, TRY_LEAVE, TryCatch #5 {Exception -> 0x0057, blocks: (B:15:0x002f, B:18:0x004b, B:25:0x0063, B:27:0x0067, B:28:0x0070, B:34:0x0086, B:43:0x00ae, B:45:0x00b8, B:47:0x00be, B:48:0x00fb, B:50:0x011b, B:88:0x0225, B:90:0x0232, B:101:0x0259, B:103:0x0266, B:104:0x0269, B:98:0x024b, B:42:0x00ab, B:33:0x0083, B:24:0x0060, B:23:0x005c, B:22:0x005a, B:36:0x008a, B:37:0x0092, B:39:0x0098, B:51:0x012f, B:53:0x0135, B:56:0x013e, B:58:0x0146, B:60:0x0154, B:65:0x017d, B:67:0x0187, B:68:0x018c, B:70:0x0194, B:72:0x019c, B:74:0x01a2, B:79:0x01e5, B:80:0x01f4, B:82:0x01fa, B:84:0x0212, B:86:0x0219, B:87:0x0222, B:76:0x01bb, B:77:0x01d8, B:78:0x01db, B:92:0x0236, B:94:0x023e, B:96:0x0245, B:97:0x0248, B:30:0x007c), top: B:125:0x002f, inners: #2, #3, #4, #6 }] */
-            /* JADX WARN: Removed duplicated region for block: B:68:0x018c A[Catch: all -> 0x0177, Exception -> 0x017a, TryCatch #1 {Exception -> 0x017a, blocks: (B:51:0x012f, B:53:0x0135, B:56:0x013e, B:58:0x0146, B:60:0x0154, B:65:0x017d, B:67:0x0187, B:68:0x018c, B:70:0x0194, B:72:0x019c, B:79:0x01e5, B:80:0x01f4, B:82:0x01fa, B:84:0x0212, B:86:0x0219, B:87:0x0222, B:76:0x01bb, B:77:0x01d8, B:78:0x01db), top: B:120:0x012f, outer: #3 }] */
-            /* JADX WARN: Removed duplicated region for block: B:78:0x01db A[Catch: all -> 0x0177, Exception -> 0x017a, TryCatch #1 {Exception -> 0x017a, blocks: (B:51:0x012f, B:53:0x0135, B:56:0x013e, B:58:0x0146, B:60:0x0154, B:65:0x017d, B:67:0x0187, B:68:0x018c, B:70:0x0194, B:72:0x019c, B:79:0x01e5, B:80:0x01f4, B:82:0x01fa, B:84:0x0212, B:86:0x0219, B:87:0x0222, B:76:0x01bb, B:77:0x01d8, B:78:0x01db), top: B:120:0x012f, outer: #3 }] */
-            /* JADX WARN: Removed duplicated region for block: B:82:0x01fa A[Catch: all -> 0x0177, Exception -> 0x017a, TryCatch #1 {Exception -> 0x017a, blocks: (B:51:0x012f, B:53:0x0135, B:56:0x013e, B:58:0x0146, B:60:0x0154, B:65:0x017d, B:67:0x0187, B:68:0x018c, B:70:0x0194, B:72:0x019c, B:79:0x01e5, B:80:0x01f4, B:82:0x01fa, B:84:0x0212, B:86:0x0219, B:87:0x0222, B:76:0x01bb, B:77:0x01d8, B:78:0x01db), top: B:120:0x012f, outer: #3 }] */
-            /* JADX WARN: Removed duplicated region for block: B:90:0x0232 A[Catch: Exception -> 0x0057, PHI: r0
-  0x0232: PHI (r0v39 java.io.OutputStream) = (r0v38 java.io.OutputStream), (r0v57 java.io.OutputStream) binds: [B:100:0x0258, B:89:0x0230] A[DONT_GENERATE, DONT_INLINE], TRY_LEAVE, TryCatch #5 {Exception -> 0x0057, blocks: (B:15:0x002f, B:18:0x004b, B:25:0x0063, B:27:0x0067, B:28:0x0070, B:34:0x0086, B:43:0x00ae, B:45:0x00b8, B:47:0x00be, B:48:0x00fb, B:50:0x011b, B:88:0x0225, B:90:0x0232, B:101:0x0259, B:103:0x0266, B:104:0x0269, B:98:0x024b, B:42:0x00ab, B:33:0x0083, B:24:0x0060, B:23:0x005c, B:22:0x005a, B:36:0x008a, B:37:0x0092, B:39:0x0098, B:51:0x012f, B:53:0x0135, B:56:0x013e, B:58:0x0146, B:60:0x0154, B:65:0x017d, B:67:0x0187, B:68:0x018c, B:70:0x0194, B:72:0x019c, B:74:0x01a2, B:79:0x01e5, B:80:0x01f4, B:82:0x01fa, B:84:0x0212, B:86:0x0219, B:87:0x0222, B:76:0x01bb, B:77:0x01d8, B:78:0x01db, B:92:0x0236, B:94:0x023e, B:96:0x0245, B:97:0x0248, B:30:0x007c), top: B:125:0x002f, inners: #2, #3, #4, #6 }] */
-            @Override
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-                To view partially-correct code enable 'Show inconsistent code' option in preferences
-            */
-            public void run() throws IOException {
-                /*
-                    Method dump skipped, instructions count: 736
-                    To view this dump change 'Code comments level' option to 'DEBUG'
-                */
-                throw new UnsupportedOperationException("Method not decompiled: com.mmbox.xbrowser.C1541c.l.c.run():void");
+            public void run() {
+                // Check if the download is already completed
+                if (currentDownload == null) {
+                    return;
+                }
+
+                currentDownload.currentProgress = 0;
+
+                // Check if there's a valid download size and condition
+                if (totalBytes == -1 || totalBytes == 0 || currentDownload.downloadedBytes != totalBytes) {
+                    return;
+                }
+
+                // Proceed with download action
+                currentDownload.downloadStatus = 3; // Set status to downloading
+                m6687M(currentDownload);
+
+                // Prepare request headers
+                Request.Builder builder = new Request.Builder().url(this.downloadUrl)
+                        .addHeader("Accept", "*/*");
+
+                // Set User-Agent header, fallback to default if not provided
+                String userAgent = TextUtils.isEmpty(this.fileName) ? SharedPreferencesHelper.defaultUserAgent : this.fileName;
+                builder.addHeader("User-Agent", userAgent);
+
+                // Set Referer header if available
+                if (this.userAgent != null) {
+                    builder.addHeader("Referer", this.userAgent.trim());
+                }
+
+                // Add cookies
+                String cookies = CookieManager.getInstance().getCookie(this.downloadUrl);
+                if (cookies != null) {
+                    builder.addHeader("Cookie", cookies);
+                }
+
+                // Add any additional headers from custom map
+                if (this.headers != null) {
+                    for (String key : this.headers.keySet()) {
+                        builder.addHeader(key, this.headers.get(key));
+                    }
+                }
+
+                // Handle download conditions based on the file range or other factors
+                if (currentDownload.downloadedBytes > 0) {
+                    builder.addHeader("Range", "bytes=" + currentDownload.downloadedBytes + "-");
+                }
+
+                // Make the actual network request
+                Request request = builder.build();
+                Call call = httpClient.newCall(request);
+
+                // Check response status
+                try {
+                    Response response = call.execute();
+                    if (response.code() != 200) {
+                        handleError();
+                        return;
+                    }
+
+                    // Process successful response
+                    currentDownload.totalBytes = response.body().contentLength();
+                    long fileSize = currentDownload.totalBytes;
+
+                    // Handle download completion or progress
+                    if (fileSize > 0) {
+                        writeToFile(response);
+                    } else {
+                        finishDownload();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Helper method to handle errors during download
+            private void handleError() {
+                if (currentDownload.downloadStatus == 2) {
+                    return;
+                }
+                currentDownload.downloadStatus = 4;
+                if (currentDownload.callback != null) {
+                    currentDownload.callback.mo6506a();
+                }
+            }
+
+            // Helper method to write data to the output file
+            private void writeToFile(Response response) {
+                byte[] buffer = new byte[81920];
+
+                try (InputStream inputStream = response.body().byteStream()) {
+                    try {
+                        int bytesRead;
+                        int totalBytesRead = 0;
+                        while ((bytesRead = inputStream.read(buffer)) > 0) {
+                            outputStream.write(buffer, 0, bytesRead);
+                            totalBytesRead += bytesRead;
+
+                            currentDownload.downloadedBytes += totalBytesRead;
+                            if (currentDownload.totalBytes > 0) {
+                                currentDownload.totalBytes = totalBytesRead;
+                            }
+
+                            updateProgress(totalBytesRead);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                finishDownload();
+            }
+
+            // Finalize the download
+            private void finishDownload() {
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                currentDownload.retryCount++;
+                if (currentDownload.isDownloadComplete()) {
+                    downloadRetryMap.remove(this.downloadUrl);
+                }
+
+                Log.i("download-manager", "Download finished: " + currentDownload.f4645b + " total: " + currentDownload.totalBytes);
+                onDownloadComplete();
             }
         }
 
@@ -489,7 +555,6 @@ public class BrowserDownloadManager {
             InterfaceC0418J3 interfaceC0418J3 = this.httpCall;
             if (interfaceC0418J3 != null) {
                 interfaceC0418J3.cancel();
-                OutputStream outputStream = this.outputStream;
                 if (outputStream != null) {
                     try {
                         outputStream.flush();
@@ -510,20 +575,20 @@ public class BrowserDownloadManager {
             i iVar2 = this.currentDownload;
             iVar2.currentProgress = 0L;
             iVar2.lastProgressBytes = 0L;
-            C1199a3.m5090f().m5098j("notify_download_start", "downloadId", this.currentDownload.downloadId + "");
+            C1199a3.getInstance().m5098j("notify_download_start", "downloadId", this.currentDownload.downloadId + "");
             new Thread(new DownloadExecutorRunnable(j, str, str2, str3, map, str4)).start();
         }
 
         public void onDownloadComplete() {
             DownloadStatusCallback kVar;
             DownloadItem iVar = this.currentDownload;
-            if (iVar != null && (kVar = iVar.f4659p) != null) {
+            if (iVar != null && (kVar = iVar.callback) != null) {
                 if (iVar.totalBytes == -1) {
                     iVar.totalBytes = iVar.downloadedBytes;
                 }
                 kVar.mo6507b();
             }
-            C1199a3.m5090f().m5098j("notify_download_finish", "downloadId", this.currentDownload.downloadId + "");
+            C1199a3.getInstance().m5098j("notify_download_finish", "downloadId", this.currentDownload.downloadId + "");
             if (!this.currentDownload.isDownloadComplete()) {
                 DownloadItem iVar2 = this.currentDownload;
                 if (iVar2.downloadStatus != 2) {
@@ -549,10 +614,9 @@ public class BrowserDownloadManager {
         }
 
         public void updateProgress(long j) {
-            DownloadItem iVar = this.currentDownload;
-            iVar.downloadStatus = 1;
-            iVar.currentProgress = j;
-            iVar.downloadStartTime = System.currentTimeMillis();
+            currentDownload.downloadStatus = 1;
+            currentDownload.currentProgress = j;
+            currentDownload.downloadStartTime = System.currentTimeMillis();
             long jCurrentTimeMillis = System.currentTimeMillis();
             DownloadItem iVar2 = this.currentDownload;
             if (jCurrentTimeMillis > iVar2.lastProgressTime + 200) {
@@ -560,7 +624,7 @@ public class BrowserDownloadManager {
                 iVar2.lastProgressTime = System.currentTimeMillis();
                 DownloadItem iVar3 = this.currentDownload;
                 iVar3.lastProgressBytes = iVar3.currentProgress;
-                C1199a3.m5090f().m5098j("notify_download_progress", "downloadId", this.currentDownload.downloadId + "");
+                C1199a3.getInstance().m5098j("notify_download_progress", "downloadId", this.currentDownload.downloadId + "");
             }
             if (this.currentDownload.shouldUpdateProgress()) {
                 m6688N(this.currentDownload);
@@ -656,7 +720,7 @@ public class BrowserDownloadManager {
         }
     }
 
-    public static BrowserDownloadManager m6674q() {
+    public static BrowserDownloadManager getInstance() {
         if (instance == null) {
             instance = new BrowserDownloadManager();
         }
@@ -667,13 +731,13 @@ public class BrowserDownloadManager {
         try {
             Uri uri = iVar.contentUri;
             if (uri == null || uri.getAuthority() == null) {
-                C0801Ra.m3798f().m3809l(iVar.fileName, iVar.mimeType);
+                C0801Ra.getInstance().m3809l(iVar.fileName, iVar.mimeType);
             } else {
                 String str = iVar.mimeType;
                 if (str.equals("message/rfc822") || str.equals("text/html") || str.equals("text/plain") || str.startsWith("image/")) {
                     this.browserActivity.runOnUiThread(new OpenFileRunnable(iVar.contentUri.toString()));
                 } else {
-                    C0801Ra.m3798f().m3807j(iVar.contentUri, iVar.mimeType);
+                    C0801Ra.getInstance().m3807j(iVar.contentUri, iVar.mimeType);
                 }
             }
         } catch (Exception unused) {
@@ -719,7 +783,7 @@ public class BrowserDownloadManager {
                 FileUtils.deleteFile(m6697m(str, iVarM6698n.fileName));
             }
             iVarM6698n.downloadedBytes = 0L;
-            m6682H(str);
+            resumeDownload(str);
         }
     }
 
@@ -752,7 +816,7 @@ public class BrowserDownloadManager {
     }
 
     public void m6679E(String str) {
-        new RemoveDownloadDialog(this.browserActivity, str).m5644e(this.browserActivity.getString(R.string.dlg_remove_dl_task), this.browserActivity.getString(R.string.dlg_remove_dl_task_confirm), this.browserActivity.getString(R.string.dlg_remove_download_file));
+        new RemoveDownloadDialog(this.browserActivity, str).show(this.browserActivity.getString(R.string.dlg_remove_dl_task), this.browserActivity.getString(R.string.dlg_remove_dl_task_confirm), this.browserActivity.getString(R.string.dlg_remove_download_file));
     }
 
     public void m6680F(String str, boolean z) {
@@ -772,7 +836,7 @@ public class BrowserDownloadManager {
                     lVarM6700p.cancelDownload();
                 }
                 m6694j(str);
-                k kVar = iVarM6698n.f4659p;
+                k kVar = iVarM6698n.callback;
                 if (kVar != null) {
                     kVar.mo6507b();
                 }
@@ -799,7 +863,7 @@ public class BrowserDownloadManager {
                 if (AndroidSystemUtils.isWifiConnected(this.browserActivity) || lVarM6700p.currentDownload.allowMobileData) {
                     lVarM6700p.executeDownload(iVarM6698n.downloadUrl, iVarM6698n.userAgent, iVarM6698n.referer, iVarM6698n.totalBytes, iVarM6698n.fileName, null);
                 } else {
-                    new WiFiConfirmDialog(this.browserActivity, iVarM6698n, lVarM6700p).m5643d(this.browserActivity.getString(R.string.dlg_download_title), this.browserActivity.getString(R.string.dlg_download_text_no_wifi));
+                    new WiFiConfirmDialog(this.browserActivity, iVarM6698n, lVarM6700p).show(this.browserActivity.getString(R.string.dlg_download_title), this.browserActivity.getString(R.string.dlg_download_text_no_wifi));
                 }
             } else {
                 iVarM6698n.downloadStatus = 6;
@@ -809,10 +873,10 @@ public class BrowserDownloadManager {
         return iVarM6698n;
     }
 
-    public void m6682H(String str) {
-        Intent intent = new Intent(this.browserActivity, (Class<?>) DownloadService.class);
-        intent.setAction(f4617i);
-        intent.putExtra("download-id", str);
+    public void resumeDownload(String downloadId) {
+        Intent intent = new Intent(this.browserActivity, DownloadService.class);
+        intent.setAction(DOWNLOAD_RESUME_ACTION);
+        intent.putExtra("download-id", downloadId);
         this.browserActivity.startService(intent);
     }
 
@@ -846,7 +910,7 @@ public class BrowserDownloadManager {
             iVarM6706w = m6706w(lValueOf, str4, str, str2, strM5610q, str5, str3, j2, 6, str6);
         }
         if (kVar != null) {
-            iVarM6706w.f4659p = kVar;
+            iVarM6706w.callback = kVar;
         }
         return iVarM6706w;
     }
@@ -906,7 +970,7 @@ public class BrowserDownloadManager {
             Method dump skipped, instructions count: 239
             To view this dump change 'Code comments level' option to 'DEBUG'
         */
-        throw new UnsupportedOperationException("Method not decompiled: com.mmbox.xbrowser.C1541c.m6688N(com.mmbox.xbrowser.c$i):void");
+        throw new UnsupportedOperationException("Method not decompiled: com.mmbox.xbrowser.BrowserDownloadManager.m6688N(com.mmbox.xbrowser.c$i):void");
     }
 
     public void m6689e(String str, String str2, String str3, String str4) throws IOException {
@@ -924,35 +988,42 @@ public class BrowserDownloadManager {
         }
     }
 
-    public boolean m6690f() {
-        int applicationEnabledSetting = this.browserActivity.getPackageManager().getApplicationEnabledSetting("com.android.providers.downloads");
-        return (applicationEnabledSetting == 2 || applicationEnabledSetting == 3 || applicationEnabledSetting == 3 || applicationEnabledSetting == 4) ? false : true;
+    public boolean isDownloadProviderEnabled() {
+        // Get the current application enabled setting for the download provider
+        int appEnabledSetting = this.browserActivity.getPackageManager().getApplicationEnabledSetting("com.android.providers.downloads");
+
+        // Check if the application is in an enabled state
+        return !(appEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DISABLED ||
+                appEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER ||
+                appEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED ||
+                appEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
     }
 
-    public void m6691g(String str, String str2, DownloadCallback jVar) {
-        Log.i("check-down", "url:" + str);
-        if (!str.startsWith("http")) {
-            Log.i("check-down", "invalid url:" + str);
+
+    public void m6691g(String url, String str2, DownloadCallback callback) {
+        Log.i("check-down", "url:" + url);
+        if (!url.startsWith("http")) {
+            Log.i("check-down", "invalid url:" + url);
             return;
         }
-        if (str.indexOf(".") < 0) {
+        if (!url.contains(".")) {
             return;
         }
         try {
-            C0122Ck.a aVarM507i = new C0122Ck.a().m507i(str.trim());
+            Request.Builder builderVarM507I = new Request.Builder().url(url.trim());
             try {
-                aVarM507i.m499a("User-Agent", SharedPreferencesHelper.getInstance().m6849D());
+                builderVarM507I.addHeader("User-Agent", SharedPreferencesHelper.getInstance().m6849D());
             } catch (IllegalArgumentException unused) {
-                aVarM507i.m499a("User-Agent", SharedPreferencesHelper.defaultUserAgent);
+                builderVarM507I.addHeader("User-Agent", SharedPreferencesHelper.defaultUserAgent);
             }
             if (str2 != null) {
-                aVarM507i.m499a("Referer", str2);
+                builderVarM507I.addHeader("Referer", str2);
             }
-            String cookie = CookieManager.getInstance().getCookie(str);
+            String cookie = CookieManager.getInstance().getCookie(url);
             if (cookie != null) {
-                aVarM507i.m499a("Cookie", cookie);
+                builderVarM507I.addHeader("Cookie", cookie);
             }
-            this.httpClient.m2004y(aVarM507i.m500b()).mo1791i(new DownloadInfoCallback(jVar, str));
+            this.httpClient.newCall(builderVarM507I.m500b()).mo1791i(new DownloadInfoCallback(callback, url));
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -960,12 +1031,10 @@ public class BrowserDownloadManager {
 
     public void m6692h() {
         if (AndroidSystemUtils.isWifiConnected(this.browserActivity)) {
-            Iterator it = this.activeDownloadsMap.entrySet().iterator();
-            while (it.hasNext()) {
-                i iVar = (i) ((Map.Entry) it.next()).getValue();
-                int i2 = iVar.downloadStatus;
-                if (i2 != 3 && i2 != 2 && iVar.retryCount < 3) {
-                    m6682H(iVar.downloadId + "");
+            for (Map.Entry<String, DownloadItem> entry : this.activeDownloadsMap.entrySet()) {
+                DownloadItem downloadItem = entry.getValue();
+                if (downloadItem.downloadStatus != 3 && downloadItem.downloadStatus != 2 && downloadItem.retryCount < 3) {
+                    resumeDownload(downloadItem.downloadId + "");
                 }
             }
         }
@@ -1004,7 +1073,7 @@ public class BrowserDownloadManager {
         }
         this.activeDownloadsMap.remove(iVar.downloadId + "");
         this.notificationManager.cancel((int) iVar.downloadId);
-        BrowserActivity.getActivity().m6361u0("native_call_delete_node_by_id('" + str + "')");
+        BrowserActivity.getActivity().updateTitle("native_call_delete_node_by_id('" + str + "')");
     }
 
     public long m6695k(DownloadItem iVar) {
@@ -1070,11 +1139,11 @@ public class BrowserDownloadManager {
         }
         if (lVar == null) {
             for (int i3 = 0; i3 < this.downloadTasksList.size(); i3++) {
-                DownloadTask lVar2 = (DownloadTask) this.downloadTasksList.get(i3);
-                i iVar2 = lVar2.currentDownload;
-                if (iVar2 != null && !iVar2.isDownloadComplete()) {
+                DownloadTask downloadTask = (DownloadTask) this.downloadTasksList.get(i3);
+                i currentDownload = downloadTask.currentDownload;
+                if (currentDownload != null && !currentDownload.isDownloadComplete()) {
                 }
-                lVar = lVar2;
+                lVar = downloadTask;
             }
         }
         if (lVar == null && this.downloadTasksList.size() < 7) {
@@ -1095,7 +1164,7 @@ public class BrowserDownloadManager {
         return null;
     }
 
-    public void m6702s(BrowserActivity browserActivity) {
+    public void init(BrowserActivity browserActivity) {
         this.browserActivity = browserActivity;
         this.httpClient = NetworkUtils.createUnsafeOkHttpClient();
         this.notificationManager = (NotificationManager) this.browserActivity.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -1139,13 +1208,13 @@ public class BrowserDownloadManager {
     }
 
     public void m6705v() {
-        C1541c c1541c = this;
+        BrowserDownloadManager BrowserDownloadManager = this;
         try {
-            Cursor cursorQuery = c1541c.browserActivity.getContentResolver().query(BrowserProvider.uriDownload, DatabaseColumns.DOWNLOAD, null, null, "download_id DESC");
+            Cursor cursorQuery = BrowserDownloadManager.browserActivity.getContentResolver().query(BrowserProvider.uriDownload, DatabaseColumns.DOWNLOAD, null, null, "download_id DESC");
             if (cursorQuery != null) {
                 if (cursorQuery.moveToFirst()) {
                     do {
-                        DownloadItem iVar = c1541c.new DownloadItem();
+                        DownloadItem iVar = BrowserDownloadManager.new DownloadItem();
                         long j2 = cursorQuery.getLong(cursorQuery.getColumnIndex("download_id"));
                         String string = cursorQuery.getString(cursorQuery.getColumnIndex("file_name"));
                         String string2 = cursorQuery.getString(cursorQuery.getColumnIndex("url"));
@@ -1171,8 +1240,8 @@ public class BrowserDownloadManager {
                             if (SharedPreferencesHelper.getInstance().f4936w && !TextUtils.isEmpty(string3) && string3.startsWith("content://")) {
                                 iVar.contentUri = Uri.parse(string3);
                             }
-                            c1541c = this;
-                            c1541c.activeDownloadsMap.put(iVar.downloadId + "", iVar);
+                            BrowserDownloadManager = this;
+                            BrowserDownloadManager.activeDownloadsMap.put(iVar.downloadId + "", iVar);
                         } catch (Exception e2) {
                             e = e2;
                             e.printStackTrace();
@@ -1230,7 +1299,7 @@ public class BrowserDownloadManager {
             }
             writableDatabase.insert("download", null, contentValues);
             this.activeDownloadsMap.put(l2 + "", iVar);
-            BrowserActivity.getActivity().m6361u0("loadDownloads()");
+            BrowserActivity.getActivity().updateTitle("loadDownloads()");
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -1254,7 +1323,7 @@ public class BrowserDownloadManager {
         if (!TextUtils.isEmpty(iVar.downloadUrl) || iVar.downloadUrl.indexOf("open=true") <= 0) {
             return;
         }
-        m6674q().m6675A(iVar);
+        getInstance().m6675A(iVar);
     }
 
     public void m6709z(String str) {

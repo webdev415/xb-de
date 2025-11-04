@@ -3,21 +3,21 @@ package p000;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class C1888iq {
+public final class Event {
 
     public static final AbstractC1220ae f5826d = AbstractC1220ae.m5258v("_syn", "_err", "_el");
 
-    public String f5827a;
+    public String name;
 
-    public long f5828b;
+    public long timestamp;
 
-    public Map f5829c;
+    public Map params;
 
-    public C1888iq(String str, long j, Map map) {
-        this.f5827a = str;
-        this.f5828b = j;
+    public Event(String str, long j, Map map) {
+        this.name = str;
+        this.timestamp = j;
         HashMap map2 = new HashMap<>();
-        this.f5829c = map2;
+        this.params = map2;
         if (map != null) {
             map2.putAll(map);
         }
@@ -39,61 +39,61 @@ public final class C1888iq {
     }
 
     public final long m8003a() {
-        return this.f5828b;
+        return this.timestamp;
     }
 
     public final Object m8004b(String str) {
-        if (this.f5829c.containsKey(str)) {
-            return this.f5829c.get(str);
+        if (this.params.containsKey(str)) {
+            return this.params.get(str);
         }
         return null;
     }
 
     public final Object clone() {
-        return new C1888iq(this.f5827a, this.f5828b, new HashMap<>(this.f5829c));
+        return new Event(this.name, this.timestamp, new HashMap<>(this.params));
     }
 
     public final void m8005d(String str, Object obj) {
         if (obj == null) {
-            this.f5829c.remove(str);
+            this.params.remove(str);
         } else {
-            this.f5829c.put(str, m8002c(str, this.f5829c.get(str), obj));
+            this.params.put(str, m8002c(str, this.params.get(str), obj));
         }
     }
 
     public final String m8006e() {
-        return this.f5827a;
+        return this.name;
     }
 
     public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof C1888iq)) {
+        if (!(obj instanceof Event)) {
             return false;
         }
-        C1888iq c1888iq = (C1888iq) obj;
-        if (this.f5828b == c1888iq.f5828b && this.f5827a.equals(c1888iq.f5827a)) {
-            return this.f5829c.equals(c1888iq.f5829c);
+        Event event = (Event) obj;
+        if (this.timestamp == event.timestamp && this.name.equals(event.name)) {
+            return this.params.equals(event.params);
         }
         return false;
     }
 
     public final void m8007f(String str) {
-        this.f5827a = str;
+        this.name = str;
     }
 
     public final Map m8008g() {
-        return this.f5829c;
+        return this.params;
     }
 
     public final int hashCode() {
-        int iHashCode = this.f5827a.hashCode() * 31;
-        long j = this.f5828b;
-        return ((iHashCode + ((int) (j ^ (j >>> 32)))) * 31) + this.f5829c.hashCode();
+        int iHashCode = this.name.hashCode() * 31;
+        long j = this.timestamp;
+        return ((iHashCode + ((int) (j ^ (j >>> 32)))) * 31) + this.params.hashCode();
     }
 
     public final String toString() {
-        return "Event{name='" + this.f5827a + "', timestamp=" + this.f5828b + ", params=" + String.valueOf(this.f5829c) + "}";
+        return "Event{name='" + this.name + "', timestamp=" + this.timestamp + ", params=" + this.params + "}";
     }
 }

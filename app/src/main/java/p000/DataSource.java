@@ -4,11 +4,11 @@ import android.content.Context;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 
-public abstract class AbstractC2221q implements InterfaceC2183p7 {
+public abstract class DataSource implements InterfaceC2183p7 {
 
-    public String f6662a;
+    public String dataSourceName;
 
-    public String f6663b;
+    public String url;
 
     public String f6664c;
 
@@ -20,18 +20,18 @@ public abstract class AbstractC2221q implements InterfaceC2183p7 {
 
     public boolean f6668g;
 
-    public AbstractC2221q() {
+    public DataSource() {
         this(false);
     }
 
     @Override
     public void mo9036a(String str) {
-        this.f6663b = str;
+        this.url = str;
     }
 
     @Override
     public String mo8842b() {
-        String str = this.f6662a;
+        String str = this.dataSourceName;
         return str == null ? this.f6664c : str;
     }
 
@@ -42,12 +42,12 @@ public abstract class AbstractC2221q implements InterfaceC2183p7 {
 
     @Override
     public void mo9038d(String str) {
-        this.f6662a = str;
+        this.dataSourceName = str;
     }
 
     @Override
     public String mo9039e() {
-        return this.f6663b;
+        return this.url;
     }
 
     @Override
@@ -103,12 +103,12 @@ public abstract class AbstractC2221q implements InterfaceC2183p7 {
     }
 
     public String toString() {
-        return ((("============= datasource ==============\n  dataSourceType:" + this.f6664c + "\n") + "  dataSourceName:" + this.f6662a + "\n") + "  url:" + this.f6663b + "\n") + "=============== end ================= \n";
+        return ((("============= datasource ==============\n  dataSourceType:" + this.f6664c + "\n") + "  dataSourceName:" + this.dataSourceName + "\n") + "  url:" + this.url + "\n") + "=============== end ================= \n";
     }
 
-    public AbstractC2221q(boolean z) {
-        this.f6662a = null;
-        this.f6663b = null;
+    public DataSource(boolean z) {
+        this.dataSourceName = null;
+        this.url = null;
         this.f6664c = null;
         this.f6665d = null;
         this.f6666e = null;

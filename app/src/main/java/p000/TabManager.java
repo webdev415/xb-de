@@ -5,24 +5,24 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.BrowserControllerListener;
 import java.lang.reflect.Constructor;
 
-public class C1346c3 extends AbstractC2274r6 {
+public class TabManager extends ContentViewManager {
 
     public BrowserActivity f3913k;
 
-    public C1346c3(BrowserActivity browserActivity, FrameLayout frameLayout) {
+    public TabManager(BrowserActivity browserActivity, FrameLayout frameLayout) {
         super(browserActivity, frameLayout);
         this.f3913k = browserActivity;
     }
 
     @Override
-    public InterfaceC1300b3 mo5705r(String str, String str2) throws NoSuchMethodException, SecurityException {
-        if (!this.f3913k.getApplicationInfo().packageName.equals(str)) {
+    public InterfaceC1300b3 mo5705r(String pkg, String className) throws NoSuchMethodException, SecurityException {
+        if (!this.f3913k.getApplicationInfo().packageName.equals(pkg)) {
             return null;
         }
         try {
-            Constructor<?> constructor = this.f3913k.getClassLoader().loadClass(str2).getConstructor(BrowserActivity.class, BrowserControllerListener.class);
+            Constructor<?> constructor = this.f3913k.getClassLoader().loadClass(className).getConstructor(BrowserActivity.class, BrowserControllerListener.class);
             BrowserActivity browserActivity = this.f3913k;
-            return (InterfaceC1300b3) constructor.newInstance(browserActivity, browserActivity.m6218I0());
+            return (InterfaceC1300b3) constructor.newInstance(browserActivity, browserActivity.getActivityDelegate());
         } catch (Exception e) {
             e.printStackTrace();
             return null;

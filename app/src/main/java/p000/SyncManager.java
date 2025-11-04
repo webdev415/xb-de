@@ -4,19 +4,24 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class C1089Xm {
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
-    public static C1089Xm insatnce;
+import okhttp3.OkHttpClient;
+
+public class SyncManager {
+
+    public static SyncManager insatnce;
 
     public OkHttpClient f3265d;
 
@@ -26,7 +31,7 @@ public class C1089Xm {
 
     public int f3264c = Integer.MIN_VALUE;
 
-    public final HashMap<String, AbstractResourceManager> f3266e = new HashMap<>();
+    public final HashMap<String, AbstractResourceManager> resourceManagerHashMap = new HashMap<>();
 
     public boolean f3267f = false;
 
@@ -74,8 +79,8 @@ public class C1089Xm {
                 if (strM2399p != null && strM2399p.indexOf("/json") >= 0) {
                     try {
                         try {
-                            this.f3275b.updateFromJson(response.m2392a().m2714l());
-                            response.m2392a().close();
+                            this.f3275b.updateFromJson(response.body().m2714l());
+                            response.body().close();
                             sb = new StringBuilder();
                             sb.append(" execute pull ");
                             strM10252i = this.f3275b.getResourceType();
@@ -90,7 +95,7 @@ public class C1089Xm {
                             response3 = sb;
                         } catch (Exception e) {
                             e.printStackTrace();
-                            response.m2392a().close();
+                            response.body().close();
                             StringBuilder sb2 = new StringBuilder();
                             sb2.append(" execute pull ");
                             strM10252i = this.f3275b.getResourceType();
@@ -115,7 +120,7 @@ public class C1089Xm {
                             }
                         }
                         if (this.f3275b.getState() == 9) {
-                            C1089Xm.m4814b(C1089Xm.this, -2147483644);
+                            SyncManager.m4814b(SyncManager.this, -2147483644);
                             AbstractResourceManager abstractResourceManager = this.f3275b;
                             abstractResourceManager.setState(1);
                             str4 = str2;
@@ -129,35 +134,35 @@ public class C1089Xm {
                             str = iM10253j;
                             response2 = sb;
                             if (iM10253j4 == 1) {
-                                C1089Xm c1089Xm = C1089Xm.this;
-                                C1089Xm.m4814b(c1089Xm, -2147483392);
+                                SyncManager syncManager = SyncManager.this;
+                                SyncManager.m4814b(syncManager, -2147483392);
                                 str4 = str;
-                                str3 = c1089Xm;
+                                str3 = syncManager;
                                 response = response2;
                             }
                         }
                     } catch (Throwable th) {
-                        response.m2392a().close();
+                        response.body().close();
                         Log.i("xsync", strM10252i + this.f3275b.getResourceType() + str4 + this.f3275b.getState() + str3 + this.f3275b.getCurrentVersion());
                         if (this.f3275b.getState() == 9) {
-                            C1089Xm.m4814b(C1089Xm.this, -2147483644);
+                            SyncManager.m4814b(SyncManager.this, -2147483644);
                             this.f3275b.setState(1);
                         } else if (this.f3275b.getState() == 1) {
-                            C1089Xm.m4814b(C1089Xm.this, -2147483392);
+                            SyncManager.m4814b(SyncManager.this, -2147483392);
                         }
                         throw th;
                     }
                 }
             } else {
-                C1089Xm.m4814b(C1089Xm.this, -2147352576);
+                SyncManager.m4814b(SyncManager.this, -2147352576);
             }
-            C1089Xm.this.m4820g(this.f3274a);
+            SyncManager.this.m4820g(this.f3274a);
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            C1089Xm.m4814b(C1089Xm.this, -2147418112);
-            C1089Xm.this.m4820g(this.f3274a);
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            SyncManager.m4814b(SyncManager.this, -2147418112);
+            SyncManager.this.m4820g(this.f3274a);
         }
     }
 
@@ -174,35 +179,35 @@ public class C1089Xm {
 
         @Override
         public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
-            C1089Xm c1089Xm;
+            SyncManager syncManager;
             int i;
             if (response.getStatus() == 200) {
                 String strM2399p = response.getContentType("Content-Type");
                 if (strM2399p != null && strM2399p.indexOf("/json") >= 0) {
                     try {
                         try {
-                            this.f3278b.updateFromJson(response.m2392a().m2714l());
+                            this.f3278b.updateFromJson(response.body().m2714l());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } finally {
-                        response.m2392a().close();
+                        response.body().close();
                     }
                 }
-                c1089Xm = C1089Xm.this;
+                syncManager = SyncManager.this;
                 i = -2147481600;
             } else {
-                c1089Xm = C1089Xm.this;
+                syncManager = SyncManager.this;
                 i = -2147352576;
             }
-            C1089Xm.m4814b(c1089Xm, i);
-            C1089Xm.this.m4820g(this.f3277a);
+            SyncManager.m4814b(syncManager, i);
+            SyncManager.this.m4820g(this.f3277a);
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            C1089Xm.m4814b(C1089Xm.this, -2147418112);
-            C1089Xm.this.m4820g(this.f3277a);
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            SyncManager.m4814b(SyncManager.this, -2147418112);
+            SyncManager.this.m4820g(this.f3277a);
         }
     }
 
@@ -222,26 +227,26 @@ public class C1089Xm {
             if (response.getStatus() == 200) {
                 try {
                     try {
-                        this.f3281b.updateFromJson(response.m2392a().m2714l());
+                        this.f3281b.updateFromJson(response.body().m2714l());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } finally {
-                    response.m2392a().close();
-                    C1089Xm.this.f3267f = true;
+                    response.body().close();
+                    SyncManager.this.f3267f = true;
                     this.f3281b.sync();
-                    C1089Xm.m4814b(C1089Xm.this, -2147481600);
+                    SyncManager.m4814b(SyncManager.this, -2147481600);
                 }
             } else {
-                C1089Xm.m4814b(C1089Xm.this, -2147352576);
+                SyncManager.m4814b(SyncManager.this, -2147352576);
             }
-            C1089Xm.this.m4820g(this.f3280a);
+            SyncManager.this.m4820g(this.f3280a);
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            C1089Xm.this.m4834v("sync to server failed,make sure the network is available");
-            C1089Xm.this.m4820g(this.f3280a);
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            SyncManager.this.m4834v("sync to server failed,make sure the network is available");
+            SyncManager.this.m4820g(this.f3280a);
         }
     }
 
@@ -261,65 +266,65 @@ public class C1089Xm {
             if (response.getStatus() == 200) {
                 try {
                     try {
-                        this.f3284b.updateFromJson(response.m2392a().m2714l());
+                        this.f3284b.updateFromJson(response.body().m2714l());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        response.m2392a().close();
+                        response.body().close();
                         if (this.f3284b.getState() == 8) {
-                            if ((C1089Xm.this.f3264c & (-2147483640)) != -2147483640) {
+                            if ((SyncManager.this.f3264c & (-2147483640)) != -2147483640) {
                             }
                         } else if (this.f3284b.getState() == 10) {
                         }
                     }
                 } finally {
-                    response.m2392a().close();
+                    response.body().close();
                     if (this.f3284b.getState() == 8) {
-                        if ((C1089Xm.this.f3264c & (-2147483640)) != -2147483640) {
-                            C1089Xm.m4814b(C1089Xm.this, -2147482624);
+                        if ((SyncManager.this.f3264c & (-2147483640)) != -2147483640) {
+                            SyncManager.m4814b(SyncManager.this, -2147482624);
                         }
                     } else if (this.f3284b.getState() == 10) {
                         this.f3284b.setState(7);
-                        C1089Xm.m4816d(C1089Xm.this);
-                        C1089Xm.this.m4835w(this.f3284b, true);
+                        SyncManager.m4816d(SyncManager.this);
+                        SyncManager.this.m4835w(this.f3284b, true);
                     } else {
-                        C1089Xm.this.f3267f = true;
+                        SyncManager.this.f3267f = true;
                         this.f3284b.sync();
-                        C1089Xm.m4814b(C1089Xm.this, -2147481600);
+                        SyncManager.m4814b(SyncManager.this, -2147481600);
                     }
                 }
             } else {
-                C1089Xm.m4814b(C1089Xm.this, -2147352576);
+                SyncManager.m4814b(SyncManager.this, -2147352576);
             }
-            C1089Xm.this.m4820g(this.f3283a);
+            SyncManager.this.m4820g(this.f3283a);
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            C1089Xm.this.m4834v("sync to server failed,make sure the network is available");
-            C1089Xm.this.m4820g(this.f3283a);
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            SyncManager.this.m4834v("sync to server failed,make sure the network is available");
+            SyncManager.this.m4820g(this.f3283a);
         }
     }
 
-    public C1089Xm() {
+    public SyncManager() {
         this.f3265d = null;
         this.f3265d = new OkHttpClient();
     }
 
-    public static int m4814b(C1089Xm c1089Xm, int i) {
-        int i2 = i | c1089Xm.f3264c;
-        c1089Xm.f3264c = i2;
+    public static int m4814b(SyncManager syncManager, int i) {
+        int i2 = i | syncManager.f3264c;
+        syncManager.f3264c = i2;
         return i2;
     }
 
-    public static int m4816d(C1089Xm c1089Xm) {
-        int i = c1089Xm.f3268g + 1;
-        c1089Xm.f3268g = i;
+    public static int m4816d(SyncManager syncManager) {
+        int i = syncManager.f3268g + 1;
+        syncManager.f3268g = i;
         return i;
     }
 
-    public static C1089Xm getInstance() {
+    public static SyncManager getInstance() {
         if (insatnce == null) {
-            insatnce = new C1089Xm();
+            insatnce = new SyncManager();
         }
         return insatnce;
     }
@@ -357,7 +362,7 @@ public class C1089Xm {
                     }
                     m4834v(string);
                 }
-                C1199a3.m5090f().m5093d("event_app_to_page", "data_sync_done");
+                C1199a3.getInstance().m5093d("event_app_to_page", "data_sync_done");
             }
         } catch (Throwable th) {
             throw th;
@@ -365,13 +370,13 @@ public class C1089Xm {
     }
 
     public void m4821h() {
-        for (String o : this.f3266e.keySet()) {
-            ((AbstractResourceManager) this.f3266e.get(o)).sync();
+        for (String o : this.resourceManagerHashMap.keySet()) {
+            ((AbstractResourceManager) this.resourceManagerHashMap.get(o)).sync();
         }
     }
 
-    public AbstractResourceManager m4822j(String str) {
-        return (AbstractResourceManager) this.f3266e.get(str);
+    public AbstractResourceManager getResourceManager(String name) {
+        return this.resourceManagerHashMap.get(name);
     }
 
     public String getSyncResourceConfig() {
@@ -411,22 +416,22 @@ public class C1089Xm {
     }
 
     public void m4825m() {
-        for (String key : this.f3266e.keySet()) {
-            this.f3266e.get(key).loadFromCache();
+        for (String key : this.resourceManagerHashMap.keySet()) {
+            this.resourceManagerHashMap.get(key).loadFromCache();
         }
     }
 
     public void m4826n() {
-        for (String key : this.f3266e.keySet()) {
-            AbstractResourceManager abstractResourceManager = this.f3266e.get(key);
+        for (String key : this.resourceManagerHashMap.keySet()) {
+            AbstractResourceManager abstractResourceManager = this.resourceManagerHashMap.get(key);
             abstractResourceManager.restoreFromBackup();
             abstractResourceManager.incrementVersion();
         }
     }
 
     public void m4827o() {
-        for (String o : this.f3266e.keySet()) {
-            ((AbstractResourceManager) this.f3266e.get(o)).resetVersion();
+        for (String o : this.resourceManagerHashMap.keySet()) {
+            ((AbstractResourceManager) this.resourceManagerHashMap.get(o)).resetVersion();
         }
         m4828p(false);
     }
@@ -446,9 +451,9 @@ public class C1089Xm {
             }
             this.f3268g = 0;
             this.f3267f = false;
-            Iterator it = this.f3266e.keySet().iterator();
+            Iterator it = this.resourceManagerHashMap.keySet().iterator();
             while (it.hasNext()) {
-                AbstractResourceManager abstractResourceManager = (AbstractResourceManager) this.f3266e.get((String) it.next());
+                AbstractResourceManager abstractResourceManager = (AbstractResourceManager) this.resourceManagerHashMap.get((String) it.next());
                 abstractResourceManager.setState(2);
                 if (m4824l(abstractResourceManager) && abstractResourceManager.isEnabled) {
                     this.f3268g++;
@@ -480,9 +485,9 @@ public class C1089Xm {
         this.f3268g = 0;
         this.f3267f = false;
         this.f3264c = Integer.MIN_VALUE | (-2147483136);
-        Iterator it = this.f3266e.keySet().iterator();
+        Iterator it = this.resourceManagerHashMap.keySet().iterator();
         while (it.hasNext()) {
-            AbstractResourceManager abstractResourceManager = (AbstractResourceManager) this.f3266e.get((String) it.next());
+            AbstractResourceManager abstractResourceManager = (AbstractResourceManager) this.resourceManagerHashMap.get((String) it.next());
             abstractResourceManager.setState(z2 ? 14 : 7);
             if (abstractResourceManager.isModified() && m4824l(abstractResourceManager) && abstractResourceManager.isEnabled) {
                 this.f3268g++;
@@ -497,12 +502,12 @@ public class C1089Xm {
     }
 
     public void m4832t(AbstractResourceManager abstractResourceManager) {
-        this.f3266e.put(abstractResourceManager.getResourceType(), abstractResourceManager);
+        this.resourceManagerHashMap.put(abstractResourceManager.getResourceType(), abstractResourceManager);
     }
 
     public void m4833u(String str) {
         SharedPreferencesHelper.getInstance().putString("sync_resource_conf", str);
-        getInstance().m4822j("syncable_setting").incrementVersion();
+        getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     public final void m4834v(String str) {
@@ -530,7 +535,7 @@ public class C1089Xm {
                 Log.i("sync-resource", "pull:" + abstractResourceManager.getResourceType() + " url:" + str);
                 byte[] bytes = abstractResourceManager.toJsonWithUser().getBytes();
                 AbstractCryptoUtils.toggleBytes(bytes);
-                this.f3265d.m2004y(new Request.a().m507i(str).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes)).m500b()).mo1791i(new c(z, abstractResourceManager));
+                this.f3265d.newCall(new Request.Builder().url(str).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes)).m500b()).mo1791i(new c(z, abstractResourceManager));
             } else if (abstractResourceManager.getState() != 13) {
                 i = 7;
                 if (abstractResourceManager.getState() == 4) {
@@ -544,7 +549,7 @@ public class C1089Xm {
                     Log.i("sync-resource", "force push :" + abstractResourceManager.getResourceType() + "  " + str2);
                     byte[] bytes2 = abstractResourceManager.toJsonWithIncrement().getBytes();
                     AbstractCryptoUtils.toggleBytes(bytes2);
-                    this.f3265d.m2004y(new Request.a().m507i(str2).m499a("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes2))).m500b()).mo1791i(new e(z, abstractResourceManager));
+                    this.f3265d.newCall(new Request.Builder().url(str2).addHeader("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes2))).m500b()).mo1791i(new e(z, abstractResourceManager));
                 } else {
                     if (abstractResourceManager.getState() != 7) {
                         return;
@@ -556,7 +561,7 @@ public class C1089Xm {
                     String string = sb.toString();
                     byte[] bytes3 = abstractResourceManager.toJsonWithIncrement().getBytes();
                     AbstractCryptoUtils.toggleBytes(bytes3);
-                    this.f3265d.m2004y(new Request.a().m507i(string).m499a("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes3))).m500b()).mo1791i(new f(z, abstractResourceManager));
+                    this.f3265d.newCall(new Request.Builder().url(string).addHeader("Content-Encoding", "gzip").m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), AbstractC2473vc.m10348b(bytes3))).m500b()).mo1791i(new f(z, abstractResourceManager));
                 }
             } else {
                 if (!abstractResourceManager.isEnabled) {
@@ -566,7 +571,7 @@ public class C1089Xm {
                 Log.i("sync-resource", "pull:" + abstractResourceManager.getResourceType() + " url:" + str3);
                 byte[] bytes4 = abstractResourceManager.toJsonWithUser().getBytes();
                 AbstractCryptoUtils.toggleBytes(bytes4);
-                this.f3265d.m2004y(new Request.a().m507i(str3).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes4)).m500b()).mo1791i(new d(z, abstractResourceManager));
+                this.f3265d.newCall(new Request.Builder().url(str3).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), bytes4)).m500b()).mo1791i(new d(z, abstractResourceManager));
             }
             return;
         } catch (Exception e2) {
@@ -587,32 +592,32 @@ public class C1089Xm {
             new a(BrowserActivity.getActivity()).show();
         }
 
-        public class a extends AbstractDialogC0904Tl {
+        public class a extends SyncServerUpdateDialog {
             public a(BrowserActivity browserActivity) {
                 super(browserActivity);
             }
 
             @Override
-            public void mo4178b(int i) {
+            public void onOK(int i) {
                 if (i == 0) {
-                    new DialogC2702a(BrowserActivity.getActivity()).m5643d(BrowserActivity.getActivity().getString(R.string.str_force_override), BrowserActivity.getActivity().getString(R.string.str_force_override_desc));
+                    new DialogC2702a(BrowserActivity.getActivity()).show(BrowserActivity.getActivity().getString(R.string.str_force_override), BrowserActivity.getActivity().getString(R.string.str_force_override_desc));
                 } else if (i == 1) {
-                    C1089Xm.this.m4828p(true);
+                    SyncManager.this.m4828p(true);
                 }
             }
 
-            public class DialogC2702a extends AbstractDialogC1303b6 {
+            public class DialogC2702a extends ConfirmDialog {
                 public DialogC2702a(Context context) {
                     super(context);
                 }
 
                 @Override
-                public void mo316c() {
-                    C1089Xm.this.m4830r(true);
+                public void onOK() {
+                    SyncManager.this.m4830r(true);
                 }
 
                 @Override
-                public void mo315b() {
+                public void onCancel() {
                 }
             }
         }

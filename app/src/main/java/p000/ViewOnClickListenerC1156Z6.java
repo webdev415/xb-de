@@ -12,7 +12,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-public class ViewOnClickListenerC1156Z6 extends AbstractDialogC2267r implements View.OnClickListener {
+public class ViewOnClickListenerC1156Z6 extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f3389b;
 
@@ -39,16 +39,16 @@ public class ViewOnClickListenerC1156Z6 extends AbstractDialogC2267r implements 
         public void onClick(View view) throws Resources.NotFoundException, SQLException {
             String strTrim = this.f3394a.getText().toString().trim();
             String strTrim2 = this.f3395b.getText().toString().trim();
-            if (!TextUtils.isEmpty(strTrim2) && strTrim2.indexOf("baidu.com") > 0 && strTrim2.indexOf(SharedPreferencesHelper.getInstance().f4897c0) > 0 && !TextUtils.isEmpty(ViewOnClickListenerC1156Z6.this.f3392e)) {
+            if (!TextUtils.isEmpty(strTrim2) && strTrim2.indexOf("baidu.com") > 0 && strTrim2.indexOf(SharedPreferencesHelper.getInstance().baiduFakeFeecode) > 0 && !TextUtils.isEmpty(ViewOnClickListenerC1156Z6.this.f3392e)) {
                 strTrim2 = strTrim2.replaceAll("from=[a-z0-9_]{1,20}", "from=" + ViewOnClickListenerC1156Z6.this.f3392e);
             }
             if (TextUtils.isEmpty(ViewOnClickListenerC1156Z6.this.f3393f)) {
-                ViewOnClickListenerC1156Z6.this.f3393f = AndroidSystemUtils.m8713u();
+                ViewOnClickListenerC1156Z6.this.f3393f = AndroidSystemUtils.getSId();
             }
             ViewOnClickListenerC1156Z6 viewOnClickListenerC1156Z6 = ViewOnClickListenerC1156Z6.this;
             viewOnClickListenerC1156Z6.f3389b.m6316f3(viewOnClickListenerC1156Z6.f3393f, strTrim, strTrim2);
             ViewOnClickListenerC1156Z6.this.dismiss();
-            ViewOnClickListenerC1156Z6.this.f3389b.m6361u0("native_call_reload_qa();");
+            ViewOnClickListenerC1156Z6.this.f3389b.updateTitle("native_call_reload_qa();");
         }
     }
 
@@ -72,7 +72,7 @@ public class ViewOnClickListenerC1156Z6 extends AbstractDialogC2267r implements 
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         String strReplaceAll;
         setContentView(R.layout.dlg_quick_access_add);
         EditText editText = (EditText) findViewById(R.id.qa_title);
@@ -81,7 +81,7 @@ public class ViewOnClickListenerC1156Z6 extends AbstractDialogC2267r implements 
             String str = this.f3391d;
             if (str.indexOf("baidu.com") > 0) {
                 this.f3392e = NetworkUtils.extractFirstGroup(this.f3391d, NetworkUtils.FROM_PARAM_PATTERN);
-                strReplaceAll = str.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().f4897c0);
+                strReplaceAll = str.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().baiduFakeFeecode);
             } else {
                 strReplaceAll = this.f3391d;
             }

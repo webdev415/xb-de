@@ -12,9 +12,9 @@ public abstract class AbstractC1923jf {
 
     public static final C0951Um f5952e = new C0951Um("SEALED");
 
-    public static final C0562M9 f5953f = new C0562M9(false);
+    public static final Empty f5953f = new Empty(false);
 
-    public static final C0562M9 f5954g = new C0562M9(true);
+    public static final Empty f5954g = new Empty(true);
 
     public static final Object m8175g(Object obj) {
         return obj instanceof InterfaceC1876ie ? new C1922je((InterfaceC1876ie) obj) : obj;

@@ -14,7 +14,7 @@ public class TextToSpeechActivity extends Activity {
             String stringExtra = intent.getStringExtra("android.intent.extra.PROCESS_TEXT");
             this.f4550a = stringExtra;
             if (stringExtra != null) {
-                C1651dn.m7356c().m7361h(this.f4550a);
+                C1651dn.getInstance().m7361h(this.f4550a);
             }
         }
     }

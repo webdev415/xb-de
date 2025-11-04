@@ -11,7 +11,7 @@ public class C2452v0 extends AbstractResourceManager {
 
     @Override
     public String getResourceValue() {
-        return C0600N1.m3257k().m3266o("auto_fill_addr");
+        return C0600N1.getInstance().m3266o("auto_fill_addr");
     }
 
     @Override
@@ -21,7 +21,7 @@ public class C2452v0 extends AbstractResourceManager {
 
     @Override
     public void saveToLocal(String str) throws Throwable {
-        String strM3266o = C0600N1.m3257k().m3266o("auto_fill_addr");
+        String strM3266o = C0600N1.getInstance().m3266o("auto_fill_addr");
         JSONArray jSONArray = new JSONArray(strM3266o);
         JSONArray jSONArray2 = new JSONArray(str);
         HashMap map = new HashMap<>();
@@ -51,6 +51,6 @@ public class C2452v0 extends AbstractResourceManager {
 
     @Override
     public void loadFromRemote(String str) throws Throwable {
-        FileUtils.writeStringToFile(C0600N1.m3257k().m3262j("auto_fill_addr"), str);
+        FileUtils.writeStringToFile(C0600N1.getInstance().m3262j("auto_fill_addr"), str);
     }
 }

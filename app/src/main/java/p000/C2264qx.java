@@ -86,11 +86,11 @@ public final class C2264qx {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("origin=");
-        sb.append(c0635Nr.f1976n);
+        sb.append(c0635Nr.origin);
         sb.append(",name=");
-        sb.append(m9209b(c0635Nr.f1974l));
+        sb.append(m9209b(c0635Nr.name));
         sb.append(",params=");
-        C0175Dr c0175Dr = c0635Nr.f1975m;
+        C0175Dr c0175Dr = c0635Nr.params;
         sb.append(c0175Dr != null ? !this.f6822a.mo5648a() ? c0175Dr.toString() : m9208a(c0175Dr.m785h()) : null);
         return sb.toString();
     }

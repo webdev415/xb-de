@@ -24,7 +24,7 @@ import p000.AbstractC2359t;
 import p000.C0762Qg;
 import p000.C1344c1;
 import p000.ThemeManager;
-import p000.DialogC1975kl;
+import p000.SaveAllTabsDialog;
 import p000.InterfaceC0529Ld;
 import p000.InterfaceC0575Md;
 
@@ -90,7 +90,7 @@ public class TabWindowManager extends AbstractC2359t implements InterfaceC0529Ld
             if (i != i2) {
                 this.f7122a.add(i2, (InterfaceC0529Ld) this.f7122a.remove(i));
                 notifyDataSetChanged();
-                BrowserActivity.getActivity().m6222J0().m9303a0(this.f7122a);
+                BrowserActivity.getActivity().getTabManager().m9303a0(this.f7122a);
             }
         }
 
@@ -327,12 +327,12 @@ public class TabWindowManager extends AbstractC2359t implements InterfaceC0529Ld
         m9655v();
         if (view.getId() == R.id.btn_new_window) {
             this.tabEventListener.mo2862j();
-            c1344c1M5691d = C1344c1.m5691d();
+            c1344c1M5691d = C1344c1.getInstance();
             str = "New Tab";
             str2 = "new_tab";
         } else if (view.getId() == R.id.btn_clean_all_tab) {
             this.tabEventListener.mo2861i();
-            c1344c1M5691d = C1344c1.m5691d();
+            c1344c1M5691d = C1344c1.getInstance();
             str = "Close All Tab";
             str2 = "close_all_tab";
         } else {
@@ -340,7 +340,7 @@ public class TabWindowManager extends AbstractC2359t implements InterfaceC0529Ld
                 return;
             }
             this.tabEventListener.mo2864o();
-            c1344c1M5691d = C1344c1.m5691d();
+            c1344c1M5691d = C1344c1.getInstance();
             str = "Incognito Tab";
             str2 = "add_incognito_tab";
         }
@@ -383,7 +383,7 @@ public class TabWindowManager extends AbstractC2359t implements InterfaceC0529Ld
                             return;
                         }
                         if (interfaceC0529Ld.mo2683v() == R.string.tab_menu_save_all) {
-                            new DialogC1975kl(BrowserActivity.getActivity()).show();
+                            new SaveAllTabsDialog(BrowserActivity.getActivity()).show();
                             return;
                         } else {
                             if (!(interfaceC0529Ld.mo2666e() instanceof String)) {
@@ -396,13 +396,13 @@ public class TabWindowManager extends AbstractC2359t implements InterfaceC0529Ld
                     ((InterfaceC0529Ld) this.adapter.getItem(this.selectedTabPosition)).mo2672k(false);
                 }
                 this.adapter.notifyDataSetChanged();
-                BrowserActivity.getActivity().m6222J0().m9303a0(m9653s().m9660g());
+                BrowserActivity.getActivity().getTabManager().m9303a0(m9653s().m9660g());
                 return;
             }
             m7053O(this.selectedTabPosition, m9653s().m9660g());
         }
         m9653s().notifyDataSetChanged();
-        BrowserActivity.getActivity().m6222J0().m9303a0(m9653s().m9660g());
+        BrowserActivity.getActivity().getTabManager().m9303a0(m9653s().m9660g());
         BrowserActivity.getActivity().m6324h3();
     }
 

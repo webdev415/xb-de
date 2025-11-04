@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
-import com.mmbox.xbrowser.C1571f;
+import com.mmbox.xbrowser.VideoSniffingManager;
 import com.xbrowser.play.R;
 import org.json.JSONException;
 
@@ -125,7 +125,7 @@ public class C0356Ho implements InterfaceC0529Ld.a {
         @Override
         public void onClick(View view) throws JSONException, Resources.NotFoundException {
             String strM6234M0 = C0356Ho.this.f1077a.m6234M0();
-            String strMo1574c = C0356Ho.this.f1077a.m6210G0().mo1574c();
+            String strMo1574c = C0356Ho.this.f1077a.getBrowserController().mo1574c();
             if (C0356Ho.this.f1077a.m6358t1(strM6234M0)) {
                 C0356Ho.this.f1077a.m6321h0(strM6234M0);
             } else {
@@ -220,7 +220,7 @@ public class C0356Ho implements InterfaceC0529Ld.a {
         }
     }
 
-    public static C0356Ho m1604i() {
+    public static C0356Ho getInstance() {
         if (f1076l == null) {
             f1076l = new C0356Ho();
         }
@@ -268,7 +268,7 @@ public class C0356Ho implements InterfaceC0529Ld.a {
         this.f1077a.getHandler().postDelayed(this.f1084h, 3000L);
     }
 
-    public void m1608k(BrowserActivity browserActivity) {
+    public void init(BrowserActivity browserActivity) {
         this.f1077a = browserActivity;
         this.f1078b = new FrameLayout(browserActivity);
         this.f1078b.addView(View.inflate(this.f1077a, R.layout.float_video_control_box, null));
@@ -320,7 +320,7 @@ public class C0356Ho implements InterfaceC0529Ld.a {
         String string = this.f1081e.toString();
         String strSubstring = string.substring(0, string.indexOf(120));
         this.f1082f.setText(this.f1081e);
-        this.f1077a.m6361u0("_XJSAPI_.update_play_speed(" + strSubstring + ")");
+        this.f1077a.updateTitle("_XJSAPI_.update_play_speed(" + strSubstring + ")");
     }
 
     public final void m1613p(TextView textView) {
@@ -337,7 +337,7 @@ public class C0356Ho implements InterfaceC0529Ld.a {
         } else {
             imageView.clearColorFilter();
         }
-        if (C1571f.getInstance().m7000j().f2130b == 0) {
+        if (VideoSniffingManager.getInstance().m7000j().f2130b == 0) {
             button = this.f1082f;
             i2 = 8;
         } else {

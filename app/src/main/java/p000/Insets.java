@@ -1,11 +1,10 @@
 package p000;
 
-import android.graphics.Insets;
 import android.graphics.Rect;
 
-public final class C2337se {
+public final class Insets {
 
-    public static final C2337se f7064e = new C2337se(0, 0, 0, 0);
+    public static final Insets f7064e = new Insets(0, 0, 0, 0);
 
     public final int f7065a;
 
@@ -16,35 +15,35 @@ public final class C2337se {
     public final int f7068d;
 
     public static class a {
-        public static Insets m9571a(int i, int i2, int i3, int i4) {
-            return Insets.of(i, i2, i3, i4);
+        public static android.graphics.Insets m9571a(int i, int i2, int i3, int i4) {
+            return android.graphics.Insets.of(i, i2, i3, i4);
         }
     }
 
-    public C2337se(int i, int i2, int i3, int i4) {
+    public Insets(int i, int i2, int i3, int i4) {
         this.f7065a = i;
         this.f7066b = i2;
         this.f7067c = i3;
         this.f7068d = i4;
     }
 
-    public static C2337se m9566a(C2337se c2337se, C2337se c2337se2) {
-        return m9567b(Math.max(c2337se.f7065a, c2337se2.f7065a), Math.max(c2337se.f7066b, c2337se2.f7066b), Math.max(c2337se.f7067c, c2337se2.f7067c), Math.max(c2337se.f7068d, c2337se2.f7068d));
+    public static Insets m9566a(Insets insets, Insets insets2) {
+        return m9567b(Math.max(insets.f7065a, insets2.f7065a), Math.max(insets.f7066b, insets2.f7066b), Math.max(insets.f7067c, insets2.f7067c), Math.max(insets.f7068d, insets2.f7068d));
     }
 
-    public static C2337se m9567b(int i, int i2, int i3, int i4) {
-        return (i == 0 && i2 == 0 && i3 == 0 && i4 == 0) ? f7064e : new C2337se(i, i2, i3, i4);
+    public static Insets m9567b(int i, int i2, int i3, int i4) {
+        return (i == 0 && i2 == 0 && i3 == 0 && i4 == 0) ? f7064e : new Insets(i, i2, i3, i4);
     }
 
-    public static C2337se m9568c(Rect rect) {
+    public static Insets m9568c(Rect rect) {
         return m9567b(rect.left, rect.top, rect.right, rect.bottom);
     }
 
-    public static C2337se m9569d(Insets insets) {
+    public static Insets m9569d(android.graphics.Insets insets) {
         return m9567b(insets.left, insets.top, insets.right, insets.bottom);
     }
 
-    public Insets m9570e() {
+    public android.graphics.Insets m9570e() {
         return a.m9571a(this.f7065a, this.f7066b, this.f7067c, this.f7068d);
     }
 
@@ -52,11 +51,11 @@ public final class C2337se {
         if (this == obj) {
             return true;
         }
-        if (obj == null || C2337se.class != obj.getClass()) {
+        if (obj == null || Insets.class != obj.getClass()) {
             return false;
         }
-        C2337se c2337se = (C2337se) obj;
-        return this.f7068d == c2337se.f7068d && this.f7065a == c2337se.f7065a && this.f7067c == c2337se.f7067c && this.f7066b == c2337se.f7066b;
+        Insets insets = (Insets) obj;
+        return this.f7068d == insets.f7068d && this.f7065a == insets.f7065a && this.f7067c == insets.f7067c && this.f7066b == insets.f7066b;
     }
 
     public int hashCode() {

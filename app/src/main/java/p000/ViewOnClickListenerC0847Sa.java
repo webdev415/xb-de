@@ -11,7 +11,7 @@ import java.io.File;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ViewOnClickListenerC0847Sa extends AbstractDialogC2267r implements View.OnClickListener {
+public class ViewOnClickListenerC0847Sa extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f2622b;
 
@@ -57,7 +57,7 @@ public class ViewOnClickListenerC0847Sa extends AbstractDialogC2267r implements 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+                    C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
                 }
             }
             ViewOnClickListenerC0847Sa.this.dismiss();
@@ -81,7 +81,7 @@ public class ViewOnClickListenerC0847Sa extends AbstractDialogC2267r implements 
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_single_text_field);
         EditText editText = (EditText) findViewById(R.id.edit_text);
         String str = this.f2623c;

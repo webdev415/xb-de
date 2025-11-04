@@ -5,15 +5,15 @@ import android.net.Uri;
 
 public abstract class AbstractC1721fA {
 
-    public static final C2453v1 f5489a = new C2453v1();
+    public static final ScriptMap f5489a = new ScriptMap();
 
     public static synchronized Uri m7566a(String str) {
         Uri uri;
-        C2453v1 c2453v1 = f5489a;
-        uri = (Uri) c2453v1.get(str);
+        ScriptMap scriptMap = f5489a;
+        uri = (Uri) scriptMap.get(str);
         if (uri == null) {
             uri = Uri.parse("content://com.google.android.gms.phenotype/" + Uri.encode(str));
-            c2453v1.put(str, uri);
+            scriptMap.put(str, uri);
         }
         return uri;
     }

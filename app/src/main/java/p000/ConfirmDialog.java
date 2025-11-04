@@ -6,95 +6,80 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
 import com.xbrowser.play.R;
 
-public abstract class BaseDialogC1303B6 extends BaseDialog {
+public abstract class ConfirmDialog extends BaseDialog {
 
-    public String f3842b;
+    public String strTitle;
 
-    public String f3843c;
+    public String strContent;
 
-    public String f3844d;
+    public String strCheckbox;
 
-    public int f3845e;
+    public int type;
 
-    public class a implements View.OnClickListener {
-        public a() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            BaseDialogC1303B6.this.mo316c();
-            BaseDialogC1303B6.this.dismiss();
-        }
-    }
-
-    public class b implements View.OnClickListener {
-        public b() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            BaseDialogC1303B6.this.mo315b();
-            BaseDialogC1303B6.this.dismiss();
-        }
-    }
-
-    public BaseDialogC1303B6(Context context) {
+    public ConfirmDialog(Context context) {
         this(context, 0);
     }
 
     @Override
     public void initView(Bundle bundle) {
-        int i;
         setContentView(R.layout.dlg_confirm);
-        TextView textView = (TextView) findViewById(R.id.title_info);
-        TextView textView2 = (TextView) findViewById(R.id.text_info);
-        textView.setText(this.f3842b);
-        textView2.setText(this.f3843c);
+        TextView tvTitleInfo = (TextView) findViewById(R.id.title_info);
+        TextView tvText = (TextView) findViewById(R.id.text_info);
+        tvTitleInfo.setText(this.strTitle);
+        tvText.setText(this.strContent);
         CheckBox checkBox = (CheckBox) findViewById(R.id.another_condition);
-        if (checkBox != null && this.f3844d != null) {
+        if (checkBox != null && strCheckbox != null) {
             checkBox.setVisibility(View.VISIBLE);
-            checkBox.setText(this.f3844d);
+            checkBox.setText(strCheckbox);
         }
         Button button = (Button) findViewById(R.id.btn_ok);
-        button.setOnClickListener(new a());
-        Button button2 = (Button) findViewById(R.id.btn_cancel);
-        button2.setOnClickListener(new b());
-        int i2 = this.f3845e;
-        if (i2 == 1) {
-            button.setText(R.string.btn_text_allow);
-            i = R.string.btn_text_deny;
-        } else {
-            if (i2 != 2) {
-                return;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onOK();
+                dismiss();
             }
+        });
+        Button btnCancel = (Button) findViewById(R.id.btn_cancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCancel();
+                dismiss();
+            }
+        });
+        if (type == 1) {
+            button.setText(R.string.btn_text_allow);
+            btnCancel.setText(R.string.btn_text_deny);
+        } else if (type == 2) {
             button.setText(R.string.btn_text_send);
-            i = R.string.btn_text_finish;
+            btnCancel.setText(R.string.btn_text_finish);
         }
-        button2.setText(i);
     }
 
-    public abstract void mo315b();
+    public abstract void onCancel();
 
-    public abstract void mo316c();
+    public abstract void onOK();
 
-    public void m5643d(String str, String str2) {
-        m5644e(str, str2, null);
+    public void show(String title, String content) {
+        show(title, content, null);
     }
 
-    public void m5644e(String str, String str2, String str3) {
-        this.f3842b = str;
-        this.f3843c = str2;
-        this.f3844d = str3;
+    public void show(String title, String content, String checkbox) {
+        this.strTitle = title;
+        this.strContent = content;
+        this.strCheckbox = checkbox;
         show();
     }
 
-    public BaseDialogC1303B6(Context context, int i) {
+    public ConfirmDialog(Context context, int type) {
         super(context);
-        this.f3842b = null;
-        this.f3843c = null;
-        this.f3844d = null;
-        this.f3845e = i;
+        this.strTitle = null;
+        this.strContent = null;
+        this.strCheckbox = null;
+        this.type = type;
     }
 }

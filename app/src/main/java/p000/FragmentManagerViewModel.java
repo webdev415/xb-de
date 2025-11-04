@@ -5,9 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import p000.C0632No;
 
-public class C0527Lb extends AbstractC0586Mo {
+public class FragmentManagerViewModel extends AbstractC0586Mo {
 
     public static final C0632No.a f1704j = new a();
 
@@ -26,16 +25,16 @@ public class C0527Lb extends AbstractC0586Mo {
     public static class a implements C0632No.a {
         @Override
         public AbstractC0586Mo mo2655a(Class cls) {
-            return new C0527Lb(true);
+            return new FragmentManagerViewModel(true);
         }
     }
 
-    public C0527Lb(boolean z) {
+    public FragmentManagerViewModel(boolean z) {
         this.f1708g = z;
     }
 
-    public static C0527Lb m2652d(C0678Oo c0678Oo) {
-        return (C0527Lb) new C0632No(c0678Oo, f1704j).m3330a(C0527Lb.class);
+    public static FragmentManagerViewModel m2652d(C0678Oo c0678Oo) {
+        return (FragmentManagerViewModel) new C0632No(c0678Oo, f1704j).m3330a(FragmentManagerViewModel.class);
     }
 
     @Override
@@ -57,8 +56,8 @@ public class C0527Lb extends AbstractC0586Mo {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        C0527Lb c0527Lb = (C0527Lb) obj;
-        return this.f1705d.equals(c0527Lb.f1705d) && this.f1706e.equals(c0527Lb.f1706e) && this.f1707f.equals(c0527Lb.f1707f);
+        FragmentManagerViewModel fragmentManagerViewModel = (FragmentManagerViewModel) obj;
+        return this.f1705d.equals(fragmentManagerViewModel.f1705d) && this.f1706e.equals(fragmentManagerViewModel.f1706e) && this.f1707f.equals(fragmentManagerViewModel.f1707f);
     }
 
     public int hashCode() {

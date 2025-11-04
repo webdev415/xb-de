@@ -18,7 +18,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
+public final class Connection extends C2428ud.d implements InterfaceC1624d6 {
 
     public static final a f5511t = new a(null);
 
@@ -28,7 +28,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
 
     public C0941Uc f5514e;
 
-    public EnumC2342sj f5515f;
+    public EnumC2342sj protocol;
 
     public C2428ud f5516g;
 
@@ -54,7 +54,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
 
     public final C1835hk f5527r;
 
-    public final C1328bl f5528s;
+    public final Route f5528s;
 
     public static final class a {
         public a() {
@@ -71,14 +71,14 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
 
         public final C0941Uc f5530n;
 
-        public final C2498w0 f5531o;
+        public final Address f5531o;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        public b(C2087n4 c2087n4, C0941Uc c0941Uc, C2498w0 c2498w0) {
+        public b(C2087n4 c2087n4, C0941Uc c0941Uc, Address address) {
             super(0);
             this.f5529m = c2087n4;
             this.f5530n = c0941Uc;
-            this.f5531o = c2498w0;
+            this.f5531o = address;
         }
 
         @Override
@@ -96,7 +96,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
 
         @Override
         public final List mo4135c() {
-            C0941Uc c0941Uc = C1741fk.this.f5514e;
+            C0941Uc c0941Uc = Connection.this.f5514e;
             AbstractC0116Ce.m473b(c0941Uc);
             List<Certificate> listM4246d = c0941Uc.m4246d();
             ArrayList arrayList = new ArrayList<>(AbstractC1857i5.m7866n(listM4246d, 10));
@@ -110,25 +110,25 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         }
     }
 
-    public C1741fk(C1835hk c1835hk, C1328bl c1328bl) {
+    public Connection(C1835hk c1835hk, Route route) {
         AbstractC0116Ce.m476e(c1835hk, "connectionPool");
-        AbstractC0116Ce.m476e(c1328bl, "route");
+        AbstractC0116Ce.m476e(route, "route");
         this.f5527r = c1835hk;
-        this.f5528s = c1328bl;
+        this.f5528s = route;
         this.f5524o = 1;
         this.f5525p = new ArrayList<>();
         this.f5526q = Long.MAX_VALUE;
     }
 
     public final boolean m7606A(List list) {
-        List<C1328bl> list2 = list;
+        List<Route> list2 = list;
         if ((list2 instanceof Collection) && list2.isEmpty()) {
             return false;
         }
-        for (C1328bl c1328bl : list2) {
-            Proxy.Type type = c1328bl.m5676b().type();
+        for (Route route : list2) {
+            Proxy.Type type = route.getProxy().type();
             Proxy.Type type2 = Proxy.Type.DIRECT;
-            if (type == type2 && this.f5528s.m5676b().type() == type2 && AbstractC0116Ce.m472a(this.f5528s.m5678d(), c1328bl.m5678d())) {
+            if (type == type2 && this.f5528s.getProxy().type() == type2 && AbstractC0116Ce.m472a(this.f5528s.getHostAddress(), route.getHostAddress())) {
                 return true;
             }
         }
@@ -275,34 +275,34 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         throw new UnsupportedOperationException("Method not decompiled: p000.C1741fk.m7617f(int, int, int, int, boolean, J3, ja):void");
     }
 
-    public final void m7618g(OkHttpClient okHttpClient, C1328bl c1328bl, IOException iOException) {
+    public final void m7618g(OkHttpClient okHttpClient, Route route, IOException iOException) {
         AbstractC0116Ce.m476e(okHttpClient, "client");
-        AbstractC0116Ce.m476e(c1328bl, "failedRoute");
+        AbstractC0116Ce.m476e(route, "failedRoute");
         AbstractC0116Ce.m476e(iOException, "failure");
-        if (c1328bl.m5676b().type() != Proxy.Type.DIRECT) {
-            C2498w0 c2498w0M5675a = c1328bl.m5675a();
-            c2498w0M5675a.m10418i().connectFailed(c2498w0M5675a.m10421l().m258q(), c1328bl.m5676b().address(), iOException);
+        if (route.getProxy().type() != Proxy.Type.DIRECT) {
+            Address addressM5675A = route.m5675a();
+            addressM5675A.m10418i().connectFailed(addressM5675A.m10421l().m258q(), route.getProxy().address(), iOException);
         }
-        okHttpClient.m2000u().m7352b(c1328bl);
+        okHttpClient.m2000u().m7352b(route);
     }
 
     public final void m7619h(int i, int i2, InterfaceC0418J3 interfaceC0418J3, AbstractC1918ja abstractC1918ja) throws IOException {
         Socket socket;
         int i3;
-        Proxy proxyM5676b = this.f5528s.m5676b();
-        C2498w0 c2498w0M5675a = this.f5528s.m5675a();
+        Proxy proxyM5676b = this.f5528s.getProxy();
+        Address addressM5675A = this.f5528s.m5675a();
         Proxy.Type type = proxyM5676b.type();
         if (type != null && ((i3 = AbstractC1788gk.f5641a[type.ordinal()]) == 1 || i3 == 2)) {
-            socket = c2498w0M5675a.m10419j().createSocket();
+            socket = addressM5675A.m10419j().createSocket();
             AbstractC0116Ce.m473b(socket);
         } else {
             socket = new Socket(proxyM5676b);
         }
         this.f5512c = socket;
-        abstractC1918ja.m8140i(interfaceC0418J3, this.f5528s.m5678d(), proxyM5676b);
+        abstractC1918ja.m8140i(interfaceC0418J3, this.f5528s.getHostAddress(), proxyM5676b);
         socket.setSoTimeout(i2);
         try {
-            C0764Qi.f2268c.m3690g().mo3677f(socket, this.f5528s.m5678d(), i);
+            C0764Qi.f2268c.m3690g().mo3677f(socket, this.f5528s.getHostAddress(), i);
             try {
                 this.f5517h = AbstractC0487Kh.m2376b(AbstractC0487Kh.m2380f(socket));
                 this.f5518i = AbstractC0487Kh.m2375a(AbstractC0487Kh.m2378d(socket));
@@ -312,51 +312,51 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
                 }
             }
         } catch (ConnectException e2) {
-            ConnectException connectException = new ConnectException("Failed to connect to " + this.f5528s.m5678d());
+            ConnectException connectException = new ConnectException("Failed to connect to " + this.f5528s.getHostAddress());
             connectException.initCause(e2);
             throw connectException;
         }
     }
 
     public final void m7620i(C1858i6 c1858i6) throws Throwable {
-        C2498w0 c2498w0M5675a = this.f5528s.m5675a();
-        SSLSocketFactory sSLSocketFactoryM10420k = c2498w0M5675a.m10420k();
+        Address addressM5675A = this.f5528s.m5675a();
+        SSLSocketFactory sSLSocketFactoryM10420k = addressM5675A.m10420k();
         SSLSocket sSLSocket = null;
         try {
             AbstractC0116Ce.m473b(sSLSocketFactoryM10420k);
-            Socket socketCreateSocket = sSLSocketFactoryM10420k.createSocket(this.f5512c, c2498w0M5675a.m10421l().m249h(), c2498w0M5675a.m10421l().m253l(), true);
+            Socket socketCreateSocket = sSLSocketFactoryM10420k.createSocket(this.f5512c, addressM5675A.m10421l().m249h(), addressM5675A.m10421l().m253l(), true);
             if (socketCreateSocket == null) {
                 throw new NullPointerException("null cannot be cast to non-null type javax.net.ssl.SSLSocket");
             }
             SSLSocket sSLSocket2 = (SSLSocket) socketCreateSocket;
             try {
-                C1811h6 c1811h6M7867a = c1858i6.m7867a(sSLSocket2);
-                if (c1811h6M7867a.m7798h()) {
-                    C0764Qi.f2268c.m3690g().mo1315e(sSLSocket2, c2498w0M5675a.m10421l().m249h(), c2498w0M5675a.m10415f());
+                ConnectionSpec connectionSpecM7867A = c1858i6.m7867a(sSLSocket2);
+                if (connectionSpecM7867A.m7798h()) {
+                    C0764Qi.f2268c.m3690g().mo1315e(sSLSocket2, addressM5675A.m10421l().m249h(), addressM5675A.m10415f());
                 }
                 sSLSocket2.startHandshake();
                 SSLSession session = sSLSocket2.getSession();
                 C0941Uc.a aVar = C0941Uc.f2850e;
                 AbstractC0116Ce.m475d(session, "sslSocketSession");
                 C0941Uc c0941UcM4248a = aVar.m4248a(session);
-                HostnameVerifier hostnameVerifierM10414e = c2498w0M5675a.m10414e();
+                HostnameVerifier hostnameVerifierM10414e = addressM5675A.m10414e();
                 AbstractC0116Ce.m473b(hostnameVerifierM10414e);
-                if (hostnameVerifierM10414e.verify(c2498w0M5675a.m10421l().m249h(), session)) {
-                    C2087n4 c2087n4M10410a = c2498w0M5675a.m10410a();
+                if (hostnameVerifierM10414e.verify(addressM5675A.m10421l().m249h(), session)) {
+                    C2087n4 c2087n4M10410a = addressM5675A.m10410a();
                     AbstractC0116Ce.m473b(c2087n4M10410a);
-                    this.f5514e = new C0941Uc(c0941UcM4248a.m4247e(), c0941UcM4248a.m4243a(), c0941UcM4248a.m4245c(), new b(c2087n4M10410a, c0941UcM4248a, c2498w0M5675a));
-                    c2087n4M10410a.m8724b(c2498w0M5675a.m10421l().m249h(), new c());
-                    String strMo1316g = c1811h6M7867a.m7798h() ? C0764Qi.f2268c.m3690g().mo1316g(sSLSocket2) : null;
+                    this.f5514e = new C0941Uc(c0941UcM4248a.m4247e(), c0941UcM4248a.m4243a(), c0941UcM4248a.m4245c(), new b(c2087n4M10410a, c0941UcM4248a, addressM5675A));
+                    c2087n4M10410a.m8724b(addressM5675A.m10421l().m249h(), new c());
+                    String strMo1316g = connectionSpecM7867A.m7798h() ? C0764Qi.f2268c.m3690g().mo1316g(sSLSocket2) : null;
                     this.f5513d = sSLSocket2;
                     this.f5517h = AbstractC0487Kh.m2376b(AbstractC0487Kh.m2380f(sSLSocket2));
                     this.f5518i = AbstractC0487Kh.m2375a(AbstractC0487Kh.m2378d(sSLSocket2));
-                    this.f5515f = strMo1316g != null ? EnumC2342sj.f7078t.m9586a(strMo1316g) : EnumC2342sj.HTTP_1_1;
+                    this.protocol = strMo1316g != null ? EnumC2342sj.f7078t.m9586a(strMo1316g) : EnumC2342sj.HTTP_1_1;
                     C0764Qi.f2268c.m3690g().mo3675b(sSLSocket2);
                     return;
                 }
                 List listM4246d = c0941UcM4248a.m4246d();
                 if (!(!listM4246d.isEmpty())) {
-                    throw new SSLPeerUnverifiedException("Hostname " + c2498w0M5675a.m10421l().m249h() + " not verified (no certificates)");
+                    throw new SSLPeerUnverifiedException("Hostname " + addressM5675A.m10421l().m249h() + " not verified (no certificates)");
                 }
                 Object obj = listM4246d.get(0);
                 if (obj == null) {
@@ -365,7 +365,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
                 X509Certificate x509Certificate = (X509Certificate) obj;
                 StringBuilder sb = new StringBuilder();
                 sb.append("\n              |Hostname ");
-                sb.append(c2498w0M5675a.m10421l().m249h());
+                sb.append(addressM5675A.m10421l().m249h());
                 sb.append(" not verified:\n              |    certificate: ");
                 sb.append(C2087n4.f6294d.m8729a(x509Certificate));
                 sb.append("\n              |    DN: ");
@@ -408,7 +408,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
             this.f5512c = null;
             this.f5518i = null;
             this.f5517h = null;
-            abstractC1918ja.m8138g(interfaceC0418J3, this.f5528s.m5678d(), this.f5528s.m5676b(), null);
+            abstractC1918ja.m8138g(interfaceC0418J3, this.f5528s.getHostAddress(), this.f5528s.getProxy(), null);
         }
     }
 
@@ -451,7 +451,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
     }
 
     public final Request m7623l() {
-        Request requestM500B = new Request.a().m506h(this.f5528s.m5675a().m10421l()).m503e("CONNECT", null).m501c("Host", AbstractC2623yo.m10916L(this.f5528s.m5675a().m10421l(), true)).m501c("Proxy-Connection", "Keep-Alive").m501c("User-Agent", "okhttp/4.9.1").m500b();
+        Request requestM500B = new Request.Builder().m506h(this.f5528s.m5675a().m10421l()).m503e("CONNECT", null).m501c("Host", AbstractC2623yo.m10916L(this.f5528s.m5675a().m10421l(), true)).m501c("Proxy-Connection", "Keep-Alive").m501c("User-Agent", "okhttp/4.9.1").m500b();
         Request requestMo2575A = this.f5528s.m5675a().m10417h().mo2575a(this.f5528s, new Response.a().m2419r(requestM500B).m2417p(EnumC2342sj.HTTP_1_1).m2408g(407).m2414m("Preemptive Authenticate").m2403b(AbstractC2623yo.f8129c).m2420s(-1L).m2418q(-1L).m2411j("Proxy-Authenticate", "OkHttp-Preemptive").m2404c());
         return requestMo2575A != null ? requestMo2575A : requestM500B;
     }
@@ -461,7 +461,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
             abstractC1918ja.m8131B(interfaceC0418J3);
             m7620i(c1858i6);
             abstractC1918ja.m8130A(interfaceC0418J3, this.f5514e);
-            if (this.f5515f == EnumC2342sj.HTTP_2) {
+            if (this.protocol == EnumC2342sj.HTTP_2) {
                 m7610E(i);
                 return;
             }
@@ -471,10 +471,10 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         EnumC2342sj enumC2342sj = EnumC2342sj.H2_PRIOR_KNOWLEDGE;
         if (!listM10415f.contains(enumC2342sj)) {
             this.f5513d = this.f5512c;
-            this.f5515f = EnumC2342sj.HTTP_1_1;
+            this.protocol = EnumC2342sj.HTTP_1_1;
         } else {
             this.f5513d = this.f5512c;
-            this.f5515f = enumC2342sj;
+            this.protocol = enumC2342sj;
             m7610E(i);
         }
     }
@@ -503,8 +503,8 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         this.f5522m++;
     }
 
-    public final boolean m7631t(C2498w0 c2498w0, List list) {
-        AbstractC0116Ce.m476e(c2498w0, "address");
+    public final boolean m7631t(Address address, List list) {
+        AbstractC0116Ce.m476e(address, "address");
         if (AbstractC2623yo.f8134h && !Thread.holdsLock(this)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Thread ");
@@ -515,19 +515,19 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
             sb.append(this);
             throw new AssertionError(sb.toString());
         }
-        if (this.f5525p.size() >= this.f5524o || this.f5519j || !this.f5528s.m5675a().m10413d(c2498w0)) {
+        if (this.f5525p.size() >= this.f5524o || this.f5519j || !this.f5528s.m5675a().m10413d(address)) {
             return false;
         }
-        if (AbstractC0116Ce.m472a(c2498w0.m10421l().m249h(), m7637z().m5675a().m10421l().m249h())) {
+        if (AbstractC0116Ce.m472a(address.m10421l().m249h(), m7637z().m5675a().m10421l().m249h())) {
             return true;
         }
-        if (this.f5516g == null || list == null || !m7606A(list) || c2498w0.m10414e() != C0395Ih.f1155a || !m7611F(c2498w0.m10421l())) {
+        if (this.f5516g == null || list == null || !m7606A(list) || address.m10414e() != C0395Ih.f1155a || !m7611F(address.m10421l())) {
             return false;
         }
         try {
-            C2087n4 c2087n4M10410a = c2498w0.m10410a();
+            C2087n4 c2087n4M10410a = address.m10410a();
             AbstractC0116Ce.m473b(c2087n4M10410a);
-            String strM249h = c2498w0.m10421l().m249h();
+            String strM249h = address.m10421l().m249h();
             C0941Uc c0941UcM7629r = m7629r();
             AbstractC0116Ce.m473b(c0941UcM7629r);
             c2087n4M10410a.m8723a(strM249h, c0941UcM7629r.m4246d());
@@ -546,9 +546,9 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         sb.append(this.f5528s.m5675a().m10421l().m253l());
         sb.append(',');
         sb.append(" proxy=");
-        sb.append(this.f5528s.m5676b());
+        sb.append(this.f5528s.getProxy());
         sb.append(" hostAddress=");
-        sb.append(this.f5528s.m5678d());
+        sb.append(this.f5528s.getHostAddress());
         sb.append(" cipherSuite=");
         C0941Uc c0941Uc = this.f5514e;
         if (c0941Uc == null || (objM4243a = c0941Uc.m4243a()) == null) {
@@ -556,7 +556,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         }
         sb.append(objM4243a);
         sb.append(" protocol=");
-        sb.append(this.f5515f);
+        sb.append(this.protocol);
         sb.append('}');
         return sb.toString();
     }
@@ -630,7 +630,7 @@ public final class C1741fk extends C2428ud.d implements InterfaceC1624d6 {
         this.f5519j = true;
     }
 
-    public C1328bl m7637z() {
+    public Route m7637z() {
         return this.f5528s;
     }
 }

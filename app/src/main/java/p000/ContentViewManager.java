@@ -12,90 +12,30 @@ import com.mmbox.xbrowser.controllers.WebViewBrowserController;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-public abstract class AbstractC2274r6 {
+public abstract class ContentViewManager {
 
-    public FrameLayout f6877d;
+    public FrameLayout frameLayout;
 
-    public Context f6878e;
+    public Context context;
 
-    public final File f6879f;
+    public final File file;
 
-    public final ArrayList f6874a = new ArrayList<>(3);
+    public final ArrayList<Tab> tabList = new ArrayList<>(3);
 
-    public final Handler f6875b = new Handler(Looper.getMainLooper());
+    public final Handler handler = new Handler(Looper.getMainLooper());
 
-    public int f6876c = -1;
+    public int currentActiveIndex = -1;
 
     public final boolean f6880g = true;
 
     public volatile boolean f6881h = false;
 
-    public SharedPreferences f6882i = null;
+    public SharedPreferences preferences = null;
 
     public c f6883j = null;
-
-    public class a implements Runnable {
-
-        public final ArrayList f6884l;
-
-        public final Runnable f6885m;
-
-        public a(ArrayList arrayList, Runnable runnable) {
-            this.f6884l = arrayList;
-            this.f6885m = runnable;
-        }
-
-        @Override
-        public void run() {
-            int iMin = Math.min(3, this.f6884l.size());
-            for (int i = 0; i < iMin; i++) {
-                d dVar = (d) this.f6884l.remove(0);
-                try {
-                    InterfaceC0345Hd interfaceC0345HdM9333l = dVar.m9333l();
-                    if (interfaceC0345HdM9333l != null) {
-                        f6877d.removeView(interfaceC0345HdM9333l.mo1695d());
-                        interfaceC0345HdM9333l.mo1576g();
-                    }
-                    dVar.m9331j();
-                    f6874a.remove(dVar);
-                } catch (Throwable th) {
-                    Log.w("ContentViewManager", "destroy tab failed: " + th);
-                }
-            }
-            if (!this.f6884l.isEmpty()) {
-                f6875b.post(this);
-                return;
-            }
-            if (f6874a.isEmpty()) {
-                f6876c = -1;
-            } else {
-                if (f6876c < 0 || f6876c >= f6874a.size()) {
-                    f6876c = 0;
-                }
-                AbstractC2274r6 abstractC2274r6 = AbstractC2274r6.this;
-                abstractC2274r6.m9298V(abstractC2274r6.f6876c);
-            }
-            f6881h = false;
-            Runnable runnable = this.f6885m;
-            if (runnable != null) {
-                runnable.run();
-            }
-        }
-    }
-
-    public class b implements Comparator {
-        public b() {
-        }
-
-        @Override
-        public int compare(d dVar, d dVar2) {
-            return dVar.f6892e - dVar2.f6892e;
-        }
-    }
 
     public interface c {
         void mo6289a(InterfaceC0345Hd interfaceC0345Hd);
@@ -107,9 +47,9 @@ public abstract class AbstractC2274r6 {
         void mo6304d();
     }
 
-    public class d {
+    public class Tab {
 
-        public String f6888a = null;
+        public String tabId = null;
 
         public boolean lock = false;
 
@@ -117,28 +57,27 @@ public abstract class AbstractC2274r6 {
 
         public int index = -1;
 
-        public int f6892e = -1;
+        public int order = -1;
 
-        public String f6894g = "";
+        public String lastTitle = "";
 
-        public String f6895h = "";
+        public String lastUrl = "";
 
         public boolean f6896i = false;
 
         public ArrayList f6893f = new ArrayList<>();
 
-        public d(String str) {
-            this.f6888a = str;
+        public Tab(String str) {
+            this.tabId = str;
             if (TextUtils.isEmpty(str)) {
-                this.f6888a = System.currentTimeMillis() + "";
+                this.tabId = System.currentTimeMillis() + "";
             }
         }
 
-        public void m9322A(C1697en c1697en) {
-            AbstractC2274r6 abstractC2274r6 = AbstractC2274r6.this;
-            InterfaceC0345Hd interfaceC0345HdMo5705r = abstractC2274r6.mo5705r(abstractC2274r6.f6878e.getPackageName(), WebViewBrowserController.class.getName());
+        public void m9322A(WebPage page) {
+            InterfaceC0345Hd interfaceC0345HdMo5705r = mo5705r(context.getPackageName(), WebViewBrowserController.class.getName());
             if (interfaceC0345HdMo5705r instanceof WebViewBrowserController) {
-                ((WebViewBrowserController) interfaceC0345HdMo5705r).m6792b1(this.f6888a, c1697en.f5460a, c1697en.f5461b);
+                ((WebViewBrowserController) interfaceC0345HdMo5705r).m6792b1(tabId, page.title, page.url);
                 this.f6893f.add(interfaceC0345HdMo5705r);
                 this.index = 0;
             }
@@ -148,8 +87,8 @@ public abstract class AbstractC2274r6 {
             InterfaceC0345Hd interfaceC0345HdM9333l = m9333l();
             if (interfaceC0345HdM9333l instanceof WebViewBrowserController) {
                 WebViewBrowserController webViewBrowserController = (WebViewBrowserController) interfaceC0345HdM9333l;
-                this.f6894g = webViewBrowserController.mo1574c();
-                this.f6895h = webViewBrowserController.mo1573b();
+                this.lastTitle = webViewBrowserController.mo1574c();
+                this.lastUrl = webViewBrowserController.getUrlFromTitle();
             }
             if (this.f6893f.isEmpty() && this.f6896i) {
                 editor.putBoolean(str + ".lock", this.lock);
@@ -168,7 +107,7 @@ public abstract class AbstractC2274r6 {
                 if (interfaceC0345Hd instanceof WebViewBrowserController) {
                     WebViewBrowserController webViewBrowserController2 = (WebViewBrowserController) interfaceC0345Hd;
                     String lastTitle = webViewBrowserController2.mo1574c();
-                    String lastUrl = webViewBrowserController2.mo1573b();
+                    String lastUrl = webViewBrowserController2.getUrlFromTitle();
                     if (lastTitle == null || lastTitle.length() == 0) {
                         lastTitle = lastUrl;
                     }
@@ -208,7 +147,7 @@ public abstract class AbstractC2274r6 {
                         if (f6883j != null) {
                             f6883j.mo6299c(interfaceC0345Hd3);
                         }
-                        interfaceC0345Hd3.mo1577k();
+                        interfaceC0345Hd3.onDestroy();
                     }
                 }
                 this.f6893f.add(interfaceC0345Hd);
@@ -227,20 +166,20 @@ public abstract class AbstractC2274r6 {
             }
         }
 
-        public boolean m9328g() {
-            int i = this.index;
-            if (i < 0) {
+        public boolean isValidNextIndex() {
+            if (index < 0) {
                 return false;
             }
-            return ((InterfaceC0345Hd) this.f6893f.get(i)).mo1575e() || this.index < this.f6893f.size() - 1;
+            InterfaceC0345Hd currentItem = (InterfaceC0345Hd) this.f6893f.get(index);
+            return currentItem.hasNext() || index < this.f6893f.size() - 1;
         }
 
-        public boolean m9329h() {
-            int i = this.index;
-            if (i < 0) {
+        public boolean isValidPreviousIndex() {
+            if (index < 0) {
                 return false;
             }
-            return ((InterfaceC0345Hd) this.f6893f.get(i)).mo1586x() || this.index > 0;
+            InterfaceC0345Hd currentItem = (InterfaceC0345Hd) this.f6893f.get(index);
+            return currentItem.hasPrevious() || index > 0;
         }
 
         public final void m9330i(int i) {
@@ -250,11 +189,11 @@ public abstract class AbstractC2274r6 {
         public void m9331j() {
             for (int i = 0; i < this.f6893f.size(); i++) {
                 InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(i);
-                f6877d.removeView(interfaceC0345Hd.mo1695d());
+                frameLayout.removeView(interfaceC0345Hd.mo1695d());
                 if (f6883j != null) {
                     f6883j.mo6299c(interfaceC0345Hd);
                 }
-                interfaceC0345Hd.mo1577k();
+                interfaceC0345Hd.onDestroy();
             }
             this.f6893f.clear();
             this.index = -1;
@@ -265,8 +204,7 @@ public abstract class AbstractC2274r6 {
         }
 
         public InterfaceC0345Hd m9333l() {
-            int i = this.index;
-            if (i < 0 || i >= this.f6893f.size()) {
+            if (index < 0 || index >= this.f6893f.size()) {
                 return null;
             }
             return (InterfaceC0345Hd) this.f6893f.get(this.index);
@@ -292,26 +230,25 @@ public abstract class AbstractC2274r6 {
         }
 
         public String m9337p() {
-            return this.f6894g;
+            return this.lastTitle;
         }
 
         public String m9338q() {
-            return this.f6895h;
+            return this.lastUrl;
         }
 
-        public String m9339r() {
-            String str = this.f6888a;
-            if (str != null) {
-                return str;
+        public String getTabId() {
+            if (tabId != null) {
+                return tabId;
             }
             throw new IllegalStateException("tab id not be set yet");
         }
 
         public void m9340s() {
             InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(this.index);
-            if (interfaceC0345Hd.mo1586x()) {
+            if (interfaceC0345Hd.hasPrevious()) {
                 interfaceC0345Hd.mo1580n();
-            } else if (m9329h()) {
+            } else if (isValidPreviousIndex()) {
                 m9330i(this.index - 1);
                 InterfaceC0345Hd interfaceC0345Hd2 = (InterfaceC0345Hd) this.f6893f.get(this.index);
                 interfaceC0345Hd.mo1576g();
@@ -324,9 +261,9 @@ public abstract class AbstractC2274r6 {
 
         public void m9341t() {
             InterfaceC0345Hd interfaceC0345Hd = (InterfaceC0345Hd) this.f6893f.get(this.index);
-            if (interfaceC0345Hd.mo1575e()) {
+            if (interfaceC0345Hd.hasNext()) {
                 interfaceC0345Hd.mo1578l();
-            } else if (m9328g()) {
+            } else if (isValidNextIndex()) {
                 m9330i(this.index + 1);
                 InterfaceC0345Hd interfaceC0345Hd2 = (InterfaceC0345Hd) this.f6893f.get(this.index);
                 interfaceC0345Hd.mo1576g();
@@ -344,7 +281,7 @@ public abstract class AbstractC2274r6 {
         public void m9343v() {
             if (this.f6896i) {
                 this.f6896i = false;
-                m9347z(this.f6888a, f6882i);
+                m9347z(this.tabId, preferences);
             }
         }
 
@@ -358,25 +295,25 @@ public abstract class AbstractC2274r6 {
 
         public void m9346y(String str, SharedPreferences sharedPreferences) {
             this.f6896i = true;
-            f6882i = sharedPreferences;
-            int i = sharedPreferences.getInt(str + ".size", 0);
-            int i2 = sharedPreferences.getInt(str + ".index", 0);
+            preferences = sharedPreferences;
+            int size = sharedPreferences.getInt(str + ".size", 0);
+            int index = sharedPreferences.getInt(str + ".index", 0);
             this.lock = sharedPreferences.getBoolean(str + ".lock", false);
-            int iMax = i > 0 ? (i2 < 0 || i2 >= i) ? Math.max(0, Math.min(i2, i - 1)) : i2 : 0;
+            int iMax = size > 0 ? (index < 0 || index >= size) ? Math.max(0, Math.min(index, size - 1)) : index : 0;
             String str2 = str + ".v_" + iMax;
-            this.f6894g = sharedPreferences.getString(str2 + ".last_title", "");
-            this.f6895h = sharedPreferences.getString(str2 + ".last_url", "");
+            this.lastTitle = sharedPreferences.getString(str2 + ".last_title", "");
+            this.lastUrl = sharedPreferences.getString(str2 + ".last_url", "");
             this.index = iMax;
         }
 
         public boolean m9347z(String str, SharedPreferences sharedPreferences) {
             try {
                 try {
-                    int i = sharedPreferences.getInt(str + ".size", 0);
+                    int size = sharedPreferences.getInt(str + ".size", 0);
                     this.index = sharedPreferences.getInt(str + ".index", 0);
                     this.lock = sharedPreferences.getBoolean(str + ".lock", false);
-                    String packageName = f6878e.getPackageName();
-                    for (int i2 = 0; i2 < i; i2++) {
+                    String packageName = context.getPackageName();
+                    for (int i2 = 0; i2 < size; i2++) {
                         String str2 = str + ".v_" + i2;
                         String string = sharedPreferences.getString(str2 + ".c" + i2, "");
                         if (string.equals(WebViewBrowserController.class.getName())) {
@@ -414,264 +351,285 @@ public abstract class AbstractC2274r6 {
         }
     }
 
-    public AbstractC2274r6(Context context, FrameLayout frameLayout) {
-        this.f6877d = null;
-        this.f6878e = null;
-        this.f6877d = frameLayout;
-        this.f6878e = context;
-        this.f6879f = context.getDir("thumbnails", 0);
+    public ContentViewManager(Context context, FrameLayout frameLayout) {
+        this.frameLayout = null;
+        this.context = null;
+        this.frameLayout = frameLayout;
+        this.context = context;
+        this.file = context.getDir("thumbnails", 0);
     }
 
-    public d m9277A() {
-        if (this.f6876c == -1 || this.f6874a.size() == 0) {
+    public Tab getActiveTab() {
+        if (currentActiveIndex == -1 || tabList.isEmpty()) {
             return null;
         }
-        return (d) this.f6874a.get(this.f6876c);
+        return tabList.get(currentActiveIndex);
     }
 
-    public final int m9278B() {
-        return this.f6876c;
+    public final int getActiveIndex() {
+        return this.currentActiveIndex;
     }
 
     public ArrayList m9279C(int i) {
-        if (i < 0 || i >= this.f6874a.size()) {
-            return null;
+        if (i >= 0 && i < this.tabList.size()) {
+            return tabList.get(i).m9335n();
         }
-        return ((d) this.f6874a.get(i)).m9335n();
+        return null;
     }
 
-    public final int m9280D() {
-        return this.f6874a.size();
+    public final int getTabCount() {
+        return this.tabList.size();
     }
 
     public int m9281E(String str) {
         int i = -1;
-        for (int i2 = 0; i2 < this.f6874a.size(); i2++) {
-            if (((d) this.f6874a.get(i2)).m9339r().equals(str)) {
+        for (int i2 = 0; i2 < this.tabList.size(); i2++) {
+            if (((Tab) this.tabList.get(i2)).getTabId().equals(str)) {
                 i = i2;
             }
         }
         return i;
     }
 
-    public final d m9282F(int i) {
-        return (d) this.f6874a.get(i);
+    public final Tab getTab(int i) {
+        return (Tab) this.tabList.get(i);
     }
 
-    public final String m9283G(int i) {
-        if (i >= 0 && i < this.f6874a.size()) {
-            return ((d) this.f6874a.get(i)).m9339r();
+    public final String getTabId(int i) {
+        if (i >= 0 && i < this.tabList.size()) {
+            return this.tabList.get(i).getTabId();
         }
         throw new IllegalStateException("invalid stack index[" + i + "]");
     }
 
     public int m9284H(InterfaceC0345Hd interfaceC0345Hd) {
-        for (int i = 0; i < this.f6874a.size(); i++) {
-            if (((d) this.f6874a.get(i)).m9342u(interfaceC0345Hd)) {
+        for (int i = 0; i < this.tabList.size(); i++) {
+            if (this.tabList.get(i).m9342u(interfaceC0345Hd)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public final int m9285I(String str) {
-        for (int i = 0; i < this.f6874a.size(); i++) {
-            if (((d) this.f6874a.get(i)).m9339r().equals(str)) {
+    public final int getTabIndexById(String str) {
+        for (int i = 0; i < this.tabList.size(); i++) {
+            if (this.tabList.get(i).getTabId().equals(str)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public final ArrayList m9286J() {
-        return this.f6874a;
+    public final ArrayList<Tab> getTabList() {
+        return this.tabList;
     }
 
     public void m9287K() {
-        if (m9277A() != null) {
-            m9277A().m9340s();
+        if (getActiveTab() != null) {
+            getActiveTab().m9340s();
         }
     }
 
     public void m9288L() {
-        if (m9277A() != null) {
-            m9277A().m9341t();
+        if (getActiveTab() != null) {
+            getActiveTab().m9341t();
         }
     }
 
     public final boolean m9289M(InterfaceC0345Hd interfaceC0345Hd) {
-        d dVarM9277A = m9277A();
-        return dVarM9277A != null && dVarM9277A.m9333l() == interfaceC0345Hd;
+        Tab tabVarM9277A = getActiveTab();
+        return tabVarM9277A != null && tabVarM9277A.m9333l() == interfaceC0345Hd;
     }
 
     public final void m9290N() {
-        int size = this.f6874a.size();
-        int i = this.f6876c;
-        if (size > i + 1) {
-            m9298V(i + 1);
+        if (tabList.size() > currentActiveIndex + 1) {
+            m9298V(currentActiveIndex + 1);
         } else {
             m9298V(0);
         }
     }
 
     public final void m9291O() {
-        int size = this.f6876c;
-        if (size <= 0) {
-            size = this.f6874a.size();
+        if (currentActiveIndex <= 0) {
+            currentActiveIndex = this.tabList.size();
         }
-        m9298V(size - 1);
+        m9298V(currentActiveIndex - 1);
     }
 
     public void m9292P(Runnable runnable) {
-        ArrayList arrayList = new ArrayList<>(this.f6874a.size());
-        for (int i = 0; i < this.f6874a.size(); i++) {
-            d dVar = (d) this.f6874a.get(i);
-            if (!dVar.lock) {
-                arrayList.add(dVar);
+        ArrayList<Tab> tabs = new ArrayList<>(tabList.size());
+        for (int i = 0; i < tabList.size(); i++) {
+            Tab tab = tabList.get(i);
+            if (!tab.lock) {
+                tabs.add(tab);
             }
         }
-        if (arrayList.isEmpty()) {
+        if (tabs.isEmpty()) {
             if (runnable != null) {
-                this.f6875b.post(runnable);
+                handler.post(runnable);
             }
         } else {
-            this.f6877d.removeAllViews();
-            this.f6881h = true;
-            this.f6875b.post(new a(arrayList, runnable));
-        }
-    }
-
-    public final void m9293Q(int i) {
-        int i2;
-        int i3;
-        if (this.f6874a.size() > 0) {
-            if (i < 0 || i >= this.f6874a.size()) {
-                throw new IllegalStateException("invalid tab index[" + i + "]");
-            }
-            boolean z = false;
-            if (this.f6874a.size() != 1) {
-                int i4 = this.f6876c;
-                if (i == i4) {
-                    if (i == this.f6874a.size() - 1) {
-                        this.f6876c = i - 1;
-                    } else if (i < this.f6874a.size() - 1) {
-                        d dVar = (d) this.f6874a.get(i + 1);
-                        d dVarM9277A = m9277A();
-                        if (dVar.f6890c.equals(dVarM9277A.f6890c)) {
-                            this.f6876c = i;
-                        } else if (i > 0) {
-                            int i5 = i - 1;
-                            d dVar2 = (d) this.f6874a.get(i5);
-                            if (dVar2.f6890c.equals(dVarM9277A.f6890c) || dVar2.m9339r().equals(dVarM9277A.f6890c)) {
-                                this.f6876c = i5;
+            frameLayout.removeAllViews();
+            f6881h = true;
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    int iMin = Math.min(3, tabs.size());
+                    for (int i = 0; i < iMin; i++) {
+                        Tab tab = tabs.remove(0);
+                        try {
+                            InterfaceC0345Hd interfaceC0345HdM9333l = tab.m9333l();
+                            if (interfaceC0345HdM9333l != null) {
+                                frameLayout.removeView(interfaceC0345HdM9333l.mo1695d());
+                                interfaceC0345HdM9333l.mo1576g();
                             }
+                            tab.m9331j();
+                            tabList.remove(tab);
+                        } catch (Throwable th) {
+                            Log.w("ContentViewManager", "destroy tab failed: " + th);
                         }
                     }
-                    if (this.f6876c < 0) {
-                        this.f6876c = 0;
+                    if (!tabs.isEmpty()) {
+                        handler.post(this);
+                        return;
                     }
-                    z = true;
+                    if (tabList.isEmpty()) {
+                        currentActiveIndex = -1;
+                    } else {
+                        if (currentActiveIndex < 0 || currentActiveIndex >= tabList.size()) {
+                            currentActiveIndex = 0;
+                        }
+                        m9298V(currentActiveIndex);
+                    }
+                    f6881h = false;
+                    if (runnable != null) {
+                        runnable.run();
+                    }
+                }
+            });
+        }
+    }
+
+    public final void removeTabAtIndex(int index) {
+        if (this.tabList.isEmpty()) {
+            return; // No tabs to remove
+        }
+
+        if (index < 0 || index >= this.tabList.size()) {
+            throw new IllegalStateException("Invalid tab index: " + index);
+        }
+
+        boolean tabChanged = false;
+
+        if (this.tabList.size() == 1) {
+            // Only one tab, reset index
+            this.currentActiveIndex = -1;
+        } else {
+            int currentIndex = this.currentActiveIndex;
+
+            if (index == currentIndex) {
+                // If the tab to remove is the current one, move the index
+                if (index == (this.tabList.size() - 1)) {
+                    this.currentActiveIndex = index - 1;  // Move to the previous tab
                 } else {
-                    i3 = i < i4 ? i4 - 1 : -1;
+                    this.currentActiveIndex = index + 1;  // Move to the next tab
                 }
-                ((d) this.f6874a.remove(i)).m9331j();
-                i2 = this.f6876c;
-                if (i2 >= 0 || i2 >= this.f6874a.size() || !z) {
-                    return;
-                }
-                m9298V(this.f6876c);
-                return;
+                tabChanged = true;
+            } else if (index < currentIndex) {
+                // If the tab is before the current index, adjust the current index
+                this.currentActiveIndex--;
             }
-            this.f6876c = i3;
-            ((d) this.f6874a.remove(i)).m9331j();
-            i2 = this.f6876c;
-            if (i2 >= 0) {
+        }
+
+        // Remove the tab at the specified index
+        tabList.remove(index).m9331j();
+
+        // If the current index is valid, show the new tab or exit
+        if (this.currentActiveIndex >= 0 && this.currentActiveIndex < this.tabList.size()) {
+            if (tabChanged) {
+                m9298V(this.currentActiveIndex); // Handle the visual update for the tab change
             }
         }
     }
 
-    public void m9294R(String str) {
-        int iM9285I = m9285I(str);
-        if (iM9285I >= 0) {
-            m9293Q(iM9285I);
+    public void removeTab(String id) {
+        int index = getTabIndexById(id);
+        if (index >= 0) {
+            removeTabAtIndex(index);
             return;
         }
-        throw new IllegalStateException("not found stack with give stackid:" + str);
+        throw new IllegalStateException("not found stack with give stackid:" + id);
     }
 
-    public boolean m9295S(SharedPreferences sharedPreferences) {
-        boolean z;
-        String string;
-        ArrayList arrayList;
+    public boolean restoreUserData(SharedPreferences sharedPreferences) {
         AndroidSystemUtils.startTiming("restoreState");
+        Log.i("save-state", "Preparing to restore user data... current tab index: " + currentActiveIndex);
+
+        // Ensure current tab index is valid
+        if (currentActiveIndex < 0) {
+            currentActiveIndex = sharedPreferences.getInt("current_stack_index", 0);
+        }
+
+        Log.i("save-state", "Restoring user data... current tab index: " + currentActiveIndex);
+
+        // Get the saved tab list from shared preferences
+        String savedTabList = sharedPreferences.getString("pref-tab-list", null);
+        if (TextUtils.isEmpty(savedTabList)) {
+            return false; // No saved tabs to restore
+        }
+
         try {
-            Log.i("save-state", "prepare restoreUserData data..........." + this.f6876c);
-            if (this.f6876c < 0) {
-                this.f6876c = sharedPreferences.getInt("current_stack_index", 0);
-            }
-            Log.i("save-state", "prepare restoreUserData data..........." + this.f6876c);
-            string = sharedPreferences.getString("pref-tab-list", null);
-        } catch (Exception e) {
-            Log.i("save-state", this.f6876c + ">>>>restore failed" + e);
-            e.printStackTrace();
-            this.f6874a.clear();
-            this.f6876c = -1;
-        }
-        if (TextUtils.isEmpty(string)) {
-            z = false;
-        } else {
-            StringTokenizer stringTokenizer = new StringTokenizer(string, ",");
-            int i = 0;
-            while (stringTokenizer.hasMoreTokens()) {
-                d dVar = new d(stringTokenizer.nextToken());
-                if (i != this.f6876c) {
-                    dVar.m9346y(dVar.f6888a, sharedPreferences);
-                    arrayList = this.f6874a;
-                } else if (dVar.m9347z(dVar.f6888a, sharedPreferences)) {
-                    arrayList = this.f6874a;
+            StringTokenizer tokenizer = new StringTokenizer(savedTabList, ",");
+            int index = 0;
+            boolean restoreSuccess = false;
+
+            // Iterate through the saved tab list and restore each tab
+            while (tokenizer.hasMoreTokens()) {
+                Tab tab = new Tab(tokenizer.nextToken());
+                if (index == currentActiveIndex) {
+                    if (tab.m9347z(tab.tabId, sharedPreferences)) {
+                        restoreSuccess = true;
+                    } else {
+                        Log.i("save-state", "Failed to restore tab: " + tab.tabId);
+                    }
                 } else {
-                    Log.i("save-state", ">>>>restore tab failed:" + dVar.f6888a);
-                    i++;
+                    tab.m9346y(tab.tabId, sharedPreferences);
                 }
-                arrayList.add(dVar);
-                i++;
+                tabList.add(tab);
+                index++;
             }
-            z = true;
-        }
-        AndroidSystemUtils.logElapsedTime();
-        int i2 = this.f6876c;
-        if (i2 < 0 || i2 >= this.f6874a.size()) {
-            Log.i("save-state", this.f6876c + "invalid index ");
-            if (this.f6874a.size() > 0) {
-                this.f6876c = 0;
+
+            // Finalize restoration process
+            if (restoreSuccess && currentActiveIndex >= 0 && currentActiveIndex < tabList.size()) {
+                m9298V(currentActiveIndex);
+                return true;
             } else {
-                z = false;
-            }
-        }
-        if (z) {
-            try {
-                m9298V(this.f6876c);
-            } catch (Exception e2) {
-                Log.i("save-state", this.f6876c + "####restore failed" + e2);
+                Log.i("save-state", "Invalid tab index or failed to restore tab");
                 return false;
             }
+        } catch (Exception e) {
+            Log.i("save-state", "Error restoring user data: " + e);
+            e.printStackTrace();
+            tabList.clear();
+            currentActiveIndex = -1;
+            return false;
+        } finally {
+            AndroidSystemUtils.logElapsedTime();
         }
-        return z;
     }
 
-    public void m9296T(ArrayList arrayList) {
-        for (Object o : arrayList) {
-            C1697en c1697en = (C1697en) o;
-            d dVar = new d(null);
-            dVar.m9322A(c1697en);
-            this.f6874a.add(dVar);
+    public void m9296T(ArrayList<WebPage> pages) {
+        for (WebPage page : pages) {
+            Tab tab = new Tab(null);
+            tab.m9322A(page);
+            tabList.add(tab);
         }
     }
 
     public void m9297U(SharedPreferences sharedPreferences) {
         AndroidSystemUtils.startTiming("saveState");
-        int size = this.f6874a.size();
-        int iM9278B = m9278B();
+        int size = this.tabList.size();
+        int iM9278B = getActiveIndex();
         SharedPreferences.Editor editorEdit = sharedPreferences.edit();
         if (iM9278B < 0 || iM9278B >= size) {
             iM9278B = 0;
@@ -680,19 +638,19 @@ public abstract class AbstractC2274r6 {
         editorEdit.putInt("num_tabs", size).apply();
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = 0; i < size; i++) {
-            d dVar = (d) this.f6874a.get(i);
-            WebViewBrowserController webViewBrowserController = (WebViewBrowserController) dVar.m9333l();
+            Tab tabVar = (Tab) this.tabList.get(i);
+            WebViewBrowserController webViewBrowserController = (WebViewBrowserController) tabVar.m9333l();
             if (webViewBrowserController == null || webViewBrowserController.mo5626h() != 8) {
-                stringBuffer.append(i == 0 ? dVar.f6888a : "," + dVar.f6888a);
-                dVar.m9323B(dVar.f6888a, editorEdit);
+                stringBuffer.append(i == 0 ? tabVar.tabId : "," + tabVar.tabId);
+                tabVar.m9323B(tabVar.tabId, editorEdit);
             }
         }
         editorEdit.putString("pref-tab-list", stringBuffer.toString());
-        int i2 = this.f6876c;
-        if (i2 >= 0 && i2 < this.f6874a.size()) {
-            d dVar2 = (d) this.f6874a.get(this.f6876c);
-            WebViewBrowserController webViewBrowserController2 = (WebViewBrowserController) dVar2.m9333l();
-            String strMo1573b = webViewBrowserController2 != null ? webViewBrowserController2.mo1573b() : dVar2.m9338q();
+        int i2 = this.currentActiveIndex;
+        if (i2 >= 0 && i2 < this.tabList.size()) {
+            Tab tabVar2 = (Tab) this.tabList.get(this.currentActiveIndex);
+            WebViewBrowserController webViewBrowserController2 = (WebViewBrowserController) tabVar2.m9333l();
+            String strMo1573b = webViewBrowserController2 != null ? webViewBrowserController2.getUrlFromTitle() : tabVar2.m9338q();
             if (strMo1573b == null) {
                 strMo1573b = "";
             }
@@ -704,29 +662,29 @@ public abstract class AbstractC2274r6 {
     }
 
     public final void m9298V(int i) {
-        if (i >= 0 && i <= this.f6874a.size() - 1) {
-            m9299W((d) this.f6874a.get(i));
+        if (i >= 0 && i <= this.tabList.size() - 1) {
+            m9299W(tabList.get(i));
             return;
         }
         throw new IllegalStateException("specify stack id not exist [" + i + "]");
     }
 
-    public final void m9299W(d dVar) {
-        int iIndexOf = this.f6874a.indexOf(dVar);
+    public final void m9299W(Tab tabVar) {
+        int iIndexOf = this.tabList.indexOf(tabVar);
         if (iIndexOf >= 0) {
-            dVar.m9343v();
-            d dVarM9277A = m9277A();
-            InterfaceC0345Hd interfaceC0345HdM9333l = dVarM9277A.m9333l();
+            tabVar.m9343v();
+            Tab tabVarM9277A = getActiveTab();
+            InterfaceC0345Hd interfaceC0345HdM9333l = tabVarM9277A.m9333l();
             if (interfaceC0345HdM9333l instanceof WebViewBrowserController) {
                 WebViewBrowserController webViewBrowserController = (WebViewBrowserController) interfaceC0345HdM9333l;
-                dVarM9277A.f6894g = webViewBrowserController.mo1574c();
-                dVarM9277A.f6895h = webViewBrowserController.mo1573b();
+                tabVarM9277A.lastTitle = webViewBrowserController.mo1574c();
+                tabVarM9277A.lastUrl = webViewBrowserController.getUrlFromTitle();
             }
             if (interfaceC0345HdM9333l != null) {
                 interfaceC0345HdM9333l.mo1576g();
             }
-            this.f6876c = iIndexOf;
-            InterfaceC0345Hd interfaceC0345HdM9333l2 = dVar.m9333l();
+            this.currentActiveIndex = iIndexOf;
+            InterfaceC0345Hd interfaceC0345HdM9333l2 = tabVar.m9333l();
             if (interfaceC0345HdM9333l2 != null) {
                 m9301Y(interfaceC0345HdM9333l2);
             }
@@ -734,19 +692,19 @@ public abstract class AbstractC2274r6 {
     }
 
     public void m9300X(String str) {
-        Iterator it = this.f6874a.iterator();
+        Iterator it = this.tabList.iterator();
         while (it.hasNext()) {
-            d dVar = (d) it.next();
-            if (dVar.m9339r().equals(str)) {
-                m9299W(dVar);
+            Tab tabVar = (Tab) it.next();
+            if (tabVar.getTabId().equals(str)) {
+                m9299W(tabVar);
                 return;
             }
         }
     }
 
     public final void m9301Y(InterfaceC0345Hd interfaceC0345Hd) {
-        this.f6877d.removeAllViews();
-        this.f6877d.addView(interfaceC0345Hd.mo1695d(), new FrameLayout.LayoutParams(-1, -1));
+        this.frameLayout.removeAllViews();
+        this.frameLayout.addView(interfaceC0345Hd.mo1695d(), new FrameLayout.LayoutParams(-1, -1));
         interfaceC0345Hd.mo1584u();
         Log.i("ContentViewManager", ">>>>>>>>add view to continer " + interfaceC0345Hd.mo1695d());
         c cVar = this.f6883j;
@@ -760,43 +718,43 @@ public abstract class AbstractC2274r6 {
     }
 
     public final void m9303a0(ArrayList arrayList) {
-        if (arrayList.size() != this.f6874a.size()) {
+        if (arrayList.size() != this.tabList.size()) {
             ArrayList arrayList2 = new ArrayList<>(3);
-            for (int i = 0; i < this.f6874a.size(); i++) {
-                String strM9339r = ((d) this.f6874a.get(i)).m9339r();
+            for (int i = 0; i < this.tabList.size(); i++) {
+                String strM9339r = ((Tab) this.tabList.get(i)).getTabId();
                 if (!m9315x(strM9339r, arrayList)) {
                     arrayList2.add(strM9339r);
                 }
             }
             for (int i2 = 0; i2 < arrayList2.size(); i2++) {
-                m9294R((String) arrayList2.get(i2));
+                removeTab((String) arrayList2.get(i2));
             }
         } else {
             int i3 = -1;
             for (int i4 = 0; i4 < arrayList.size(); i4++) {
                 InterfaceC0529Ld interfaceC0529Ld = (InterfaceC0529Ld) arrayList.get(i4);
-                ((d) this.f6874a.get(m9285I((String) interfaceC0529Ld.mo2666e()))).f6892e = i4;
+                ((Tab) this.tabList.get(getTabIndexById((String) interfaceC0529Ld.mo2666e()))).order = i4;
                 if (interfaceC0529Ld.mo2682u()) {
                     i3 = i4;
                 }
             }
-            Collections.sort(this.f6874a, new b());
-            this.f6876c = i3;
+            Collections.sort(this.tabList, (o1, o2) -> o1.order - o2.order);
+            this.currentActiveIndex = i3;
         }
         for (int i5 = 0; i5 < arrayList.size(); i5++) {
-            ((d) this.f6874a.get(i5)).lock = ((InterfaceC0529Ld) arrayList.get(i5)).mo2680s();
+            ((Tab) this.tabList.get(i5)).lock = ((InterfaceC0529Ld) arrayList.get(i5)).mo2680s();
         }
     }
 
     public final void m9304l(int i) {
-        d dVarM9277A = m9277A();
-        InterfaceC0345Hd interfaceC0345HdM9333l = dVarM9277A.m9333l();
+        Tab tabVarM9277A = getActiveTab();
+        InterfaceC0345Hd interfaceC0345HdM9333l = tabVarM9277A.m9333l();
         if (interfaceC0345HdM9333l != null) {
             interfaceC0345HdM9333l.mo1576g();
         }
-        InterfaceC0345Hd interfaceC0345HdM9332k = dVarM9277A.m9332k(i);
+        InterfaceC0345Hd interfaceC0345HdM9332k = tabVarM9277A.m9332k(i);
         if (interfaceC0345HdM9332k != null) {
-            dVarM9277A.m9330i(i);
+            tabVarM9277A.m9330i(i);
             m9301Y(interfaceC0345HdM9332k);
         }
     }
@@ -806,85 +764,81 @@ public abstract class AbstractC2274r6 {
     }
 
     public final void m9306n(InterfaceC0345Hd interfaceC0345Hd, int i) {
-        d dVar = (d) this.f6874a.get(i);
-        if (dVar != null) {
-            dVar.m9326e(interfaceC0345Hd, false);
+        Tab tabVar = (Tab) this.tabList.get(i);
+        if (tabVar != null) {
+            tabVar.m9326e(interfaceC0345Hd, false);
             return;
         }
         Log.w("ContentViewManager", "not found tab group with groud id:" + i);
     }
 
     public final void m9307o(InterfaceC0345Hd interfaceC0345Hd, boolean z) {
-        d dVarM9277A = m9277A();
-        if (dVarM9277A != null) {
-            dVarM9277A.m9326e(interfaceC0345Hd, z);
+        Tab tabVarM9277A = getActiveTab();
+        if (tabVarM9277A != null) {
+            tabVarM9277A.m9326e(interfaceC0345Hd, z);
         } else {
             m9312u(interfaceC0345Hd, true);
-            this.f6876c = 0;
+            this.currentActiveIndex = 0;
         }
     }
 
-    public boolean m9308p() {
-        if (m9277A() != null) {
-            return m9277A().m9329h();
-        }
-        return false;
+    public boolean hasValidPreviousTab() {
+        Tab activeTab = getActiveTab();
+        return activeTab != null && activeTab.isValidPreviousIndex();
     }
 
-    public boolean m9309q() {
-        if (m9277A() != null) {
-            return m9277A().m9328g();
-        }
-        return false;
+    public boolean hasValidNextTab() {
+        Tab activeTab = getActiveTab();
+        return activeTab != null && activeTab.isValidNextIndex();
     }
 
-    public abstract InterfaceC0345Hd mo5705r(String str, String str2);
+    public abstract InterfaceC0345Hd mo5705r(String pkg, String className);
 
-    public final d m9310s(InterfaceC0345Hd interfaceC0345Hd) {
-        return m9313v(interfaceC0345Hd, true, this.f6874a.size(), null);
+    public final Tab m9310s(InterfaceC0345Hd interfaceC0345Hd) {
+        return m9313v(interfaceC0345Hd, true, this.tabList.size(), null);
     }
 
-    public final d m9311t(InterfaceC0345Hd interfaceC0345Hd, String str) {
-        int i = this.f6876c;
-        return m9313v(interfaceC0345Hd, false, (i >= 0 && i < this.f6874a.size()) ? this.f6876c + 1 : this.f6874a.size(), str);
+    public final Tab m9311t(InterfaceC0345Hd interfaceC0345Hd, String str) {
+        int i = this.currentActiveIndex;
+        return m9313v(interfaceC0345Hd, false, (i >= 0 && i < this.tabList.size()) ? this.currentActiveIndex + 1 : this.tabList.size(), str);
     }
 
-    public final d m9312u(InterfaceC0345Hd interfaceC0345Hd, boolean z) {
-        int i = this.f6876c;
-        return m9313v(interfaceC0345Hd, z, (i >= 0 && i < this.f6874a.size()) ? this.f6876c + 1 : this.f6874a.size(), null);
+    public final Tab m9312u(InterfaceC0345Hd interfaceC0345Hd, boolean z) {
+        int i = this.currentActiveIndex;
+        return m9313v(interfaceC0345Hd, z, (i >= 0 && i < this.tabList.size()) ? this.currentActiveIndex + 1 : this.tabList.size(), null);
     }
 
-    public final d m9313v(InterfaceC0345Hd interfaceC0345Hd, boolean z, int i, String str) {
-        d dVar = new d(str);
-        d dVarM9277A = m9277A();
-        if (dVarM9277A != null) {
-            dVar.f6890c = dVarM9277A.f6888a;
+    public final Tab m9313v(InterfaceC0345Hd interfaceC0345Hd, boolean active, int i, String str) {
+        Tab tabVar = new Tab(str);
+        Tab tabVarM9277A = getActiveTab();
+        if (tabVarM9277A != null) {
+            tabVar.f6890c = tabVarM9277A.tabId;
         }
         if (i < 0) {
             i = 0;
         }
-        if (i > this.f6874a.size()) {
-            i = this.f6874a.size();
+        if (i > this.tabList.size()) {
+            i = this.tabList.size();
         }
-        this.f6874a.add(i, dVar);
-        Log.i("save-state", " current active index:" + this.f6876c + " active:" + z);
-        if (z) {
-            this.f6876c = i;
+        this.tabList.add(i, tabVar);
+        Log.i("save-state", " current active index:" + currentActiveIndex + " active:" + active);
+        if (active) {
+            currentActiveIndex = i;
             m9305m(interfaceC0345Hd);
         } else {
-            dVar.m9327f(interfaceC0345Hd, false);
+            tabVar.m9327f(interfaceC0345Hd, false);
         }
-        Log.i("save-state", " >>current active index:" + this.f6876c);
-        dVar.f6892e = i;
-        return dVar;
+        Log.i("save-state", " >>current active index:" + currentActiveIndex);
+        tabVar.order = i;
+        return tabVar;
     }
 
     public void m9314w() {
-        for (int i = 0; i < this.f6874a.size(); i++) {
-            ((d) this.f6874a.get(i)).m9331j();
+        for (int i = 0; i < this.tabList.size(); i++) {
+            ((Tab) this.tabList.get(i)).m9331j();
         }
-        this.f6874a.clear();
-        this.f6876c = -1;
+        this.tabList.clear();
+        this.currentActiveIndex = -1;
     }
 
     public final boolean m9315x(String str, ArrayList arrayList) {
@@ -898,19 +852,18 @@ public abstract class AbstractC2274r6 {
     }
 
     public final InterfaceC0345Hd m9316y() {
-        if (this.f6874a.isEmpty()) {
+        if (tabList.isEmpty()) {
             return null;
         }
-        int i = this.f6876c;
-        if (i < 0 || i >= this.f6874a.size()) {
-            this.f6876c = 0;
+        if (currentActiveIndex < 0 || currentActiveIndex >= tabList.size()) {
+            currentActiveIndex = 0;
         }
-        return ((d) this.f6874a.get(this.f6876c)).m9333l();
+        return tabList.get(currentActiveIndex).m9333l();
     }
 
     public InterfaceC0345Hd m9317z(int i) {
-        if (i >= 0 && i < this.f6874a.size()) {
-            return ((d) this.f6874a.get(i)).m9333l();
+        if (i >= 0 && i < this.tabList.size()) {
+            return ((Tab) this.tabList.get(i)).m9333l();
         }
         throw new IllegalStateException("invalid stack index[" + i + "]");
     }

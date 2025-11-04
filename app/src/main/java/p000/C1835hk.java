@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
-import p000.C1694ek;
 
 public final class C1835hk {
 
@@ -61,7 +60,7 @@ public final class C1835hk {
         Code decompiled incorrectly, please refer to instructions dump.
         To view partially-correct code enable 'Show inconsistent code' option in preferences
     */
-    public final boolean m7844a(C2498w0 r4, C1694ek r5, List r6, boolean r7) {
+    public final boolean m7844a(Address r4, C1694ek r5, List r6, boolean r7) {
         /*
             r3 = this;
             java.lang.String r0 = "address"
@@ -111,21 +110,21 @@ public final class C1835hk {
         Iterator it = this.f5754d.iterator();
         int i = 0;
         long j2 = Long.MIN_VALUE;
-        C1741fk c1741fk = null;
+        Connection connection = null;
         int i2 = 0;
         while (it.hasNext()) {
-            C1741fk c1741fk2 = (C1741fk) it.next();
-            AbstractC0116Ce.m475d(c1741fk2, "connection");
-            synchronized (c1741fk2) {
+            Connection connection2 = (Connection) it.next();
+            AbstractC0116Ce.m475d(connection2, "connection");
+            synchronized (connection2) {
                 try {
-                    if (m7847d(c1741fk2, j) > 0) {
+                    if (m7847d(connection2, j) > 0) {
                         i2++;
                     } else {
                         i++;
-                        long jM7626o = j - c1741fk2.m7626o();
+                        long jM7626o = j - connection2.m7626o();
                         if (jM7626o > j2) {
                             C2116no c2116no = C2116no.f6480a;
-                            c1741fk = c1741fk2;
+                            connection = connection2;
                             j2 = jM7626o;
                         } else {
                             C2116no c2116no2 = C2116no.f6480a;
@@ -146,17 +145,17 @@ public final class C1835hk {
             }
             return -1L;
         }
-        AbstractC0116Ce.m473b(c1741fk);
-        synchronized (c1741fk) {
-            if (!c1741fk.m7625n().isEmpty()) {
+        AbstractC0116Ce.m473b(connection);
+        synchronized (connection) {
+            if (!connection.m7625n().isEmpty()) {
                 return 0L;
             }
-            if (c1741fk.m7626o() + j2 != j) {
+            if (connection.m7626o() + j2 != j) {
                 return 0L;
             }
-            c1741fk.m7608C(true);
-            this.f5754d.remove(c1741fk);
-            AbstractC2623yo.m10936k(c1741fk.m7609D());
+            connection.m7608C(true);
+            this.f5754d.remove(connection);
+            AbstractC2623yo.m10936k(connection.m7609D());
             if (this.f5754d.isEmpty()) {
                 this.f5752b.m9175a();
             }
@@ -164,53 +163,53 @@ public final class C1835hk {
         }
     }
 
-    public final boolean m7846c(C1741fk c1741fk) {
-        AbstractC0116Ce.m476e(c1741fk, "connection");
-        if (AbstractC2623yo.f8134h && !Thread.holdsLock(c1741fk)) {
+    public final boolean m7846c(Connection connection) {
+        AbstractC0116Ce.m476e(connection, "connection");
+        if (AbstractC2623yo.f8134h && !Thread.holdsLock(connection)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Thread ");
             Thread threadCurrentThread = Thread.currentThread();
             AbstractC0116Ce.m475d(threadCurrentThread, "Thread.currentThread()");
             sb.append(threadCurrentThread.getName());
             sb.append(" MUST hold lock on ");
-            sb.append(c1741fk);
+            sb.append(connection);
             throw new AssertionError(sb.toString());
         }
-        if (!c1741fk.m7627p() && this.f5755e != 0) {
+        if (!connection.m7627p() && this.f5755e != 0) {
             C2254qn.m9174j(this.f5752b, this.f5753c, 0L, 2, null);
             return false;
         }
-        c1741fk.m7608C(true);
-        this.f5754d.remove(c1741fk);
+        connection.m7608C(true);
+        this.f5754d.remove(connection);
         if (this.f5754d.isEmpty()) {
             this.f5752b.m9175a();
         }
         return true;
     }
 
-    public final int m7847d(C1741fk c1741fk, long j) {
-        if (AbstractC2623yo.f8134h && !Thread.holdsLock(c1741fk)) {
+    public final int m7847d(Connection connection, long j) {
+        if (AbstractC2623yo.f8134h && !Thread.holdsLock(connection)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Thread ");
             Thread threadCurrentThread = Thread.currentThread();
             AbstractC0116Ce.m475d(threadCurrentThread, "Thread.currentThread()");
             sb.append(threadCurrentThread.getName());
             sb.append(" MUST hold lock on ");
-            sb.append(c1741fk);
+            sb.append(connection);
             throw new AssertionError(sb.toString());
         }
-        List listM7625n = c1741fk.m7625n();
+        List listM7625n = connection.m7625n();
         int i = 0;
         while (i < listM7625n.size()) {
             Reference reference = (Reference) listM7625n.get(i);
             if (reference.get() != null) {
                 i++;
             } else {
-                C0764Qi.f2268c.m3690g().mo3680l("A connection to " + c1741fk.m7637z().m5675a().m10421l() + " was leaked. Did you forget to close a response body?", ((C1694ek.b) reference).m7459a());
+                C0764Qi.f2268c.m3690g().mo3680l("A connection to " + connection.m7637z().m5675a().m10421l() + " was leaked. Did you forget to close a response body?", ((C1694ek.b) reference).m7459a());
                 listM7625n.remove(i);
-                c1741fk.m7608C(true);
+                connection.m7608C(true);
                 if (listM7625n.isEmpty()) {
-                    c1741fk.m7607B(j - this.f5751a);
+                    connection.m7607B(j - this.f5751a);
                     return 0;
                 }
             }
@@ -218,10 +217,10 @@ public final class C1835hk {
         return listM7625n.size();
     }
 
-    public final void m7848e(C1741fk c1741fk) {
-        AbstractC0116Ce.m476e(c1741fk, "connection");
-        if (!AbstractC2623yo.f8134h || Thread.holdsLock(c1741fk)) {
-            this.f5754d.add(c1741fk);
+    public final void m7848e(Connection connection) {
+        AbstractC0116Ce.m476e(connection, "connection");
+        if (!AbstractC2623yo.f8134h || Thread.holdsLock(connection)) {
+            this.f5754d.add(connection);
             C2254qn.m9174j(this.f5752b, this.f5753c, 0L, 2, null);
             return;
         }
@@ -231,7 +230,7 @@ public final class C1835hk {
         AbstractC0116Ce.m475d(threadCurrentThread, "Thread.currentThread()");
         sb.append(threadCurrentThread.getName());
         sb.append(" MUST hold lock on ");
-        sb.append(c1741fk);
+        sb.append(connection);
         throw new AssertionError(sb.toString());
     }
 }

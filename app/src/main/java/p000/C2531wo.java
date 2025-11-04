@@ -93,8 +93,8 @@ public class C2531wo extends AbstractResourceManager {
                 String str9 = str5;
                 contentValues.put(str9, Integer.valueOf(jSONObject.getInt(str9)));
                 MySQLiteOpenHelper.getInstance().addPendingEntry(contentValues);
-                C2061mf.m8471f0().m8555u(strM3666k);
-                C2061mf.m8471f0().m8558w(strM3666k2);
+                JSManager.getInstance().m8555u(strM3666k);
+                JSManager.getInstance().m8558w(strM3666k2);
                 i = i2 + 1;
                 str5 = str9;
                 str4 = str6;

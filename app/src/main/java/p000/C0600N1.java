@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.Toast;
-import com.mmbox.widget.messagebox.C1418a;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.controllers.WebViewBrowserController;
@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class C0600N1 {
 
-    public static C0600N1 f1880d;
+    public static C0600N1 instance;
 
     public BrowserActivity f1881a = null;
 
@@ -32,11 +32,11 @@ public class C0600N1 {
 
     public JSONArray f1883c = null;
 
-    public static C0600N1 m3257k() {
-        if (f1880d == null) {
-            f1880d = new C0600N1();
+    public static C0600N1 getInstance() {
+        if (instance == null) {
+            instance = new C0600N1();
         }
-        return f1880d;
+        return instance;
     }
 
     public final void m3258f(JSONObject jSONObject, JSONObject jSONObject2) throws JSONException {
@@ -52,14 +52,14 @@ public class C0600N1 {
 
     public final void m3259g(String str) throws JSONException {
         if (str.equals("auto_fill_passwd")) {
-            String strM6767C0 = ((WebViewBrowserController) ((InterfaceC1300b3) this.f1881a.m6222J0().m9316y())).m6767C0();
+            String strM6767C0 = ((WebViewBrowserController) ((InterfaceC1300b3) this.f1881a.getTabManager().m9316y())).m6767C0();
             if (!TextUtils.isEmpty(strM6767C0)) {
                 for (int i = 0; i < this.f1882b.length(); i++) {
                     JSONObject jSONObject = this.f1882b.getJSONObject(i);
                     String strM3666k = JsonUtils.getString(jSONObject, "s_id", "");
                     String strM3666k2 = JsonUtils.getString(jSONObject, "host", "");
                     if (TextUtils.isEmpty(strM3666k)) {
-                        jSONObject.put("s_id", AndroidSystemUtils.m8713u());
+                        jSONObject.put("s_id", AndroidSystemUtils.getSId());
                     }
                     if (strM3666k2.indexOf(strM6767C0) >= 0) {
                         this.f1883c.put(new JSONObject(jSONObject.toString()));
@@ -78,7 +78,7 @@ public class C0600N1 {
         }
         String str = "passwd_auto_fill_" + AndroidSystemUtils.m8667A(System.currentTimeMillis()) + ".csv";
         String str2 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + str;
-        String strM2046a = ResourceCacheManager.getInstance().m2046a(str2, 1);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(str2, 1);
         try {
             m3266o("auto_fill_passwd");
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(strM2046a));
@@ -144,8 +144,8 @@ public class C0600N1 {
                 if (line == null) {
                     m3270s("auto_fill_passwd", this.f1882b);
                     Toast.makeText(this.f1881a, String.format(this.f1881a.getString(R.string.toast_import_passwd), Integer.valueOf(i)), Toast.LENGTH_SHORT).show();
-                    this.f1881a.m6361u0("nav_call_reload_passwd_auto_fill()");
-                    C1089Xm.getInstance().m4822j("syncable_passwd_autofill").incrementVersion();
+                    this.f1881a.updateTitle("nav_call_reload_passwd_auto_fill()");
+                    SyncManager.getInstance().getResourceManager("syncable_passwd_autofill").incrementVersion();
                     return;
                 }
                 if (line.indexOf("username") <= 0 || line.indexOf("password") <= 0) {
@@ -159,7 +159,7 @@ public class C0600N1 {
                         String str3 = strArrSplit[2];
                         if (!m3263l(this.f1882b, str2, str3)) {
                             JSONObject jSONObject = new JSONObject();
-                            jSONObject.put("s_id", AndroidSystemUtils.m8713u());
+                            jSONObject.put("s_id", AndroidSystemUtils.getSId());
                             jSONObject.put("host", host);
                             jSONObject.put("login_url", strArrSplit[1]);
                             jSONObject.put("login_name", str3);
@@ -177,7 +177,7 @@ public class C0600N1 {
         }
     }
 
-    public void m3265n(BrowserActivity browserActivity) {
+    public void init(BrowserActivity browserActivity) {
         this.f1881a = browserActivity;
     }
 
@@ -202,26 +202,26 @@ public class C0600N1 {
     }
 
     public void m3268q(String str, String str2) {
-        C1089Xm c1089XmM4819i;
+        SyncManager syncManagerM4819I;
         String str3;
         try {
             m3266o(str);
             m3269r(this.f1882b, "s_id", str2);
             if (str.equals("auto_fill_passwd")) {
-                c1089XmM4819i = C1089Xm.getInstance();
+                syncManagerM4819I = SyncManager.getInstance();
                 str3 = "syncable_passwd_autofill";
             } else {
                 if (!str.equals("auto_fill_card")) {
                     if (str.equals("auto_fill_addr")) {
-                        c1089XmM4819i = C1089Xm.getInstance();
+                        syncManagerM4819I = SyncManager.getInstance();
                         str3 = "syncable_addr_autofill";
                     }
                     m3270s(str, this.f1882b);
                 }
-                c1089XmM4819i = C1089Xm.getInstance();
+                syncManagerM4819I = SyncManager.getInstance();
                 str3 = "syncable_card_autofill";
             }
-            c1089XmM4819i.m4822j(str3).incrementVersion();
+            syncManagerM4819I.getResourceManager(str3).incrementVersion();
             m3270s(str, this.f1882b);
         } catch (Exception unused) {
         }
@@ -249,7 +249,7 @@ public class C0600N1 {
     }
 
     public final void m3271t(String str, JSONObject jSONObject, JSONArray jSONArray, boolean z) throws JSONException {
-        C1089Xm c1089XmM4819i;
+        SyncManager syncManagerM4819I;
         String str2;
         if (str.equals("auto_fill_passwd")) {
             m3274w(jSONObject, z);
@@ -257,17 +257,17 @@ public class C0600N1 {
         }
         if (str.equals("auto_fill_card")) {
             m3273v(jSONObject);
-            c1089XmM4819i = C1089Xm.getInstance();
+            syncManagerM4819I = SyncManager.getInstance();
             str2 = "syncable_card_autofill";
         } else {
             if (!str.equals("auto_fill_addr")) {
                 return;
             }
             m3272u(jSONObject);
-            c1089XmM4819i = C1089Xm.getInstance();
+            syncManagerM4819I = SyncManager.getInstance();
             str2 = "syncable_addr_autofill";
         }
-        c1089XmM4819i.m4822j(str2).incrementVersion();
+        syncManagerM4819I.getResourceManager(str2).incrementVersion();
     }
 
     public final void m3272u(JSONObject jSONObject) throws JSONException {
@@ -352,7 +352,7 @@ public class C0600N1 {
 
         @Override
         public void run() throws Resources.NotFoundException {
-            C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_auto_fill_keep_passwd), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok), new C2694a(), true);
+            MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_auto_fill_keep_passwd), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok), new C2694a(), true);
         }
 
         public class C2694a implements MessageBoxBase.MessageBoxListener {
@@ -370,7 +370,7 @@ public class C0600N1 {
                     JSONObject jSONObject = new JSONObject();
                     a aVar = a.this;
                     C0600N1.this.m3258f(aVar.f1887o, jSONObject);
-                    jSONObject.put("s_id", AndroidSystemUtils.m8713u());
+                    jSONObject.put("s_id", AndroidSystemUtils.getSId());
                     C0600N1.this.f1882b.put(jSONObject);
                     a aVar2 = a.this;
                     C0600N1.this.m3258f(jSONObjectM3261i, aVar2.f1885m);
@@ -417,7 +417,7 @@ public class C0600N1 {
 
         @Override
         public void run() throws Resources.NotFoundException {
-            C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_auto_fill_passwd_changed), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok), new a(), true);
+            MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_auto_fill_passwd_changed), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok), new a(), true);
         }
 
         public class a implements MessageBoxBase.MessageBoxListener {

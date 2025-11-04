@@ -3,9 +3,9 @@ package com.mmbox.xbrowser.user;
 import android.net.Uri;
 import java.io.IOException;
 import p000.AbstractC2313s;
-import p000.C0122Ck;
+import p000.Request;
 import p000.ResourceCacheManager;
-import p000.C0490Kk;
+import p000.Response;
 import p000.ApiEndpointsManager;
 import p000.InterfaceC0418J3;
 import p000.InterfaceC0556M3;
@@ -29,7 +29,7 @@ public class FetchResourceEventHandler extends AbstractC2313s {
     }
 
     public final void m7168f(String str) {
-        new OkHttpClient().m2004y(new C0122Ck.a().m507i(str).m500b()).mo1791i(new C1586a());
+        new OkHttpClient().newCall(new Request.Builder().url(str).m500b()).mo1791i(new C1586a());
     }
 
     public class C1586a implements InterfaceC0556M3 {
@@ -37,12 +37,12 @@ public class FetchResourceEventHandler extends AbstractC2313s {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            c0490Kk.m2399p("Content-Type").startsWith("image/");
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            response.getContentType("Content-Type").startsWith("image/");
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
         }
     }
 }

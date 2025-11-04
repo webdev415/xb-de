@@ -1,33 +1,33 @@
 package p000;
 
-public final class C0144D5 {
+public final class CompletedWithCancellation {
 
-    public final Object f352a;
+    public final Object result;
 
-    public final InterfaceC0986Vb f353b;
+    public final InterfaceC0986Vb onCancellation;
 
-    public C0144D5(Object obj, InterfaceC0986Vb interfaceC0986Vb) {
-        this.f352a = obj;
-        this.f353b = interfaceC0986Vb;
+    public CompletedWithCancellation(Object obj, InterfaceC0986Vb interfaceC0986Vb) {
+        this.result = obj;
+        this.onCancellation = interfaceC0986Vb;
     }
 
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof C0144D5)) {
+        if (!(obj instanceof CompletedWithCancellation)) {
             return false;
         }
-        C0144D5 c0144d5 = (C0144D5) obj;
-        return AbstractC0116Ce.m472a(this.f352a, c0144d5.f352a) && AbstractC0116Ce.m472a(this.f353b, c0144d5.f353b);
+        CompletedWithCancellation completedWithCancellation = (CompletedWithCancellation) obj;
+        return AbstractC0116Ce.m472a(this.result, completedWithCancellation.result) && AbstractC0116Ce.m472a(this.onCancellation, completedWithCancellation.onCancellation);
     }
 
     public int hashCode() {
-        Object obj = this.f352a;
-        return ((obj == null ? 0 : obj.hashCode()) * 31) + this.f353b.hashCode();
+        Object obj = this.result;
+        return ((obj == null ? 0 : obj.hashCode()) * 31) + this.onCancellation.hashCode();
     }
 
     public String toString() {
-        return "CompletedWithCancellation(result=" + this.f352a + ", onCancellation=" + this.f353b + ')';
+        return "CompletedWithCancellation(result=" + this.result + ", onCancellation=" + this.onCancellation + ')';
     }
 }

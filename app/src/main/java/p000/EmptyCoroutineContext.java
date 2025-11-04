@@ -1,11 +1,10 @@
 package p000;
 
 import java.io.Serializable;
-import p000.InterfaceC0191E6;
 
-public final class C0608N9 implements InterfaceC0191E6, Serializable {
+public final class EmptyCoroutineContext implements InterfaceC0191E6, Serializable {
 
-    public static final C0608N9 f1911l = new C0608N9();
+    public static final EmptyCoroutineContext f1911l = new EmptyCoroutineContext();
 
     @Override
     public InterfaceC0191E6 mo852B(c cVar) {

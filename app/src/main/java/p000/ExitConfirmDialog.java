@@ -1,6 +1,5 @@
 package p000;
 
-import android.database.SQLException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,11 +8,11 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-public abstract class BaseDialogC0296Ga extends BaseDialog {
+public abstract class ExitConfirmDialog extends BaseDialog {
 
     public BrowserActivity browserActivity;
 
-    public BaseDialogC0296Ga(BrowserActivity browserActivity) {
+    public ExitConfirmDialog(BrowserActivity browserActivity) {
         super(browserActivity);
         this.browserActivity = browserActivity;
     }
@@ -38,6 +37,7 @@ public abstract class BaseDialogC0296Ga extends BaseDialog {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onOK();
                 handleDialogConfirm(cbCleanLatestHistory, cbCleanSearchHistory, cbDoNotShowDialog);
                 dismiss();
             }
@@ -48,7 +48,7 @@ public abstract class BaseDialogC0296Ga extends BaseDialog {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mo1371b();
+                onCancel();
                 dismiss();
             }
         });
@@ -75,7 +75,7 @@ public abstract class BaseDialogC0296Ga extends BaseDialog {
         SharedPreferencesHelper.getInstance().putBoolean("show-confirm-dlg-on-exit", !isDoNotShowDialogChecked);
     }
 
-    public abstract void mo1371b();
+    public abstract void onCancel();
 
-    public abstract void mo1372c();
+    public abstract void onOK();
 }

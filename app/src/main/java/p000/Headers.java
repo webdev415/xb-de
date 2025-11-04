@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public final class C1079Xc implements Iterable {
+public final class Headers implements Iterable {
 
     public static final b f3227m = new b(null);
 
@@ -19,7 +19,7 @@ public final class C1079Xc implements Iterable {
         public final a m4742a(String str, String str2) {
             AbstractC0116Ce.m476e(str, "name");
             AbstractC0116Ce.m476e(str2, "value");
-            b bVar = C1079Xc.f3227m;
+            b bVar = Headers.f3227m;
             bVar.m4752d(str);
             bVar.m4753e(str2, str);
             m4744c(str, str2);
@@ -53,10 +53,10 @@ public final class C1079Xc implements Iterable {
             return this;
         }
 
-        public final C1079Xc m4745d() {
+        public final Headers m4745d() {
             Object[] array = this.f3229a.toArray(new String[0]);
             if (array != null) {
-                return new C1079Xc((String[]) array, null);
+                return new Headers((String[]) array, null);
             }
             throw new NullPointerException("null cannot be cast to non-null type kotlin.Array<T>");
         }
@@ -82,7 +82,7 @@ public final class C1079Xc implements Iterable {
         public final a m4748g(String str, String str2) {
             AbstractC0116Ce.m476e(str, "name");
             AbstractC0116Ce.m476e(str2, "value");
-            b bVar = C1079Xc.f3227m;
+            b bVar = Headers.f3227m;
             bVar.m4752d(str);
             bVar.m4753e(str2, str);
             m4747f(str);
@@ -139,7 +139,7 @@ public final class C1079Xc implements Iterable {
             return strArr[iM10716d + 1];
         }
 
-        public final C1079Xc m4755g(String... strArr) throws CloneNotSupportedException {
+        public final Headers m4755g(String... strArr) throws CloneNotSupportedException {
             AbstractC0116Ce.m476e(strArr, "namesAndValues");
             if (!(strArr.length % 2 == 0)) {
                 throw new IllegalArgumentException("Expected alternating header names and values".toString());
@@ -176,7 +176,7 @@ public final class C1079Xc implements Iterable {
                     iM10716d += iM10718g;
                 }
             }
-            return new C1079Xc(strArr2, null);
+            return new Headers(strArr2, null);
         }
 
         public b(AbstractC0881T7 abstractC0881T7) {
@@ -184,7 +184,7 @@ public final class C1079Xc implements Iterable {
         }
     }
 
-    public C1079Xc(String[] strArr) {
+    public Headers(String[] strArr) {
         this.f3228l = strArr;
     }
 
@@ -194,7 +194,7 @@ public final class C1079Xc implements Iterable {
     }
 
     public boolean equals(Object obj) {
-        return (obj instanceof C1079Xc) && Arrays.equals(this.f3228l, ((C1079Xc) obj).f3228l);
+        return (obj instanceof Headers) && Arrays.equals(this.f3228l, ((Headers) obj).f3228l);
     }
 
     public final String m4738f(int i) {
@@ -263,7 +263,7 @@ public final class C1079Xc implements Iterable {
         return string;
     }
 
-    public C1079Xc(String[] strArr, AbstractC0881T7 abstractC0881T7) {
+    public Headers(String[] strArr, AbstractC0881T7 abstractC0881T7) {
         this(strArr);
     }
 }

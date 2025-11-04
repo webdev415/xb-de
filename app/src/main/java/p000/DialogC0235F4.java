@@ -12,7 +12,7 @@ import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-public class DialogC0235F4 extends AbstractDialogC2267r {
+public class DialogC0235F4 extends BaseDialog {
 
     public static String f635g;
 
@@ -32,7 +32,7 @@ public class DialogC0235F4 extends AbstractDialogC2267r {
 
         @Override
         public void onDismiss(DialogInterface dialogInterface) {
-            C1199a3.m5090f().m5097i("choose_ua_done");
+            C1199a3.getInstance().m5097i("choose_ua_done");
         }
     }
 
@@ -79,7 +79,7 @@ public class DialogC0235F4 extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         int dimension = (int) this.f636b.getResources().getDimension(R.dimen.std_margin);
         setContentView(R.layout.dlg_choose_ua);
         setOnDismissListener(new a());

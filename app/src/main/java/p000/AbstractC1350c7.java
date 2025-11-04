@@ -11,14 +11,14 @@ public abstract class AbstractC1350c7 {
 
     public static class b {
 
-        public final C0420J5 f3920a;
+        public final Component f3920a;
 
         public final Set f3921b = new HashSet();
 
         public final Set f3922c = new HashSet();
 
-        public b(C0420J5 c0420j5) {
-            this.f3920a = c0420j5;
+        public b(Component component) {
+            this.f3920a = component;
         }
 
         public void m5736a(b bVar) {
@@ -29,7 +29,7 @@ public abstract class AbstractC1350c7 {
             this.f3922c.add(bVar);
         }
 
-        public C0420J5 m5738c() {
+        public Component m5738c() {
             return this.f3920a;
         }
 
@@ -122,8 +122,8 @@ public abstract class AbstractC1350c7 {
                 Iterator it2 = map.values().iterator();
                 while (it2.hasNext()) {
                     for (b bVar : (Set) it2.next()) {
-                        for (C0193E8 c0193e8 : bVar.m5738c().m1803g()) {
-                            if (c0193e8.m879d() && (set = (Set) map.get(new c(c0193e8.m877b(), c0193e8.m881f()))) != null) {
+                        for (Dependency dependency : bVar.m5738c().m1803g()) {
+                            if (dependency.m879d() && (set = (Set) map.get(new c(dependency.m877b(), dependency.m881f()))) != null) {
                                 for (b bVar2 : set) {
                                     bVar.m5736a(bVar2);
                                     bVar2.m5737b(bVar);
@@ -139,10 +139,10 @@ public abstract class AbstractC1350c7 {
                 }
                 return hashSet;
             }
-            C0420J5 c0420j5 = (C0420J5) it.next();
-            b bVar3 = new b(c0420j5);
-            for (C0167Dj c0167Dj : c0420j5.m1806j()) {
-                c cVar = new c(c0167Dj, !c0420j5.m1810p());
+            Component component = (Component) it.next();
+            b bVar3 = new b(component);
+            for (C0167Dj c0167Dj : component.m1806j()) {
+                c cVar = new c(c0167Dj, !component.m1810p());
                 if (!map.containsKey(cVar)) {
                     map.put(cVar, new HashSet());
                 }

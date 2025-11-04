@@ -309,7 +309,7 @@ public class SearchBarActivity extends Activity implements SuggestionInputView.I
         }
         Handler handler = new Handler();
         if (BrowserActivity.getActivity() != null) {
-            BrowserActivity.getActivity().m6339m2(handler);
+            BrowserActivity.getActivity().handleClipboardUrl(handler);
         }
     }
 

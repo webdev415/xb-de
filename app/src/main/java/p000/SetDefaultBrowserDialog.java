@@ -1,36 +1,27 @@
 package p000;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-public abstract class BaseDialogC0537Ll extends BaseDialog {
+public abstract class SetDefaultBrowserDialog extends BaseDialog {
 
-    public BrowserActivity f1730b;
+    public BrowserActivity browserActivity;
 
-    public class a implements View.OnClickListener {
-        public a() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            BaseDialogC0537Ll.this.mo317b();
-            BaseDialogC0537Ll.this.dismiss();
-        }
-    }
-
-    public BaseDialogC0537Ll(BrowserActivity browserActivity) {
+    public SetDefaultBrowserDialog(BrowserActivity browserActivity) {
         super(browserActivity);
-        this.f1730b = browserActivity;
+        this.browserActivity = browserActivity;
     }
 
     @Override
     public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_set_default_browser);
-        ((Button) findViewById(R.id.btn_go)).setOnClickListener(new a());
+        ((Button) findViewById(R.id.btn_go)).setOnClickListener(view -> {
+            onGo();
+            dismiss();
+        });
     }
 
-    public abstract void mo317b();
+    public abstract void onGo();
 }

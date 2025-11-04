@@ -15,7 +15,7 @@ public interface InterfaceC1300b3 extends InterfaceC0345Hd {
     boolean mo5624a();
 
     @Override
-    String mo1573b();
+    String getUrlFromTitle();
 
     void mo5625f();
 

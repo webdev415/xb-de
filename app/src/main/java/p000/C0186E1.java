@@ -22,7 +22,7 @@ public class C0186E1 {
 
             @Override
             public void run() {
-                a.this.f452a.mo846a(C0988Vd.m4391d().m4399i(this.f454l, SharedPreferencesHelper.getInstance().homeIconStyle));
+                a.this.f452a.mo846a(C0988Vd.getInstance().m4399i(this.f454l, SharedPreferencesHelper.getInstance().homeIconStyle));
             }
         }
 

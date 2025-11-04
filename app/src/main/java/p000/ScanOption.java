@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class C0024Ae {
+public class ScanOption {
 
     public static final Collection f67g = toList("UPC_A", "UPC_E", "EAN_8", "EAN_13", "RSS_14");
 
@@ -33,7 +33,7 @@ public class C0024Ae {
 
     public int requestCode = 49374;
 
-    public C0024Ae(Activity activity) {
+    public ScanOption(Activity activity) {
         this.activity = activity;
     }
 
@@ -41,7 +41,7 @@ public class C0024Ae {
         return Collections.unmodifiableList(Arrays.asList(strArr));
     }
 
-    public final C0024Ae putOption(String str, Object obj) {
+    public final ScanOption putOption(String str, Object obj) {
         this.options.put(str, obj);
         return this;
     }
@@ -114,22 +114,22 @@ public class C0024Ae {
         startActivityForResult(getIntent(), this.requestCode);
     }
 
-    public C0024Ae setClass(Class cls) {
+    public ScanOption setClass(Class cls) {
         this.captureClass = cls;
         return this;
     }
 
-    public C0024Ae setFormats(String... strArr) {
+    public ScanOption setFormats(String... strArr) {
         this.scanFormats = Arrays.asList(strArr);
         return this;
     }
 
-    public C0024Ae lockOrientation(boolean z) {
+    public ScanOption lockOrientation(boolean z) {
         putOption("SCAN_ORIENTATION_LOCKED", z);
         return this;
     }
 
-    public C0024Ae setRequestCode(int i) {
+    public ScanOption setRequestCode(int i) {
         if (i <= 0 || i > 65535) {
             throw new IllegalArgumentException("requestCode out of range");
         }

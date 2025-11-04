@@ -10,9 +10,6 @@ import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
-import p000.C1222ag;
-import p000.InterfaceC0191E6;
-import p000.InterfaceC1081Xe;
 
 public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC0350Hi {
 
@@ -26,13 +23,13 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
 
         public final C1877if f5805p;
 
-        public final b f5806q;
+        public final Finishing f5806q;
 
         public final C0005A4 f5807r;
 
         public final Object f5808s;
 
-        public a(C1877if c1877if, b bVar, C0005A4 c0005a4, Object obj) {
+        public a(C1877if c1877if, Finishing bVar, C0005A4 c0005a4, Object obj) {
             this.f5805p = c1877if;
             this.f5806q = bVar;
             this.f5807r = c0005a4;
@@ -51,20 +48,20 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         }
     }
 
-    public static final class b implements InterfaceC1876ie {
+    public static final class Finishing implements InterfaceC1876ie {
 
-        public static final AtomicIntegerFieldUpdater f5809m = AtomicIntegerFieldUpdater.newUpdater(b.class, "_isCompleting");
+        public static final AtomicIntegerFieldUpdater f5809m = AtomicIntegerFieldUpdater.newUpdater(Finishing.class, "_isCompleting");
 
-        public static final AtomicReferenceFieldUpdater f5810n = AtomicReferenceFieldUpdater.newUpdater(b.class, Object.class, "_rootCause");
+        public static final AtomicReferenceFieldUpdater f5810n = AtomicReferenceFieldUpdater.newUpdater(Finishing.class, Object.class, "_rootCause");
 
-        public static final AtomicReferenceFieldUpdater f5811o = AtomicReferenceFieldUpdater.newUpdater(b.class, Object.class, "_exceptionsHolder");
+        public static final AtomicReferenceFieldUpdater f5811o = AtomicReferenceFieldUpdater.newUpdater(Finishing.class, Object.class, "_exceptionsHolder");
         private volatile Object _exceptionsHolder;
         private volatile int _isCompleting;
         private volatile Object _rootCause;
 
         public final C2202ph f5812l;
 
-        public b(C2202ph c2202ph, boolean z, Throwable th) {
+        public Finishing(C2202ph c2202ph, boolean z, Throwable th) {
             this.f5812l = c2202ph;
             this._isCompleting = z ? 1 : 0;
             this._rootCause = th;
@@ -255,7 +252,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         return InterfaceC1081Xe.a.m4774a(this, obj, interfaceC1920jc);
     }
 
-    public final void m7906F(b bVar, C0005A4 c0005a4, Object obj) {
+    public final void m7906F(Finishing bVar, C0005A4 c0005a4, Object obj) {
         C0005A4 c0005a4M7925d0 = m7925d0(c0005a4);
         if (c0005a4M7925d0 == null || !m7949w0(bVar, c0005a4M7925d0, obj)) {
             m7939q(m7908H(bVar, obj));
@@ -271,7 +268,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         return ((InterfaceC0350Hi) obj).mo1592i();
     }
 
-    public final Object m7908H(b bVar, Object obj) throws Throwable {
+    public final Object m7908H(Finishing bVar, Object obj) throws Throwable {
         boolean zM7956g;
         Throwable thM7912N;
         C0098C5 c0098c5 = obj instanceof C0098C5 ? (C0098C5) obj : null;
@@ -336,7 +333,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         return null;
     }
 
-    public final Throwable m7912N(b bVar, List list) {
+    public final Throwable m7912N(Finishing bVar, List list) {
         Object obj = null;
         if (list.isEmpty()) {
             if (bVar.m7956g()) {
@@ -372,7 +369,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         if (c2202phMo2838f != null) {
             return c2202phMo2838f;
         }
-        if (interfaceC1876ie instanceof C0562M9) {
+        if (interfaceC1876ie instanceof Empty) {
             return new C2202ph();
         }
         if (interfaceC1876ie instanceof AbstractC1830hf) {
@@ -427,21 +424,21 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         Throwable thM7907G = null;
         while (true) {
             Object objM7915T = m7915T();
-            if (objM7915T instanceof b) {
+            if (objM7915T instanceof Finishing) {
                 synchronized (objM7915T) {
-                    if (((b) objM7915T).m7958i()) {
+                    if (((Finishing) objM7915T).m7958i()) {
                         return AbstractC1923jf.f5951d;
                     }
-                    boolean zM7956g = ((b) objM7915T).m7956g();
+                    boolean zM7956g = ((Finishing) objM7915T).m7956g();
                     if (obj != null || !zM7956g) {
                         if (thM7907G == null) {
                             thM7907G = m7907G(obj);
                         }
-                        ((b) objM7915T).m7952b(thM7907G);
+                        ((Finishing) objM7915T).m7952b(thM7907G);
                     }
-                    Throwable thM7955e = zM7956g ^ true ? ((b) objM7915T).m7955e() : null;
+                    Throwable thM7955e = zM7956g ^ true ? ((Finishing) objM7915T).m7955e() : null;
                     if (thM7955e != null) {
-                        m7926e0(((b) objM7915T).mo2838f(), thM7955e);
+                        m7926e0(((Finishing) objM7915T).mo2838f(), thM7955e);
                     }
                     return AbstractC1923jf.f5948a;
                 }
@@ -589,8 +586,8 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
     public CancellationException mo1592i() {
         CancellationException cancellationExceptionM7955e;
         Object objM7915T = m7915T();
-        if (objM7915T instanceof b) {
-            cancellationExceptionM7955e = ((b) objM7915T).m7955e();
+        if (objM7915T instanceof Finishing) {
+            cancellationExceptionM7955e = ((Finishing) objM7915T).m7955e();
         } else if (objM7915T instanceof C0098C5) {
             cancellationExceptionM7955e = ((C0098C5) objM7915T).f244a;
         } else {
@@ -608,12 +605,12 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v2, types: [fe] */
-    public final void m7930j0(C0562M9 c0562m9) {
+    public final void m7930j0(Empty empty) {
         C2202ph c2202ph = new C2202ph();
-        if (!c0562m9.mo2837a()) {
+        if (!empty.mo2837a()) {
             c2202ph = new C1735fe(c2202ph);
         }
-        AbstractC0506L.m2572a(f5803l, this, c0562m9, c2202ph);
+        AbstractC0506L.m2572a(f5803l, this, empty, c2202ph);
     }
 
     public final void m7931k0(AbstractC1830hf abstractC1830hf) {
@@ -624,7 +621,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
     @Override
     public final CancellationException mo4770l() {
         Object objM7915T = m7915T();
-        if (!(objM7915T instanceof b)) {
+        if (!(objM7915T instanceof Finishing)) {
             if (objM7915T instanceof InterfaceC1876ie) {
                 throw new IllegalStateException(("Job is still new or active: " + this).toString());
             }
@@ -633,7 +630,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
             }
             return new C1127Ye(AbstractC2505w7.m10433a(this) + " has completed normally", null, this);
         }
-        Throwable thM7955e = ((b) objM7915T).m7955e();
+        Throwable thM7955e = ((Finishing) objM7915T).m7955e();
         if (thM7955e != null) {
             CancellationException cancellationExceptionM7938p0 = m7938p0(thM7955e, AbstractC2505w7.m10433a(this) + " is cancelling");
             if (cancellationExceptionM7938p0 != null) {
@@ -677,8 +674,8 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
     }
 
     public final int m7935n0(Object obj) {
-        if (obj instanceof C0562M9) {
-            if (((C0562M9) obj).mo2837a()) {
+        if (obj instanceof Empty) {
+            if (((Empty) obj).mo2837a()) {
                 return 0;
             }
             if (!AbstractC0506L.m2572a(f5803l, this, obj, AbstractC1923jf.f5954g)) {
@@ -712,10 +709,10 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
     }
 
     public final String m7937o0(Object obj) {
-        if (!(obj instanceof b)) {
+        if (!(obj instanceof Finishing)) {
             return obj instanceof InterfaceC1876ie ? ((InterfaceC1876ie) obj).mo2837a() ? "Active" : "New" : obj instanceof C0098C5 ? "Cancelled" : "Completed";
         }
-        b bVar = (b) obj;
+        Finishing bVar = (Finishing) obj;
         return bVar.m7956g() ? "Cancelling" : bVar.m7957h() ? "Completing" : "Active";
     }
 
@@ -724,10 +721,10 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         AbstractC1830hf abstractC1830hfM7923b0 = m7923b0(interfaceC0986Vb, z);
         while (true) {
             Object objM7915T = m7915T();
-            if (objM7915T instanceof C0562M9) {
-                C0562M9 c0562m9 = (C0562M9) objM7915T;
-                if (!c0562m9.mo2837a()) {
-                    m7930j0(c0562m9);
+            if (objM7915T instanceof Empty) {
+                Empty empty = (Empty) objM7915T;
+                if (!empty.mo2837a()) {
+                    m7930j0(empty);
                 } else if (AbstractC0506L.m2572a(f5803l, this, objM7915T, abstractC1830hfM7923b0)) {
                     return abstractC1830hfM7923b0;
                 }
@@ -745,11 +742,11 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
                     m7931k0((AbstractC1830hf) objM7915T);
                 } else {
                     InterfaceC1627d9 interfaceC1627d9 = C2248qh.f6728l;
-                    if (z && (objM7915T instanceof b)) {
+                    if (z && (objM7915T instanceof Finishing)) {
                         synchronized (objM7915T) {
                             try {
-                                thM7955e = ((b) objM7915T).m7955e();
-                                if (thM7955e == null || ((interfaceC0986Vb instanceof C0005A4) && !((b) objM7915T).m7957h())) {
+                                thM7955e = ((Finishing) objM7915T).m7955e();
+                                if (thM7955e == null || ((interfaceC0986Vb instanceof C0005A4) && !((Finishing) objM7915T).m7957h())) {
                                     if (m7934n(objM7915T, c2202phMo2838f, abstractC1830hfM7923b0)) {
                                         if (thM7955e == null) {
                                             return abstractC1830hfM7923b0;
@@ -840,7 +837,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         Object objM7946u0;
         do {
             Object objM7915T = m7915T();
-            if (!(objM7915T instanceof InterfaceC1876ie) || ((objM7915T instanceof b) && ((b) objM7915T).m7957h())) {
+            if (!(objM7915T instanceof InterfaceC1876ie) || ((objM7915T instanceof Finishing) && ((Finishing) objM7915T).m7957h())) {
                 return AbstractC1923jf.f5948a;
             }
             objM7946u0 = m7946u0(objM7915T, new C0098C5(m7907G(obj), false, 2, null));
@@ -853,7 +850,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         if (c2202phM7913Q == null) {
             return false;
         }
-        if (!AbstractC0506L.m2572a(f5803l, this, interfaceC1876ie, new b(c2202phM7913Q, false, th))) {
+        if (!AbstractC0506L.m2572a(f5803l, this, interfaceC1876ie, new Finishing(c2202phM7913Q, false, th))) {
             return false;
         }
         m7926e0(c2202phM7913Q, th);
@@ -872,7 +869,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
     }
 
     public final Object m7946u0(Object obj, Object obj2) {
-        return !(obj instanceof InterfaceC1876ie) ? AbstractC1923jf.f5948a : ((!(obj instanceof C0562M9) && !(obj instanceof AbstractC1830hf)) || (obj instanceof C0005A4) || (obj2 instanceof C0098C5)) ? m7948v0((InterfaceC1876ie) obj, obj2) : m7943s0((InterfaceC1876ie) obj, obj2) ? obj2 : AbstractC1923jf.f5950c;
+        return !(obj instanceof InterfaceC1876ie) ? AbstractC1923jf.f5948a : ((!(obj instanceof Empty) && !(obj instanceof AbstractC1830hf)) || (obj instanceof C0005A4) || (obj2 instanceof C0098C5)) ? m7948v0((InterfaceC1876ie) obj, obj2) : m7943s0((InterfaceC1876ie) obj, obj2) ? obj2 : AbstractC1923jf.f5950c;
     }
 
     public final boolean m7947v(Throwable th) {
@@ -889,9 +886,9 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         if (c2202phM7913Q == null) {
             return AbstractC1923jf.f5950c;
         }
-        b bVar = interfaceC1876ie instanceof b ? (b) interfaceC1876ie : null;
+        Finishing bVar = interfaceC1876ie instanceof Finishing ? (Finishing) interfaceC1876ie : null;
         if (bVar == null) {
-            bVar = new b(c2202phM7913Q, false, null);
+            bVar = new Finishing(c2202phM7913Q, false, null);
         }
         C2205pk c2205pk = new C2205pk();
         synchronized (bVar) {
@@ -923,7 +920,7 @@ public class C1877if implements InterfaceC1081Xe, InterfaceC0051B4, InterfaceC03
         return mo4771p(false, true, interfaceC0986Vb);
     }
 
-    public final boolean m7949w0(b bVar, C0005A4 c0005a4, Object obj) {
+    public final boolean m7949w0(Finishing bVar, C0005A4 c0005a4, Object obj) {
         while (InterfaceC1081Xe.a.m4776c(c0005a4.f5p, false, false, new a(this, bVar, c0005a4, obj), 1, null) == C2248qh.f6728l) {
             c0005a4 = m7925d0(c0005a4);
             if (c0005a4 == null) {

@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class C0056B9 extends AbstractC2221q {
+public class C0056B9 extends DataSource {
     @Override
     public String mo61f() {
         return "browser.sug.topsite";

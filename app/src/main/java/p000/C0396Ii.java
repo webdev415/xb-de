@@ -12,7 +12,7 @@ public class C0396Ii extends AbstractResourceManager {
 
     @Override
     public String getResourceValue() {
-        return C0600N1.m3257k().m3266o("auto_fill_passwd");
+        return C0600N1.getInstance().m3266o("auto_fill_passwd");
     }
 
     @Override
@@ -22,7 +22,7 @@ public class C0396Ii extends AbstractResourceManager {
 
     @Override
     public void saveToLocal(String str) throws JSONException {
-        String strM3266o = C0600N1.m3257k().m3266o("auto_fill_passwd");
+        String strM3266o = C0600N1.getInstance().m3266o("auto_fill_passwd");
         JSONArray jSONArray = new JSONArray(strM3266o);
         JSONArray jSONArray2 = new JSONArray(str);
         HashMap map = new HashMap<>();
@@ -52,7 +52,7 @@ public class C0396Ii extends AbstractResourceManager {
 
     @Override
     public void loadFromRemote(String str) {
-        C0600N1.m3257k().m3270s("auto_fill_passwd", new JSONArray(str));
-        C0600N1.m3257k().m3266o("auto_fill_passwd");
+        C0600N1.getInstance().m3270s("auto_fill_passwd", new JSONArray(str));
+        C0600N1.getInstance().m3266o("auto_fill_passwd");
     }
 }

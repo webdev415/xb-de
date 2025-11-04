@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class C2415u9 extends AbstractC2221q {
+public class C2415u9 extends DataSource {
     @Override
     public String mo61f() {
         return "browser.cmd";

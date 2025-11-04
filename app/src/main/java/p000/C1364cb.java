@@ -18,14 +18,12 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import p000.C1063X5;
-import p000.ComponentCallbacks2C1760g2;
 
 public class C1364cb {
 
     public static final Object f3957k = new Object();
 
-    public static final Map f3958l = new C2453v1();
+    public static final Map f3958l = new ScriptMap();
 
     public final Context f3959a;
 
@@ -135,9 +133,9 @@ public class C1364cb {
         List listM2822b = C0558M5.m2819c(context, ComponentDiscoveryService.class).m2822b();
         AbstractC2380tb.m9701a();
         AbstractC2380tb.m9702b("Runtime");
-        C1063X5.b bVarM4650g = C1063X5.m4632k(EnumC1698eo.INSTANCE).m4648d(listM2822b).m4647c(new FirebaseCommonRegistrar()).m4647c(new ExecutorsRegistrar()).m4646b(C0420J5.m1802s(context, Context.class, new Class[0])).m4646b(C0420J5.m1802s(this, C1364cb.class, new Class[0])).m4646b(C0420J5.m1802s(c2334sb, C2334sb.class, new Class[0])).m4650g(new C0742Q5());
+        C1063X5.b bVarM4650g = C1063X5.m4632k(EnumC1698eo.INSTANCE).m4648d(listM2822b).m4647c(new FirebaseCommonRegistrar()).m4647c(new ExecutorsRegistrar()).m4646b(Component.m1802s(context, Context.class, new Class[0])).m4646b(Component.m1802s(this, C1364cb.class, new Class[0])).m4646b(Component.m1802s(c2334sb, C2334sb.class, new Class[0])).m4650g(new C0742Q5());
         if (AbstractC2485vo.m10404a(context) && FirebaseInitProvider.m6010c()) {
-            bVarM4650g.m4646b(C0420J5.m1802s(abstractC2391tmM6009b, AbstractC2391tm.class, new Class[0]));
+            bVarM4650g.m4646b(Component.m1802s(abstractC2391tmM6009b, AbstractC2391tm.class, new Class[0]));
         }
         C1063X5 c1063x5M4649e = bVarM4650g.m4649e();
         this.f3962d = c1063x5M4649e;

@@ -11,7 +11,7 @@ import com.xbrowser.play.R;
 import java.util.ArrayList;
 import org.json.JSONException;
 
-public class DialogInterfaceOnDismissListenerC2226q4 extends AbstractDialogC2267r implements DialogInterface.OnDismissListener {
+public class DialogInterfaceOnDismissListenerC2226q4 extends BaseDialog implements DialogInterface.OnDismissListener {
 
     public Context f6676b;
 
@@ -25,7 +25,7 @@ public class DialogInterfaceOnDismissListenerC2226q4 extends AbstractDialogC2267
 
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
-            SharedPreferencesHelper.getInstance().putString("default_downloader", ((C1224ai.a) DialogInterfaceOnDismissListenerC2226q4.this.f6677c.get(i)).f3548a);
+            SharedPreferencesHelper.getInstance().putString("default_downloader", ((C1224ai.ThirdApp) DialogInterfaceOnDismissListenerC2226q4.this.f6677c.get(i)).pkg);
             DialogInterfaceOnDismissListenerC2226q4.this.f6678d = i;
         }
     }
@@ -38,20 +38,20 @@ public class DialogInterfaceOnDismissListenerC2226q4 extends AbstractDialogC2267
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_choose_default_search);
         setOnDismissListener(this);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         int dimension = (int) this.f6676b.getResources().getDimension(R.dimen.std_margin);
         String strM6871P = SharedPreferencesHelper.getInstance().getString("default_downloader", "");
-        this.f6677c = C1224ai.m5285e().m5292h("downloader");
+        this.f6677c = C1224ai.getInstance().getAppList("downloader");
         int color = this.f6676b.getColor(R.color.neutral_text_color);
         for (int i = 0; i < this.f6677c.size(); i++) {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(-1, -2);
             RadioButton radioButton = new RadioButton(getContext());
             radioButton.setTextColor(0xFF000000);
-            radioButton.setText(((C1224ai.a) this.f6677c.get(i)).f3549b);
-            if (((C1224ai.a) this.f6677c.get(i)).f3548a.equals(strM6871P)) {
+            radioButton.setText(((C1224ai.ThirdApp) this.f6677c.get(i)).name);
+            if (((C1224ai.ThirdApp) this.f6677c.get(i)).pkg.equals(strM6871P)) {
                 this.f6678d = i;
             }
             radioButton.setId(i);
@@ -67,6 +67,6 @@ public class DialogInterfaceOnDismissListenerC2226q4 extends AbstractDialogC2267
 
     @Override
     public void onDismiss(DialogInterface dialogInterface) throws JSONException {
-        C1199a3.m5090f().m5096h("downloader");
+        C1199a3.getInstance().m5096h("downloader");
     }
 }

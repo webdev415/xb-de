@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import com.mmbox.xbrowser.BrowserDownloadManager;
+
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -140,17 +140,17 @@ public class DownloadService extends Service {
             Log.d("DownloadService", "Progress monitor not found for download id: " + j);
             return;
         }
-        BrowserDownloadManager.i iVarM6698n = BrowserDownloadManager.m6674q().m6698n(String.valueOf(j));
+        BrowserDownloadManager.i iVarM6698n = BrowserDownloadManager.getInstance().m6698n(String.valueOf(j));
         if (iVarM6698n == null) {
             Log.d("DownloadService", "Download info not found for id: " + j);
             m6498h(j);
             return;
         }
-        boolean zM6510c = c1519d.m6510c(iVarM6698n.f4652i);
+        boolean zM6510c = c1519d.m6510c(iVarM6698n.downloadedBytes);
         if (!c1519d.m6509b()) {
             long j2 = zM6510c ? 30000L : 10000L;
             if (zM6510c) {
-                Log.d("DownloadService", "Download progress detected for id: " + j + ", downloaded: " + iVarM6698n.f4652i + " bytes");
+                Log.d("DownloadService", "Download progress detected for id: " + j + ", downloaded: " + iVarM6698n.downloadedBytes + " bytes");
                 m6505o();
                 m6495e();
             }
@@ -159,7 +159,7 @@ public class DownloadService extends Service {
         }
         Log.w("DownloadService", "Download timeout due to no progress for " + (c1519d.m6508a() / 1000) + " seconds, download id: " + j);
         try {
-            BrowserDownloadManager.m6674q().m6676B(String.valueOf(j));
+            BrowserDownloadManager.getInstance().m6676B(String.valueOf(j));
             m6498h(j);
             m6499i();
         } catch (Throwable th) {

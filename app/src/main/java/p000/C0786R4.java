@@ -1,7 +1,7 @@
 package p000;
 
 import android.content.Context;
-import com.mmbox.widget.messagebox.C1418a;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
@@ -121,7 +121,7 @@ public class C0786R4 extends AbstractC2175p {
             if (r6 == 0) goto Lb4
             if (r4 == 0) goto Lb4
             if (r5 == 0) goto Lb4
-            com.mmbox.xbrowser.d r12 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r12 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             java.lang.String r0 = "last_cmd_message_id"
             java.lang.String r1 = ""
             java.lang.String r12 = r12.m6871P(r0, r1)
@@ -165,7 +165,7 @@ public class C0786R4 extends AbstractC2175p {
         @Override
         public void run() {
             if (this.f2321l != null && this.f2322m != null) {
-                C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), this.f2321l, this.f2322m, new C2697a(), true);
+                MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), this.f2321l, this.f2322m, new C2697a(), true);
             }
             SharedPreferencesHelper.getInstance().putString("last_cmd_message_id", this.f2325p);
         }

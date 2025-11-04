@@ -1,5 +1,6 @@
 package com.mmbox.xbrowser;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -46,47 +48,40 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.xbrowser.controllers.AbsBrowserController;
 import com.mmbox.xbrowser.controllers.WebViewBrowserController;
 import com.mmbox.xbrowser.provider.BrowserProvider;
 import com.mmbox.xbrowser.searchbox.SuggestionInputAdapter;
 import com.xbrowser.play.R;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import p000.NetworkUtils;
+import java.io.File;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import p000.AbstractC0448Jo;
-import p000.FileUtils;
-import p000.SystemUiCompat;
-import p000.DatabaseColumns;
-import p000.AbstractC1807h2;
-import p000.AndroidSystemUtils;
 import p000.AbstractC2129o0;
-import p000.AbstractC2274r6;
 import p000.AbstractC2320s6;
-import p000.AbstractDialogC0296Ga;
-import p000.AbstractDialogC1303b6;
-import p000.AbstractViewOnClickListenerC0802Rb;
-import p000.AbstractViewOnClickListenerC1638da;
-import p000.C0022Ac;
-import p000.C0024Ae;
+import p000.AndroidSystemUtils;
+import p000.BackgroundTaskManager;
+import p000.BaseViewOnClickListenerC0802Rb;
 import p000.C0219Ep;
 import p000.C0310Go;
 import p000.C0356Ho;
-import p000.ResourceCacheManager;
 import p000.C0461K0;
 import p000.C0462K1;
 import p000.C0600N1;
@@ -96,49 +91,61 @@ import p000.C0896Td;
 import p000.C0988Vd;
 import p000.C1039Wi;
 import p000.C1045Wo;
-import p000.C1089Xm;
 import p000.C1199a3;
 import p000.C1224ai;
-import p000.PhoneUtils;
 import p000.C1344c1;
-import p000.C1346c3;
-import p000.C1621d3;
 import p000.C1651dn;
-import p000.C1697en;
-import p000.MySQLiteOpenHelper;
-import p000.C1825ha;
-import p000.C2061mf;
-import p000.ThemeManager;
-import p000.C2337se;
 import p000.C2363t3;
 import p000.C2390tl;
-import p000.SystemUiController;
 import p000.C2406u0;
 import p000.C2439uo;
 import p000.C2564xb;
+import p000.ConfirmDialog;
+import p000.ContentViewManager;
+import p000.DatabaseColumns;
 import p000.DialogC0076Bk;
 import p000.DialogC0143D4;
 import p000.DialogC0465K4;
-import p000.DialogC0812Rl;
 import p000.DialogC2544x0;
 import p000.DialogC2590y0;
+import p000.EluaInfoDialog;
+import p000.EventQueueManager;
+import p000.ExitConfirmDialog;
+import p000.FileUtils;
+import p000.Insets;
 import p000.InterfaceC0299Gd;
 import p000.InterfaceC0345Hd;
 import p000.InterfaceC0575Md;
 import p000.InterfaceC0625Nh;
 import p000.InterfaceC1300b3;
+import p000.JSManager;
+import p000.MenuController;
+import p000.MySQLiteOpenHelper;
+import p000.NetworkUtils;
+import p000.PhoneUtils;
+import p000.ResourceCacheManager;
+import p000.ScanOption;
+import p000.SyncManager;
+import p000.SystemUiCompat;
+import p000.SystemUiController;
+import p000.TabManager;
+import p000.TextAreaDialog;
+import p000.ThemeManager;
+import p000.TouchEventDispatcher;
 import p000.ViewOnClickListenerC0166Di;
 import p000.ViewOnClickListenerC1156Z6;
+import p000.WebPage;
 
-public class BrowserActivity extends Activity implements AbstractC2274r6.c, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, View.OnSystemUiVisibilityChangeListener {
+public class BrowserActivity extends Activity implements ContentViewManager.c, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, View.OnSystemUiVisibilityChangeListener {
 
     public static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
+    private static final int REQUEST_CODE_TEXT_FILE_PICKER = 65;
 
     public static BrowserActivity activity = null;
 
     public String currentUserAgent;
 
-    public ValueCallback fileUploadCallback;
+    public ValueCallback<Uri[]> fileUploadCallback;
 
     public Uri cameraPhotoUri;
 
@@ -148,9 +155,9 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     public int systemUiVisibility;
 
-    public C0022Ac touchEventDispatcher;
+    public TouchEventDispatcher touchEventDispatcher;
 
-    public GestureDetector gestureDetector;
+    public MyGestureDetector gestureDetector;
 
     public final int CONSTANT_ZERO = 0;
 
@@ -188,15 +195,15 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     public BrowserActivityDelegate activityDelegate = null;
 
-    public C1346c3 tabManager = null;
+    public TabManager tabManager = null;
 
-    public C1621d3 menuController = null;
+    public MenuController menuController = null;
 
     public BrowserFrameLayout browserFrameLayout = null;
 
     public final Handler handler = new Handler();
 
-    public final ArrayList activeControllers = new ArrayList<>(3);
+    public final ArrayList<String> activeControllers = new ArrayList<>(3);
 
     public PullToRefreshHandler pullToRefreshHandler = null;
 
@@ -216,385 +223,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     public long lastActionTimestamp = 0;
 
-    public final Runnable textAutoFitRunnable = new Runnable() {
-        @Override
-        public void run() {
-            m6361u0("_XJSAPI_.text_auto_fit(" + textFitWidth + "," + textFitHeight + ")");
-        }
-    };
-
-    public class ApkInstallPermissionRunnable implements Runnable {
-
-        public final Uri apkUri;
-
-        public ApkInstallPermissionRunnable(Uri uri) {
-            this.apkUri = uri;
-        }
-
-        @Override
-        public void run() throws Resources.NotFoundException {
-            String str = String.format(BrowserActivity.getActivity().getResources().getString(R.string.message_request_install_unknown_source), getString(R.string.app_name));
-            String string = BrowserActivity.getActivity().getResources().getString(R.string.btn_text_set);
-            String string2 = BrowserActivity.getActivity().getResources().getString(R.string.btn_text_deny);
-            f4272s = this.apkUri;
-            MessageBoxManager.getInstance().showMessage(BrowserActivity.getActivity().getBrowserFrameLayout(), null, str, string, string2, new MessageBoxBase.MessageBoxListener() {
-                @Override
-                public void onShown() {
-                    startActivityForResult(new Intent("android.settings.MANAGE_UNKNOWN_APP_SOURCES", Uri.parse("package:" + getPackageName())), 259);
-                }
-
-                @Override
-                public void onDismissed() {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setFlags(1);
-                    intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onDismiss() {
-                }
-            }, true);
-        }
-    }
-
-    public class SdCardPermissionRunnable implements Runnable {
-
-        public final String permission;
-
-        public class PermissionSettingsListener implements MessageBoxBase.MessageBoxListener {
-            public PermissionSettingsListener() {
-            }
-
-            @Override
-            public void onShown() {
-                Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent);
-            }
-
-            @Override
-            public void onDismissed() {
-                SharedPreferencesHelper.getInstance().putBoolean("confirm_not_allow_sd", true);
-            }
-
-            @Override
-            public void onDismiss() {
-            }
-        }
-
-        public SdCardPermissionRunnable(String str) {
-            this.permission = str;
-        }
-
-        @Override
-        public void run() throws Resources.NotFoundException {
-            MessageBoxManager.getInstance().showMessage(BrowserActivity.getActivity().getBrowserFrameLayout(), null, String.format(BrowserActivity.getActivity().getResources().getString(R.string.message_request_sd), this.permission), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_set), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_deny), new PermissionSettingsListener(), true);
-        }
-    }
-
-    public class ModuleLoadFailureRunnable implements Runnable {
-
-        public final String moduleId;
-
-        public class ModuleRetryListener implements MessageBoxBase.MessageBoxListener {
-
-            public class ModuleDownloadRunnable implements Runnable {
-                public ModuleDownloadRunnable() {
-                }
-
-                @Override
-                public void run() {
-                    C2061mf.m8471f0().m8505N(ModuleLoadFailureRunnable.this.moduleId);
-                    ModuleLoadFailureRunnable runnableC1434D = ModuleLoadFailureRunnable.this;
-                    m6187A1(runnableC1434D.moduleId);
-                }
-            }
-
-            public ModuleRetryListener() {
-            }
-
-            @Override
-            public void onShown() {
-                Toast.makeText(BrowserActivity.this, R.string.toast_loading_module, Toast.LENGTH_LONG).show();
-                AbstractC1807h2.m7778a(new ModuleDownloadRunnable());
-            }
-
-            @Override
-            public void onDismissed() {
-                SharedPreferencesHelper.getInstance().putBoolean("confirm_not_allow_sd", true);
-            }
-
-            @Override
-            public void onDismiss() {
-            }
-        }
-
-        public ModuleLoadFailureRunnable(String str) {
-            this.moduleId = str;
-        }
-
-        @Override
-        public void run() throws Resources.NotFoundException {
-            MessageBoxManager.getInstance().showMessage(BrowserActivity.getActivity().getBrowserFrameLayout(), null, BrowserActivity.getActivity().getResources().getString(R.string.toast_load_module_failed), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_cancel), new ModuleRetryListener(), true);
-        }
-    }
-
-    public class BookmarkAddedListener implements MessageBoxBase.MessageBoxListener {
-
-        public final String bookmarkId;
-
-        public BookmarkAddedListener(String str) {
-            this.bookmarkId = str;
-        }
-
-        @Override
-        public void onShown() {
-            C1825ha.m7824d().m7831h(System.currentTimeMillis(), 22, this.bookmarkId, null);
-            C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
-        }
-
-        @Override
-        public void onDismissed() {
-        }
-
-        @Override
-        public void onDismiss() {
-        }
-    }
-
-    public class UrlDeleteListener implements MessageBoxBase.MessageBoxListener {
-
-        public final String url;
-
-        public UrlDeleteListener(String str) {
-            this.url = str;
-        }
-
-        @Override
-        public void onShown() {
-            C2439uo.getInstance().m10213K(this.url);
-        }
-
-        @Override
-        public void onDismissed() {
-        }
-
-        @Override
-        public void onDismiss() {
-        }
-    }
-
-    public class TrafficStrategyInitRunnable implements Runnable {
-        public TrafficStrategyInitRunnable() {
-        }
-
-        @Override
-        public void run() {
-            m6257S(SharedPreferencesHelper.getInstance().getInt("save_traffic_strategy", 0));
-            BrowserDownloadManager.m6674q().m6692h();
-        }
-    }
-
-    public class OfflineFilesOpenListener implements MessageBoxBase.MessageBoxListener {
-        public OfflineFilesOpenListener() {
-        }
-
-        @Override
-        public void onShown() {
-            openUrl("x:sd?path=offlines&sort=date", true, 0);
-        }
-
-        @Override
-        public void onDismissed() {
-        }
-
-        @Override
-        public void onDismiss() {
-        }
-    }
-
-    public class DownloadDeleteListener implements MessageBoxBase.MessageBoxListener {
-
-        public final String downloadPath;
-
-        public DownloadDeleteListener(String str) {
-            this.downloadPath = str;
-        }
-
-        @Override
-        public void onShown() {
-            BrowserDownloadManager.m6674q().m6709z(this.downloadPath);
-        }
-
-        @Override
-        public void onDismissed() {
-        }
-
-        @Override
-        public void onDismiss() {
-        }
-    }
-
-    public class DarkModeNotificationRunnable implements Runnable {
-
-        public class DarkModeSettingsListener implements MessageBoxBase.MessageBoxListener {
-            public DarkModeSettingsListener() {
-            }
-
-            @Override
-            public void onShown() {
-            }
-
-            @Override
-            public void onDismissed() {
-                SharedPreferencesHelper.getInstance().followSystemDarkMode = false;
-                SharedPreferencesHelper.getInstance().enterNightMode = false;
-                m6352r0(false, true);
-                SharedPreferencesHelper.getInstance().putBoolean("follow-sys-dark-mode", false);
-            }
-
-            @Override
-            public void onDismiss() {
-                SharedPreferencesHelper.getInstance().putBoolean("notify_flow_system_dark_mode", false);
-            }
-        }
-
-        public DarkModeNotificationRunnable() {
-        }
-
-        @Override
-        public void run() throws Resources.NotFoundException {
-            if (SharedPreferencesHelper.getInstance().getBoolean("notify_flow_system_dark_mode", true)) {
-                MessageBoxManager.getInstance().showMessage(BrowserActivity.getActivity().getBrowserFrameLayout(), null, getResources().getString(R.string.message_follow_dark_mode), getResources().getString(R.string.btn_text_apply), getResources().getString(R.string.btn_text_cancel), new DarkModeSettingsListener(), true);
-            }
-        }
-    }
-
-    public class ParentElementSelectorListener implements View.OnClickListener {
-        public ParentElementSelectorListener() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            m6361u0("selectParent()");
-            if (SharedPreferencesHelper.getInstance().getBoolean("log_mark_ad", false)) {
-                m6195C1();
-            }
-        }
-    }
-
-    public class ChildElementSelectorListener implements View.OnClickListener {
-        public ChildElementSelectorListener() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            m6361u0("selectChild()");
-        }
-    }
-
-    public class ElementHiderListener implements View.OnClickListener {
-        public ElementHiderListener() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            m6361u0("exportABPRule()");
-            m6361u0("hideSelectedElement()");
-        }
-    }
-
-    public class CloseEditModeListener implements View.OnClickListener {
-        public CloseEditModeListener() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            m6377y0();
-        }
-    }
-
-    public class ItemSelectionTrackerListener implements View.OnClickListener {
-        public ItemSelectionTrackerListener() {
-        }
-
-        @Override
-        public void onClick(View view) throws JSONException {
-            C1199a3.m5090f().m5093d("event_app_to_page", "select_or_deselect_items");
-        }
-    }
-
-    public class DeleteConfirmationListener implements View.OnClickListener {
-
-        public class DeleteConfirmDialog extends AbstractDialogC1303b6 {
-            public DeleteConfirmDialog(Context context) {
-                super(context);
-            }
-
-            @Override
-            public void mo315b() {
-            }
-
-            @Override
-            public void mo316c() throws JSONException {
-                C1199a3.m5090f().m5093d("event_app_to_page", "delete_selected_items");
-            }
-        }
-
-        public DeleteConfirmationListener() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            new DeleteConfirmDialog(BrowserActivity.this).m5643d(getString(R.string.batch_del_title), getString(R.string.del_select_item_confrim));
-        }
-    }
-
-    public class ItemCutListener implements View.OnClickListener {
-        public ItemCutListener() {
-        }
-
-        @Override
-        public void onClick(View view) throws JSONException {
-            m6373x0();
-            C1199a3.m5090f().m5093d("event_app_to_page", "cut_selected_items");
-        }
-    }
-
-    public class ReadModeActivationRunnable implements Runnable {
-        public ReadModeActivationRunnable() {
-        }
-
-        @Override
-        public void run() {
-            Log.i("toolbar", " set state to readmode...");
-            m6218I0().m6394C().m1429l(3);
-        }
-    }
-
-    public class ExitSelectionListener implements View.OnClickListener {
-        public ExitSelectionListener() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            m6373x0();
-        }
-    }
-
-    public class ExitEditModeRunnable implements Runnable {
-        public ExitEditModeRunnable() {
-        }
-
-        @Override
-        public void run() throws JSONException {
-            BrowserActivity browserActivity = BrowserActivity.this;
-            browserActivity.f4264k = 0;
-            browserActivity.getBrowserFrameLayout().m6466o(SharedPreferencesHelper.getInstance().getDefaultLayoutType());
-            C1199a3.m5090f().m5093d("event_app_to_page", "exit_edit_mode");
-        }
-    }
+    public final Runnable textAutoFitRunnable = () -> updateTitle("_XJSAPI_.text_auto_fit(" + textFitWidth + "," + textFitHeight + ")");
 
     public class FlagResetRunnable implements Runnable {
 
@@ -635,7 +264,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         @Override
         public void run() {
             m6232L2(this.data);
-            f4252N = System.currentTimeMillis();
+            lastActionTimestamp = System.currentTimeMillis();
         }
     }
 
@@ -669,7 +298,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public class VideoSniffingAcceptDialog extends AbstractViewOnClickListenerC1638da {
+    public class VideoSniffingAcceptDialog extends EluaInfoDialog {
 
         public final boolean enableSniffing;
 
@@ -680,23 +309,23 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
 
         @Override
-        public String mo6384c() {
+        public String getOKLabel() {
             return "已了解";
         }
 
         @Override
-        public void mo6385d() {
+        public void onOK() {
             SharedPreferencesHelper.getInstance().putBoolean("first-sniff-media", false);
             SharedPreferencesHelper.getInstance().putBoolean("accept-sniff-media", true);
             VideoSniffingManager.getInstance().m7001k(this.enableSniffing);
         }
 
         @Override
-        public void mo6386e() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo6387f(URLSpan uRLSpan) {
+        public void handleUrlClick(URLSpan uRLSpan) {
             dismiss();
             openUrl(uRLSpan.getURL(), true, 0);
         }
@@ -708,27 +337,27 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
         @Override
         public void run() {
-            m6198D0();
+            showConfirmDialog();
         }
     }
 
-    public class QrScannerDialog extends AbstractDialogC1303b6 {
+    public class QrScannerDialog extends ConfirmDialog {
         public QrScannerDialog(Context context) {
             super(context);
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() {
-            C0024Ae c0024Ae = new C0024Ae(BrowserActivity.this);
-            c0024Ae.m129i("QR_CODE");
-            c0024Ae.m130j(false);
-            c0024Ae.m131k(32);
-            c0024Ae.m128h(QrScanActivity.class);
-            c0024Ae.m127f();
+        public void onOK() {
+            ScanOption option = new ScanOption(BrowserActivity.this);
+            option.setFormats("QR_CODE");
+            option.lockOrientation(false);
+            option.setRequestCode(32);
+            option.setClass(QrScanActivity.class);
+            option.start();
         }
     }
 
@@ -742,7 +371,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public class EmptyConfirmDialog extends AbstractViewOnClickListenerC0802Rb {
+    public class EmptyConfirmDialog extends BaseViewOnClickListenerC0802Rb {
         public EmptyConfirmDialog(BrowserActivity browserActivity) {
             super(browserActivity);
         }
@@ -752,53 +381,33 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public class InitializationIdleHandler implements MessageQueue.IdleHandler {
-        public InitializationIdleHandler() {
-        }
-
-        @Override
-        public boolean queueIdle() {
-            C1825ha.m7824d().m7828e(0);
-            return false;
-        }
-    }
-
-    public class EulaAcceptDialog extends AbstractViewOnClickListenerC1638da {
-
-        public class FraudAlertDismissRunnable implements Runnable {
-            public FraudAlertDismissRunnable() {
-            }
-
-            @Override
-            public void run() {
-                SharedPreferencesHelper.getInstance().putBoolean("show_fraud_alert", false);
-                m6198D0();
-            }
-        }
-
+    public class EulaAcceptDialog extends EluaInfoDialog {
         public EulaAcceptDialog(BrowserActivity browserActivity) {
             super(browserActivity);
         }
 
         @Override
-        public void mo6385d() {
+        public void onOK() {
             SharedPreferencesHelper.getInstance().acceptEula = true;
             SharedPreferencesHelper.getInstance().putBoolean("accept-eula", true);
             if (PhoneUtils.getInstance().isInChina()) {
-                getHandler().postDelayed(new FraudAlertDismissRunnable(), 1000L);
+                getHandler().postDelayed(() -> {
+                    SharedPreferencesHelper.getInstance().putBoolean("show_fraud_alert", false);
+                    showConfirmDialog();
+                }, 1000L);
             }
         }
     }
 
-    public class GestureCallback implements GestureDetector.a {
+    public class GestureCallback implements MyGestureDetector.GestureCallback {
         @Override
-        public void mo6388a(String str) {
+        public void onGestureDetected(String str) {
             if (str.equals("LDR")) {
-                m6218I0().mo6431k();
+                getActivityDelegate().mo6431k();
             } else if (str.equals("RDL")) {
                 m6375x2();
             } else if (str.equals("URD")) {
-                m6218I0().m6434s();
+                getActivityDelegate().m6434s();
             }
         }
     }
@@ -806,11 +415,11 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     public class TouchEventHandler implements BrowserFrameLayout.InterfaceC1510m {
         @Override
         public boolean mo6389a(MotionEvent motionEvent) {
-            f4273t.m116a(motionEvent);
+            touchEventDispatcher.m116a(motionEvent);
             if (!SharedPreferencesHelper.getInstance().supportQuickGesture) {
                 return false;
             }
-            f4274u.m7063c(motionEvent);
+            gestureDetector.handleMotionEvent(motionEvent);
             return false;
         }
     }
@@ -828,108 +437,56 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public class BrightnessAdjustmentRunnable implements Runnable {
-
-        public final int brightnessValue;
-
-        public BrightnessAdjustmentRunnable(int i) {
-            this.brightnessValue = i;
-        }
-
-        @Override
-        public void run() {
-            float f;
-            WindowManager.LayoutParams attributes = getWindow().getAttributes();
-            if (this.brightnessValue >= 0) {
-                f = (SharedPreferencesHelper.getInstance().enterNightMode ? this.brightnessValue * 0.5f : this.brightnessValue) * 0.003921569f;
-            } else {
-                f = -1.0f;
-            }
-            attributes.screenBrightness = f;
-            getWindow().setAttributes(attributes);
-        }
-    }
-
     public class SearchBarPositionRunnable implements Runnable {
 
-        public final String position;
+        private final String position;
 
-        public SearchBarPositionRunnable(String str) {
-            this.position = str;
+        public SearchBarPositionRunnable(String key) {
+            this.position = key;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:20:0x005d  */
-        @Override
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-            To view partially-correct code enable 'Show inconsistent code' option in preferences
-        */
+        @Override // java.lang.Runnable
         public void run() {
-            /*
-                r4 = this;
-                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-                int r0 = r0.m6845B()
-                java.lang.String r1 = r4.position
-                java.lang.String r2 = "search-bar-at-top"
-                boolean r1 = r1.equals(r2)
-                r2 = 8192(0x2000, float:1.148E-41)
-                if (r1 == 0) goto L24
-                r0 = r0 & r2
-                if (r0 != r2) goto L1f
-                com.mmbox.xbrowser.BrowserActivity r0 = com.mmbox.xbrowser.BrowserActivity.this
-                r1 = 12289(0x3001, float:1.722E-41)
-            L1b:
-                r0.m6253R(r1)
-                goto L45
-            L1f:
-                com.mmbox.xbrowser.BrowserActivity r0 = com.mmbox.xbrowser.BrowserActivity.this
-                r1 = 4097(0x1001, float:5.741E-42)
-                goto L1b
-            L24:
-                java.lang.String r1 = r4.position
-                java.lang.String r3 = "search-bar-at-bottom"
-                boolean r1 = r1.equals(r3)
-                if (r1 == 0) goto L45
-                r0 = r0 & r2
-                if (r0 != r2) goto L40
-                com.mmbox.xbrowser.BrowserActivity r0 = com.mmbox.xbrowser.BrowserActivity.this
-                r1 = 12290(0x3002, float:1.7222E-41)
-                r0.m6253R(r1)
-                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-                r1 = 1
-                r0.f4914l = r1
-                goto L45
-            L40:
-                com.mmbox.xbrowser.BrowserActivity r0 = com.mmbox.xbrowser.BrowserActivity.this
-                r1 = 4098(0x1002, float:5.743E-42)
-                goto L1b
-            L45:
-                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-                boolean r0 = r0.f4914l
-                if (r0 == 0) goto L5d
-                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-                boolean r0 = r0.f4916m
-                if (r0 == 0) goto L5d
-                Sb r0 = p000.C0848Sb.m4048n()
-                r0.m4052r()
-                goto L64
-            L5d:
-                Sb r0 = p000.C0848Sb.m4048n()
-                r0.m4049o()
-            L64:
-                com.mmbox.xbrowser.BrowserActivity r0 = com.mmbox.xbrowser.BrowserActivity.this
-                com.mmbox.xbrowser.BrowserActivity.m6181r(r0)
-                com.mmbox.xbrowser.BrowserActivity r0 = com.mmbox.xbrowser.BrowserActivity.this
-                r0.m6320g3()
-                com.mmbox.xbrowser.BrowserActivity r0 = com.mmbox.xbrowser.BrowserActivity.this
-                com.mmbox.xbrowser.BrowserActivityDelegate r0 = r0.m6218I0()
-                r0.mo6428g0()
-                s3 r0 = p000.ThemeManager.m9472y()
-                com.mmbox.xbrowser.BrowserActivity r1 = com.mmbox.xbrowser.BrowserActivity.this
-                r0.m9478F(r1)
-                return
-            */
-            throw new UnsupportedOperationException("Method not decompiled: com.mmbox.xbrowser.BrowserActivity.SearchBarPositionRunnable.run():void");
+            // Retrieve the current settings from SharedPreferences
+            int currentSettings = SharedPreferencesHelper.getInstance().getDefaultLayoutType();
+
+            // Handle the search-bar-at-top setting
+            if ("search-bar-at-top".equals(position)) {
+                if ((currentSettings & 8192) == 8192) {
+                    // If search bar should be at the top, update the UI with a specific ID
+                    m6253R(12289);
+                } else {
+                    // Otherwise, update with a different ID
+                    m6253R(4097);
+                }
+            }
+
+            // Handle the search-bar-at-bottom setting
+            else if ("search-bar-at-bottom".equals(position)) {
+                if ((currentSettings & 8192) == 8192) {
+                    // If search bar should be at the bottom, set flag and update the UI
+                    m6253R(12290);
+                    SharedPreferencesHelper.getInstance().browserFullscreenMode = true;
+                } else {
+                    // Otherwise, update with a different ID
+                    m6253R(4098);
+                }
+            }
+
+            // Check for additional preferences and handle accordingly
+            if (SharedPreferencesHelper.getInstance().browserFullscreenMode) {
+                if (SharedPreferencesHelper.getInstance().fullscreenWithFloatBtn) {
+                    C0848Sb.getInstance().restorePosition(); // Perform some action if condition is true
+                } else {
+                    C0848Sb.getInstance().hideFloatingButton(); // Perform a different action if false
+                }
+            }
+
+            // Call methods to update the browser state and UI
+            m6189B();
+            m6320g3();
+            getActivityDelegate().mo6428g0();
+            ThemeManager.getInstance().m9478F(BrowserActivity.getActivity());
         }
     }
 
@@ -940,7 +497,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         @Override
         public void run() {
             Intent intent = new Intent(BrowserActivity.this, (Class<?>) SearchBarActivity.class);
-            intent.putExtra("key-or-url", m6210G0().mo1573b());
+            intent.putExtra("key-or-url", getBrowserController().getUrlFromTitle());
             startActivityForResult(intent, 83);
             overridePendingTransition(0, 0);
         }
@@ -973,7 +530,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
         @Override
         public void run() {
-            m6331k0(this.url, this.title);
+            logHistory(this.url, this.title);
         }
     }
 
@@ -1001,9 +558,9 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
         @Override
         public void run() {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) f4276w.m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) tabManager.m9316y();
             if (interfaceC1300b3 instanceof WebViewBrowserController) {
-                C2061mf.m8471f0().m8542n0(((WebViewBrowserController) interfaceC1300b3).m6770F0(), this.script);
+                JSManager.getInstance().injectJavascript(((WebViewBrowserController) interfaceC1300b3).m6770F0(), this.script);
             }
         }
     }
@@ -1018,25 +575,10 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
         @Override
         public void run() {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) f4276w.m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) tabManager.m9316y();
             if (interfaceC1300b3 instanceof WebViewBrowserController) {
-                C2061mf.m8471f0().m8552s0(((WebViewBrowserController) interfaceC1300b3).m6770F0(), this.script);
+                JSManager.getInstance().m8552s0(((WebViewBrowserController) interfaceC1300b3).m6770F0(), this.script);
             }
-        }
-    }
-
-    public class ExitConfirmDialog extends AbstractDialogC0296Ga {
-        public ExitConfirmDialog(BrowserActivity browserActivity) {
-            super(browserActivity);
-        }
-
-        @Override
-        public void mo1371b() {
-        }
-
-        @Override
-        public void mo1372c() {
-            finish();
         }
     }
 
@@ -1046,7 +588,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
         @Override
         public void run() {
-            f4258e = false;
+            hasShownExitDialog = false;
         }
     }
 
@@ -1083,7 +625,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 byte[] bArr = this.imageData;
                 Bitmap bitmapDecodeByteArray = BitmapFactory.decodeByteArray(bArr, 0, bArr.length);
                 if (bitmapDecodeByteArray == null) {
-                    C0988Vd c0988VdM4391d = C0988Vd.m4391d();
+                    C0988Vd c0988VdM4391d = C0988Vd.getInstance();
                     FaviconDownloadCallback c1482w = FaviconDownloadCallback.this;
                     bitmapDecodeByteArray = c0988VdM4391d.m4394c(c1482w.url, c1482w.title);
                 }
@@ -1098,7 +640,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
             @Override
             public void run() throws Resources.NotFoundException {
-                C0988Vd c0988VdM4391d = C0988Vd.m4391d();
+                C0988Vd c0988VdM4391d = C0988Vd.getInstance();
                 FaviconDownloadCallback c1482w = FaviconDownloadCallback.this;
                 Bitmap bitmapM4394c = c0988VdM4391d.m4394c(c1482w.url, c1482w.title);
                 FaviconDownloadCallback c1482w2 = FaviconDownloadCallback.this;
@@ -1151,7 +693,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
             @Override
             public void run() throws Resources.NotFoundException {
-                C0988Vd c0988VdM4391d = C0988Vd.m4391d();
+                C0988Vd c0988VdM4391d = C0988Vd.getInstance();
                 AlternateFaviconCallback c1483x = AlternateFaviconCallback.this;
                 Bitmap bitmapM4394c = c0988VdM4391d.m4394c(c1483x.url, c1483x.title);
                 AlternateFaviconCallback c1483x2 = AlternateFaviconCallback.this;
@@ -1175,27 +717,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public class HistoryItemDeleteAnalyticsRunnable implements Runnable {
-
-        public final String itemId;
-
-        public HistoryItemDeleteAnalyticsRunnable(String str) {
-            this.itemId = str;
-        }
-
-        @Override
-        public void run() throws JSONException {
-            JSONObject jSONObject = new JSONObject();
-            try {
-                jSONObject.put("transId", "delete_history_item");
-                jSONObject.put("id", this.itemId);
-            } catch (Exception unused) {
-            }
-            C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
-        }
-    }
-
-    public class BookmarkDeleteConfirmDialog extends AbstractDialogC1303b6 {
+    public class BookmarkDeleteConfirmDialog extends ConfirmDialog {
 
         public final SQLiteDatabase database;
 
@@ -1209,11 +731,11 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() throws JSONException {
+        public void onOK() {
             MySQLiteOpenHelper.getInstance().deleteBookmarkRecursive(this.database, this.bookmarkId);
             m6223J1(AndroidSystemUtils.prefixWithMd5(this.bookmarkId));
         }
@@ -1238,16 +760,16 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public void m6187A1(String str) {
-        runOnUiThread(new WebViewEvaluateRunnable(str));
+    public void evaluateJS(String moduleName) {
+        runOnUiThread(new WebViewEvaluateRunnable(moduleName));
     }
 
     public void m6188A2(String str, String str2) {
-        String strM2049e = ResourceCacheManager.getInstance().getCachedResource(Uri.parse(str2).getHost() + ".touch-icon");
+        String strM2049e = ResourceCacheManager.getInstance().getResourceValueByKey(Uri.parse(str2).getHost() + ".touch-icon");
         if (TextUtils.isEmpty(strM2049e)) {
-            AndroidSystemUtils.m8706n(this, str, str2, C0988Vd.m4391d().m4394c(str, str2));
+            AndroidSystemUtils.m8706n(this, str, str2, C0988Vd.getInstance().m4394c(str, str2));
         } else {
-            C0988Vd.m4391d().m4392a(strM2049e, str2, new FaviconDownloadCallback(str, str2));
+            C0988Vd.getInstance().m4392a(strM2049e, str2, new FaviconDownloadCallback(str, str2));
         }
     }
 
@@ -1264,7 +786,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             uri.getHost();
             if (str.startsWith("app://")) {
                 intent = new Intent("android.intent.action.VIEW");
-                intent.addFlags(268435456);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setData(uri);
             } else {
                 if (str.startsWith("local://")) {
@@ -1281,7 +803,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 } else {
                     if (str.startsWith("intent://")) {
                         try {
-                            Intent uri2 = Intent.parseUri(str, 1);
+                            Intent uri2 = Intent.parseUri(str, Intent.URI_INTENT_SCHEME);
                             uri2.addCategory("android.intent.category.BROWSABLE");
                             uri2.setComponent(null);
                             startActivity(uri2);
@@ -1292,7 +814,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                     }
                     intent = new Intent("android.intent.action.VIEW");
                     intent.setData(uri);
-                    intent.addFlags(268435456);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
             }
             startActivity(intent);
@@ -1312,13 +834,13 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             if (cursorQuery == null || !cursorQuery.moveToFirst()) {
                 return;
             }
-            String string = cursorQuery.getString(cursorQuery.getColumnIndex("icon_uri"));
-            String string2 = cursorQuery.getString(cursorQuery.getColumnIndex("title"));
-            String string3 = cursorQuery.getString(cursorQuery.getColumnIndex("url"));
+            @SuppressLint("Range") String string = cursorQuery.getString(cursorQuery.getColumnIndex("icon_uri"));
+            @SuppressLint("Range") String string2 = cursorQuery.getString(cursorQuery.getColumnIndex("title"));
+            @SuppressLint("Range") String string3 = cursorQuery.getString(cursorQuery.getColumnIndex("url"));
             if (TextUtils.isEmpty(string)) {
-                bitmapM8708p = C0988Vd.m4391d().m4394c(string2, string3);
+                bitmapM8708p = C0988Vd.getInstance().m4394c(string2, string3);
             } else if (string.startsWith("http")) {
-                C0988Vd.m4391d().m4392a(string, string3, new AlternateFaviconCallback(string2, string3));
+                C0988Vd.getInstance().m4392a(string, string3, new AlternateFaviconCallback(string2, string3));
                 return;
             } else if (!string.startsWith("data:")) {
                 return;
@@ -1354,16 +876,16 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6195C1() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
         if (interfaceC1300b3 != null) {
-            C1344c1.m5691d().m5699i("Mark AD", "mark_ad", interfaceC1300b3.mo1573b());
+            C1344c1.getInstance().m5699i("Mark AD", "mark_ad", interfaceC1300b3.getUrlFromTitle());
         }
     }
 
     public void m6196C2(int i) {
-        this.f4269p = i;
+        this.unusedIntField = i;
         if (i == 0) {
-            C2564xb.m10653b().m10654a();
+            C2564xb.getInstance().m10654a();
         }
     }
 
@@ -1376,14 +898,14 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         if (viewFindViewById == null || viewFindViewById2 == null || viewFindViewById3 == null) {
             return;
         }
-        C2337se c2337seM4549f = c1045Wo.m4549f(C1045Wo.m.getType());
-        C2337se c2337seM4549f2 = c1045Wo.m4549f(C1045Wo.m.m4601e());
-        C2337se c2337seM4549f3 = c1045Wo.m4549f(C1045Wo.m.m4602f());
-        C2337se c2337seM4549f4 = c1045Wo.m4549f(C1045Wo.m.m4597a());
-        int iMax = Math.max(c2337seM4549f3.f7066b, c2337seM4549f4.f7066b);
-        int iMax2 = Math.max(c2337seM4549f2.f7068d, c2337seM4549f4.f7068d);
-        int iMax3 = Math.max(c2337seM4549f.f7065a, c2337seM4549f4.f7065a);
-        int iMax4 = Math.max(c2337seM4549f.f7067c, c2337seM4549f4.f7067c);
+        Insets insetsM4549F = c1045Wo.m4549f(C1045Wo.m.getType());
+        Insets insetsM4549F2 = c1045Wo.m4549f(C1045Wo.m.m4601e());
+        Insets insetsM4549F3 = c1045Wo.m4549f(C1045Wo.m.m4602f());
+        Insets insetsM4549F4 = c1045Wo.m4549f(C1045Wo.m.m4597a());
+        int iMax = Math.max(insetsM4549F3.f7066b, insetsM4549F4.f7066b);
+        int iMax2 = Math.max(insetsM4549F2.f7068d, insetsM4549F4.f7068d);
+        int iMax3 = Math.max(insetsM4549F.f7065a, insetsM4549F4.f7065a);
+        int iMax4 = Math.max(insetsM4549F.f7067c, insetsM4549F4.f7067c);
         if (AndroidSystemUtils.m8674H(c1045Wo, this)) {
             f = iMax2;
             f2 = 0.8f;
@@ -1395,7 +917,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         if (iM5579C == 0) {
             iM5579C = PhoneUtils.getInstance().getNavigationBarHeight();
         }
-        if (this.f4264k == 1) {
+        if (this.uiLayoutMode == 1) {
             viewFindViewById2.setPadding(iMax3, iMax, iMax4, 0);
             viewFindViewById.setPadding(0, 0, 0, 0);
             viewFindViewById3.setPadding(0, 0, 0, iM5579C);
@@ -1420,7 +942,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public final void m6198D0() {
+    public final void showConfirmDialog() {
         new EmptyConfirmDialog(this).show();
     }
 
@@ -1463,17 +985,17 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6200D2(String str) {
-        this.f4271r = str;
+        this.pendingSearchQuery = str;
     }
 
     public final boolean m6201E(C1045Wo c1045Wo) {
         int i;
-        C2337se c2337seM4549f = c1045Wo.m4549f(C1045Wo.m.getType());
-        C2337se c2337seM4549f2 = c1045Wo.m4549f(C1045Wo.m.m4601e());
-        C2337se c2337seM4549f3 = c1045Wo.m4549f(C1045Wo.m.m4602f());
+        Insets insetsM4549F = c1045Wo.m4549f(C1045Wo.m.getType());
+        Insets insetsM4549F2 = c1045Wo.m4549f(C1045Wo.m.m4601e());
+        Insets insetsM4549F3 = c1045Wo.m4549f(C1045Wo.m.m4602f());
         int i2 = getResources().getDisplayMetrics().heightPixels / 4;
-        int i3 = c2337seM4549f3.f7066b;
-        return i3 >= 0 && i3 <= i2 && (i = c2337seM4549f2.f7068d) >= 0 && i <= i2 && c2337seM4549f.f7065a >= 0 && c2337seM4549f.f7067c >= 0;
+        int i3 = insetsM4549F3.f7066b;
+        return i3 >= 0 && i3 <= i2 && (i = insetsM4549F2.f7068d) >= 0 && i <= i2 && insetsM4549F.f7065a >= 0 && insetsM4549F.f7067c >= 0;
     }
 
     public void m6202E0(String str, String str2) {
@@ -1484,362 +1006,350 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6203E1() {
-        AbsBrowserController absBrowserControllerM6210G0 = m6210G0();
+        AbsBrowserController absBrowserControllerM6210G0 = getBrowserController();
         if (absBrowserControllerM6210G0 instanceof WebViewBrowserController) {
-            ((WebViewBrowserController) absBrowserControllerM6210G0).m6798h1(absBrowserControllerM6210G0.mo1573b());
+            ((WebViewBrowserController) absBrowserControllerM6210G0).m6798h1(absBrowserControllerM6210G0.getUrlFromTitle());
         }
     }
 
     public void m6204E2(int i) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
-        if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
-            return;
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
+        if (interfaceC1300b3 != null && interfaceC1300b3 instanceof WebViewBrowserController) {
+            ((WebViewBrowserController) interfaceC1300b3).m6804n1(i);
         }
-        ((WebViewBrowserController) interfaceC1300b3).m6804n1(i);
     }
 
     public void m6205F() {
-        int i;
         if (SharedPreferencesHelper.getInstance().browserFullscreenMode) {
             m6322h1();
             if (SharedPreferencesHelper.getInstance().fullscreenWithFloatBtn) {
-                C0848Sb.m4048n().m4052r();
+                C0848Sb.getInstance().restorePosition();
             }
         } else {
             m6264T2();
         }
         getBrowserFrameLayout().setLayoutType(SharedPreferencesHelper.getInstance().getDefaultLayoutType());
         if (SharedPreferencesHelper.getInstance().m6880U().equals("auto")) {
-            i = -1;
-        } else if (!SharedPreferencesHelper.getInstance().m6880U().equals("portrait")) {
-            return;
-        } else {
-            i = 1;
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        } else if (SharedPreferencesHelper.getInstance().m6880U().equals("portrait")) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        setRequestedOrientation(i);
     }
 
-    public String m6206F0(String str) {
-        int i;
-        if (str.equals("go_to_top")) {
-            i = R.string.web_str_action_goto_top;
-        } else if (str.equals("go_to_bottom")) {
-            i = R.string.web_str_action_goto_bottom;
-        } else if (str.equals("search")) {
-            i = R.string.web_str_action_do_search;
-        } else if (str.equals("refresh")) {
-            i = R.string.web_str_action_do_refresh;
-        } else if (str.equals("new_tab")) {
-            i = R.string.web_str_action_new_tab;
-        } else if (str.equals("remove_tabs")) {
-            i = R.string.web_str_action_remove_tabs;
-        } else if (str.equals("close_tab")) {
-            i = R.string.web_str_action_close_current_tab;
-        } else if (str.equals("revert_tab")) {
-            i = R.string.web_str_action_revert_closed_tab;
-        } else if (str.equals("next_tab")) {
-            i = R.string.web_str_action_next_tab;
-        } else if (str.equals("previous_tab")) {
-            i = R.string.web_str_action_previous_tab;
-        } else if (str.equals("go_to_home")) {
-            i = R.string.web_str_action_go_to_home;
-        } else if (str.equals("add_to_bm")) {
-            i = R.string.web_str_action_add_to_bm;
-        } else if (str.equals("copy_url")) {
-            i = R.string.web_str_action_copy_url;
-        } else if (str.equals("open_toolbox")) {
-            i = R.string.web_str_action_open_toolbox;
-        } else if (str.equals("toggle_fullscreen")) {
-            i = R.string.web_str_action_toggle_fullscreen;
-        } else if (str.equals("open_bookmark")) {
-            i = R.string.web_str_action_open_bm;
-        } else if (str.equals("open_history")) {
-            i = R.string.web_str_action_open_his;
-        } else {
-            if (!str.equals("switch_search_engine")) {
-                return str.equals("not_set") ? getString(R.string.web_str_action_do_nothing) : getString(R.string.web_str_action_do_nothing);
-            }
-            i = R.string.web_str_action_switch_search;
+    public String getActionText(String str) {
+        // Map to associate strings with resource IDs
+        Map<String, Integer> actionMap = new HashMap<>();
+        actionMap.put("go_to_top", R.string.web_str_action_goto_top);
+        actionMap.put("go_to_bottom", R.string.web_str_action_goto_bottom);
+        actionMap.put("search", R.string.web_str_action_do_search);
+        actionMap.put("refresh", R.string.web_str_action_do_refresh);
+        actionMap.put("new_tab", R.string.web_str_action_new_tab);
+        actionMap.put("remove_tabs", R.string.web_str_action_remove_tabs);
+        actionMap.put("close_tab", R.string.web_str_action_close_current_tab);
+        actionMap.put("revert_tab", R.string.web_str_action_revert_closed_tab);
+        actionMap.put("next_tab", R.string.web_str_action_next_tab);
+        actionMap.put("previous_tab", R.string.web_str_action_previous_tab);
+        actionMap.put("go_to_home", R.string.web_str_action_go_to_home);
+        actionMap.put("add_to_bm", R.string.web_str_action_add_to_bm);
+        actionMap.put("copy_url", R.string.web_str_action_copy_url);
+        actionMap.put("open_toolbox", R.string.web_str_action_open_toolbox);
+        actionMap.put("toggle_fullscreen", R.string.web_str_action_toggle_fullscreen);
+        actionMap.put("open_bookmark", R.string.web_str_action_open_bm);
+        actionMap.put("open_history", R.string.web_str_action_open_his);
+        actionMap.put("switch_search_engine", R.string.web_str_action_switch_search);
+
+        // Return the string associated with the input, or a default message if not found
+        if (actionMap.containsKey(str)) {
+            return getString(actionMap.get(str));
         }
-        return getString(i);
+
+        // Default case if the action isn't recognized
+        return getString(R.string.web_str_action_do_nothing);
     }
 
     public final void m6207F1() {
         Intent intent = new Intent(this, (Class<?>) BackgroundPlayService.class);
-        intent.putExtra("title", m6210G0().mo1574c());
+        intent.putExtra("title", getBrowserController().mo1574c());
         intent.setAction("action.make_page_background");
         startService(intent);
-        this.f4260g = true;
+        this.hasOnCreate = true;
     }
 
     public final void m6208F2() {
-        C1621d3 c1621d3 = new C1621d3();
-        this.f4277x = c1621d3;
-        c1621d3.m7295c(WebViewBrowserController.class.getName(), "^(https?|view-source|content):.*");
-        this.f4277x.m7295c(WebViewBrowserController.class.getName(), "^file:///.*");
-        this.f4277x.m7295c(WebViewBrowserController.class.getName(), "^data:.*");
-        this.f4277x.m7295c(WebViewBrowserController.class.getName(), "^about:.*");
-        this.f4277x.m7295c(WebViewBrowserController.class.getName(), "^x:.*");
-        this.f4277x.m7295c(WebViewBrowserController.class.getName(), "http");
+        menuController = new MenuController();
+        menuController.m7295c(WebViewBrowserController.class.getName(), "^(https?|view-source|content):.*");
+        menuController.m7295c(WebViewBrowserController.class.getName(), "^file:///.*");
+        menuController.m7295c(WebViewBrowserController.class.getName(), "^data:.*");
+        menuController.m7295c(WebViewBrowserController.class.getName(), "^about:.*");
+        menuController.m7295c(WebViewBrowserController.class.getName(), "^x:.*");
+        menuController.m7295c(WebViewBrowserController.class.getName(), "http");
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x005e  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-        To view partially-correct code enable 'Show inconsistent code' option in preferences
-    */
-    public void m6209G(String r10) {
-        /*
-            r9 = this;
-            f3 r0 = p000.C1714f3.m7483o0()
-            android.database.sqlite.SQLiteDatabase r1 = r0.getReadableDatabase()
-            java.lang.String r4 = "parent= ? AND status>= ?"
-            java.lang.String r8 = "item_order ASC"
-            java.lang.String r0 = "0"
-            java.lang.String[] r5 = new java.lang.String[]{r10, r0}
-            java.util.ArrayList r10 = new java.util.ArrayList
-            r10.<init>()
-            r0 = 0
-            java.lang.String r2 = "bookmark"
-            java.lang.String[] r3 = p000.AbstractC1667e3.f5377b     // Catch: java.lang.Exception -> L5e
-            r6 = 0
-            r7 = 0
-            android.database.Cursor r1 = r1.query(r2, r3, r4, r5, r6, r7, r8)     // Catch: java.lang.Exception -> L5e
-            if (r1 == 0) goto L5e
-            boolean r2 = r1.moveToFirst()     // Catch: java.lang.Exception -> L5e
-            if (r2 == 0) goto L5e
-            r2 = r0
-        L2b:
-            java.lang.String r3 = "url"
-            int r3 = r1.getColumnIndex(r3)     // Catch: java.lang.Exception -> L5f
-            java.lang.String r3 = r1.getString(r3)     // Catch: java.lang.Exception -> L5f
-            java.lang.String r4 = "title"
-            int r4 = r1.getColumnIndex(r4)     // Catch: java.lang.Exception -> L5f
-            java.lang.String r4 = r1.getString(r4)     // Catch: java.lang.Exception -> L5f
-            java.lang.String r5 = "_tab-id_"
-            int r5 = r3.indexOf(r5)     // Catch: java.lang.Exception -> L5f
-            if (r5 <= 0) goto L4d
-            int r5 = r5 + (-1)
-            java.lang.String r3 = r3.substring(r0, r5)     // Catch: java.lang.Exception -> L5f
-        L4d:
-            en r5 = new en     // Catch: java.lang.Exception -> L5f
-            r5.<init>(r4, r3)     // Catch: java.lang.Exception -> L5f
-            r10.add(r5)     // Catch: java.lang.Exception -> L5f
-            int r2 = r2 + 1
-            boolean r3 = r1.moveToNext()     // Catch: java.lang.Exception -> L5f
-            if (r3 != 0) goto L2b
-            goto L5f
-        L5e:
-            r2 = r0
-        L5f:
-            c3 r1 = r9.m6222J0()
-            r1.m9296T(r10)
-            r10 = 2131559026(0x7f0d0272, float:1.8743384E38)
-            java.lang.String r10 = r9.getString(r10)
-            java.lang.Integer r1 = java.lang.Integer.valueOf(r2)
-            java.lang.Object[] r1 = new java.lang.Object[]{r1}
-            java.lang.String r10 = java.lang.String.format(r10, r1)
-            android.widget.Toast r10 = android.widget.Toast.makeText(r9, r10, r0)
-            r10.show()
-            com.mmbox.xbrowser.BrowserActivityDelegate r10 = r9.m6218I0()
-            r10.mo6428g0()
-            return
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.mmbox.xbrowser.BrowserActivity.m6209G(java.lang.String):void");
+    public void loadBookmarks(String parent) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        ArrayList<WebPage> bookmarkList = new ArrayList<>();
+        int bookmarkCount = 0;
+
+        try {
+            db = MySQLiteOpenHelper.getInstance().getReadableDatabase();
+            String[] selectionArgs = {parent, "0"};
+
+            // Query for bookmarks with the given parent and status >= 0, ordered by item_order ASC
+            cursor = db.query("bookmark", DatabaseColumns.BOOKMARK,
+                    "parent= ? AND status>= ?",
+                    selectionArgs, null, null, "item_order ASC");
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    @SuppressLint("Range") String url = cursor.getString(cursor.getColumnIndex("url"));
+                    @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex("title"));
+
+                    // Process the URL if it contains "_tab-id_"
+                    int tabIndex = url.indexOf("_tab-id_");
+                    if (tabIndex > 0) {
+                        url = url.substring(0, tabIndex - 1); // Trim the URL before the "_tab-id_"
+                    }
+
+                    bookmarkList.add(new WebPage(title, url));
+                    bookmarkCount++;
+                } while (cursor.moveToNext());
+            }
+
+            // Pass the list of bookmarks to the next method
+            getTabManager().m9296T(bookmarkList);
+
+            // Show a toast with the number of bookmarks (tabs) found
+            Toast.makeText(this, String.format(getString(R.string.toast_open_tab_count), bookmarkCount), Toast.LENGTH_SHORT).show();
+            getActivityDelegate().mo6428g0();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Ensure cursor and database are closed properly to avoid memory leaks
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null) {
+                db.close();
+            }
+        }
     }
 
-    public AbsBrowserController m6210G0() {
-        return (AbsBrowserController) m6222J0().m9316y();
+    public AbsBrowserController getBrowserController() {
+        return (AbsBrowserController) getTabManager().m9316y();
     }
 
-    public final void m6211G1(boolean z) {
-        SharedPreferencesHelper.getInstance().normalExit = z;
-        SharedPreferencesHelper.getInstance().putBoolean("normal_exit", z);
+    public final void setNormalExit(boolean enabled) {
+        SharedPreferencesHelper.getInstance().normalExit = enabled;
+        SharedPreferencesHelper.getInstance().putBoolean("normal_exit", enabled);
     }
 
     public final void m6212G2() {
         try {
             SystemUiCompat.setDecorFitsSystemWindows(getWindow(), false);
-            View viewFindViewById = findViewById(android.R.id.content);
-            if (viewFindViewById != null) {
-                AbstractC0448Jo.m2095x(viewFindViewById, new InterfaceC0625Nh() {
+            View layoutContent = findViewById(android.R.id.content);
+            if (layoutContent != null) {
+                AbstractC0448Jo.m2095x(layoutContent, new InterfaceC0625Nh() {
                     @Override
                     public final C1045Wo mo3322a(View view, C1045Wo c1045Wo) {
-                        return this.f3302a.m6370w1(view, c1045Wo);
+                        return m6370w1(view, c1045Wo);
                     }
                 });
             }
-            m6317g0();
+            updateSystemUI();
         } catch (Exception unused) {
-            m6216H2();
+            updateContentLayoutPadding();
         }
     }
 
+    @SuppressLint("Range")
     public void m6213H(String str) {
         SQLiteDatabase readableDatabase = MySQLiteOpenHelper.getInstance().getReadableDatabase();
         String[] strArr = {str, "0"};
-        ArrayList arrayList = new ArrayList<>();
+        ArrayList<WebPage> pages = new ArrayList<>();
         try {
             Cursor cursorQuery = readableDatabase.query("quick_access", DatabaseColumns.QUICK_ACCESS, "parent= ? AND status>= ?", strArr, null, null, "item_order ASC");
             if (cursorQuery != null && cursorQuery.moveToFirst()) {
                 do {
-                    arrayList.add(new C1697en(cursorQuery.getString(cursorQuery.getColumnIndex("title")), cursorQuery.getString(cursorQuery.getColumnIndex("url"))));
+                    pages.add(new WebPage(cursorQuery.getString(cursorQuery.getColumnIndex("title")), cursorQuery.getString(cursorQuery.getColumnIndex("url"))));
                 } while (cursorQuery.moveToNext());
             }
         } catch (Exception unused) {
         }
-        m6222J0().m9296T(arrayList);
-        Toast.makeText(this, String.format(getString(R.string.toast_open_tab_count), Integer.valueOf(arrayList.size())), Toast.LENGTH_SHORT).show();
-        m6218I0().mo6428g0();
+        getTabManager().m9296T(pages);
+        Toast.makeText(this, String.format(getString(R.string.toast_open_tab_count), pages.size()), Toast.LENGTH_SHORT).show();
+        getActivityDelegate().mo6428g0();
     }
 
-    public String m6214H0(String str, String str2) {
-        if (!str.startsWith("blob")) {
+    public String createBlobRequestUrl(String blobUrl, String contentType) {
+        if (!blobUrl.startsWith("blob")) {
             return "javascript: console.log('It is not a Blob URL');";
         }
-        return "var xhr = new XMLHttpRequest();xhr.open('GET', '" + str + "', true);xhr.setRequestHeader('Content-type','" + str2 + "');xhr.responseType = 'blob';xhr.onload = function(e) {    if (this.status == 200) {        var blobPdf = this.response;        var reader = new FileReader();        reader.readAsDataURL(blobPdf);        reader.onloadend = function() {            base64data = reader.result;            mbrowser.getBase64FromBlobData(base64data,'" + str2 + "');        }    }};xhr.send();";
+
+        return buildBlobRequestScript(blobUrl, contentType);
     }
 
-    public void m6215H1(int i, String str, String str2) {
+    private String buildBlobRequestScript(String blobUrl, String contentType) {
+        return "var xhr = new XMLHttpRequest();" +
+                "xhr.open('GET', '" + blobUrl + "', true);" +
+                "xhr.setRequestHeader('Content-type', '" + contentType + "');" +
+                "xhr.responseType = 'blob';" +
+                "xhr.onload = function(e) { " +
+                "if (this.status == 200) { " +
+                "var blobPdf = this.response;" +
+                "var reader = new FileReader();" +
+                "reader.readAsDataURL(blobPdf);" +
+                "reader.onloadend = function() { " +
+                "base64data = reader.result;" +
+                "mbrowser.getBase64FromBlobData(base64data, '" + contentType + "');" +
+                "};" +
+                "}" +
+                "};" +
+                "xhr.send();";
+    }
+
+    public void m6215H1(int i, String url, String path) {
         C1199a3 c1199a3M5090f;
         String str3;
         String str4;
-        Cursor cursorQuery = MySQLiteOpenHelper.getInstance().getWritableDatabase().query("bookmark", DatabaseColumns.BOOKMARK, "url= ?", new String[]{str}, null, null, null);
-        String strM8714v = AndroidSystemUtils.prefixWithMd5(str);
+        Cursor cursorQuery = MySQLiteOpenHelper.getInstance().getWritableDatabase().query("bookmark", DatabaseColumns.BOOKMARK, "url= ?", new String[]{url}, null, null, null);
+        String id = AndroidSystemUtils.prefixWithMd5(url);
         if (cursorQuery != null) {
             try {
                 if (cursorQuery.moveToFirst()) {
                     cursorQuery.getLong(cursorQuery.getColumnIndexOrThrow("_id"));
-                    if (cursorQuery.getString(cursorQuery.getColumnIndexOrThrow("parent")).equals(str2)) {
-                        c1199a3M5090f = C1199a3.m5090f();
+                    if (cursorQuery.getString(cursorQuery.getColumnIndexOrThrow("parent")).equals(path)) {
+                        c1199a3M5090f = C1199a3.getInstance();
                         str3 = "cut_bookmark_item";
                     } else {
-                        int i2 = cursorQuery.getInt(cursorQuery.getColumnIndexOrThrow("type"));
-                        String string = cursorQuery.getString(cursorQuery.getColumnIndexOrThrow("title"));
-                        if (str.startsWith("/")) {
-                            if (str2.endsWith("/")) {
-                                str4 = str2 + string;
+                        int type = cursorQuery.getInt(cursorQuery.getColumnIndexOrThrow("type"));
+                        String title = cursorQuery.getString(cursorQuery.getColumnIndexOrThrow("title"));
+                        if (url.startsWith("/")) {
+                            if (path.endsWith("/")) {
+                                str4 = path + title;
                             } else {
-                                str4 = str2 + "/" + string;
+                                str4 = path + "/" + title;
                             }
-                            m6303c3(str, str4, string, str2);
+                            updateBookmark(url, str4, title, path);
                         } else {
-                            m6303c3(str, str, string, str2);
+                            updateBookmark(url, url, title, path);
                         }
                         if (i == 0) {
-                            JSONObject jSONObject = new JSONObject();
-                            jSONObject.put("transId", "paste_bookmark_item");
-                            JSONObject jSONObject2 = new JSONObject();
-                            jSONObject2.put("id", strM8714v);
-                            jSONObject2.put("title", string);
-                            jSONObject2.put("url", str);
-                            jSONObject2.put("type", i2);
-                            jSONObject2.put("path", str2);
-                            jSONObject2.put("icon_uri", C0896Td.m4137c().m4138a(str));
-                            jSONObject.put("item", jSONObject2);
-                            C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+                            JSONObject bookmarkItem = new JSONObject();
+                            bookmarkItem.put("transId", "paste_bookmark_item");
+
+                            JSONObject jsonItem = new JSONObject();
+                            jsonItem.put("id", id);
+                            jsonItem.put("title", title);
+                            jsonItem.put("url", url);
+                            jsonItem.put("type", type);
+                            jsonItem.put("path", path);
+                            jsonItem.put("icon_uri", C0896Td.m4137c().getIconUri(url));
+
+                            bookmarkItem.put("item", jsonItem);
+                            C1199a3.getInstance().m5094e("event_app_to_page", bookmarkItem);
                             return;
+                        } else {
+                            c1199a3M5090f = C1199a3.getInstance();
+                            str3 = "paste_to_this_folder";
                         }
-                        c1199a3M5090f = C1199a3.m5090f();
-                        str3 = "paste_to_this_folder";
                     }
-                    c1199a3M5090f.m5098j(str3, "id", strM8714v);
+                    c1199a3M5090f.m5098j(str3, "id", id);
                 }
             } catch (Exception unused) {
             }
         }
     }
 
-    public void m6216H2() {
-        View viewFindViewById = findViewById(R.id.top_content);
-        View viewFindViewById2 = findViewById(R.id.main_content);
-        View viewFindViewById3 = findViewById(R.id.bottom_content);
-        if (viewFindViewById == null || viewFindViewById2 == null || viewFindViewById3 == null) {
+    public void updateContentLayoutPadding() {
+        View layoutTopContent = findViewById(R.id.top_content);
+        View layoutMainContent = findViewById(R.id.main_content);
+        View layoutBottomContent = findViewById(R.id.bottom_content);
+        if (layoutTopContent == null || layoutMainContent == null || layoutBottomContent == null) {
             return;
         }
-        int iM5583G = PhoneUtils.getInstance().getStatusBarHeight();
+        int statusBarHeight = PhoneUtils.getInstance().getStatusBarHeight();
         PhoneUtils.getInstance().getNavigationBarHeight();
-        if (this.f4264k == 1) {
-            viewFindViewById2.setPadding(0, iM5583G, 0, 0);
+        if (this.uiLayoutMode == 1) {
+            layoutMainContent.setPadding(0, statusBarHeight, 0, 0);
             return;
         }
         if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 4097) == 4097) {
             if (SharedPreferencesHelper.getInstance().browserFullscreenMode) {
-                viewFindViewById.setPadding(0, 0, 0, 0);
+                layoutTopContent.setPadding(0, 0, 0, 0);
             } else {
-                viewFindViewById.setPadding(0, iM5583G, 0, 0);
+                layoutTopContent.setPadding(0, statusBarHeight, 0, 0);
+            }
+        } else if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 4098) == 4098) {
+            if (!SharedPreferencesHelper.getInstance().browserFullscreenMode) {
+                layoutMainContent.setPadding(0, statusBarHeight, 0, 0);
+                return;
             }
         } else {
-            if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 4098) != 4098) {
-                return;
-            }
-            if (!SharedPreferencesHelper.getInstance().browserFullscreenMode) {
-                viewFindViewById2.setPadding(0, iM5583G, 0, 0);
-                return;
-            }
+            return;
         }
-        viewFindViewById2.setPadding(0, 0, 0, 0);
+        layoutMainContent.setPadding(0, 0, 0, 0);
     }
 
-    public boolean m6217I() {
-        return this.f4276w.m9308p() && this.f4264k == 0;
-    }
-
-    public BrowserActivityDelegate m6218I0() {
-        return this.f4275v;
+    public BrowserActivityDelegate getActivityDelegate() {
+        return this.activityDelegate;
     }
 
     public void m6219I1(NetworkInfo.State state) {
-        if (state != NetworkInfo.State.CONNECTED) {
-            if (state == NetworkInfo.State.DISCONNECTED) {
-                BrowserDownloadManager.m6674q().m6707x();
-                return;
-            }
-            return;
-        }
-        getHandler().postDelayed(new TrafficStrategyInitRunnable(), 200L);
-        int iM9280D = m6222J0().m9280D();
-        for (int i = 0; i < iM9280D; i++) {
-            ArrayList arrayListM9279C = m6222J0().m9279C(i);
-            for (int i2 = 0; i2 < arrayListM9279C.size(); i2++) {
-                InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) arrayListM9279C.get(i2);
-                if (interfaceC1300b3 != null && (interfaceC1300b3 instanceof WebViewBrowserController)) {
-                    ((WebViewBrowserController) interfaceC1300b3).m6770F0().setNetworkAvailable(true);
+        if (state == NetworkInfo.State.CONNECTED) {
+            getHandler().postDelayed(() -> {
+                m6257S(SharedPreferencesHelper.getInstance().getInt("save_traffic_strategy", 0));
+                BrowserDownloadManager.getInstance().m6692h();
+            }, 200L);
+            int iM9280D = getTabManager().getTabCount();
+            for (int i = 0; i < iM9280D; i++) {
+                ArrayList arrayListM9279C = getTabManager().m9279C(i);
+                for (int i2 = 0; i2 < arrayListM9279C.size(); i2++) {
+                    InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) arrayListM9279C.get(i2);
+                    if (interfaceC1300b3 != null && (interfaceC1300b3 instanceof WebViewBrowserController)) {
+                        ((WebViewBrowserController) interfaceC1300b3).m6770F0().setNetworkAvailable(true);
+                    }
                 }
             }
+        } else if (state == NetworkInfo.State.DISCONNECTED) {
+            BrowserDownloadManager.getInstance().m6707x();
         }
     }
 
     public void m6220I2() {
-        String strMo1574c = ((InterfaceC1300b3) m6222J0().m9316y()).mo1574c();
-        String strMo1573b = ((InterfaceC1300b3) m6222J0().m9316y()).mo1573b();
-        if (strMo1573b == null || strMo1573b.startsWith("x:")) {
-            new DialogC0812Rl(this).show();
+        String subject = getTabManager().m9316y().mo1574c();
+        String body = getTabManager().m9316y().getUrlFromTitle();
+        if (body == null || body.startsWith("x:")) {
+            new TextAreaDialog(this).show();
         } else {
-            AndroidSystemUtils.m8689W(this, strMo1574c, strMo1573b, "", getResources().getString(R.string.choose_app));
+            AndroidSystemUtils.share(this, subject, body, getResources().getString(R.string.choose_app));
         }
     }
 
-    public boolean m6221J() {
-        return this.f4276w.m9309q() && this.f4264k == 0;
+    public boolean isPreviousTabValid() {
+        return this.tabManager.hasValidPreviousTab() && this.uiLayoutMode == 0;
     }
 
-    public C1346c3 m6222J0() {
-        return this.f4276w;
+    public boolean isNextTabValid() {
+        return this.tabManager.hasValidNextTab() && this.uiLayoutMode == 0;
     }
 
-    public final void m6223J1(String str) throws JSONException {
+    public TabManager getTabManager() {
+        return this.tabManager;
+    }
+
+    public final void m6223J1(String str) {
         JSONObject jSONObject = new JSONObject();
         try {
             jSONObject.put("transId", "delete_bookmark_item");
             jSONObject.put("id", str);
         } catch (Exception unused) {
         }
-        C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+        C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
     }
 
     public final void m6224J2(String str) {
-        m6218I0().m6394C().m1440w(str);
+        getActivityDelegate().m6394C().m1440w(str);
     }
 
     public void m6225K() {
@@ -1847,11 +1357,24 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public int m6226K0() {
-        return this.f4269p;
+        return this.unusedIntField;
     }
 
-    public void m6227K1(String str) {
-        MessageBoxManager.getInstance().showMessageWithDescription(getActivity().getBrowserFrameLayout(), getActivity().getString(R.string.message_download_finished), getActivity().getString(R.string.btn_text_open), new DownloadDeleteListener(str), false);
+    public void m6227K1(String downloadPath) {
+        MessageBoxManager.getInstance().showMessageWithDescription(getActivity().getBrowserFrameLayout(), getActivity().getString(R.string.message_download_finished), getActivity().getString(R.string.btn_text_open), new MessageBoxBase.MessageBoxListener() {
+            @Override
+            public void onShown() {
+                BrowserDownloadManager.getInstance().m6709z(downloadPath);
+            }
+
+            @Override
+            public void onDismissed() {
+            }
+
+            @Override
+            public void onDismiss() {
+            }
+        }, false);
     }
 
     public void m6228K2(int i) {
@@ -1863,11 +1386,42 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public int m6230L0() {
-        return m6210G0().mo5626h();
+        return getBrowserController().mo5626h();
     }
 
-    public void m6231L1() {
-        getHandler().postDelayed(new DarkModeNotificationRunnable(), 200L);
+    public void applyDarkMode() {
+        getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() throws Resources.NotFoundException {
+                if (SharedPreferencesHelper.getInstance().getBoolean("notify_flow_system_dark_mode", true)) {
+                    MessageBoxManager.getInstance().showMessage(
+                            BrowserActivity.getActivity().getBrowserFrameLayout(),
+                            null,
+                            getResources().getString(R.string.message_follow_dark_mode),
+                            getResources().getString(R.string.btn_text_apply),
+                            getResources().getString(R.string.btn_text_cancel),
+                            new MessageBoxBase.MessageBoxListener() {
+                                @Override
+                                public void onShown() {
+                                }
+
+                                @Override
+                                public void onDismissed() {
+                                    SharedPreferencesHelper.getInstance().followSystemDarkMode = false;
+                                    SharedPreferencesHelper.getInstance().enterNightMode = false;
+                                    m6352r0(false, true);
+                                    SharedPreferencesHelper.getInstance().putBoolean("follow-sys-dark-mode", false);
+                                }
+
+                                @Override
+                                public void onDismiss() {
+                                    SharedPreferencesHelper.getInstance().putBoolean("notify_flow_system_dark_mode", false);
+                                }
+                            },
+                            true);
+                }
+            }
+        }, 200L);
     }
 
     public void m6232L2(String str) {
@@ -1875,22 +1429,40 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6233M() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
         if (interfaceC1300b3 != null) {
             interfaceC1300b3.mo1581q();
         }
     }
 
     public String m6234M0() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
         if (interfaceC1300b3 != null) {
-            return interfaceC1300b3.mo1573b();
+            return interfaceC1300b3.getUrlFromTitle();
         }
         return null;
     }
 
-    public void m6235M1(String str) {
-        MessageBoxManager.getInstance().showMessageWithDescription(getActivity().getBrowserFrameLayout(), getActivity().getString(R.string.toast_found_bookmark_recovery_file), getActivity().getString(R.string.btn_text_restore), new BookmarkAddedListener(str), false);
+    public void recoverBookmark(String bookmarkId) {
+        MessageBoxManager.getInstance().showMessageWithDescription(getActivity().getBrowserFrameLayout(),
+                getActivity().getString(R.string.toast_found_bookmark_recovery_file),
+                getActivity().getString(R.string.btn_text_restore),
+                new MessageBoxBase.MessageBoxListener() {
+                    @Override
+                    public void onShown() {
+                        EventQueueManager.getInstance().processEvent(System.currentTimeMillis(), 22, bookmarkId, null);
+                        SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
+                    }
+
+                    @Override
+                    public void onDismissed() {
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                    }
+                },
+                false);
     }
 
     public void m6236M2(int i, long j) {
@@ -1903,61 +1475,118 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         startActivity(intent);
     }
 
-    public String m6238N0(String str) {
-        int i;
-        if (str.equals("long_press_back_btn")) {
-            i = R.string.web_str_gs_long_press_back;
-        } else if (str.equals("long_press_forward_btn")) {
-            i = R.string.web_str_gs_long_press_forward;
-        } else if (str.equals("long_press_home")) {
-            i = R.string.web_str_gs_long_press_home;
-        } else if (str.equals("long_press_multi_tab")) {
-            i = R.string.web_str_gs_long_press_tabs;
-        } else {
-            if (!str.equals("long_press_menu")) {
-                return "";
-            }
-            i = R.string.web_str_gs_long_press_menu;
+    public String getLongPressDescription(String action) {
+        int resourceId = -1;
+        switch (action) {
+            case "long_press_back_btn":
+                resourceId = R.string.web_str_gs_long_press_back;
+                break;
+            case "long_press_forward_btn":
+                resourceId = R.string.web_str_gs_long_press_forward;
+                break;
+            case "long_press_home":
+                resourceId = R.string.web_str_gs_long_press_home;
+                break;
+            case "long_press_multi_tab":
+                resourceId = R.string.web_str_gs_long_press_tabs;
+                break;
+            case "long_press_menu":
+                resourceId = R.string.web_str_gs_long_press_menu;
+                break;
         }
-        return getString(i);
+        return resourceId != -1 ? getString(resourceId) : "";
     }
 
     public void m6239N1() {
-        MessageBoxManager.getInstance().showMessageWithDescription(getActivity().getBrowserFrameLayout(), getActivity().getString(R.string.toast_found_offline_file), getActivity().getString(R.string.btn_text_view), new OfflineFilesOpenListener(), false);
+        MessageBoxManager.getInstance().showMessageWithDescription(
+                getActivity().getBrowserFrameLayout(),
+                getActivity().getString(R.string.toast_found_offline_file),
+                getActivity().getString(R.string.btn_text_view),
+                new MessageBoxBase.MessageBoxListener() {
+                    @Override
+                    public void onShown() {
+                        openUrl("x:sd?path=offlines&sort=date", true, 0);
+                    }
+
+                    @Override
+                    public void onDismissed() {
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                    }
+                },
+                false);
     }
 
     public void m6240N2(String str, long j) {
-        if (this.f4252N == 0 || System.currentTimeMillis() - this.f4252N > j) {
+        if (this.lastActionTimestamp == 0 || System.currentTimeMillis() - this.lastActionTimestamp > j) {
             runOnUiThread(new TimestampUpdateRunnable(str));
         }
     }
 
     public void m6241O(int i) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
-        if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
-            return;
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
+        if (interfaceC1300b3 instanceof WebViewBrowserController) {
+            ((WebViewBrowserController) interfaceC1300b3).m6812w0(i);
         }
-        ((WebViewBrowserController) interfaceC1300b3).m6812w0(i);
     }
 
     public Handler getHandler() {
         return this.handler;
     }
 
-    public void m6243O1(String str) {
-        MessageBoxManager.getInstance().showMessageWithDescription(getActivity().getBrowserFrameLayout(), getActivity().getString(R.string.toast_found_user_recovery_file), getActivity().getString(R.string.btn_text_restore), new UrlDeleteListener(str), false);
+    public void recoverUserData(String path) {
+        MessageBoxManager.getInstance().showMessageWithDescription(
+                getActivity().getBrowserFrameLayout(),
+                getActivity().getString(R.string.toast_found_user_recovery_file),
+                getActivity().getString(R.string.btn_text_restore),
+                new MessageBoxBase.MessageBoxListener() {
+                    @Override
+                    public void onShown() {
+                        C2439uo.getInstance().recover(path);
+                    }
+
+                    @Override
+                    public void onDismissed() {
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                    }
+                },
+                false);
     }
 
     public void m6244O2() {
-        new ViewOnClickListenerC0166Di(this).m714c(((InterfaceC1300b3) m6222J0().m9316y()).mo1574c(), ((InterfaceC1300b3) m6222J0().m9316y()).mo1573b());
+        new ViewOnClickListenerC0166Di(this).m714c(getTabManager().m9316y().mo1574c(), getTabManager().m9316y().getUrlFromTitle());
     }
 
-    public void m6245P(int i) {
-        runOnUiThread(new BrightnessAdjustmentRunnable(i));
+    public void setScreenBrightness(int brightnessValue) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                WindowManager.LayoutParams attributes = getWindow().getAttributes();
+
+                // Constants for brightness scaling
+                final float BRIGHTNESS_SCALE = 1 / 255f;
+
+                if (brightnessValue >= 0) {
+                    float adjustedBrightness = SharedPreferencesHelper.getInstance().enterNightMode
+                            ? brightnessValue * 0.5f
+                            : brightnessValue;
+                    attributes.screenBrightness = adjustedBrightness * BRIGHTNESS_SCALE;
+                } else {
+                    attributes.screenBrightness = -1.0f;  // Default system brightness
+                }
+
+                getWindow().setAttributes(attributes);
+            }
+        });
     }
 
     public int m6246P0() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return 0;
         }
@@ -1976,15 +1605,15 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         } catch (Exception e) {
             e.printStackTrace();
         }
-        C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+        C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
     }
 
     public final void m6248P2() throws Resources.NotFoundException {
         MessageBoxManager.getInstance().showToast(getActivity().getBrowserFrameLayout(), getActivity().getResources().getString(R.string.message_revert_tabls), getActivity().getResources().getString(R.string.btn_text_restore), new MessageBoxBase.MessageBoxListener() {
             @Override
             public void onShown() {
-                f4276w.m9314w();
-                f4276w.m9295S(m6278X0());
+                tabManager.m9314w();
+                tabManager.restoreUserData(m6278X0());
                 m6324h3();
             }
 
@@ -2006,12 +1635,37 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         return (ViewGroup) this.browserFrameLayout.findViewById(R.id.main_content);
     }
 
-    public void m6251Q1(String str) {
-        runOnUiThread(new ModuleLoadFailureRunnable(str));
+    public void onLoadModuleFailed(String moduleName) {
+        runOnUiThread(() -> MessageBoxManager.getInstance().showMessage(
+                BrowserActivity.getActivity().getBrowserFrameLayout(),
+                null,
+                BrowserActivity.getActivity().getResources().getString(R.string.toast_load_module_failed),
+                BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok),
+                BrowserActivity.getActivity().getResources().getString(R.string.btn_text_cancel),
+                new MessageBoxBase.MessageBoxListener() {
+                    @Override
+                    public void onShown() {
+                        Toast.makeText(BrowserActivity.this, R.string.toast_loading_module, Toast.LENGTH_LONG).show();
+                        BackgroundTaskManager.submitBackgroundTask(() -> {
+                            JSManager.getInstance().install(moduleName);
+                            evaluateJS(moduleName);
+                        });
+                    }
+
+                    @Override
+                    public void onDismissed() {
+                        SharedPreferencesHelper.getInstance().putBoolean("confirm_not_allow_sd", true);
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                    }
+                },
+                true));
     }
 
     public void m6252Q2(int i) {
-        m6256R2(getString(i));
+        showToast(getString(i));
     }
 
     public void m6253R(int i) {
@@ -2020,59 +1674,57 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public PullToRefreshHandler m6254R0() {
-        return this.f4240B;
+        return this.pullToRefreshHandler;
     }
 
-    public final void m6255R1(String str, String str2, String str3) throws JSONException {
+    public final void m6255R1(String title, String url, String path) {
         JSONObject jSONObject = new JSONObject();
         try {
             jSONObject.put("transId", "new_bookmark_item");
-            jSONObject.put("id", AndroidSystemUtils.prefixWithMd5(str2));
-            jSONObject.put("title", str);
-            jSONObject.put("url", str2);
-            jSONObject.put("type", str2.startsWith("/") ? 1 : 0);
-            jSONObject.put("path", str3);
+            jSONObject.put("id", AndroidSystemUtils.prefixWithMd5(url));
+            jSONObject.put("title", title);
+            jSONObject.put("url", url);
+            jSONObject.put("type", url.startsWith("/") ? 1 : 0);
+            jSONObject.put("path", path);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+        C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
     }
 
-    public void m6256R2(String str) {
+    public void showToast(String str) {
         runOnUiThread(new ShortToastRunnable(str));
     }
 
+    private void showToast(int messageResId) {
+        showToast(getString(messageResId));
+    }
+
     public void m6257S(int i) {
-        SharedPreferencesHelper sharedPreferencesHelperM6833I;
-        boolean zM8676J;
         if (i == 0) {
             SharedPreferencesHelper.getInstance().putBoolean("load_images", true);
-        } else {
-            if (i == 1) {
-                sharedPreferencesHelperM6833I = SharedPreferencesHelper.getInstance();
-                zM8676J = false;
-            } else if (i == 2) {
-                sharedPreferencesHelperM6833I = SharedPreferencesHelper.getInstance();
-                zM8676J = AndroidSystemUtils.isWifiConnected(this);
-            }
-            sharedPreferencesHelperM6833I.putBoolean("load_images", zM8676J);
+        } else if (i == 1) {
+            SharedPreferencesHelper.getInstance().putBoolean("load_images", false);
+        } else if (i == 2) {
+            SharedPreferencesHelper.getInstance().putBoolean("load_images", AndroidSystemUtils.isWifiConnected(this));
         }
         SharedPreferencesHelper.getInstance().putInt("save_traffic_strategy", i);
         m6280X2();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
-    public int[] m6258S0() {
-        AbsBrowserController absBrowserControllerM6210G0 = m6210G0();
-        if (!(absBrowserControllerM6210G0 instanceof WebViewBrowserController)) {
-            return WebViewBrowserController.m6731J();
+    public int[] getColors() {
+        AbsBrowserController browserController = getBrowserController();
+        if (browserController instanceof WebViewBrowserController) {
+            browserController.getUrlFromTitle();
+            return ((WebViewBrowserController) browserController).getColors();
+        } else {
+            return WebViewBrowserController.getColorsByTheme();
         }
-        absBrowserControllerM6210G0.mo1573b();
-        return ((WebViewBrowserController) absBrowserControllerM6210G0).m6769E0();
     }
 
     public void m6259S1(boolean z) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 instanceof WebViewBrowserController) {
             ((WebViewBrowserController) interfaceC1300b3).m6782R0(z);
         }
@@ -2081,67 +1733,42 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     public final void m6260S2() {
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003c  */
-    /* JADX WARN: Removed duplicated region for block: B:19:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-        To view partially-correct code enable 'Show inconsistent code' option in preferences
-    */
     public final void m6261T() {
-        /*
-            r3 = this;
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-            java.lang.String r0 = r0.m6880U()
-            java.lang.String r1 = "auto"
-            boolean r1 = r0.equals(r1)
-            r2 = 1
-            if (r1 == 0) goto L16
-            r0 = -1
-        L12:
-            r3.setRequestedOrientation(r0)
-            goto L2c
-        L16:
-            java.lang.String r1 = "portrait"
-            boolean r1 = r0.equals(r1)
-            if (r1 == 0) goto L22
-            r3.setRequestedOrientation(r2)
-            goto L2c
-        L22:
-            java.lang.String r1 = "landscape"
-            boolean r0 = r0.equals(r1)
-            if (r0 == 0) goto L2c
-            r0 = 0
-            goto L12
-        L2c:
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-            java.lang.String r0 = r0.m6928y()
-            java.lang.String r1 = "browser"
-            boolean r0 = r0.equals(r1)
-            if (r0 == 0) goto L5c
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-            int r0 = r0.m6845B()
-            r1 = 8192(0x2000, float:1.148E-41)
-            r0 = r0 & r1
-            if (r0 != r1) goto L4f
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-            r0.f4914l = r2
-        L4f:
-            com.mmbox.xbrowser.BrowserFrameLayout r0 = r3.f4278y
-            com.mmbox.xbrowser.d r1 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
-            int r1 = r1.m6845B()
-            r0.setLayoutType(r1)
-        L5c:
-            return
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.mmbox.xbrowser.BrowserActivity.m6261T():void");
+        // Get the user preference for screen orientation
+        String orientationPreference = SharedPreferencesHelper.getInstance().m6880U();
+        int orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED; // Default to "auto"
+
+        // Determine the orientation setting based on preference
+        if ("portrait".equals(orientationPreference)) {
+            orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT; // Portrait
+        } else if ("landscape".equals(orientationPreference)) {
+            orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE; // Landscape
+        }
+
+        // Apply the screen orientation
+        setRequestedOrientation(orientation);
+
+        // Check if the current mode is "browser"
+        if ("browser".equals(SharedPreferencesHelper.getInstance().m6928y())) {
+            // Check if the specific flag is set (8192)
+            if ((SharedPreferencesHelper.getInstance().getDefaultLayoutType() & 8192) == 8192) {
+                SharedPreferencesHelper.getInstance().browserFullscreenMode = true;
+            }
+
+            // Update the layout type
+            this.browserFrameLayout.setLayoutType(SharedPreferencesHelper.getInstance().getDefaultLayoutType());
+        }
     }
 
-    public ArrayList m6262T0() {
-        return this.f4239A;
+    public ArrayList getActiveControllers() {
+        return this.activeControllers;
     }
 
     public void m6263T1() {
-        runOnUiThread(new ReadModeActivationRunnable());
+        runOnUiThread(() -> {
+            Log.i("toolbar", " set state to readmode...");
+            getActivityDelegate().m6394C().m1429l(3);
+        });
     }
 
     public void m6264T2() {
@@ -2182,14 +1809,14 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6267U1() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 instanceof WebViewBrowserController) {
             ((WebViewBrowserController) interfaceC1300b3).m6788X0();
         }
     }
 
     public void m6268U2() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 != null) {
             interfaceC1300b3.mo5628j();
         }
@@ -2209,13 +1836,13 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6271V1() {
-        m6279X1("x:bm?order=" + SharedPreferencesHelper.getInstance().getString("bm_order", "default"));
+        openUrl("x:bm?order=" + SharedPreferencesHelper.getInstance().getString("bm_order", "default"));
     }
 
     public boolean m6272V2() {
         int iM6230L0 = m6230L0();
-        String strMo1573b = m6210G0().mo1573b();
-        return (SharedPreferencesHelper.getInstance().disablePullToRefreshGesture || SharedPreferencesHelper.getInstance().canVScroll || (iM6230L0 != 0 && iM6230L0 != 8) || strMo1573b.startsWith("file://") || strMo1573b.startsWith("x:") || this.f4264k != 0) ? false : true;
+        String strMo1573b = getBrowserController().getUrlFromTitle();
+        return (SharedPreferencesHelper.getInstance().disablePullToRefreshGesture || SharedPreferencesHelper.getInstance().canVScroll || (iM6230L0 != 0 && iM6230L0 != 8) || strMo1573b.startsWith("file://") || strMo1573b.startsWith("x:") || this.uiLayoutMode != 0) ? false : true;
     }
 
     public void m6273W() {
@@ -2226,7 +1853,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public String m6274W0() {
-        String strM2046a = ResourceCacheManager.getInstance().m2046a("start-page.bg", 9);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.bg", 9);
         if (FileUtils.fileExists(strM2046a)) {
             return FileUtils.readFileToString(strM2046a);
         }
@@ -2234,7 +1861,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6275W1() {
-        m6187A1("devtools");
+        evaluateJS("devtools");
     }
 
     public void m6276W2() {
@@ -2242,17 +1869,17 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         if (SharedPreferencesHelper.getInstance().enterNightMode) {
             if (SharedPreferencesHelper.getInstance().f4872O0 && SharedPreferencesHelper.getInstance().nightBrightness >= 0) {
                 i = SharedPreferencesHelper.getInstance().nightBrightness;
-                m6245P(i);
+                setScreenBrightness(i);
                 return;
             }
-            m6245P(-1);
+            setScreenBrightness(-1);
         }
         if (SharedPreferencesHelper.getInstance().f4872O0 && SharedPreferencesHelper.getInstance().defaultBrightness >= 0) {
             i = SharedPreferencesHelper.getInstance().defaultBrightness;
-            m6245P(i);
+            setScreenBrightness(i);
             return;
         }
-        m6245P(-1);
+        setScreenBrightness(-1);
     }
 
     public boolean m6277X() {
@@ -2263,18 +1890,18 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     public final SharedPreferences m6278X0() {
         SharedPreferences sharedPreferences = getSharedPreferences("tabs_recovery", 0);
-        return !TextUtils.isEmpty(sharedPreferences.getString("pref-tab-list", "")) ? sharedPreferences : SharedPreferencesHelper.getInstance().m6875R();
+        return !TextUtils.isEmpty(sharedPreferences.getString("pref-tab-list", "")) ? sharedPreferences : SharedPreferencesHelper.getInstance().getSharedPreferences();
     }
 
-    public void m6279X1(String str) {
+    public void openUrl(String str) {
         openUrl(str, true, 0);
     }
 
     public void m6280X2() {
-        if (m6222J0() != null) {
-            int iM9280D = m6222J0().m9280D();
+        if (getTabManager() != null) {
+            int iM9280D = getTabManager().getTabCount();
             for (int i = 0; i < iM9280D; i++) {
-                ArrayList arrayListM9279C = m6222J0().m9279C(i);
+                ArrayList arrayListM9279C = getTabManager().m9279C(i);
                 for (int i2 = 0; i2 < arrayListM9279C.size(); i2++) {
                     InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) arrayListM9279C.get(i2);
                     if (interfaceC1300b3 != null && (interfaceC1300b3 instanceof WebViewBrowserController)) {
@@ -2295,9 +1922,9 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public String m6282Y0(int i) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9317z(i);
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9317z(i);
         if (interfaceC1300b3 != null) {
-            return interfaceC1300b3.mo1573b();
+            return interfaceC1300b3.getUrlFromTitle();
         }
         return null;
     }
@@ -2307,9 +1934,9 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6284Y2() {
-        this.handler.removeCallbacks(this.f4253O);
-        if (this.f4245G > 0) {
-            this.handler.postDelayed(this.f4253O, 200L);
+        this.handler.removeCallbacks(this.textAutoFitRunnable);
+        if (this.textFitWidth > 0) {
+            this.handler.postDelayed(this.textAutoFitRunnable, 200L);
         }
     }
 
@@ -2317,13 +1944,16 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         return AbstractC2320s6.m9505a(this, str) == 0;
     }
 
-    public final String m6286Z0(Intent intent) {
+    public final String getUrlFromIntent(Intent intent) {
         Uri data = intent.getData();
-        return data != null ? data.toString() : intent.getStringExtra("url");
+        if (data != null) {
+            return data.toString();
+        }
+        return intent.getStringExtra("url");
     }
 
     public void m6287Z1() {
-        m6279X1("x:sd?path=offlines&sort=" + SharedPreferencesHelper.getInstance().getString("file_order", "date"));
+        openUrl("x:sd?path=offlines&sort=" + SharedPreferencesHelper.getInstance().getString("file_order", "date"));
     }
 
     public boolean m6288Z2() {
@@ -2332,7 +1962,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             m6253R(iM6845B ^ 8192);
             SharedPreferencesHelper.getInstance().browserFullscreenMode = false;
             SharedPreferencesHelper.getInstance().putBoolean("browser_fullscreen_mode", false);
-            C0848Sb.m4048n().m4049o();
+            C0848Sb.getInstance().hideFloatingButton();
             m6264T2();
         } else {
             m6322h1();
@@ -2340,20 +1970,20 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             SharedPreferencesHelper.getInstance().browserFullscreenMode = true;
             SharedPreferencesHelper.getInstance().putBoolean("browser_fullscreen_mode", true);
             if (SharedPreferencesHelper.getInstance().fullscreenWithFloatBtn) {
-                C0848Sb.m4048n().m4052r();
+                C0848Sb.getInstance().restorePosition();
             }
             if (!SharedPreferencesHelper.getInstance().fullscreenWithFloatBtn) {
-                C2363t3.m9665a().m9673i(112, false);
+                C2363t3.getInstance().m9673i(112, false);
             }
         }
         m6189B();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
         return SharedPreferencesHelper.getInstance().browserFullscreenMode;
     }
 
     @Override
     public void mo6289a(InterfaceC0345Hd interfaceC0345Hd) {
-        this.f4275v.mo6401J(interfaceC0345Hd);
+        this.activityDelegate.mo6401J(interfaceC0345Hd);
     }
 
     public void m6290a0() {
@@ -2362,11 +1992,11 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6291a1() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 != null) {
             interfaceC1300b3.mo5628j();
         }
-        this.f4276w.m9287K();
+        this.tabManager.m9287K();
         m6324h3();
     }
 
@@ -2387,11 +2017,11 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     public void m6293a3(String str) {
         if (SharedPreferencesHelper.getInstance().activeAdBlock && SharedPreferencesHelper.getInstance().showAdBlockToast) {
-            if (this.f4250L != null) {
-                getHandler().removeCallbacksAndMessages(this.f4250L);
+            if (this.lockObject != null) {
+                getHandler().removeCallbacksAndMessages(this.lockObject);
             }
             UrlValidationRunnable runnableC1455Y = new UrlValidationRunnable(str);
-            this.f4250L = runnableC1455Y;
+            this.lockObject = runnableC1455Y;
             getHandler().postDelayed(runnableC1455Y, 300L);
         }
     }
@@ -2422,37 +2052,31 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6296b1() {
-        this.f4276w.m9288L();
+        this.tabManager.m9288L();
         m6324h3();
     }
 
     public void m6297b2(String str) {
-        int i;
-        int i2;
         if (str != null) {
             if (NetworkUtils.isNonUrl(str)) {
                 m6334l0(str);
             } else {
                 m6307d2(str);
             }
-            if (str.startsWith("http")) {
-                return;
+            if (!str.startsWith("http")) {
+                AndroidSystemUtils.m8701i(this, str);
+                Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_LONG).show();
             }
-            AndroidSystemUtils.m8701i(this, str);
-            i = R.string.copied_to_clipboard;
-            i2 = 1;
         } else {
-            i = R.string.toast_unrecognised_qrcode;
-            i2 = 0;
+            Toast.makeText(this, R.string.toast_unrecognised_qrcode, Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, i, i2).show();
     }
 
     public void m6298b3() {
-        if (m6222J0() != null) {
-            int iM9280D = m6222J0().m9280D();
+        if (getTabManager() != null) {
+            int iM9280D = getTabManager().getTabCount();
             for (int i = 0; i < iM9280D; i++) {
-                Iterator it = m6222J0().m9279C(i).iterator();
+                Iterator it = getTabManager().m9279C(i).iterator();
                 while (it.hasNext()) {
                     InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) it.next();
                     if (interfaceC1300b3 instanceof WebViewBrowserController) {
@@ -2467,12 +2091,12 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     @Override
     public void mo6299c(InterfaceC0345Hd interfaceC0345Hd) {
         if (interfaceC0345Hd instanceof InterfaceC1300b3) {
-            this.f4239A.add(((InterfaceC1300b3) interfaceC0345Hd).mo1573b());
+            this.activeControllers.add(interfaceC0345Hd.getUrlFromTitle());
         }
     }
 
     public void m6300c0() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
         if (interfaceC1300b3 instanceof WebViewBrowserController) {
             ((WebViewBrowserController) interfaceC1300b3).m6770F0().clearCache(false);
         }
@@ -2482,150 +2106,77 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         SharedPreferencesHelper.getInstance().goodForEyeColor = i;
         SharedPreferencesHelper.getInstance().putInt("good_for_eye_color", i);
         m6298b3();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
-    public void m6302c2() {
-        String strMo1573b = ((InterfaceC1300b3) m6222J0().m9316y()).mo1573b();
-        if (!strMo1573b.startsWith("http")) {
+    public void openSiteFromCurrentTab() {
+        // Get the URL from the current tab's title
+        String url = getTabManager().m9316y().getUrlFromTitle();
+
+        // Check if the URL starts with "http", if not show a toast and return
+        if (!url.startsWith("http")) {
             Toast.makeText(this, R.string.toast_not_support_this_operation, Toast.LENGTH_SHORT).show();
             return;
         }
-        String host = Uri.parse(strMo1573b).getHost();
-        openUrl("x:site?host=" + host + "&top_domain=" + NetworkUtils.getFileExtension(host), true, 0);
+
+        // Extract the host from the URL using Uri.parse
+        String host = Uri.parse(url).getHost();
+
+        // Build the site URL for further processing
+        String siteUrl = "x:site?host=" + host + "&top_domain=" + NetworkUtils.getDomain(host);
+
+        // Open the constructed URL
+        openUrl(siteUrl, true, 0);
     }
 
-    public void m6303c3(String str, String str2, String str3, String str4) throws Throwable {
-        String str5;
-        Cursor cursor;
-        C1089Xm c1089XmM4819i;
-        String str6;
-        long j;
-        String string;
-        ContentValues contentValues;
-        StringBuilder sb;
-        SQLiteDatabase writableDatabase = MySQLiteOpenHelper.getInstance().getWritableDatabase();
-        String[] strArr = DatabaseColumns.BOOKMARK;
-        Cursor cursorQuery = writableDatabase.query("bookmark", strArr, "url= ?", new String[]{str}, null, null, null);
-        if (cursorQuery != null) {
-            try {
-                if (cursorQuery.moveToFirst()) {
-                    try {
-                        j = cursorQuery.getLong(cursorQuery.getColumnIndexOrThrow("_id"));
-                        cursorQuery.getInt(cursorQuery.getColumnIndexOrThrow("type"));
-                        string = cursorQuery.getString(cursorQuery.getColumnIndexOrThrow("parent"));
-                        contentValues = new ContentValues();
-                        contentValues.put("url", str2);
-                        contentValues.put("title", str3);
-                        contentValues.put("parent", str4);
-                        try {
-                            contentValues.put("last_visit", Long.valueOf(System.currentTimeMillis()));
-                            sb = new StringBuilder();
-                            str6 = "syncable_bookmark";
-                        } catch (Exception e) {
-                            e = e;
-                            str6 = "syncable_bookmark";
-                        } catch (Throwable th) {
-                            th = th;
-                            str6 = "syncable_bookmark";
-                        }
-                    } catch (Exception e2) {
-                        e = e2;
-                        str6 = "syncable_bookmark";
-                        cursor = cursorQuery;
-                    } catch (Throwable th2) {
-                        th = th2;
-                        str6 = "syncable_bookmark";
-                        cursor = cursorQuery;
-                    }
-                    try {
-                        sb.append("_id=");
-                        sb.append(j);
-                        writableDatabase.update("bookmark", contentValues, sb.toString(), null);
-                        string.equals(str4);
-                        m6247P1(str3, str, str2, str4);
-                        if (str.startsWith("/")) {
-                            cursor = cursorQuery;
-                            try {
-                                Cursor cursorQuery2 = writableDatabase.query("bookmark", strArr, "parent= ?", new String[]{str}, null, null, null);
-                                if (cursorQuery2 != null) {
-                                    try {
-                                        if (cursorQuery2.moveToFirst()) {
-                                            do {
-                                                String string2 = cursorQuery2.getString(cursorQuery2.getColumnIndex("url"));
-                                                String string3 = cursorQuery2.getString(cursorQuery2.getColumnIndex("title"));
-                                                if (string2.startsWith("/")) {
-                                                    m6303c3(string2, str2 + "/" + string3, string3, str2);
-                                                } else {
-                                                    m6303c3(string2, string2, string3, str2);
-                                                }
-                                            } while (cursorQuery2.moveToNext());
-                                        }
-                                        cursorQuery2.close();
-                                    } catch (Throwable th3) {
-                                        cursorQuery2.close();
-                                        throw th3;
-                                    }
-                                }
-                            } catch (Exception e3) {
-                                e = e3;
-                                str5 = str6;
-                                try {
-                                    Toast.makeText(this, R.string.toast_bookmark_exist, Toast.LENGTH_SHORT).show();
-                                    e.printStackTrace();
-                                    cursor.close();
-                                    c1089XmM4819i = C1089Xm.getInstance();
-                                    c1089XmM4819i.m4822j(str5).incrementVersion();
-                                } catch (Throwable th4) {
-                                    th = th4;
-                                    cursor.close();
-                                    C1089Xm.getInstance().m4822j(str5).incrementVersion();
-                                    throw th;
-                                }
-                            } catch (Throwable th5) {
-                                th = th5;
-                                str5 = str6;
-                                cursor.close();
-                                C1089Xm.getInstance().m4822j(str5).incrementVersion();
-                                throw th;
-                            }
-                        } else {
-                            cursor = cursorQuery;
-                        }
-                    } catch (Exception e4) {
-                        e = e4;
-                        cursor = cursorQuery;
-                        str5 = str6;
-                        Toast.makeText(this, R.string.toast_bookmark_exist, Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                        cursor.close();
-                        c1089XmM4819i = C1089Xm.getInstance();
-                        c1089XmM4819i.m4822j(str5).incrementVersion();
-                    } catch (Throwable th6) {
-                        th = th6;
-                        cursor = cursorQuery;
-                        str5 = str6;
-                        cursor.close();
-                        C1089Xm.getInstance().m4822j(str5).incrementVersion();
-                        throw th;
-                    }
-                } else {
-                    str6 = "syncable_bookmark";
-                    cursor = cursorQuery;
-                }
+    public void updateBookmark(String oldUrl, String newUrl, String newTitle, String parentUrl) {
+        SQLiteDatabase db = MySQLiteOpenHelper.getInstance().getWritableDatabase();
+        String[] columns = DatabaseColumns.BOOKMARK;
+
+        try (Cursor cursor = db.query("bookmark", columns, "url= ?", new String[]{oldUrl}, null, null, null)) {
+            if (!cursor.moveToFirst()) {
+                // Handle case when bookmark is not found
                 cursor.close();
-                c1089XmM4819i = C1089Xm.getInstance();
-                str5 = str6;
-            } catch (Exception e5) {
-                e = e5;
-                str5 = "syncable_bookmark";
-                cursor = cursorQuery;
-            } catch (Throwable th7) {
-                th = th7;
-                str5 = "syncable_bookmark";
-                cursor = cursorQuery;
+                SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
+                return;
             }
-            c1089XmM4819i.m4822j(str5).incrementVersion();
+
+            long bookmarkId = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
+            cursor.getInt(cursor.getColumnIndexOrThrow("type"));
+            String parent = cursor.getString(cursor.getColumnIndexOrThrow("parent"));
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("url", newUrl);
+            contentValues.put("title", newTitle);
+            contentValues.put("parent", parentUrl);
+            contentValues.put("last_visit", System.currentTimeMillis());
+
+            String whereClause = "_id=?";
+            String[] whereArgs = new String[]{String.valueOf(bookmarkId)};
+            db.update("bookmark", contentValues, whereClause, whereArgs);
+
+            parent.equals(parentUrl); // Comparison to avoid unnecessary operations
+            m6247P1(newTitle, oldUrl, newUrl, parentUrl);
+
+            if (oldUrl.startsWith("/")) {
+                try (Cursor childCursor = db.query("bookmark", columns, "parent= ?", new String[]{oldUrl}, null, null, null)) {
+                    while (childCursor.moveToNext()) {
+                        @SuppressLint("Range") String childUrl = childCursor.getString(childCursor.getColumnIndex("url"));
+                        @SuppressLint("Range") String childTitle = childCursor.getString(childCursor.getColumnIndex("title"));
+
+                        if (childUrl.startsWith("/")) {
+                            updateBookmark(childUrl, newUrl + "/" + childTitle, childTitle, newUrl);
+                        } else {
+                            updateBookmark(childUrl, childUrl, childTitle, newUrl);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e("updateBookmark", "Error updating bookmark", e);
+            Toast.makeText(this, R.string.toast_bookmark_exist, Toast.LENGTH_SHORT).show();
+        } finally {
+            SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
         }
     }
 
@@ -2633,13 +2184,16 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     public void mo6304d() {
     }
 
-    public void m6305d0() {
-        FileUtils.deleteFile(ResourceCacheManager.getInstance().m2046a("page.immerse.colors", 1));
-        this.f4244F = null;
+    public void clearImmersePageCache() {
+        // Delete the cached immerse colors file from the resource cache
+        FileUtils.deleteFile(ResourceCacheManager.getInstance().getUrlOrFilePath("page.immerse.colors", 1));
+
+        // Clear the screen dimensions data
+        this.screenDimensions = null;
     }
 
-    public final boolean m6306d1(Intent intent) throws IOException {
-        String strM6286Z0 = m6286Z0(intent);
+    public final boolean m6306d1(Intent intent) {
+        String strM6286Z0 = getUrlFromIntent(intent);
         String action = intent.getAction();
         String type = intent.getType();
         int intExtra = intent.getIntExtra("browser_mode", 0);
@@ -2659,7 +2213,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 String strM6333k2 = m6333k2(Uri.parse(strM6286Z0), true);
                 openUrl(strM6286Z0, true, intExtra);
                 if (FileUtils.doesFirstLineStartWith(strM6333k2, "<!DOCTYPE NETSCAPE-Bookmark-file-1>")) {
-                    m6235M1("file://" + strM6333k2);
+                    recoverBookmark("file://" + strM6333k2);
                 }
             }
             if (strM6286Z0.equals("http://www.xbext.com/?source=set-default-browser") && !AndroidSystemUtils.isDefaultBrowser(this)) {
@@ -2679,7 +2233,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                     m6307d2(uri.toString());
                     String strM6333k22 = m6333k2(uri, true);
                     if (FileUtils.doesFirstLineStartWith(strM6333k22, "<!DOCTYPE NETSCAPE-Bookmark-file-1>")) {
-                        m6235M1("file://" + strM6333k22);
+                        recoverBookmark("file://" + strM6333k22);
                     } else {
                         m6307d2("file://" + m6333k2(uri, false));
                         m6239N1();
@@ -2701,9 +2255,9 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 File file = new File(str);
                 AndroidSystemUtils.copyUriToFile(this, uri2, file);
                 if (FileUtils.isZipFile(file)) {
-                    m6243O1(str);
+                    recoverUserData(str);
                 } else if (FileUtils.doesFirstLineStartWith(str, "// ==UserScript==")) {
-                    C2061mf.m8471f0().m8565z0(str);
+                    JSManager.getInstance().m8565z0(str);
                 } else {
                     if (!str.endsWith(".mht")) {
                         Toast.makeText(this, "Unrecognised file format", Toast.LENGTH_LONG).show();
@@ -2718,7 +2272,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6307d2(String str) {
-        m6311e2(str, null, m6222J0().m9316y() != null ? ((InterfaceC1300b3) m6222J0().m9316y()).mo5626h() : 0, SharedPreferencesHelper.getInstance().supportSuperCache);
+        m6311e2(str, null, getTabManager().m9316y() != null ? ((InterfaceC1300b3) getTabManager().m9316y()).mo5626h() : 0, SharedPreferencesHelper.getInstance().supportSuperCache);
     }
 
     public void m6308d3() {
@@ -2728,8 +2282,8 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     @Override
     public boolean dispatchKeyEvent(KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
-        if (keyCode == 4 && keyEvent.isLongPress() && m6217I()) {
-            m6218I0().mo6411T();
+        if (keyCode == 4 && keyEvent.isLongPress() && isPreviousTabValid()) {
+            getActivityDelegate().mo6411T();
             return true;
         }
         if (!m6362u1()) {
@@ -2744,26 +2298,26 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (this.f4266m) {
+        if (this.hasWindowFocus) {
             return true;
         }
         return super.dispatchTouchEvent(motionEvent);
     }
 
     public void m6309e0() {
-        FileUtils.deleteFile(ResourceCacheManager.getInstance().m2046a("start-page.bg", 9));
+        FileUtils.deleteFile(ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.bg", 9));
     }
 
-    public final void m6310e1(C2337se c2337se, C2337se c2337se2) {
+    public final void m6310e1(Insets insets, Insets insets2) {
         WebView webViewM6770F0;
         ViewGroup.MarginLayoutParams marginLayoutParams;
-        if (m6222J0() != null) {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
+        if (getTabManager() != null) {
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
             if (!(interfaceC1300b3 instanceof WebViewBrowserController) || (webViewM6770F0 = ((WebViewBrowserController) interfaceC1300b3).m6770F0()) == null || (marginLayoutParams = (ViewGroup.MarginLayoutParams) webViewM6770F0.getLayoutParams()) == null) {
                 return;
             }
-            marginLayoutParams.leftMargin = Math.max(c2337se.f7065a, c2337se2.f7065a);
-            marginLayoutParams.rightMargin = Math.max(c2337se.f7067c, c2337se2.f7067c);
+            marginLayoutParams.leftMargin = Math.max(insets.f7065a, insets2.f7065a);
+            marginLayoutParams.rightMargin = Math.max(insets.f7067c, insets2.f7067c);
             webViewM6770F0.setLayoutParams(marginLayoutParams);
         }
     }
@@ -2772,15 +2326,15 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         if (TextUtils.isEmpty(str)) {
             return;
         }
-        InterfaceC1300b3 interfaceC1300b32 = interfaceC1300b3 == null ? (InterfaceC1300b3) this.f4276w.m9316y() : interfaceC1300b3;
+        InterfaceC1300b3 interfaceC1300b32 = interfaceC1300b3 == null ? (InterfaceC1300b3) this.tabManager.m9316y() : interfaceC1300b3;
         if (interfaceC1300b3 == null || z) {
-            InterfaceC1300b3 interfaceC1300b3M7293a = this.f4277x.m7293a(str);
+            InterfaceC1300b3 interfaceC1300b3M7293a = this.menuController.m7293a(str);
             if (interfaceC1300b3M7293a != null) {
                 interfaceC1300b3M7293a.mo5622C(i);
                 interfaceC1300b3M7293a.mo1579m(str);
-                this.f4276w.m9305m(interfaceC1300b3M7293a);
+                this.tabManager.m9305m(interfaceC1300b3M7293a);
                 if (interfaceC1300b32 != null) {
-                    interfaceC1300b3M7293a.mo1572D(interfaceC1300b32.mo1573b());
+                    interfaceC1300b3M7293a.mo1572D(interfaceC1300b32.getUrlFromTitle());
                 }
                 interfaceC1300b3M7293a.mo5623E(str);
                 return;
@@ -2794,11 +2348,11 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 interfaceC1300b32.mo5623E(str);
                 return;
             }
-            int iM9284H = this.f4276w.m9284H(interfaceC1300b32);
-            InterfaceC1300b3 interfaceC1300b3M7293a2 = this.f4277x.m7293a(str);
+            int iM9284H = this.tabManager.m9284H(interfaceC1300b32);
+            InterfaceC1300b3 interfaceC1300b3M7293a2 = this.menuController.m7293a(str);
             if (interfaceC1300b3M7293a2 != null) {
                 interfaceC1300b3M7293a2.mo5622C(i);
-                this.f4276w.m9306n(interfaceC1300b3M7293a2, iM9284H);
+                this.tabManager.m9306n(interfaceC1300b3M7293a2, iM9284H);
                 interfaceC1300b3M7293a2.mo5623E(str);
                 return;
             } else {
@@ -2817,17 +2371,17 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public boolean m6314f1() {
-        return FileUtils.fileExists(ResourceCacheManager.getInstance().m2046a("start-page.bg", 9));
+        return FileUtils.fileExists(ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.bg", 9));
     }
 
     public void m6315f2(String str, boolean z) {
-        m6311e2(str, null, m6222J0().m9316y() != null ? ((InterfaceC1300b3) m6222J0().m9316y()).mo5626h() : 0, z);
+        m6311e2(str, null, getTabManager().m9316y() != null ? ((InterfaceC1300b3) getTabManager().m9316y()).mo5626h() : 0, z);
     }
 
     public void m6316f3(String str, String str2, String str3) {
         SQLiteDatabase writableDatabase = MySQLiteOpenHelper.getInstance().getWritableDatabase();
         if (!MySQLiteOpenHelper.getInstance().m7543y0(writableDatabase, str)) {
-            m6380z(str, str2, str3, 0);
+            addQuickAccessItem(str, str2, str3, 0);
             return;
         }
         String[] strArr = {str};
@@ -2845,7 +2399,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         sb.append("','");
         sb.append(str2);
         sb.append("')");
-        m6361u0(sb.toString());
+        updateTitle(sb.toString());
     }
 
     @Override
@@ -2870,13 +2424,21 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         Log.i("save-state", "destory xbrowser .....");
     }
 
-    public final void m6317g0() {
-        SystemUiController systemUiControllerM4436A = SystemUiCompat.create(getWindow(), getWindow().getDecorView());
-        if (systemUiControllerM4436A != null) {
-            boolean z = !SharedPreferencesHelper.getInstance().enterNightMode;
-            systemUiControllerM4436A.setLightStatusBar(z);
-            systemUiControllerM4436A.setLightNavigationBar(z);
-            systemUiControllerM4436A.setSystemBarsBehavior(2);
+    public final void updateSystemUI() {
+        // Create a SystemUiController instance using SystemUiCompat
+        SystemUiController systemUiController = SystemUiCompat.create(getWindow(), getWindow().getDecorView());
+
+        // Proceed only if the controller is not null
+        if (systemUiController != null) {
+            // Check if Night Mode is enabled and set the system UI light/dark theme accordingly
+            boolean isLightMode = !SharedPreferencesHelper.getInstance().enterNightMode;
+
+            // Set light status and navigation bars based on Night Mode setting
+            systemUiController.setLightStatusBar(isLightMode);
+            systemUiController.setLightNavigationBar(isLightMode);
+
+            // Set the system bars behavior
+            systemUiController.setSystemBarsBehavior(2);
         }
     }
 
@@ -2884,40 +2446,38 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void openUrl(String str, boolean z, int i) {
-        if (this.f4276w.m9280D() > 1024) {
+        if (this.tabManager.getTabCount() > 1024) {
             Toast.makeText(this, "open too many tabs", Toast.LENGTH_SHORT).show();
             return;
         }
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
-        InterfaceC1300b3 interfaceC1300b3M7293a = this.f4277x.m7293a(str);
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
+        InterfaceC1300b3 interfaceC1300b3M7293a = this.menuController.m7293a(str);
         if (interfaceC1300b3M7293a == null) {
             m6190B0(str);
             return;
         }
         interfaceC1300b3M7293a.mo5622C(i);
         if (interfaceC1300b3 != null && i != -1) {
-            interfaceC1300b3M7293a.mo1572D(interfaceC1300b3.mo1573b());
+            interfaceC1300b3M7293a.mo1572D(interfaceC1300b3.getUrlFromTitle());
         }
         interfaceC1300b3M7293a.mo5623E(str);
         if ((SharedPreferencesHelper.getInstance().newTabAtBottom && str.startsWith("x:")) || (SharedPreferencesHelper.getInstance().newTabAtBottom && str.startsWith("file:///android_asset/"))) {
-            this.f4276w.m9310s(interfaceC1300b3M7293a);
+            this.tabManager.m9310s(interfaceC1300b3M7293a);
         } else {
-            this.f4276w.m9312u(interfaceC1300b3M7293a, z);
+            this.tabManager.m9312u(interfaceC1300b3M7293a, z);
         }
         m6324h3();
-        if (z) {
-            return;
+        if (!z) {
+            Toast.makeText(this, R.string.toast_open_in_bg, Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, R.string.toast_open_in_bg, Toast.LENGTH_SHORT).show();
     }
 
     public void m6320g3() {
         ThemeManager.getInstance().m9479G();
-        m6218I0().m6394C().m1434q();
+        getActivityDelegate().m6394C().m1434q();
     }
 
     public void m6321h0(String str) {
-        String strM8714v;
         SQLiteDatabase writableDatabase = MySQLiteOpenHelper.getInstance().getWritableDatabase();
         Cursor cursorQuery = writableDatabase.query("bookmark", DatabaseColumns.BOOKMARK, "url= ?", new String[]{str}, null, null, null);
         if (cursorQuery != null) {
@@ -2925,22 +2485,21 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 if (cursorQuery.moveToFirst()) {
                     if (cursorQuery.getInt(cursorQuery.getColumnIndexOrThrow("type")) != 1) {
                         ContentValues contentValues = new ContentValues();
-                        contentValues.put("status", (Integer) (-1));
+                        contentValues.put("status", -1);
                         writableDatabase.update("bookmark", contentValues, "url= ?", new String[]{str});
-                        strM8714v = AndroidSystemUtils.prefixWithMd5(str);
-                    } else if (this.f4264k == 3) {
+                        m6223J1(AndroidSystemUtils.prefixWithMd5(str));
+                    } else if (this.uiLayoutMode == 3) {
                         MySQLiteOpenHelper.getInstance().deleteBookmarkRecursive(writableDatabase, str);
-                        strM8714v = AndroidSystemUtils.prefixWithMd5(str);
+                        m6223J1(AndroidSystemUtils.prefixWithMd5(str));
                     } else {
-                        new BookmarkDeleteConfirmDialog(this, writableDatabase, str).m5643d(getString(R.string.dlg_remove_dir_title), getString(R.string.dlg_remove_dir_confirm));
+                        new BookmarkDeleteConfirmDialog(this, writableDatabase, str).show(getString(R.string.dlg_remove_dir_title), getString(R.string.dlg_remove_dir_confirm));
                     }
-                    m6223J1(strM8714v);
                 }
                 cursorQuery.close();
-                C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+                SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
             } catch (Throwable th) {
                 cursorQuery.close();
-                C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+                SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
                 throw th;
             }
         }
@@ -2967,7 +2526,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 return;
             }
             Uri uriM8707o = AndroidSystemUtils.createTempFileUri(this, "image/jpeg");
-            this.f4248J = uriM8707o;
+            this.cameraPhotoUri = uriM8707o;
             if (uriM8707o != null) {
                 intent.putExtra("output", uriM8707o);
                 startActivityForResult(intent, 17);
@@ -2976,15 +2535,15 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6324h3() {
-        this.f4275v.mo6428g0();
-        this.f4275v.m6394C().m1427E();
+        this.activityDelegate.mo6428g0();
+        this.activityDelegate.m6394C().m1427E();
     }
 
     public void m6325i0(String str) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("status", (Integer) (-1));
+        contentValues.put("status", -1);
         MySQLiteOpenHelper.getInstance().getWritableDatabase().update("quick_access", contentValues, "parent= ?", new String[]{str});
-        m6328j0(str);
+        deleteQuickAccessItem(str);
     }
 
     public void m6326i1() {
@@ -2995,22 +2554,35 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6327i2() {
-        m6187A1("page_tts_v2");
+        evaluateJS("page_tts_v2");
     }
 
-    public void m6328j0(String str) {
+    public void deleteQuickAccessItem(String itemGuid) {
+        updateQuickAccessStatus(itemGuid);
+        triggerTitleUpdate(itemGuid);
+        incrementSyncVersion();
+    }
+
+    private void updateQuickAccessStatus(String itemGuid) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("status", (Integer) (-1));
-        MySQLiteOpenHelper.getInstance().getWritableDatabase().update("quick_access", contentValues, "guid= ?", new String[]{str});
-        m6361u0("nav_call_deleteItem('" + str + "')");
-        C1089Xm.getInstance().m4822j("syncable_quick_access").incrementVersion();
+        contentValues.put("status", -1);
+        MySQLiteOpenHelper.getInstance().getWritableDatabase().update("quick_access", contentValues, "guid= ?", new String[]{itemGuid});
     }
 
-    public void m6329j1() {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+    private void triggerTitleUpdate(String itemGuid) {
+        String deleteScript = "nav_call_deleteItem('" + itemGuid + "')";
+        updateTitle(deleteScript);
+    }
+
+    private void incrementSyncVersion() {
+        SyncManager.getInstance().getResourceManager("syncable_quick_access").incrementVersion();
+    }
+
+    public void openTextFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("text/*");
-        intent.addCategory("android.intent.category.OPENABLE");
-        startActivityForResult(intent, 65);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQUEST_CODE_TEXT_FILE_PICKER);
     }
 
     public final String getFilePathFromIntent(Intent intent) {
@@ -3022,65 +2594,58 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 : AndroidSystemUtils.getCachedFilePath(this, dataUri);
     }
 
-    public final void m6331k0(String str, String str2) {
-        try {
-            if (TextUtils.isEmpty(str2) || str2.startsWith("file:///")) {
-                return;
-            }
-            String strM458m = "";
-            if (!str2.startsWith("x:")) {
-                try {
-                    String host = Uri.parse(str2).getHost();
-                    if (host != null) {
-                        strM458m = NetworkUtils.getFileExtension(host);
-                    }
-                } catch (Exception unused) {
-                }
-            }
-            long jCurrentTimeMillis = System.currentTimeMillis();
-            SQLiteDatabase writableDatabase = MySQLiteOpenHelper.getInstance().getWritableDatabase();
-            writableDatabase.beginTransaction();
+    public final void logHistory(String title, String url) {
+        if (TextUtils.isEmpty(url) || url.startsWith("file:///")) {
+            return;
+        }
+
+        String domain = "";
+        if (!url.startsWith("x:")) {
             try {
-                try {
-                    writableDatabase.execSQL("UPDATE history SET visits = visits + 1, last_visit = ?, title = ?, host = ?  WHERE url = ?", new Object[]{Long.valueOf(jCurrentTimeMillis), str, strM458m, str2});
-                    if (DatabaseUtils.longForQuery(writableDatabase, "SELECT changes()", null) == 0) {
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put("title", str);
-                        contentValues.put("url", str2);
-                        contentValues.put("host", strM458m);
-                        contentValues.put("visits", (Integer) 1);
-                        contentValues.put("last_visit", Long.valueOf(jCurrentTimeMillis));
-                        writableDatabase.insert("history", null, contentValues);
-                    }
-                    writableDatabase.setTransactionSuccessful();
-                } catch (Exception e) {
-                    Log.w("xbrowser", "doLogHistoryDb failed", e);
+                String host = Uri.parse(url).getHost();
+                if (host != null) {
+                    domain = NetworkUtils.getDomain(host);
                 }
-                try {
-                    writableDatabase.endTransaction();
-                } catch (Exception unused2) {
-                }
-            } catch (Throwable th) {
-                try {
-                    writableDatabase.endTransaction();
-                } catch (Exception unused3) {
-                }
-                throw th;
+            } catch (Exception e) {
+                Log.w("xbrowser", "Failed to parse host from URL", e);
             }
-        } catch (Exception e2) {
-            Log.w("xbrowser", "logHistory outer failed", e2);
+        }
+
+        long lastVisit = System.currentTimeMillis();
+        SQLiteDatabase db = MySQLiteOpenHelper.getInstance().getWritableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put("title", title);
+            values.put("url", url);
+            values.put("host", domain);
+            values.put("visits", 1);  // Assuming the visit count should be 1 for new entries
+            values.put("last_visit", lastVisit);
+
+            // Try to update the history record
+            int rowsAffected = db.update(
+                    "history",
+                    values,
+                    "url = ?",
+                    new String[]{url}
+            );
+
+            // If no rows were affected, insert a new record
+            if (rowsAffected == 0) {
+                db.insert("history", null, values);
+            }
+
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.w("xbrowser", "Failed to log history", e);
+        } finally {
+            db.endTransaction();
         }
     }
 
-    public void m6332k1() {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-        intent.setType("text/*");
-        intent.addCategory("android.intent.category.OPENABLE");
-        startActivityForResult(intent, 84);
-    }
-
-    public final String m6333k2(Uri uri, boolean z) throws IOException {
-        String strM3803e = C0801Ra.m3798f().m3803e(uri);
+    public final String m6333k2(Uri uri, boolean z) {
+        String strM3803e = C0801Ra.getInstance().getDisplayName(uri);
         if (TextUtils.isEmpty(strM3803e)) {
             strM3803e = FileUtils.getFileName(uri.toString());
         }
@@ -3118,38 +2683,38 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     public void m6337m0(String str, boolean z) {
         String strReplace;
-        C2390tl.m9731f().m9735e(str);
+        C2390tl.getInstance().m9735e(str);
         String strM6882V = SharedPreferencesHelper.getInstance().getSearchUrl();
-        String strM5602i = PhoneUtils.getInstance().getSimOrNetworkCountryCode();
-        if (strM5602i == null) {
-            strM5602i = "";
+        String countryCode = PhoneUtils.getInstance().getSimOrNetworkCountryCode();
+        if (countryCode == null) {
+            countryCode = "";
         }
         try {
             strM6882V = strM6882V.replace("%keywords%", URLEncoder.encode(str, "utf-8"));
-            strReplace = strM6882V.replace("%country_code%", strM5602i);
+            strReplace = strM6882V.replace("%country_code%", countryCode);
         } catch (Exception e) {
             e.printStackTrace();
-            strReplace = strM6882V.replace("%keywords%", str).replace("%country_code%", strM5602i);
+            strReplace = strM6882V.replace("%keywords%", str).replace("%country_code%", countryCode);
         }
-        C1344c1.m5691d().m5698h("Search Times", "search_times");
-        C1344c1.m5691d().m5698h("Search Times By Channel", "search_times/" + PhoneUtils.getInstance().getChannelCode());
-        String host = Uri.parse(strReplace).getHost();
-        C1344c1.m5691d().m5698h("Search Times By Domain", "search_times/" + host);
+        C1344c1.getInstance().m5698h("Search Times", "search_times");
+        C1344c1.getInstance().m5698h("Search Times By Channel", "search_times/" + PhoneUtils.getInstance().getChannelCode());
+        String domain = Uri.parse(strReplace).getHost();
+        C1344c1.getInstance().m5698h("Search Times By Domain", "search_times/" + domain);
         try {
             FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-            firebaseAnalytics.m5981b(true);
+            firebaseAnalytics.setAnalyticsCollectionEnabled(true);
             Bundle bundle = new Bundle();
-            bundle.putString("domain", host);
-            bundle.putString("country_code", strM5602i);
-            firebaseAnalytics.m5980a("search_times", bundle);
-        } catch (Throwable unused) {
+            bundle.putString("domain", domain);
+            bundle.putString("country_code", countryCode);
+            firebaseAnalytics.logEvent("search_times", bundle);
+        } catch (Exception ignored) {
         }
         if (z) {
             openUrl(strReplace, true, 0);
         } else {
             m6307d2(strReplace);
         }
-        C1825ha.m7824d().m7828e(4);
+        EventQueueManager.getInstance().processEvent(4);
         if (SharedPreferencesHelper.getInstance().enterPrivateMode) {
             return;
         }
@@ -3157,21 +2722,18 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public boolean m6338m1() {
-        String strMo1573b = ((InterfaceC1300b3) m6222J0().m9316y()).mo1573b();
+        String strMo1573b = getTabManager().m9316y().getUrlFromTitle();
         return strMo1573b != null && strMo1573b.indexOf("article_list_for_xb_readmode") > 0;
     }
 
-    public void m6339m2(Handler handler) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!SharedPreferencesHelper.getInstance().acceptEula || SharedPreferencesHelper.getInstance().hideClipboardContent) {
-                        return;
-                    }
+    public void handleClipboardUrl(Handler handler) {
+        handler.postDelayed(() -> {
+            try {
+                if (SharedPreferencesHelper.getInstance().acceptEula
+                        && !SharedPreferencesHelper.getInstance().hideClipboardContent) {
                     handleClipboardUrl((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE));
-                } catch (Exception unused) {
                 }
+            } catch (Exception ignored) {
             }
         }, 500L);
     }
@@ -3186,14 +2748,14 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     public final void m6341n1() {
         this.browserFrameLayout = (BrowserFrameLayout) findViewById(R.id.main_root);
-        this.f4273t = new C0022Ac(this, this);
-        this.f4274u = new GestureDetector(this, new GestureCallback());
+        this.touchEventDispatcher = new TouchEventDispatcher(this, this);
+        this.gestureDetector = new MyGestureDetector(this, new GestureCallback());
         this.browserFrameLayout.setTouchHooker(new TouchEventHandler());
         this.browserFrameLayout.setEventListener(new FrameLayoutCallback());
         PullToRefreshHandler pullToRefreshHandler = new PullToRefreshHandler(this);
-        this.f4240B = pullToRefreshHandler;
+        this.pullToRefreshHandler = pullToRefreshHandler;
         pullToRefreshHandler.setBrowserFrameLayout(this.browserFrameLayout);
-        this.browserFrameLayout.setOverscrollRefreshHandler(this.f4240B);
+        this.browserFrameLayout.setOverscrollRefreshHandler(this.pullToRefreshHandler);
         m6189B();
         m6320g3();
         if (Build.VERSION.SDK_INT >= 35) {
@@ -3209,20 +2771,45 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6343o0(boolean z) {
-        C1199a3.m5090f().m5093d("event_app_to_page", "enter_edit_mode");
-        this.f4264k = 3;
+        C1199a3.getInstance().m5093d("event_app_to_page", "enter_edit_mode");
+        this.uiLayoutMode = 3;
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mark_toolbar_container);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -1);
         LinearLayout linearLayout2 = (LinearLayout) View.inflate(this, R.layout.toolbar_layout_bm_multi_sel, null);
-        ((Button) linearLayout2.findViewById(R.id.select_all_bm)).setOnClickListener(new ItemSelectionTrackerListener());
-        ((Button) linearLayout2.findViewById(R.id.delete_bookmarks)).setOnClickListener(new DeleteConfirmationListener());
+        ((Button) linearLayout2.findViewById(R.id.select_all_bm)).setOnClickListener(view -> C1199a3.getInstance().m5093d("event_app_to_page", "select_or_deselect_items"));
+        ((Button) linearLayout2.findViewById(R.id.delete_bookmarks)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ConfirmDialog((BrowserActivity.this)) {
+                    @Override
+                    public void onCancel() {
+                    }
+
+                    @Override
+                    public void onOK() {
+                        C1199a3.getInstance().m5093d("event_app_to_page", "delete_selected_items");
+                    }
+                }.show(getString(R.string.batch_del_title), getString(R.string.del_select_item_confrim));
+            }
+        });
         Button button = (Button) linearLayout2.findViewById(R.id.cut_bookmarks);
         if (z) {
-            button.setOnClickListener(new ItemCutListener());
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    m6373x0();
+                    C1199a3.getInstance().m5093d("event_app_to_page", "cut_selected_items");
+                }
+            });
         } else {
             button.setVisibility(View.GONE);
         }
-        ((Button) linearLayout2.findViewById(R.id.toolbar_btn_finish)).setOnClickListener(new ExitSelectionListener());
+        ((Button) linearLayout2.findViewById(R.id.toolbar_btn_finish)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m6373x0();
+            }
+        });
         linearLayout.addView(linearLayout2, layoutParams);
         getBrowserFrameLayout().m6465n();
     }
@@ -3234,7 +2821,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) f4276w.m9316y();
+                InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) tabManager.m9316y();
                 if (interfaceC1300b3 != null) {
                     interfaceC1300b3.mo5625f();
                 }
@@ -3243,193 +2830,191 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     @Override
-    public void onActivityResult(int i, int i2, Intent intent) throws Throwable {
-        String stringExtra;
-        Toast toastMakeText;
-        ValueCallback valueCallback;
-        Uri uri;
-        Uri[] uriArr;
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            if (i == 32) {
-                if (i2 == -1 && intent != null) {
-                    stringExtra = intent.getStringExtra("SCAN_RESULT");
+            if (requestCode == 32) {
+                if (resultCode == RESULT_OK && data != null) {
+                    String stringExtra = data.getStringExtra("SCAN_RESULT");
                     if (!TextUtils.isEmpty(stringExtra)) {
                         m6297b2(stringExtra);
                     }
                 }
-            } else if (i == 65) {
-                if (i2 == -1) {
+            } else if (requestCode == 65) {
+                if (resultCode == RESULT_OK) {
                     Toast.makeText(this, R.string.toast_import_bookmark, Toast.LENGTH_SHORT).show();
-                    C1825ha.m7824d().m7831h(System.currentTimeMillis(), 22, intent.getDataString(), null);
-                    C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+                    EventQueueManager.getInstance().processEvent(System.currentTimeMillis(), 22, data.getDataString(), null);
+                    SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
                 }
-            } else if (i == 84) {
-                if (i2 == -1) {
-                    String strM6330j2 = getFilePathFromIntent(intent);
+            } else if (requestCode == 84) {
+                if (resultCode == RESULT_OK) {
+                    String strM6330j2 = getFilePathFromIntent(data);
                     if (strM6330j2 != null) {
-                        C0600N1.m3257k().m3264m(strM6330j2);
+                        C0600N1.getInstance().m3264m(strM6330j2);
                     } else {
-                        toastMakeText = Toast.makeText(this, "import error", 0);
-                        toastMakeText.show();
+                        Toast.makeText(this, "import error", Toast.LENGTH_SHORT).show();
                     }
                 }
-            } else if (i == 68) {
-                if (i2 == -1) {
-                    String strM6330j22 = getFilePathFromIntent(intent);
+            } else if (requestCode == 68) {
+                if (resultCode == RESULT_OK) {
+                    String strM6330j22 = getFilePathFromIntent(data);
                     if (strM6330j22 != null) {
                         ContentDataManager.getInstance().m6634p0(strM6330j22);
                     } else {
-                        toastMakeText = Toast.makeText(this, "import error", 0);
-                        toastMakeText.show();
+                        Toast.makeText(this, "import error", Toast.LENGTH_SHORT).show();
                     }
                 }
-            } else if (i == 82) {
-                if (i2 == -1) {
-                    String strM6330j23 = getFilePathFromIntent(intent);
+            } else if (requestCode == 82) {
+                if (resultCode == RESULT_OK) {
+                    String strM6330j23 = getFilePathFromIntent(data);
                     if (strM6330j23 != null) {
-                        C2061mf.m8471f0().m8536h0(strM6330j23);
+                        JSManager.getInstance().m8536h0(strM6330j23);
                     } else {
-                        toastMakeText = Toast.makeText(this, "import error", 0);
-                        toastMakeText.show();
+                        Toast.makeText(this, "import error", Toast.LENGTH_SHORT).show();
                     }
                 }
-            } else if (i == 66) {
-                if (i2 == -1) {
-                    String strM6330j24 = getFilePathFromIntent(intent);
+            } else if (requestCode == 66) {
+                if (resultCode == RESULT_OK) {
+                    String strM6330j24 = getFilePathFromIntent(data);
                     if (TextUtils.isEmpty(strM6330j24)) {
                         C2439uo.getInstance().m10211I();
                     } else {
-                        C2439uo.getInstance().m10213K(strM6330j24);
+                        C2439uo.getInstance().recover(strM6330j24);
                     }
                 }
-            } else if (i != 69) {
-                if (i == 70) {
-                    if (i2 == -1 && intent != null) {
-                        stringExtra = intent.getStringExtra("result");
-                        AndroidSystemUtils.m8701i(this, stringExtra);
-                        m6297b2(stringExtra);
+            } else if (requestCode == 69) {
+            } else if (requestCode == 70) {
+                if (resultCode == RESULT_OK && data != null) {
+                    String stringExtra = data.getStringExtra("result");
+                    AndroidSystemUtils.m8701i(this, stringExtra);
+                    m6297b2(stringExtra);
+                }
+            } else if (requestCode == 71) {
+                if (resultCode == RESULT_OK && data != null) {
+                    String stringExtra = data.getStringExtra("SCAN_RESULT");
+                    m6297b2(stringExtra);
+                }
+            } else if (requestCode == 72) {
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String type = data.getType();
+                    Intent intent2 = new Intent("android.intent.action.VIEW");
+                    intent2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent2.setDataAndType(uri, type);
+                    startActivity(intent2);
+                }
+            } else if (requestCode == 83) {
+                if (resultCode == RESULT_OK) {
+                    String action = data.getAction();
+                    switch (action) {
+                        case "action.open_url_or_search":
+                            m6292a2(data.getStringExtra("key-or-url"));
+                            break;
+                        case "action.do_search":
+                            m6334l0(data.getStringExtra("key-or-url"));
+                            break;
+                        case "action.active_tab":
+                            m6364v(data.getStringExtra("tab-id"));
+                            break;
+                        case "action.execute_cmd":
+                            getActivityDelegate().mo6439y(data.getStringExtra("command"));
+                            break;
                     }
-                } else if (i == 71) {
-                    if (i2 == -1 && intent != null) {
-                        stringExtra = intent.getStringExtra("SCAN_RESULT");
-                        m6297b2(stringExtra);
-                    }
-                } else if (i == 72) {
-                    if (i2 == -1) {
-                        Uri data = intent.getData();
-                        String type = intent.getType();
-                        Intent intent2 = new Intent("android.intent.action.VIEW");
-                        intent2.addFlags(1);
-                        intent2.setDataAndType(data, type);
-                        startActivity(intent2);
-                    }
-                } else if (i == 83) {
-                    if (i2 == -1) {
-                        String action = intent.getAction();
-                        if (action.equals("action.open_url_or_search")) {
-                            m6292a2(intent.getStringExtra("key-or-url"));
-                        } else if (action.equals("action.do_search")) {
-                            m6334l0(intent.getStringExtra("key-or-url"));
-                        } else if (action.equals("action.active_tab")) {
-                            m6364v(intent.getStringExtra("tab-id"));
-                        } else if (action.equals("action.execute_cmd")) {
-                            m6218I0().mo6439y(intent.getStringExtra("command"));
+                }
+            } else if (requestCode == 259) {
+                if (this.pendingApkUri != null) {
+                    Intent intent3 = new Intent("android.intent.action.VIEW");
+                    intent3.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent3.setDataAndType(this.pendingApkUri, "application/vnd.android.package-archive");
+                    startActivity(intent3);
+                    this.pendingApkUri = null;
+                }
+            }
+            if (requestCode == 16) {
+                if (data != null && this.fileUploadCallback != null) {
+                    String dataString = data.getDataString();
+                    ClipData clipData = data.getClipData();
+                    Uri[] uriArr = null;
+                    if (clipData != null) {
+                        uriArr = new Uri[clipData.getItemCount()];
+                        for (int i3 = 0; i3 < clipData.getItemCount(); i3++) {
+                            uriArr[i3] = clipData.getItemAt(i3).getUri();
                         }
                     }
-                } else if (i == 259 && this.f4272s != null) {
-                    Intent intent3 = new Intent("android.intent.action.VIEW");
-                    intent3.setFlags(1);
-                    intent3.setDataAndType(this.f4272s, "application/vnd.android.package-archive");
-                    startActivity(intent3);
-                    this.f4272s = null;
-                }
-            }
-            if (i != 16 || intent == null || this.f4247I == null) {
-                if (i != 17 || (valueCallback = this.f4247I) == null) {
-                    ValueCallback valueCallback2 = this.f4247I;
-                    if (valueCallback2 != null) {
-                        valueCallback2.onReceiveValue(new Uri[0]);
-                        return;
+                    if (dataString != null) {
+                        uriArr = new Uri[]{Uri.parse(dataString)};
                     }
-                    return;
+                    this.fileUploadCallback.onReceiveValue(uriArr);
+                    fileUploadCallback = null;
                 }
-                if (i2 == -1 && (uri = this.f4248J) != null) {
-                    valueCallback.onReceiveValue(new Uri[]{uri});
-                    this.f4247I = null;
-                    this.f4248J = null;
-                    return;
+            } else if (requestCode == 17) {
+                if (fileUploadCallback != null) {
+                    if (resultCode == RESULT_OK && cameraPhotoUri != null) {
+                        fileUploadCallback.onReceiveValue(new Uri[]{cameraPhotoUri});
+                        this.fileUploadCallback = null;
+                        this.cameraPhotoUri = null;
+                    } else {
+                        fileUploadCallback.onReceiveValue(new Uri[0]);
+                    }
+                    fileUploadCallback = null;
                 }
-                valueCallback.onReceiveValue(new Uri[0]);
             } else {
-                String dataString = intent.getDataString();
-                ClipData clipData = intent.getClipData();
-                if (clipData != null) {
-                    uriArr = new Uri[clipData.getItemCount()];
-                    for (int i3 = 0; i3 < clipData.getItemCount(); i3++) {
-                        uriArr[i3] = clipData.getItemAt(i3).getUri();
-                    }
-                } else {
-                    uriArr = null;
+                if (fileUploadCallback != null) {
+                    fileUploadCallback.onReceiveValue(new Uri[0]);
+                    fileUploadCallback = null;
                 }
-                if (dataString != null) {
-                    uriArr = new Uri[]{Uri.parse(dataString)};
-                }
-                this.f4247I.onReceiveValue(uriArr);
             }
-            this.f4247I = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onConfigurationChanged(Configuration configuration) {
-        super.onConfigurationChanged(configuration);
-        int i = configuration.uiMode & 48;
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        int i = newConfig.uiMode & 48;
         if (SharedPreferencesHelper.getInstance().followSystemDarkMode && i != SharedPreferencesHelper.getInstance().f4915l0) {
             SharedPreferencesHelper.getInstance().f4915l0 = i;
             m6186A0(i);
         }
-        ((InterfaceC1300b3) m6222J0().m9316y()).onConfigurationChanged(configuration);
+        ((InterfaceC1300b3) getTabManager().m9316y()).onConfigurationChanged(newConfig);
     }
 
     @Override
-    public void onCreate(Bundle bundle) throws JSONException, Resources.NotFoundException, IOException {
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.decorView = getWindow().getDecorView();
         AndroidSystemUtils.startTiming("Browser Activity create");
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
         activity = this;
-        this.f4270q = (int) getResources().getDimension(R.dimen.swipe_slop);
+        this.systemUiVisibility = (int) getResources().getDimension(R.dimen.swipe_slop);
         if (SharedPreferencesHelper.getInstance().keepScreenOn) {
             getWindow().addFlags(128);
         }
-        C1344c1.m5691d().m5695e();
+        C1344c1.getInstance().init();
         m6344o1();
-        MenuConfigManager.getInstance().m7032o(this);
-        C0600N1.m3257k().m3265n(this);
-        C0988Vd.m4391d().m4395e(this);
+        MenuConfigManager.getInstance().init(this);
+        C0600N1.getInstance().init(this);
+        C0988Vd.getInstance().init(this);
         ThemeManager.getInstance().init(this);
-        C2363t3.m9665a().m9667c(this);
+        C2363t3.getInstance().init(this);
         ContentDataManager.getInstance().m6640r0(this);
-        C1199a3.m5090f().m5095g(this);
-        C2061mf.m8471f0().m8537i0();
-        C2390tl.m9731f().m9739j();
-        BrowserDownloadManager.m6674q().m6702s(this);
-        C2406u0.m9882f().m9888g(this);
-        C1224ai.m5285e().m5298n(this);
-        C0801Ra.m3798f().m3804g(this);
-        VideoSniffingManager.getInstance().m7006q(this);
-        C1651dn.m7356c().m7357d(this);
-        C2564xb.m10653b().m10655c(this);
-        C0356Ho.m1604i().m1608k(this);
-        C0310Go.m1445b().m1446c(this);
-        C0462K1.m2249b().m2253e(this);
+        C1199a3.getInstance().init(this);
+        JSManager.getInstance().init();
+        C2390tl.getInstance().init();
+        BrowserDownloadManager.getInstance().init(this);
+        C2406u0.getInstance().init(this);
+        C1224ai.getInstance().init(this);
+        C0801Ra.getInstance().init(this);
+        VideoSniffingManager.getInstance().init(this);
+        C1651dn.getInstance().init(this);
+        C2564xb.getInstance().init(this);
+        C0356Ho.getInstance().init(this);
+        C0310Go.getInstance().init(this);
+        C0462K1.getInstance().init(this);
         WebIconDatabase.getInstance().open(getDir("icons", 0).getPath());
-        PhoneBrowserActivtyDelegate phoneBrowserActivtyDelegate = new PhoneBrowserActivtyDelegate(this);
-        this.f4275v = phoneBrowserActivtyDelegate;
-        phoneBrowserActivtyDelegate.mo6402K(bundle);
-        C0848Sb.m4048n().m4050p(this);
+        activityDelegate = new PhoneBrowserActivtyDelegate(this);
+        activityDelegate.mo6402K(bundle);
+        C0848Sb.getInstance().init(this);
         m6341n1();
         if (SharedPreferencesHelper.getInstance().getBoolean("show_splash", false)) {
             m6260S2();
@@ -3437,24 +3022,26 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.main_content);
         m6261T();
-        C1346c3 c1346c3 = new C1346c3(this, frameLayout);
-        this.f4276w = c1346c3;
-        c1346c3.m9302Z(this);
+        tabManager = new TabManager(this, frameLayout);
+        tabManager.m9302Z(this);
         AndroidSystemUtils.logElapsedTime();
         m6208F2();
         boolean zM6306d1 = m6306d1(getIntent());
         m6367v2();
-        if (!zM6306d1 && this.f4276w.m9280D() == 0) {
+        if (!zM6306d1 && this.tabManager.getTabCount() == 0) {
             openUrl(SharedPreferencesHelper.getInstance().m6857H(), true, 0);
         }
         m6324h3();
-        Looper.myQueue().addIdleHandler(new InitializationIdleHandler());
+        Looper.myQueue().addIdleHandler(() -> {
+            EventQueueManager.getInstance().processEvent(0);
+            return false;
+        });
         m6276W2();
         m6265U();
         if (SharedPreferencesHelper.getInstance().acceptEula && !SharedPreferencesHelper.getInstance().showFraudAlert) {
             m6269V();
         }
-        m6211G1(false);
+        setNormalExit(false);
         C0461K0.m2246i(this);
     }
 
@@ -3467,11 +3054,11 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     @Override
-    public boolean onDoubleTap(MotionEvent motionEvent) {
-        String strM6855G = SharedPreferencesHelper.getInstance().m6855G("double_click_blank");
+    public boolean onDoubleTap(@NonNull MotionEvent event) {
+        String strM6855G = SharedPreferencesHelper.getInstance().getDefaultActionForKey("double_click_blank");
         String strM6234M0 = m6234M0();
         if (TextUtils.isEmpty(strM6234M0) || !strM6234M0.startsWith("x:home") || SharedPreferencesHelper.getInstance().getBoolean("show-qa-icons", true) || !(strM6855G.equals("not_set") || strM6855G.equals("none"))) {
-            return m6218I0().mo6439y(strM6855G);
+            return getActivityDelegate().mo6439y(strM6855G);
         }
         m6307d2("x:bookmark");
         return true;
@@ -3490,23 +3077,23 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
         int iAbs;
-        if (!SharedPreferencesHelper.getInstance().supportSwitchTabGesture || MessageBoxManager.getInstance().isShowing() || !getBrowserFrameLayout().m6470s((int) motionEvent.getX(), (int) motionEvent.getY()) || (iAbs = (int) Math.abs(motionEvent2.getX() - motionEvent.getX())) <= ((int) Math.abs(motionEvent2.getY() - motionEvent.getY())) || iAbs <= this.f4270q) {
+        if (!SharedPreferencesHelper.getInstance().supportSwitchTabGesture || MessageBoxManager.getInstance().isShowing() || !getBrowserFrameLayout().m6470s((int) motionEvent.getX(), (int) motionEvent.getY()) || (iAbs = (int) Math.abs(motionEvent2.getX() - motionEvent.getX())) <= ((int) Math.abs(motionEvent2.getY() - motionEvent.getY())) || iAbs <= this.systemUiVisibility) {
             return false;
         }
         if (motionEvent.getX() < motionEvent2.getX()) {
-            m6222J0().m9291O();
+            getTabManager().m9291O();
             return true;
         }
         if (motionEvent.getX() <= motionEvent2.getX()) {
             return true;
         }
-        m6222J0().m9290N();
+        getTabManager().m9290N();
         return true;
     }
 
     @Override
     public boolean onKeyDown(int i, KeyEvent keyEvent) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 == null) {
             return super.onKeyDown(i, keyEvent);
         }
@@ -3518,7 +3105,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 return true;
             }
             if (i == 82) {
-                this.f4275v.mo6416Y();
+                this.activityDelegate.mo6416Y();
                 return true;
             }
             if ((i != 25 && i != 24) || !m6362u1()) {
@@ -3538,37 +3125,37 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 interfaceC1300b3.mo1581q();
                 return true;
             }
-            if (m6217I()) {
+            if (isPreviousTabValid()) {
                 m6291a1();
                 return true;
             }
-            if (m6222J0().m9280D() > 1) {
+            if (getTabManager().getTabCount() > 1) {
                 boolean zM6873Q = SharedPreferencesHelper.getInstance().getBoolean("close-tab-in-order", false);
-                AbstractC2274r6.d dVarM9277A = this.f4276w.m9277A();
-                if (zM6873Q || TextUtils.isEmpty(dVarM9277A.f6890c) || this.f4276w.m9281E(dVarM9277A.f6890c) < 0) {
-                    this.f4275v.mo6431k();
+                ContentViewManager.Tab tabVarM9277A = this.tabManager.getActiveTab();
+                if (zM6873Q || TextUtils.isEmpty(tabVarM9277A.f6890c) || this.tabManager.m9281E(tabVarM9277A.f6890c) < 0) {
+                    this.activityDelegate.mo6431k();
                 } else {
-                    this.f4276w.m9300X(dVarM9277A.f6890c);
-                    m6222J0().m9294R(dVarM9277A.m9339r());
+                    this.tabManager.m9300X(tabVarM9277A.f6890c);
+                    getTabManager().removeTab(tabVarM9277A.getTabId());
                     m6324h3();
                 }
                 return true;
             }
-            if (!this.f4258e && !SharedPreferencesHelper.getInstance().showExitConfirmDialog) {
-                this.f4258e = true;
+            if (!this.hasShownExitDialog && !SharedPreferencesHelper.getInstance().showExitConfirmDialog) {
+                this.hasShownExitDialog = true;
                 Toast.makeText(this, R.string.toast_repeat_to_exit, Toast.LENGTH_SHORT).show();
                 return false;
             }
-            m6369w0();
+            tryExit();
         }
         return true;
     }
 
     @Override
     public boolean onKeyLongPress(int i, KeyEvent keyEvent) {
-        this.f4261h = true;
+        this.hasResumed = true;
         if (m6362u1()) {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
             WebViewBrowserController webViewBrowserController = (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) ? null : (WebViewBrowserController) interfaceC1300b3;
             if (webViewBrowserController != null) {
                 if (i == 25) {
@@ -3586,8 +3173,8 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     @Override
     public boolean onKeyUp(int i, KeyEvent keyEvent) {
-        if (!this.f4261h && m6362u1()) {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        if (!this.hasResumed && m6362u1()) {
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
             WebViewBrowserController webViewBrowserController = (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) ? null : (WebViewBrowserController) interfaceC1300b3;
             if (webViewBrowserController != null) {
                 if (i == 25) {
@@ -3600,13 +3187,13 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 }
             }
         }
-        this.f4261h = false;
+        this.hasResumed = false;
         return super.onKeyUp(i, keyEvent);
     }
 
     @Override
     public void onLongPress(MotionEvent motionEvent) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
         if ((interfaceC1300b3 instanceof WebViewBrowserController) && interfaceC1300b3.mo5626h() == 0) {
             WebView webViewM6770F0 = ((WebViewBrowserController) interfaceC1300b3).m6770F0();
             if (webViewM6770F0 instanceof C0219Ep) {
@@ -3621,106 +3208,97 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     @Override
-    public void onNewIntent(Intent intent) throws IOException {
+    public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         m6306d1(intent);
     }
 
     @Override
-    public void onPause() throws JSONException {
+    public void onPause() {
         super.onPause();
-        if (!this.f4263j) {
-            this.f4259f = true;
+        if (!this.isInEditMode) {
+            this.isDestroyed = true;
         }
-        C1344c1.m5691d().m5700j();
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        C1344c1.getInstance().m5700j();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 != null) {
             interfaceC1300b3.mo1576g();
         }
-        C0848Sb.m4048n().m4051q();
+        C0848Sb.getInstance().savePosition();
     }
 
     @Override
-    public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) throws Resources.NotFoundException {
-        Toast toastMakeText;
-        super.onRequestPermissionsResult(i, strArr, iArr);
-        if (iArr == null || iArr.length <= 0) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length == 0) {
             return;
         }
-        if (i == 256) {
-            if (iArr[0] == -1) {
-                m6359t2(getResources().getString(R.string.perm_this_feature));
-                return;
+        if (requestCode == 256) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                requestSdcardPermission(getResources().getString(R.string.perm_this_feature));
             }
-        } else {
-            if (i == 261) {
-                if (iArr[0] == 0) {
-                    m6323h2();
-                    return;
-                }
-                return;
-            }
-            if (i != 258) {
-                if (i == 257) {
-                    toastMakeText = iArr[0] == -1 ? Toast.makeText(this, "request  permit failed ", 0) : Toast.makeText(this, R.string.toast_grant_perm_ok, 0);
-                } else if (i == 262 || i == 263) {
-                    if (iArr[0] != -1) {
-                        PermissionRequest permissionRequest = this.f4249K;
-                        if (permissionRequest != null) {
-                            permissionRequest.grant(permissionRequest.getResources());
-                            this.f4249K = null;
-                            return;
-                        }
-                        return;
-                    }
-                } else {
-                    if (i != 260 || iArr[0] == -1) {
-                        return;
-                    }
-                }
-                toastMakeText.show();
-            }
-            if (iArr[0] == -1) {
-                return;
+        } else if (requestCode == 261) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                m6323h2();
             }
         }
-        toastMakeText = Toast.makeText(this, R.string.toast_grant_perm_ok, 1);
-        toastMakeText.show();
+        if (requestCode == 258) {
+            if (grantResults[0] != PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this, R.string.toast_grant_perm_ok, Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == 257) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED)
+                Toast.makeText(this, "request  permit failed ", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, R.string.toast_grant_perm_ok, Toast.LENGTH_SHORT).show();
+        } else if (requestCode == 262 || requestCode == 263) {
+            if (grantResults[0] != PackageManager.PERMISSION_DENIED) {
+                PermissionRequest permissionRequest = this.webPermissionRequest;
+                if (permissionRequest != null) {
+                    permissionRequest.grant(permissionRequest.getResources());
+                    this.webPermissionRequest = null;
+                }
+            }
+        } else if (requestCode == 260) {
+            if (grantResults[0] != PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this, R.string.toast_grant_perm_ok, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
-    public void onResume() throws JSONException {
+    public void onResume() {
         super.onResume();
         ThemeManager.getInstance().m9478F(this);
-        C1344c1.m5691d().m5701k();
-        this.f4262i = true;
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        C1344c1.getInstance().m5701k();
+        this.isPaused = true;
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 != null) {
             interfaceC1300b3.mo1584u();
         }
-        this.f4259f = false;
-        this.f4263j = false;
-        if (this.f4260g) {
+        this.isDestroyed = false;
+        this.isInEditMode = false;
+        if (this.hasOnCreate) {
             m6229L();
         }
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
-                C1825ha.m7824d().m7828e(1);
+                EventQueueManager.getInstance().processEvent(1);
                 return false;
             }
         });
         if (!SharedPreferencesHelper.getInstance().f4849D) {
-            m6218I0().m6394C().m1437t();
+            getActivityDelegate().m6394C().m1437t();
         }
-        m6339m2(getHandler());
+        handleClipboardUrl(getHandler());
         WebViewBrowserController.f4695K = 0;
     }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) throws Resources.NotFoundException {
         super.onSaveInstanceState(bundle);
-        if (this.f4259f) {
+        if (this.isDestroyed) {
             m6379y2();
         }
     }
@@ -3737,7 +3315,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     @Override
     public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
         String strM6234M0 = m6234M0();
-        if (!SharedPreferencesHelper.getInstance().disableJavascript || ((WebViewBrowserController) m6210G0()).m6770F0().getSettings().getJavaScriptEnabled() || TextUtils.isEmpty(strM6234M0) || !(strM6234M0.startsWith("x:") || strM6234M0.startsWith("file:///"))) {
+        if (!SharedPreferencesHelper.getInstance().disableJavascript || ((WebViewBrowserController) getBrowserController()).m6770F0().getSettings().getJavaScriptEnabled() || TextUtils.isEmpty(strM6234M0) || !(strM6234M0.startsWith("x:") || strM6234M0.startsWith("file:///"))) {
             return false;
         }
         Toast.makeText(this, R.string.toast_local_page_do_not_work_in_disable_js_state, Toast.LENGTH_SHORT).show();
@@ -3759,10 +3337,10 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         String strM6234M0;
         String host;
         super.onStop();
-        if (!this.f4263j) {
-            this.f4259f = true;
+        if (!this.isInEditMode) {
+            this.isDestroyed = true;
         }
-        if (this.f4259f && (strM6234M0 = m6234M0()) != null && strM6234M0.startsWith("http") && (host = Uri.parse(strM6234M0).getHost()) != null && SiteSettingsManager.getInstance().m6961c(host)) {
+        if (this.isDestroyed && (strM6234M0 = m6234M0()) != null && strM6234M0.startsWith("http") && (host = Uri.parse(strM6234M0).getHost()) != null && SiteSettingsManager.getInstance().m6961c(host)) {
             m6207F1();
         }
     }
@@ -3773,7 +3351,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 != null && interfaceC1300b3.mo5630p(motionEvent)) {
             return true;
         }
@@ -3783,7 +3361,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     @Override
     public void onTrimMemory(int i) {
         super.onTrimMemory(i);
-        this.f4259f = true;
+        this.isDestroyed = true;
         Log.i("onTrimMemory", "onTrimMemory called level:" + i);
     }
 
@@ -3835,7 +3413,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             AbstractC0448Jo.m2095x(viewFindViewById, new InterfaceC0625Nh() {
                 @Override
                 public final C1045Wo mo3322a(View view, C1045Wo c1045Wo) {
-                    return this.f3382a.m6366v1(view, c1045Wo);
+                    return m6366v1(view, c1045Wo);
                 }
             });
         }
@@ -3844,9 +3422,9 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     public void m6348p2(boolean z) {
         String str;
         String str2;
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
         if (interfaceC1300b3 != null) {
-            String strMo1573b = interfaceC1300b3.mo1573b();
+            String strMo1573b = interfaceC1300b3.getUrlFromTitle();
             if (strMo1573b.indexOf("baidu.com") <= 0 && strMo1573b.indexOf("sogou.com") <= 0 && strMo1573b.indexOf("douban.com") <= 0) {
                 interfaceC1300b3.mo5625f();
                 return;
@@ -3863,15 +3441,36 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6349q0() {
-        C2061mf.m8471f0().m8542n0(((WebViewBrowserController) m6222J0().m9316y()).m6770F0(), "mark_ad");
-        this.f4264k = 1;
+        JSManager.getInstance().injectJavascript(((WebViewBrowserController) getTabManager().m9316y()).m6770F0(), "mark_ad");
+        this.uiLayoutMode = 1;
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mark_toolbar_container);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -1);
         LinearLayout linearLayout2 = (LinearLayout) ThemeManager.getInstance().m9488i();
-        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_expand)).setOnClickListener(new ParentElementSelectorListener());
-        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_reduce)).setOnClickListener(new ChildElementSelectorListener());
-        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_save)).setOnClickListener(new ElementHiderListener());
-        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_exit)).setOnClickListener(new CloseEditModeListener());
+        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_expand)).setOnClickListener(view -> {
+            updateTitle("selectParent()");
+            if (SharedPreferencesHelper.getInstance().getBoolean("log_mark_ad", false)) {
+                m6195C1();
+            }
+        });
+        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_reduce)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateTitle("selectChild()");
+            }
+        });
+        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_save)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateTitle("exportABPRule()");
+                updateTitle("hideSelectedElement()");
+            }
+        });
+        ((ImageButton) linearLayout2.findViewById(R.id.toolbar_btn_exit)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m6377y0();
+            }
+        });
         linearLayout.addView(linearLayout2, layoutParams);
         getBrowserFrameLayout().m6465n();
         m6189B();
@@ -3881,9 +3480,20 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         runOnUiThread(new WebViewScriptRunnable(str));
     }
 
-    public void m6351q2(String str, String str2) {
+    public void m6351q2(String str, String itemId) {
         MySQLiteOpenHelper.getInstance().m7494G0(str);
-        runOnUiThread(new HistoryItemDeleteAnalyticsRunnable(str2));
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject jSONObject = new JSONObject();
+                try {
+                    jSONObject.put("transId", "delete_history_item");
+                    jSONObject.put("id", itemId);
+                } catch (Exception ignored) {
+                }
+                C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
+            }
+        });
     }
 
     public void m6352r0(boolean z, boolean z2) {
@@ -3896,27 +3506,27 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             ThemeManager.getInstance().m9481b(this, "dark");
             SharedPreferencesHelper.getInstance().enterNightMode = true;
             SharedPreferencesHelper.getInstance().m6904l();
-            m6245P(SharedPreferencesHelper.getInstance().f4872O0 ? SharedPreferencesHelper.getInstance().nightBrightness : -1);
+            setScreenBrightness(SharedPreferencesHelper.getInstance().f4872O0 ? SharedPreferencesHelper.getInstance().nightBrightness : -1);
         } else {
             window.setBackgroundDrawableResource(R.drawable.white);
             ThemeManager.getInstance().m9481b(this, "light");
             SharedPreferencesHelper.getInstance().enterNightMode = false;
             SharedPreferencesHelper.getInstance().loadGoodForEyeColor();
-            m6245P(-1);
-            C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+            setScreenBrightness(-1);
+            SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
         }
         if (Build.VERSION.SDK_INT >= 33) {
             m6193C(z);
         }
         m6298b3();
         m6280X2();
-        m6361u0("document.dispatchEvent(new CustomEvent('themechange'))");
+        updateTitle("document.dispatchEvent(new CustomEvent('themechange'))");
     }
 
     public void m6353r1(String str) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4276w.m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.tabManager.m9316y();
         if (interfaceC1300b3 instanceof WebViewBrowserController) {
-            C2061mf.m8471f0().m8483C(((WebViewBrowserController) interfaceC1300b3).m6770F0(), str);
+            JSManager.getInstance().evaluateJavascript(((WebViewBrowserController) interfaceC1300b3).m6770F0(), str);
         }
     }
 
@@ -3925,24 +3535,73 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         if (TextUtils.isEmpty(strM6234M0)) {
             return;
         }
-        new DialogC0076Bk(this, strM6234MToast.LENGTH_SHORT).show();
+        new DialogC0076Bk(this, strM6234M0).show();
     }
 
     public void m6355s0(boolean z) {
         m6357t0(z, true);
     }
 
-    public void m6356s2(Uri uri) {
-        runOnUiThread(new ApkInstallPermissionRunnable(uri));
+    public void installApk(Uri apkUri) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() throws Resources.NotFoundException {
+                // Get the necessary strings for the message
+                String installMessage = String.format(
+                        BrowserActivity.getActivity().getResources().getString(R.string.message_request_install_unknown_source),
+                        getString(R.string.app_name)
+                );
+                String setButtonText = BrowserActivity.getActivity().getResources().getString(R.string.btn_text_set);
+                String denyButtonText = BrowserActivity.getActivity().getResources().getString(R.string.btn_text_deny);
+
+                // Set the Uri for pending APK
+                pendingApkUri = apkUri;
+
+                // Show the message box with appropriate listener actions
+                MessageBoxManager.getInstance().showMessage(
+                        BrowserActivity.getActivity().getBrowserFrameLayout(),
+                        null,
+                        installMessage,
+                        setButtonText,
+                        denyButtonText,
+                        new MessageBoxBase.MessageBoxListener() {
+                            @Override
+                            public void onShown() {
+                                // If the user presses "Set", open the settings to manage unknown app sources
+                                startActivityForResult(
+                                        new Intent("android.settings.MANAGE_UNKNOWN_APP_SOURCES",
+                                                Uri.parse("package:" + getPackageName())),
+                                        259
+                                );
+                            }
+
+                            @Override
+                            public void onDismissed() {
+                                // If the user presses "Deny", start the APK installation
+                                Intent installIntent = new Intent("android.intent.action.VIEW");
+                                installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                installIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                                startActivity(installIntent);
+                            }
+
+                            @Override
+                            public void onDismiss() {
+                                // You can add any necessary action if needed on dismiss (currently empty)
+                            }
+                        },
+                        true
+                );
+            }
+        });
     }
 
     public void m6357t0(boolean z, boolean z2) {
         if (z2) {
             SharedPreferencesHelper.getInstance().enterPrivateMode = z;
             SharedPreferencesHelper.getInstance().putBoolean("enter-private-mode", z);
-            int iM9280D = m6222J0().m9280D();
+            int iM9280D = getTabManager().getTabCount();
             for (int i = 0; i < iM9280D; i++) {
-                ArrayList arrayListM9279C = m6222J0().m9279C(i);
+                ArrayList arrayListM9279C = getTabManager().m9279C(i);
                 for (int i2 = 0; i2 < arrayListM9279C.size(); i2++) {
                     InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) arrayListM9279C.get(i2);
                     if (interfaceC1300b3 != null && (interfaceC1300b3 instanceof WebViewBrowserController)) {
@@ -3958,7 +3617,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 }
             }
         } else {
-            InterfaceC1300b3 interfaceC1300b32 = (InterfaceC1300b3) m6222J0().m9316y();
+            InterfaceC1300b3 interfaceC1300b32 = (InterfaceC1300b3) getTabManager().m9316y();
             if (interfaceC1300b32 != null && (interfaceC1300b32 instanceof WebViewBrowserController)) {
                 WebView webViewM6770F02 = ((WebViewBrowserController) interfaceC1300b32).m6770F0();
                 SharedPreferencesHelper sharedPreferencesHelperM6833I2 = SharedPreferencesHelper.getInstance();
@@ -3970,7 +3629,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                 }
             }
         }
-        m6218I0().m6394C().m1441x(z);
+        getActivityDelegate().m6394C().m1441x(z);
     }
 
     public boolean m6358t1(String str) {
@@ -3985,16 +3644,39 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
     }
 
-    public void m6359t2(String str) {
-        runOnUiThread(new SdCardPermissionRunnable(str));
+    public void requestSdcardPermission(String feature) {
+        runOnUiThread(() -> MessageBoxManager.getInstance().showMessage(
+                BrowserActivity.getActivity().getBrowserFrameLayout(),
+                null,
+                String.format(BrowserActivity.getActivity().getResources().getString(R.string.message_request_sd), feature),
+                BrowserActivity.getActivity().getResources().getString(R.string.btn_text_set),
+                BrowserActivity.getActivity().getResources().getString(R.string.btn_text_deny),
+                new MessageBoxBase.MessageBoxListener() {
+                    @Override
+                    public void onShown() {
+                        Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onDismissed() {
+                        SharedPreferencesHelper.getInstance().putBoolean("confirm_not_allow_sd", true);
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                    }
+                },
+                true));
     }
 
     public void m6360u() {
-        this.f4263j = true;
+        this.isInEditMode = true;
         runOnUiThread(new SearchBarLaunchRunnable());
     }
 
-    public void m6361u0(String str) {
+    public void updateTitle(String str) {
         runOnUiThread(new PageTitleUpdateRunnable(str));
     }
 
@@ -4003,22 +3685,22 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
     }
 
     public void m6363u2() {
-        AbsBrowserController absBrowserControllerM6210G0 = m6210G0();
-        if (absBrowserControllerM6210G0 instanceof WebViewBrowserController) {
-            ((WebViewBrowserController) absBrowserControllerM6210G0).m6791a1();
+        AbsBrowserController controller = getBrowserController();
+        if (controller instanceof WebViewBrowserController) {
+            ((WebViewBrowserController) controller).m6791a1();
         }
     }
 
     public final void m6364v(String str) {
-        BrowserControllerListener browserControllerListenerM6218I0 = m6218I0();
-        if (browserControllerListenerM6218I0 instanceof InterfaceC0575Md) {
-            ((InterfaceC0575Md) browserControllerListenerM6218I0).mo2860c(str);
+        BrowserControllerListener delegate = getActivityDelegate();
+        if (delegate instanceof InterfaceC0575Md) {
+            ((InterfaceC0575Md) delegate).mo2860c(str);
             getActivity().getBrowserFrameLayout().requestFocus();
         }
     }
 
     public void m6365v0() {
-        this.f4264k = 0;
+        this.uiLayoutMode = 0;
         getBrowserFrameLayout().m6466o(SharedPreferencesHelper.getInstance().getDefaultLayoutType());
     }
 
@@ -4034,7 +3716,7 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             if ((!SharedPreferencesHelper.getInstance().enterPrivateMode || SharedPreferencesHelper.getInstance().normalExit) && SharedPreferencesHelper.getInstance().enterPrivateMode) {
                 return;
             }
-            this.f4276w.m9295S(sharedPreferencesM6278X0);
+            this.tabManager.restoreUserData(sharedPreferencesM6278X0);
             return;
         }
         if (SharedPreferencesHelper.getInstance().recoveryTabType != 1 || SharedPreferencesHelper.getInstance().enterPrivateMode) {
@@ -4045,8 +3727,10 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
             if (sharedPreferencesM6278X0.getString("last-active-tab-url", "").indexOf("x:home") >= 0) {
                 return;
             }
-        } else if (i <= 1) {
-            return;
+        } else {
+            if (i <= 1) {
+                return;
+            }
         }
         m6248P2();
     }
@@ -4055,10 +3739,19 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         m6372x(str, str2, str3, z, false);
     }
 
-    public void m6369w0() {
-        m6211G1(true);
+    public void tryExit() {
+        setNormalExit(true);
         if (SharedPreferencesHelper.getInstance().showExitConfirmDialog) {
-            new ExitConfirmDialog(this).show();
+            new ExitConfirmDialog(this) {
+                @Override
+                public void onCancel() {
+                }
+
+                @Override
+                public void onOK() {
+                    finish();
+                }
+            }.show();
         } else {
             finish();
         }
@@ -4068,22 +3761,20 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         if (m6201E(c1045Wo)) {
             m6197D(c1045Wo);
         } else {
-            m6216H2();
+            updateContentLayoutPadding();
         }
         return C1045Wo.f3118b;
     }
 
     public void m6371w2() {
-        while (this.f4239A.size() > 0) {
+        while (this.activeControllers.size() > 0) {
             m6375x2();
         }
     }
 
-    public void m6372x(String str, String str2, String str3, boolean z, boolean z2) throws JSONException, Resources.NotFoundException {
-        Toast toastMakeText;
-        String str4;
+    public void m6372x(String str, String str2, String str3, boolean z, boolean z2)  {
         if (TextUtils.isEmpty(str) && !z2) {
-            str4 = "title not allow empty";
+            Toast.makeText(this, "title not allow empty", Toast.LENGTH_SHORT).show();
         } else {
             if (!TextUtils.isEmpty(str2) || z2) {
                 if (!str2.toLowerCase().startsWith("http") && !str2.startsWith("x:") && !str2.startsWith("file://") && !z && !str2.startsWith("javascript:") && !str2.startsWith("data:")) {
@@ -4109,65 +3800,76 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
                     getContentResolver().insert(BrowserProvider.uriBookmark, contentValues2);
                 }
                 if (!z2) {
-                    toastMakeText = Toast.makeText(this, z ? R.string.toast_add_bm_dir : R.string.toast_add_to_bm, 0);
-                    toastMakeText.show();
+                    Toast.makeText(this, z ? R.string.toast_add_bm_dir : R.string.toast_add_to_bm, Toast.LENGTH_SHORT).show();
                 }
                 m6255R1(str, str2, str3);
-                C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+                SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
             }
-            str4 = "url not allow empty";
+            Toast.makeText(this, "url not allow empty", Toast.LENGTH_SHORT).show();
         }
-        toastMakeText = Toast.makeText(this, str4, 0);
-        toastMakeText.show();
         m6255R1(str, str2, str3);
-        C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
     }
 
     public void m6373x0() {
-        getHandler().postDelayed(new ExitEditModeRunnable(), 200L);
+        getHandler().postDelayed(() -> {
+            uiLayoutMode = 0;
+            getBrowserFrameLayout().m6466o(SharedPreferencesHelper.getInstance().getDefaultLayoutType());
+            C1199a3.getInstance().m5093d("event_app_to_page", "exit_edit_mode");
+        }, 200L);
     }
 
-    public void m6374x1() {
+    public void openDownloads() {
         try {
-            if (Build.VERSION.SDK_INT >= 29) {
-                Intent intent = new Intent("android.intent.action.GET_CONTENT");
-                Uri uri = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
-                intent.addCategory("android.intent.category.OPENABLE");
-                intent.setDataAndType(uri, "*/*");
-                startActivityForResult(intent, 72);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                openFilePicker();
             } else {
-                Intent intent2 = new Intent();
-                intent2.setAction("android.intent.action.VIEW_DOWNLOADS");
-                startActivity(intent2);
+                openDownloadsFolder();
             }
-        } catch (Exception unused) {
+        } catch (Exception e) {
+            // Optionally, log the error
+            Log.e("DownloadIntent", "Failed to open downloads", e);
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Uri uri = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setDataAndType(uri, "*/*");
+        startActivityForResult(intent, 72);
+    }
+
+    private void openDownloadsFolder() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse("content://downloads/public_downloads"), "*/*");
+        startActivity(intent);
+    }
+
     public void m6375x2() {
-        if (this.f4239A.size() > 0) {
-            ArrayList arrayList = this.f4239A;
-            openUrl((String) arrayList.remove(arrayList.size() - 1), true, 0);
+        if (this.activeControllers.size() > 0) {
+            openUrl(activeControllers.remove(activeControllers.size() - 1), true, 0);
             m6324h3();
         }
     }
 
     public void m6376y(String str, String str2, int i) {
-        m6380z(AndroidSystemUtils.m8713u(), str, str2, i);
+        addQuickAccessItem(AndroidSystemUtils.getSId(), str, str2, i);
     }
 
     public void m6377y0() {
-        this.f4264k = 0;
+        this.uiLayoutMode = 0;
         getBrowserFrameLayout().m6466o(SharedPreferencesHelper.getInstance().getDefaultLayoutType());
         ContentDataManager.getInstance().m6636q(true);
-        m6361u0("exitSelectionMode()");
+        updateTitle("exitSelectionMode()");
         m6189B();
     }
 
     public void m6378y1(int i) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) m6222J0().m9316y();
-        String strMo1573b = interfaceC1300b3.mo1573b();
-        if (this.f4264k == 1) {
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) getTabManager().m9316y();
+        String strMo1573b = interfaceC1300b3.getUrlFromTitle();
+        if (this.uiLayoutMode == 1) {
             m6377y0();
             return;
         }
@@ -4177,19 +3879,19 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         }
         m6349q0();
         if (i == 0) {
-            C2363t3.m9665a().m9673i(17, false);
+            C2363t3.getInstance().m9673i(17, false);
         }
     }
 
     public void m6379y2() throws Resources.NotFoundException {
         AndroidSystemUtils.startTiming("save-tabs");
-        this.f4276w.m9297U(m6278X0());
+        this.tabManager.m9297U(m6278X0());
         AndroidSystemUtils.logElapsedTime();
         Log.i("save-state", " >>>>>call on save Instance");
-        AbstractC1807h2.m7778a(new Runnable() {
+        BackgroundTaskManager.submitBackgroundTask(new Runnable() {
             @Override
             public void run() {
-                C1825ha.m7824d().m7828e(2);
+                EventQueueManager.getInstance().processEvent(2);
             }
         });
         SharedPreferencesHelper.getInstance().f4899d0 = false;
@@ -4197,97 +3899,139 @@ public class BrowserActivity extends Activity implements AbstractC2274r6.c, Gest
         ContentDataManager.getInstance().m6621i1();
     }
 
-    public void m6380z(String str, String str2, String str3, int i) throws Resources.NotFoundException {
-        Toast toastMakeText;
-        String str4;
-        if (TextUtils.isEmpty(str2)) {
-            str4 = "title not allow empty";
-        } else {
-            if (!TextUtils.isEmpty(str3)) {
-                SQLiteDatabase writableDatabase = MySQLiteOpenHelper.getInstance().getWritableDatabase();
-                if (!str3.toLowerCase().startsWith("http") && !str3.startsWith("x:") && !str3.startsWith("file://")) {
-                    str3 = "http://" + str3.trim();
-                }
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("title", str2);
-                contentValues.put("url", str3);
-                contentValues.put("create_at", Long.valueOf(System.currentTimeMillis()));
-                contentValues.put("item_type", Integer.valueOf(i));
-                contentValues.put("parent", "root");
-                contentValues.put("status", (Integer) 0);
-                contentValues.put("item_order", Integer.valueOf(MySQLiteOpenHelper.getInstance().getMaxColumnValue(writableDatabase, "quick_access", "item_order", "")));
-                if (MySQLiteOpenHelper.getInstance().isUrlInQuickAccess(writableDatabase, str3)) {
-                    writableDatabase.update("quick_access", contentValues, "url= ?", new String[]{str3});
-                } else {
-                    writableDatabase.insert("quick_access", null, contentValues);
-                }
-                toastMakeText = Toast.makeText(this, R.string.toast_add_new_quick_access, 0);
-                toastMakeText.show();
-                C1089Xm.getInstance().m4822j("syncable_quick_access").incrementVersion();
-            }
-            str4 = "url not allow empty";
+    public void addQuickAccessItem(String title, String url, String rawUrl, int itemType) throws Resources.NotFoundException {
+        if (TextUtils.isEmpty(title)) {
+            showToast("title not allow empty");
+            return;
         }
-        toastMakeText = Toast.makeText(this, str4, 0);
-        toastMakeText.show();
-        C1089Xm.getInstance().m4822j("syncable_quick_access").incrementVersion();
+
+        if (TextUtils.isEmpty(rawUrl)) {
+            showToast("url not allow empty");
+            return;
+        }
+
+        String finalUrl = processUrl(rawUrl);
+
+        SQLiteDatabase db = MySQLiteOpenHelper.getInstance().getWritableDatabase();
+        ContentValues contentValues = createContentValues(title, finalUrl, itemType);
+
+        if (MySQLiteOpenHelper.getInstance().isUrlInQuickAccess(db, finalUrl)) {
+            db.update("quick_access", contentValues, "url= ?", new String[]{finalUrl});
+        } else {
+            db.insert("quick_access", null, contentValues);
+        }
+
+        showToast(R.string.toast_add_new_quick_access);
+        incrementSyncVersion();
+    }
+
+    private String processUrl(String url) {
+        if (!url.toLowerCase().startsWith("http") && !url.startsWith("x:") && !url.startsWith("file://")) {
+            return "http://" + url.trim();
+        }
+        return url;
+    }
+
+    private ContentValues createContentValues(String title, String url, int itemType) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("url", url);
+        contentValues.put("create_at", System.currentTimeMillis());
+        contentValues.put("item_type", itemType);
+        contentValues.put("parent", "root");
+        contentValues.put("status", 0); // Default status
+        contentValues.put("item_order", getMaxItemOrder());
+        return contentValues;
+    }
+
+    private int getMaxItemOrder() {
+        SQLiteDatabase db = MySQLiteOpenHelper.getInstance().getWritableDatabase();
+        return MySQLiteOpenHelper.getInstance().getMaxColumnValue(db, "quick_access", "item_order", "");
     }
 
     public void m6381z0() {
         C1039Wi.m4517p().m4521m();
-        m6218I0().mo6431k();
+        getActivityDelegate().mo6431k();
     }
 
     public void m6382z1() {
         if (!m6285Z("android.permission.CAMERA")) {
-            new QrScannerDialog(this).m5643d(getString(R.string.message_permission_request), getString(R.string.message_request_perm_camera_for_qrcode));
+            new QrScannerDialog(this).show(getString(R.string.message_permission_request), getString(R.string.message_request_perm_camera_for_qrcode));
             return;
         }
-        C0024Ae c0024Ae = new C0024Ae(this);
-        c0024Ae.m129i("QR_CODE");
-        c0024Ae.m130j(false);
-        c0024Ae.m131k(32);
-        c0024Ae.m128h(QrScanActivity.class);
-        c0024Ae.m127f();
+        ScanOption option = new ScanOption(this);
+        option.setFormats("QR_CODE");
+        option.lockOrientation(false);
+        option.setRequestCode(32);
+        option.setClass(QrScanActivity.class);
+        option.start();
     }
 
-    public void m6383z2(String str) {
-        String str2 = "/" + str;
+    public void saveBookmarkWithTabs(String folderName) {
+        String folderPath = "/" + folderName;
         try {
-            ArrayList arrayListM9286J = m6222J0().m9286J();
-            if (m6358t1(str2)) {
-                MySQLiteOpenHelper.getInstance().getWritableDatabase().delete("bookmark", "parent= ?", new String[]{str2});
+            ArrayList<ContentViewManager.Tab> tabList = getTabManager().getTabList();
+
+            if (isBookmarkAlreadySaved(folderPath)) {
+                deleteBookmark(folderPath);
             } else {
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("title", str);
-                contentValues.put("url", str2);
-                contentValues.put("parent", "/");
-                contentValues.put("type", 1);
-                contentValues.put("last_visit", System.currentTimeMillis());
-                contentValues.put("status", 1);
-                MySQLiteOpenHelper.getInstance().addPendingEntry(contentValues);
+                addBookmark(folderName, folderPath);
             }
-            for (int i = 0; i < arrayListM9286J.size(); i++) {
-                AbstractC2274r6.d dVar = (AbstractC2274r6.d) arrayListM9286J.get(i);
-                InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) dVar.m9333l();
-                if (interfaceC1300b3 != null) {
-                    String strMo1574c = interfaceC1300b3.mo1574c();
-                    String strMo1573b = interfaceC1300b3.mo1573b();
-                    if (strMo1573b.indexOf("_tab-id_") < 0) {
-                        strMo1573b = NetworkUtils.appendQueryParam(strMo1573b, "_tab-id_=" + dVar.m9339r());
-                    }
-                    ContentValues contentValues2 = new ContentValues();
-                    contentValues2.put("title", strMo1574c);
-                    contentValues2.put("url", strMo1573b);
-                    contentValues2.put("parent", str2);
-                    contentValues2.put("type", 0);
-                    contentValues2.put("last_visit", System.currentTimeMillis());
-                    contentValues2.put("status", 1);
-                    MySQLiteOpenHelper.getInstance().addPendingEntry(contentValues2);
-                }
-            }
+
+            saveTabsToBookmarks(tabList, folderPath);
+
             MySQLiteOpenHelper.getInstance().insertOrReplaceEntries("bookmark", false);
-            Toast.makeText(this, String.format(getString(R.string.toast_all_tabs_saved), Integer.valueOf(arrayListM9286J.size())), Toast.LENGTH_LONG).show();
-        } catch (Exception unused) {
+            showTabsSavedToast(tabList.size());
+        } catch (Exception e) {
+            // Handle the exception or log it if needed
+            Log.e("BookmarkError", "Error saving bookmark with tabs", e);
         }
+    }
+
+    private boolean isBookmarkAlreadySaved(String folderPath) {
+        return m6358t1(folderPath); // checks if the bookmark already exists
+    }
+
+    private void deleteBookmark(String folderPath) {
+        MySQLiteOpenHelper.getInstance().getWritableDatabase().delete("bookmark", "parent= ?", new String[]{folderPath});
+    }
+
+    private void addBookmark(String folderName, String folderPath) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", folderName);
+        contentValues.put("url", folderPath);
+        contentValues.put("parent", "/");
+        contentValues.put("type", 1);
+        contentValues.put("last_visit", System.currentTimeMillis());
+        contentValues.put("status", 1);
+        MySQLiteOpenHelper.getInstance().addPendingEntry(contentValues);
+    }
+
+    private void saveTabsToBookmarks(ArrayList<ContentViewManager.Tab> tabList, String folderPath) {
+        for (ContentViewManager.Tab tab : tabList) {
+            InterfaceC1300b3 tabInterface = (InterfaceC1300b3) tab.m9333l();
+            if (tabInterface != null) {
+                String tabTitle = tabInterface.mo1574c();
+                String tabUrl = tabInterface.getUrlFromTitle();
+
+                if (!tabUrl.contains("_tab-id_")) {
+                    tabUrl = NetworkUtils.appendQueryParam(tabUrl, "_tab-id_=" + tab.getTabId());
+                }
+
+                ContentValues tabContentValues = new ContentValues();
+                tabContentValues.put("title", tabTitle);
+                tabContentValues.put("url", tabUrl);
+                tabContentValues.put("parent", folderPath);
+                tabContentValues.put("type", 0);
+                tabContentValues.put("last_visit", System.currentTimeMillis());
+                tabContentValues.put("status", 1);
+                MySQLiteOpenHelper.getInstance().addPendingEntry(tabContentValues);
+            }
+        }
+    }
+
+    private void showTabsSavedToast(int tabCount) {
+        String message = String.format(getString(R.string.toast_all_tabs_saved), tabCount);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

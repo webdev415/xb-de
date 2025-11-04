@@ -67,7 +67,7 @@ public abstract class AbstractC0536Lk implements Closeable {
         }
     }
 
-    public final InputStream m2708a() {
+    public final InputStream byteStream() {
         return mo2713k().mo7337Q();
     }
 

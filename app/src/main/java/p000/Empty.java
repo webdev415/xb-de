@@ -1,10 +1,10 @@
 package p000;
 
-public final class C0562M9 implements InterfaceC1876ie {
+public final class Empty implements InterfaceC1876ie {
 
     public final boolean f1760l;
 
-    public C0562M9(boolean z) {
+    public Empty(boolean z) {
         this.f1760l = z;
     }
 

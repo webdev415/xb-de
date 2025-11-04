@@ -3,12 +3,12 @@ package p000;
 public interface InterfaceC0070Be {
 
     public interface a {
-        C0122Ck mo303a();
+        Request mo303a();
 
-        C0490Kk mo304b(C0122Ck c0122Ck);
+        Response mo304b(Request request);
 
         InterfaceC0418J3 call();
     }
 
-    C0490Kk mo302a(a aVar);
+    Response mo302a(a aVar);
 }

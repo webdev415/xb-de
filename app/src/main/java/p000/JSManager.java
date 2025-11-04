@@ -9,27 +9,25 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Looper;
-import android.os.MessageQueue;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
-import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
 import com.mmbox.xbrowser.BrowserActivity;
-import com.mmbox.xbrowser.C1541c;
-import com.mmbox.xbrowser.C1572g;
+import com.mmbox.xbrowser.BrowserDownloadManager;
+import com.mmbox.xbrowser.MenuConfigManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.mmbox.xbrowser.controllers.WebViewBrowserController;
 import com.xbrowser.play.R;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
@@ -44,49 +42,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class C2061mf {
+import okhttp3.OkHttpClient;
 
-    public static C2061mf f6185j;
+public class JSManager {
 
-    public C2453v1 f6192g;
+    public static JSManager instance;
 
-    public OkHttpClient f6186a = null;
+    public ScriptMap assetScriptMap;
 
-    public final C2453v1 f6187b = new C2453v1();
+    public OkHttpClient httpClient = null;
 
-    public final C2453v1 f6188c = new C2453v1();
+    public final ScriptMap f6187b = new ScriptMap();
 
-    public final C2453v1 f6189d = new C2453v1();
+    public final ScriptMap f6188c = new ScriptMap();
 
-    public C2453v1 f6190e = null;
+    public final ScriptMap f6189d = new ScriptMap();
 
-    public C2453v1 f6191f = null;
+    public ScriptMap f6190e = null;
+
+    public ScriptMap f6191f = null;
 
     public String executionPoint = null;
 
-    public C2453v1 f6194i = null;
+    public ScriptMap onlineScriptMap = null;
 
-    public class a implements MessageQueue.IdleHandler {
-
-        public class RunnableC2717a implements Runnable {
-            public RunnableC2717a() {
-            }
-
-            @Override
-            public void run() {
-                C2061mf.this.m8540l0();
-            }
-        }
-
-        public a() {
-        }
-
-        @Override
-        public boolean queueIdle() {
-            AbstractC1807h2.m7778a(new RunnableC2717a());
-            return false;
-        }
-    }
+    public class a implements
 
     public class b implements InterfaceC0556M3 {
 
@@ -97,38 +77,38 @@ public class C2061mf {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            String strM2399p = c0490Kk.m2399p("Content-Type");
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            String strM2399p = response.getContentType("Content-Type");
             if (strM2399p != null) {
                 try {
                     if (strM2399p.indexOf("application/json") >= 0) {
                         try {
-                            String strM2714l = c0490Kk.m2392a().m2714l();
+                            String strM2714l = response.body().m2714l();
                             int iM3660e = JsonUtils.getInt(new JSONObject(strM2714l), "status", -1);
                             if (iM3660e == 1 || iM3660e == 2 || iM3660e == 0 || iM3660e == 3) {
-                                String strM8546p0 = C2061mf.this.m8546p0(this.f6197a, strM2714l, 0);
-                                BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_success));
-                                BrowserActivity.getActivity().m6361u0("nav_call_update_btn_state('" + strM8546p0 + "')");
+                                String strM8546p0 = m8546p0(this.f6197a, strM2714l, 0);
+                                BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_success));
+                                BrowserActivity.getActivity().updateTitle("nav_call_update_btn_state('" + strM8546p0 + "')");
                             } else {
-                                BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
+                                BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
                             }
                         } catch (Exception unused) {
-                            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
+                            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
                         }
-                        c0490Kk.m2392a().close();
+                        response.body().close();
                         return;
                     }
                 } catch (Throwable th) {
-                    c0490Kk.m2392a().close();
+                    response.body().close();
                     throw th;
                 }
             }
-            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
+            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
         }
     }
 
@@ -141,54 +121,32 @@ public class C2061mf {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            String strM2399p = c0490Kk.m2399p("Content-Type");
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            String strM2399p = response.getContentType("Content-Type");
             if ((strM2399p == null || strM2399p.indexOf("text/javascript") < 0) && strM2399p.indexOf("text/plain") < 0 && strM2399p.indexOf("application/javascript") < 0) {
-                BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
+                BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
                 return;
             }
             try {
                 try {
-                    C2061mf.this.m8546p0(this.f6203a, c0490Kk.m2392a().m2714l(), 1);
-                    BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_success));
+                    m8546p0(this.f6203a, response.body().m2714l(), 1);
+                    BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_success));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } finally {
-                c0490Kk.m2392a().close();
+                response.body().close();
             }
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
             iOException.printStackTrace();
-            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
+            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
         }
     }
 
-    public class f implements ValueCallback {
-        public f() {
-        }
-
-        @Override
-        public void onReceiveValue(String str) {
-            Log.d("WebView", "JavaScript returned value: " + str);
-        }
-    }
-
-    public class g implements Runnable {
-
-        public final WebView f6209l;
-
-        public g(WebView webView) {
-            this.f6209l = webView;
-        }
-
-        @Override
-        public void run() {
-            C2061mf.this.m8543o(this.f6209l);
-        }
-    }
+    public class g implements
 
     public class i implements C0232F1.d {
 
@@ -211,7 +169,7 @@ public class C2061mf {
         }
     }
 
-    public class k implements C1541c.k {
+    public class k implements BrowserDownloadManager.k {
 
         public final String f6216a;
 
@@ -225,14 +183,14 @@ public class C2061mf {
         @Override
         public void mo6506a() {
             try {
-                C2061mf.this.m8489F(this.f6216a, this.f6217b, -1);
+                m8489F(this.f6216a, this.f6217b, -1);
             } catch (Exception unused) {
             }
         }
 
         @Override
         public void mo6507b() throws JSONException {
-            C2061mf.this.m8487E(this.f6216a, this.f6217b);
+            m8487E(this.f6216a, this.f6217b);
         }
     }
 
@@ -258,11 +216,11 @@ public class C2061mf {
             Code decompiled incorrectly, please refer to instructions dump.
             To view partially-correct code enable 'Show inconsistent code' option in preferences
         */
-        public void mo1180a(InterfaceC0418J3 r5, C0490Kk r6) {
+        public void mo1180a(InterfaceC0418J3 r5, Response r6) {
             /*
                 r4 = this;
                 java.lang.String r5 = "stream"
-                int r0 = r6.m2396j()     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
+                int r0 = r6.code()     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
                 r1 = 500(0x1f4, float:7.0E-43)
                 if (r0 >= r1) goto L37
                 mf r0 = p000.C2061mf.this     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
@@ -293,14 +251,14 @@ public class C2061mf {
                 mf r0 = p000.C2061mf.this     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
                 java.lang.String r1 = r4.f6219a     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
                 java.lang.String r2 = r4.f6220b     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
-                int r3 = r6.m2396j()     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
+                int r3 = r6.code()     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
                 p000.C2061mf.m8473j(r0, r1, r2, r3)     // Catch: java.lang.Throwable -> L35 java.io.IOException -> L54 java.lang.IllegalStateException -> L67 org.json.JSONException -> L7a
             L44:
                 java.lang.String r0 = r4.f6221c
                 boolean r5 = r0.equals(r5)
                 if (r5 != 0) goto L9e
             L4c:
-                Lk r5 = r6.m2392a()
+                Lk r5 = r6.body()
                 r5.close()
                 goto L9e
             L54:
@@ -336,7 +294,7 @@ public class C2061mf {
                 java.lang.String r1 = r4.f6221c
                 boolean r5 = r1.equals(r5)
                 if (r5 != 0) goto L94
-                Lk r5 = r6.m2392a()
+                Lk r5 = r6.body()
                 r5.close()
             L94:
                 throw r0
@@ -352,88 +310,86 @@ public class C2061mf {
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
             try {
-                C2061mf.this.m8489F(this.f6219a, this.f6220b, -1);
+                m8489F(this.f6219a, this.f6220b, -1);
             } catch (Exception unused) {
             }
         }
     }
 
-    public class m {
+    public class UserScriptMeta {
 
         public final HashMap f6223a = new HashMap<>();
 
-        public m() {
-        }
-
-        public String m8567a() {
-            String str = (String) this.f6223a.get("description:" + PhoneUtils.getInstance().getLocaleCode());
-            if (str == null) {
-                str = (String) this.f6223a.get("description:" + PhoneUtils.getInstance().getLanguageCode());
+        public String getDescription() {
+            String description = (String) this.f6223a.get("description:" + PhoneUtils.getInstance().getLocaleCode());
+            if (description == null) {
+                description = (String) this.f6223a.get("description:" + PhoneUtils.getInstance().getLanguageCode());
             }
-            return str == null ? (String) this.f6223a.get("description") : str;
+            return description == null ? (String) this.f6223a.get("description") : description;
         }
 
         public String m8568b() {
-            String str = (String) this.f6223a.get("match");
-            String str2 = (String) this.f6223a.get("include");
-            if (!TextUtils.isEmpty(str2)) {
-                if (TextUtils.isEmpty(str)) {
-                    str = str2;
+            String match = (String) this.f6223a.get("match");
+            String include = (String) this.f6223a.get("include");
+            if (!TextUtils.isEmpty(include)) {
+                if (TextUtils.isEmpty(match)) {
+                    match = include;
                 } else {
-                    str = str + "`" + str2;
+                    match = match + "`" + include;
                 }
             }
-            return TextUtils.isEmpty(str) ? "*" : str;
+            return TextUtils.isEmpty(match) ? "*" : match;
         }
 
-        public String m8569c(String str) {
+        public String get(String str) {
             return (String) this.f6223a.get(str);
         }
 
-        public final int m8570d(String str) {
+        public final int getType(String str) {
             if (TextUtils.isEmpty(str) || str.equals("raw-script")) {
                 return 2;
             }
             return str.equals("bookmarklet") ? 3 : 0;
         }
 
-        public String m8571e() {
-            String str = (String) this.f6223a.get("name:" + PhoneUtils.getInstance().getLocaleCode());
-            if (str == null) {
-                str = (String) this.f6223a.get("name:" + PhoneUtils.getInstance().getLanguageCode());
+        public String getName() {
+            String name = (String) this.f6223a.get("name:" + PhoneUtils.getInstance().getLocaleCode());
+            if (name == null) {
+                name = (String) this.f6223a.get("name:" + PhoneUtils.getInstance().getLanguageCode());
             }
-            return str == null ? (String) this.f6223a.get("name") : str;
+            return name == null ? (String) this.f6223a.get("name") : name;
         }
 
-        public int m8572f() {
-            if (this.f6223a.size() > 0) {
-                return m8570d(m8569c("type"));
+        public int getType() {
+            if (!this.f6223a.isEmpty()) {
+                return getType(get("type"));
             }
             return 0;
         }
 
-        public void m8573g(String str, String str2) {
+        public void put(String str, String str2) {
             String str3;
-            if ((str.equals("include") || str.equals("match") || str.equals("require") || str.equals("exclude") || str.equals("resource") || str.equals("grant")) && (str3 = (String) this.f6223a.get(str)) != null) {
+            if ((str.equals("include") || str.equals("match") || str.equals("require") || str.equals("exclude") || str.equals("resource") || str.equals("grant"))
+                    && (str3 = (String) this.f6223a.get(str)) != null) {
                 str2 = str3 + "`" + str2;
             }
             this.f6223a.put(str, str2);
         }
     }
 
-    public C2061mf() {
-        this.f6192g = null;
-        this.f6192g = new C2453v1();
-        m8541m0();
+    public JSManager() {
+        this.assetScriptMap = null;
+        this.assetScriptMap = new ScriptMap();
+        initialize();
     }
 
-    public static C2061mf m8471f0() {
-        if (f6185j == null) {
-            f6185j = new C2061mf();
+    public static JSManager getInstance() {
+        if (instance == null) {
+            instance = new JSManager();
         }
-        return f6185j;
+        return instance;
     }
 
     public static boolean m8478v0(String str, String str2) {
@@ -455,9 +411,9 @@ public class C2061mf {
 
     public final void m8479A(String str, String str2) {
         Log.i("user-script", ">>>>>>> execute script: " + str + "=================");
-        String strM8515T = m8515T(str);
+        String strM8515T = getScriptPath(str);
         if (!FileUtils.fileExists(strM8515T)) {
-            m8486D0(str, str2);
+            installScript(str, str2);
         }
         BrowserActivity.getActivity().m6353r1(FileUtils.readFileToString(strM8515T));
     }
@@ -487,36 +443,47 @@ public class C2061mf {
         writableDatabase.update("user_script", contentValues, "script_id= ?", new String[]{str});
     }
 
-    public final m m8482B0(String str) throws IOException {
-        m mVar = new m();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8))));
-            while (true) {
-                String line = bufferedReader.readLine();
-                if (line == null) {
+    /**
+     * Parse UserScript metadata block (e.g. // @name, // @author ...)
+     * until "==/UserScript==" marker.
+     *
+     * @param script JS script source
+     * @return metadata container
+     */
+    public final UserScriptMeta parseUserScriptMeta(String script) {
+        UserScriptMeta meta = new UserScriptMeta();
+
+        try (BufferedReader reader = new BufferedReader(new StringReader(script))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                // Stop at metadata end
+                if (line.contains("==/UserScript==")) {
                     break;
                 }
-                if (line.indexOf("//") >= 0) {
-                    if (line.indexOf("==/UserScript==") >= 0) {
-                        break;
-                    }
-                    String[] strArrM454i = NetworkUtils.extractUserScriptAuthor(line);
-                    if (strArrM454i != null) {
-                        mVar.m8573g(strArrM454i[0], strArrM454i[1].trim());
-                    }
+
+                // Only process comment lines
+                if (!line.contains("//")) continue;
+
+                // Extract key/value pair (delegated to your helper)
+                String[] pair = NetworkUtils.extractUserScriptAuthor(line);
+                if (pair != null && pair.length == 2) {
+                    meta.put(pair[0], pair[1].trim());
                 }
             }
-        } catch (Exception e2) {
-            e2.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return mVar;
+
+        return meta;
     }
 
-    public void m8483C(WebView webView, String str) {
-        if (str.startsWith("javascript:")) {
-            str = str.substring(11);
+    public void evaluateJavascript(WebView webView, String script) {
+        if (script.startsWith("javascript:")) {
+            script = script.substring(11);
         }
-        webView.evaluateJavascript(str, new f());
+        webView.evaluateJavascript(script, result -> Log.d("WebView", "JavaScript returned value: " + result));
     }
 
     public void m8484C0(String str, boolean z) throws JSONException {
@@ -533,36 +500,32 @@ public class C2061mf {
             sb.append("&pub=false");
         }
         try {
-            this.f6186a.m2004y(new C0122Ck.a().m507i(sb.toString()).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), strM8527c0.getBytes(StandardCharsets.UTF_8))).m500b()).mo1791i(new c(str));
+            this.httpClient.newCall(new Request.Builder().url(sb.toString()).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), strM8527c0.getBytes(StandardCharsets.UTF_8))).m500b()).mo1791i(new c(str));
         } catch (Exception e2) {
             e2.printStackTrace();
         }
     }
 
     public void m8485D(int i2) {
-        BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_menu_cmd('" + i2 + "')");
+        BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_menu_cmd('" + i2 + "')");
     }
 
-    public final void m8486D0(String str, String str2) {
+    public final void installScript(String module, String script) {
         try {
-            m mVarM8482B0 = m8482B0(str2);
-            String strM8571e = mVarM8482B0.m8571e() == null ? "" : mVarM8482B0.m8571e();
-            String strM8567a = mVarM8482B0.m8567a() == null ? strM8571e : mVarM8482B0.m8567a();
-            String strM8569c = mVarM8482B0.m8569c("author") == null ? "" : mVarM8482B0.m8569c("author");
-            String strM8569c2 = null;
-            String strM8569c3 = mVarM8482B0.m8569c("require") == null ? null : mVarM8482B0.m8569c("require");
-            String strM8480A0 = m8480A0(mVarM8482B0.m8569c("resource") == null ? null : mVarM8482B0.m8569c("resource"));
-            String strM8569c4 = mVarM8482B0.m8569c("version") == null ? "1.0" : mVarM8482B0.m8569c("version");
-            String strM8569c5 = mVarM8482B0.m8569c("include") == null ? null : mVarM8482B0.m8569c("include");
-            String strM8569c6 = mVarM8482B0.m8569c("include") == null ? null : mVarM8482B0.m8569c("include");
-            String strM8569c7 = mVarM8482B0.m8569c("match") == null ? null : mVarM8482B0.m8569c("match");
-            if (mVarM8482B0.m8569c("grant") != null) {
-                strM8569c2 = mVarM8482B0.m8569c("grant");
-            }
-            m8488E0(str, strM8571e, strM8567a, strM8569c, str2, strM8569c3, strM8480A0, strM8569c5, strM8569c6, strM8569c7, strM8569c2, strM8569c4);
-        } catch (Exception e2) {
-            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
-            e2.printStackTrace();
+            UserScriptMeta meta = parseUserScriptMeta(script);
+            String name = meta.getName() == null ? "" : meta.getName();
+            String description = meta.getDescription() == null ? name : meta.getDescription();
+            String author = meta.get("author") == null ? "" : meta.get("author");
+            String grant = meta.get("grant") == null ? null : meta.get("grant");
+            String require = meta.get("require") == null ? null : meta.get("require");
+            String resource = m8480A0(meta.get("resource") == null ? null : meta.get("resource"));
+            String version = meta.get("version") == null ? "1.0" : meta.get("version");
+            String include = meta.get("include") == null ? null : meta.get("include");
+            String match = meta.get("match") == null ? null : meta.get("match");
+            m8488E0(module, name, description, author, script, require, resource, include, include, match, grant, version);
+        } catch (Exception e) {
+            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_failed));
+            e.printStackTrace();
         }
     }
 
@@ -574,7 +537,7 @@ public class C2061mf {
             jSONObject.put("status", 0);
             String str3 = "_" + str + "_" + str2 + "_GM_download";
             String string = jSONObject.toString();
-            BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + str3 + "'," + JSONObject.quote(string) + ")");
+            BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + str3 + "'," + JSONObject.quote(string) + ")");
         } catch (JSONException e2) {
             e2.printStackTrace();
         }
@@ -589,7 +552,7 @@ public class C2061mf {
         }
         m8549r(stringBuffer, str5);
         m8545p(stringBuffer);
-        String strM8515T = m8515T(str);
+        String strM8515T = getScriptPath(str);
         byte[] bytes = stringBuffer.toString().getBytes(StandardCharsets.UTF_8);
         if (bytes != null) {
             Log.i("user-script", "============ precompiled file ==================\n" + strM8515T);
@@ -597,57 +560,54 @@ public class C2061mf {
         }
     }
 
-    public final void m8489F(String str, String str2, int i2) throws JSONException {
+    public final void m8489F(String str, String str2, int status) throws JSONException {
         JSONObject jSONObject = new JSONObject();
         jSONObject.put("methodName", "GM_xmlhttpRequest");
         jSONObject.put("callbackName", "onerror");
         jSONObject.put("readyState", -1);
-        jSONObject.put("status", i2);
+        jSONObject.put("status", status);
         String strQuote = JSONObject.quote(jSONObject.toString());
         String str3 = "_" + str + "_" + str2 + "_GM_xmlhttpRequest";
-        BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + str3 + "'," + strQuote + ")");
+        BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + str3 + "'," + strQuote + ")");
     }
 
     public void m8490F0() {
-        C2453v1 c2453v1 = this.f6191f;
-        if (c2453v1 == null) {
-            this.f6191f = new C2453v1();
+        if (f6191f == null) {
+            this.f6191f = new ScriptMap();
         } else {
-            c2453v1.clear();
+            f6191f.clear();
         }
-        C2453v1 c2453v12 = this.f6194i;
-        if (c2453v12 == null) {
-            this.f6194i = new C2453v1();
+        if (onlineScriptMap == null) {
+            this.onlineScriptMap = new ScriptMap();
         } else {
-            c2453v12.clear();
+            onlineScriptMap.clear();
         }
-        C2453v1 c2453v13 = this.f6189d;
-        if (c2453v13 != null) {
-            c2453v13.clear();
+        if (f6189d != null) {
+            f6189d.clear();
         }
     }
 
-    public final void m8491G(String str, String str2, C0490Kk c0490Kk, String str3) throws JSONException {
+    public final void m8491G(String str, String str2, Response response, String str3) throws JSONException {
         String str4;
         String str5;
-        String string = c0490Kk.m2390S().m498i().toString();
+        String string = response.getRequest().getUrl().toString();
         JSONObject jSONObject = new JSONObject();
         jSONObject.put("methodName", "GM_xmlhttpRequest");
         jSONObject.put("callbackName", "onload");
         jSONObject.put("readyState", 4);
-        jSONObject.put("status", c0490Kk.m2396j());
-        jSONObject.put("statusText", c0490Kk.m2384A());
+        jSONObject.put("status", response.getStatus());
+        jSONObject.put("statusText", response.getMessage());
         jSONObject.put("finalUrl", string);
-        String strM2399p = c0490Kk.m2399p("Content-Type");
-        if (TextUtils.isEmpty(strM2399p)) {
-            strM2399p = "text/plain";
+        String contentType = response.getContentType("Content-Type");
+        if (TextUtils.isEmpty(contentType)) {
+            contentType = "text/plain";
         }
-        C1079Xc c1079XcM2401z = c0490Kk.m2401z();
+        Headers headersM2401Z = response.getHeaders();
         StringBuffer stringBuffer = new StringBuffer();
         StringBuffer stringBuffer2 = new StringBuffer();
-        for (int i2 = 0; i2 < c1079XcM2401z.size(); i2++) {
-            String strM4738f = c1079XcM2401z.m4738f(i2);
-            String strM4740h = c1079XcM2401z.m4740h(i2);
+        for (int i2 = 0; i2 < headersM2401Z.size(); i2++) {
+            String strM4738f = headersM2401Z.m4738f(i2);
+            String strM4740h = headersM2401Z.m4740h(i2);
             Log.i("user-script", "name:" + strM4738f + " val: " + strM4740h);
             stringBuffer.append(strM4738f);
             stringBuffer.append(": ");
@@ -668,70 +628,74 @@ public class C2061mf {
         jSONObject.put("responseHeaders", stringBuffer.toString());
         String str6 = "_" + str + "_" + str2 + "_GM_xmlhttpRequest";
         if (str3.equals("json")) {
-            jSONObject.put("response", new JSONObject(c0490Kk.m2392a().m2714l()));
+            jSONObject.put("response", new JSONObject(response.body().m2714l()));
         } else if (str3.equals("blob") || str3.equals("arraybuffer")) {
-            String strEncodeToString = Base64.encodeToString(c0490Kk.m2392a().m2709b(), 0);
+            String strEncodeToString = Base64.encodeToString(response.body().m2709b(), 0);
             jSONObject.put("response", "");
             jSONObject.put("response_base64", strEncodeToString);
         } else if (str3.equals("stream")) {
             jSONObject.put("response", "");
-            this.f6194i.put(str6, c0490Kk);
+            this.onlineScriptMap.put(str6, response);
         } else {
             str4 = "text";
-            if (TextUtils.isEmpty(str3) || str3.equals("text") || (!str3.equals("document") && strM2399p.indexOf("text/html") < 0 && strM2399p.indexOf("xml") < 0)) {
-                jSONObject.put("responseText", c0490Kk.m2392a().m2714l());
+            if (TextUtils.isEmpty(str3) || str3.equals("text") || (!str3.equals("document") && contentType.indexOf("text/html") < 0 && contentType.indexOf("xml") < 0)) {
+                jSONObject.put("responseText", response.body().m2714l());
                 jSONObject.put("responseType", str4);
                 String strQuote = JSONObject.quote(jSONObject.toString());
-                BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + str6 + "'," + strQuote + ")");
+                BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + str6 + "'," + strQuote + ")");
             }
-            jSONObject.put("responseText", c0490Kk.m2392a().m2714l());
+            jSONObject.put("responseText", response.body().m2714l());
         }
         str4 = str3;
         jSONObject.put("responseType", str4);
         String strQuote2 = JSONObject.quote(jSONObject.toString());
-        BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + str6 + "'," + strQuote2 + ")");
+        BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + str6 + "'," + strQuote2 + ")");
     }
 
-    public final String m8492G0(String str, String str2) {
-        String str3;
-        String str4;
-        if (str2.lastIndexOf(".js") < 0) {
-            str2 = str2 + ".js";
-        }
-        String strM8691Y = "";
+    /**
+     * Load a JS file from app assets under a package-like path and cache its contents.
+     *
+     * Example: packageName "com.example.lib", fileName "script" -> loads "com/example/lib/script.js"
+     *
+     * @return file contents (UTF-8) or empty string on error/not found
+     */
+    public final String getAssetScriptContent(String packageName, String fileName) {
+        if (TextUtils.isEmpty(packageName) || TextUtils.isEmpty(fileName)) return "";
+
+        // ensure .js suffix
+        String file = fileName.endsWith(".js") ? fileName : (fileName + ".js");
+        String assetPath = packageName.replace('.', '/') + "/" + file;
+
         try {
-            str3 = str.replaceAll("\\.", "/") + "/" + str2;
-            str4 = (String) this.f6192g.get(str3);
-        } catch (Exception e2) {
-            e = e2;
-        }
-        try {
-        } catch (Exception e3) {
-            e = e3;
-            strM8691Y = str4;
+            // check cache first
+            String cached = (String) this.assetScriptMap.get(assetPath);
+            if (!TextUtils.isEmpty(cached)) return cached;
+
+            // load from assets
+            try (InputStream is = BrowserActivity.getActivity().getAssets().open(assetPath)) {
+                String content = AndroidSystemUtils.readStreamToString(is);
+                if (content == null) content = "";
+                this.assetScriptMap.put(assetPath, content);
+                return content;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-            return strM8691Y;
+            return "";
         }
-        if (!TextUtils.isEmpty(str4)) {
-            return str4;
-        }
-        strM8691Y = AndroidSystemUtils.m8691Y(BrowserActivity.getActivity().getAssets().open(str3));
-        this.f6192g.put(str3, strM8691Y);
-        return strM8691Y;
     }
 
-    public final void m8493H(String str, String str2, C0490Kk c0490Kk, String str3) throws JSONException {
+    public final void getOnlineScriptMap(String str, String str2, Response response, String responseType) throws JSONException {
         JSONObject jSONObject = new JSONObject();
         jSONObject.put("methodName", "GM_xmlhttpRequest");
         jSONObject.put("callbackName", "onloadstart");
-        jSONObject.put("responseType", str3);
+        jSONObject.put("responseType", responseType);
         jSONObject.put("status", 0);
         String strQuote = JSONObject.quote(jSONObject.toString());
         String str4 = "_" + str + "_" + str2 + "_GM_xmlhttpRequest";
-        if (str3.equals("stream")) {
-            this.f6194i.put(str4, c0490Kk);
+        if (responseType.equals("stream")) {
+            this.onlineScriptMap.put(str4, response);
         }
-        BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + str4 + "'," + strQuote + ")");
+        BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + str4 + "'," + strQuote + ")");
     }
 
     public void m8494H0(AbstractC2359t abstractC2359t) {
@@ -744,7 +708,7 @@ public class C2061mf {
                     c0762Qg.mo2675n(Integer.MAX_VALUE);
                     String str = (String) c0762Qg.mo2666e();
                     if (c0762Qg.mo2683v() == -1) {
-                        c0762Qg.mo2662a(m8471f0().m8529d0(str));
+                        c0762Qg.mo2662a(getInstance().m8529d0(str));
                         abstractC2359t.m9643c(c0762Qg).mo2668g();
                     } else {
                         abstractC2359t.m9643c(c0762Qg);
@@ -761,7 +725,7 @@ public class C2061mf {
         jSONObject.put("readyState", i2);
         String strQuote = JSONObject.quote(jSONObject.toString());
         String str3 = "_" + str + "_" + str2 + "_GM_xmlhttpRequest";
-        BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + str3 + "'," + strQuote + ")");
+        BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + str3 + "'," + strQuote + ")");
     }
 
     public String m8496I0(String str, String str2, String str3) {
@@ -787,7 +751,7 @@ public class C2061mf {
         if (TextUtils.isEmpty(str2)) {
             return;
         }
-        BrowserActivity.getActivity().m6361u0(str2);
+        BrowserActivity.getActivity().updateTitle(str2);
     }
 
     public void m8498J0(String str, String str2) {
@@ -821,13 +785,13 @@ public class C2061mf {
 
     public void m8500K0(String str) {
         MySQLiteOpenHelper.getInstance().getWritableDatabase().delete("user_script", "script_id= ?", new String[]{str});
-        C1089Xm.getInstance().m4822j("syncable_user_script").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_user_script").incrementVersion();
     }
 
     public void m8501L(String str) {
         Toast.makeText(BrowserActivity.getActivity(), R.string.toast_installing_script, Toast.LENGTH_SHORT).show();
         String str2 = ApiEndpointsManager.getInstance().getFetchShareScriptEndpoint() + "?resource_id=" + str;
-        this.f6186a.m2004y(new C0122Ck.a().m507i(str2).m500b()).mo1791i(new b(str2));
+        this.httpClient.newCall(new Request.Builder().url(str2).m500b()).mo1791i(new b(str2));
     }
 
     public final String m8502L0(String str) throws JSONException {
@@ -847,9 +811,9 @@ public class C2061mf {
 
     public void m8503M(String str) {
         Toast.makeText(BrowserActivity.getActivity(), R.string.toast_installing_script, Toast.LENGTH_SHORT).show();
-        C0122Ck.a aVarM507i = new C0122Ck.a().m507i(str);
-        aVarM507i.m499a("User-Agent", SharedPreferencesHelper.defaultUserAgent);
-        this.f6186a.m2004y(aVarM507i.m500b()).mo1791i(new d(str));
+        Request.Builder builderVarM507I = new Request.Builder().url(str);
+        builderVarM507I.addHeader("User-Agent", SharedPreferencesHelper.defaultUserAgent);
+        this.httpClient.newCall(builderVarM507I.m500b()).mo1791i(new d(str));
     }
 
     public int m8504M0(String str) {
@@ -865,17 +829,16 @@ public class C2061mf {
         return i;
     }
 
-    public void m8505N(String str) {
-        FileUtils.deleteFile(m8515T(str));
-        String strM8492G0 = m8492G0("module", str);
-        if (TextUtils.isEmpty(strM8492G0)) {
-            return;
+    public void install(String moduleName) {
+        FileUtils.deleteFile(getScriptPath(moduleName));
+        String script = getAssetScriptContent("module", moduleName);
+        if (!TextUtils.isEmpty(script)) {
+            installScript(moduleName, script);
         }
-        m8486D0(str, strM8492G0);
     }
 
     public void m8506N0(String str, String str2) {
-        AndroidSystemUtils.m8690X(BrowserActivity.getActivity(), str2, ApiEndpointsManager.getInstance().getShareScriptsEndpoint() + "&filter=forward&resource_id=" + str, "", null, null, null);
+        AndroidSystemUtils.share(BrowserActivity.getActivity(), str2, ApiEndpointsManager.getInstance().getShareScriptsEndpoint() + "&filter=forward&resource_id=" + str,  null, null, null);
     }
 
     public final int m8507O(String str) {
@@ -901,9 +864,9 @@ public class C2061mf {
     }
 
     public void m8508O0(String str, String str2) throws NumberFormatException {
-        C2453v1 c2453v1 = this.f6189d;
-        if (c2453v1 != null) {
-            ArrayList arrayList = (ArrayList) c2453v1.get(str);
+        ScriptMap scriptMap = this.f6189d;
+        if (scriptMap != null) {
+            ArrayList arrayList = (ArrayList) scriptMap.get(str);
             int i2 = Integer.parseInt(str2);
             if (arrayList != null) {
                 int i3 = -1;
@@ -937,39 +900,39 @@ public class C2061mf {
         if (!TextUtils.isEmpty(strM3666k6) && strM3666k6.indexOf("data:") < 0) {
             strM3666k6 = strM3666k6.replaceAll(",", "`");
         }
-        m mVarM8482B0 = m8482B0(strM3666k4);
-        String strM8571e = mVarM8482B0.m8571e();
+        UserScriptMeta mVarUserScriptMeta8482B0 = parseUserScriptMeta(strM3666k4);
+        String strM8571e = mVarUserScriptMeta8482B0.getName();
         String str3 = !TextUtils.isEmpty(strM8571e) ? strM8571e : strM3666k;
-        String strM8569c = mVarM8482B0.m8569c("name") == null ? "" : mVarM8482B0.m8569c("name");
+        String strM8569c = mVarUserScriptMeta8482B0.get("name") == null ? "" : mVarUserScriptMeta8482B0.get("name");
         String str4 = TextUtils.isEmpty(strM8569c) ? str3 : strM8569c;
-        String strM8567a = TextUtils.isEmpty(strM3666k2) ? mVarM8482B0.m8567a() : strM3666k2;
-        String strM8569c2 = mVarM8482B0.m8569c("author") == null ? strM3666k3 : mVarM8482B0.m8569c("author");
-        String strM8569c3 = mVarM8482B0.m8569c("require");
-        String strM8569c4 = mVarM8482B0.m8569c("exclude");
-        String strM8569c5 = mVarM8482B0.m8569c("icon");
-        String strM8569c6 = mVarM8482B0.m8569c("source");
-        String strM8480A0 = m8480A0(mVarM8482B0.m8569c("resource") == null ? null : mVarM8482B0.m8569c("resource"));
-        String strM8569c7 = mVarM8482B0.m8569c("include") == null ? null : mVarM8482B0.m8569c("include");
-        String strM8569c8 = mVarM8482B0.m8569c("match") == null ? null : mVarM8482B0.m8569c("match");
-        String strM8569c9 = mVarM8482B0.m8569c("grant") == null ? null : mVarM8482B0.m8569c("grant");
-        String strM8569c10 = mVarM8482B0.m8569c("version") == null ? "1.0" : mVarM8482B0.m8569c("version");
-        String strM8569c11 = mVarM8482B0.m8569c("namespace") != null ? mVarM8482B0.m8569c("namespace") : "";
+        String strM8567a = TextUtils.isEmpty(strM3666k2) ? mVarUserScriptMeta8482B0.getDescription() : strM3666k2;
+        String strM8569c2 = mVarUserScriptMeta8482B0.get("author") == null ? strM3666k3 : mVarUserScriptMeta8482B0.get("author");
+        String strM8569c3 = mVarUserScriptMeta8482B0.get("require");
+        String strM8569c4 = mVarUserScriptMeta8482B0.get("exclude");
+        String strM8569c5 = mVarUserScriptMeta8482B0.get("icon");
+        String strM8569c6 = mVarUserScriptMeta8482B0.get("source");
+        String strM8480A0 = m8480A0(mVarUserScriptMeta8482B0.get("resource") == null ? null : mVarUserScriptMeta8482B0.get("resource"));
+        String strM8569c7 = mVarUserScriptMeta8482B0.get("include") == null ? null : mVarUserScriptMeta8482B0.get("include");
+        String strM8569c8 = mVarUserScriptMeta8482B0.get("match") == null ? null : mVarUserScriptMeta8482B0.get("match");
+        String strM8569c9 = mVarUserScriptMeta8482B0.get("grant") == null ? null : mVarUserScriptMeta8482B0.get("grant");
+        String strM8569c10 = mVarUserScriptMeta8482B0.get("version") == null ? "1.0" : mVarUserScriptMeta8482B0.get("version");
+        String strM8569c11 = mVarUserScriptMeta8482B0.get("namespace") != null ? mVarUserScriptMeta8482B0.get("namespace") : "";
         if (TextUtils.isEmpty(strM3666k5)) {
             strM3666k5 = AbstractCryptoUtils.toMd5(strM3666k4);
         }
         String str5 = strM3666k5;
         String str6 = TextUtils.isEmpty(strM8569c6) ? str2 : strM8569c6;
         if (TextUtils.isEmpty(strM8569c5)) {
-            strM8569c5 = m8562y(mVarM8482B0.m8572f());
+            strM8569c5 = m8562y(mVarUserScriptMeta8482B0.getType());
         }
         String str7 = strM8569c5;
         m8555u(str7);
-        String strM8568b = mVarM8482B0.m8568b();
+        String strM8568b = mVarUserScriptMeta8482B0.m8568b();
         if (TextUtils.isEmpty(strM3666k6)) {
             strM3666k6 = strM8568b;
         }
-        int iM8507O = m8507O(mVarM8482B0.m8569c("run-at"));
-        int iM8572f = mVarM8482B0.m8572f();
+        int iM8507O = m8507O(mVarUserScriptMeta8482B0.get("run-at"));
+        int iM8572f = mVarUserScriptMeta8482B0.getType();
         if (iM8507O == 3) {
             strM3666k6 = "ep.menu.main";
         } else if (iM8507O == 4) {
@@ -982,8 +945,8 @@ public class C2061mf {
         if (m8512Q0(writableDatabase, str5, str4, strM8569c11, str3, strM8567a, str7, strM8569c2, strM3666k4, str8, strM8569c3, strM8569c4, strM8480A0, strM8569c7, strM8569c8, strM8569c9, strM8569c10, iM8507O, iM8572f) < 0) {
             m8559w0(writableDatabase, str5, str4, strM8569c11, str3, strM8567a, strM8569c2, strM3666k4, str8, strM8569c3, strM8569c4, str7, str6, strM8480A0, strM8569c7, strM8569c8, strM8569c9, strM8569c10, iM8507O, iM8572f);
         }
-        C1089Xm.getInstance().m4822j("syncable_user_script").incrementVersion();
-        C1572g.getInstance().m7037t();
+        SyncManager.getInstance().getResourceManager("syncable_user_script").incrementVersion();
+        MenuConfigManager.getInstance().m7037t();
         return str5;
     }
 
@@ -1078,7 +1041,7 @@ public class C2061mf {
         return jSONObject.toString();
     }
 
-    public final String m8515T(String str) {
+    public final String getScriptPath(String str) {
         return PhoneUtils.getInstance().getAppFilesDir() + "/" + Math.abs(("XMonkey_1.2.5_" + str).hashCode());
     }
 
@@ -1093,7 +1056,7 @@ public class C2061mf {
                     strM8691Y = URLDecoder.decode(strArrM470y[2], "utf-8");
                 }
             } else if (str.startsWith("assets:")) {
-                strM8691Y = AndroidSystemUtils.m8691Y(BrowserActivity.getActivity().getAssets().open(str.substring(7)));
+                strM8691Y = AndroidSystemUtils.readStreamToString(BrowserActivity.getActivity().getAssets().open(str.substring(7)));
                 Log.d("js-manager", "get require lib from assets:" + str);
             }
         } catch (Exception e2) {
@@ -1103,7 +1066,7 @@ public class C2061mf {
     }
 
     public final byte[] m8517V(String str) throws IOException {
-        String strM2046a = ResourceCacheManager.getInstance().m2046a(str, 1);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(str, 1);
         if (FileUtils.fileExists(strM2046a)) {
             return FileUtils.readFileToByteArray(strM2046a);
         }
@@ -1275,11 +1238,11 @@ public class C2061mf {
                 map.put(next, jSONObjectM3662g.getString(next));
             }
         }
-        C1541c.m6674q().m6684J(strM3665j, null, str4, strM3665j3, null, -1L, strM3665j2, new k(str, str2), map);
+        BrowserDownloadManager.getInstance().m6684J(strM3665j, null, str4, strM3665j3, null, -1L, strM3665j2, new k(str, str2), map);
     }
 
     public String m8525b0(String str) {
-        String strM8515T = m8515T(str);
+        String strM8515T = getScriptPath(str);
         return FileUtils.fileExists(strM8515T) ? FileUtils.readFileToString(strM8515T) : "(function() { mbrowser.showToast('Load user script failed');})();";
     }
 
@@ -1468,16 +1431,16 @@ public class C2061mf {
     public String m8532f(String str) {
         byte[] bArr;
         int i2;
-        C0490Kk c0490Kk = (C0490Kk) this.f6194i.get(str);
+        Response response = (Response) this.onlineScriptMap.get(str);
         try {
-            if (c0490Kk.m2396j() != 200 || (i2 = c0490Kk.m2392a().m2708a().read((bArr = new byte[8192]))) <= 0) {
+            if (response.getStatus() != 200 || (i2 = response.body().byteStream().read((bArr = new byte[8192]))) <= 0) {
                 return "LS08ZW5kIG9mIHN0cmVhbT4tLQ==";
             }
             byte[] bArr2 = new byte[i2];
             System.arraycopy(bArr, 0, bArr2, 0, i2);
             return Base64.encodeToString(bArr2, 0);
         } catch (Exception unused) {
-            c0490Kk.m2392a().close();
+            response.body().close();
             return "LS08ZW5kIG9mIHN0cmVhbT4tLQ==";
         }
     }
@@ -1489,8 +1452,8 @@ public class C2061mf {
 
     public final boolean m8534g0(String str, String str2) {
         String str3 = str + str2;
-        C2453v1 c2453v1 = this.f6191f;
-        return (c2453v1 == null || c2453v1.get(str3) == null) ? false : true;
+        ScriptMap scriptMap = this.f6191f;
+        return (scriptMap == null || scriptMap.get(str3) == null) ? false : true;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:31:0x00cb  */
@@ -1514,22 +1477,22 @@ public class C2061mf {
             java.lang.String r3 = p000.AbstractC0760Qe.m3666k(r0, r3, r4)
             Ck$a r4 = new Ck$a
             r4.<init>()
-            r4.m507i(r10)
-            com.mmbox.xbrowser.d r5 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            r4.url(r10)
+            com.mmbox.xbrowser.d r5 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             java.lang.String r5 = r5.m6849D()
             if (r5 != 0) goto L33
-            java.lang.String r5 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.f4839X0
+            java.lang.String r5 = com.mmbox.xbrowser.SharedPreferencesHelper.f4839X0
         L33:
             java.lang.String r6 = "User-Agent"
-            r4.m499a(r6, r5)
+            r4.addHeader(r6, r5)
             java.lang.String r5 = "Accept-Language"
             java.lang.String r6 = "zh-CN,zh;q=0.9,en;q=0.8"
-            r4.m499a(r5, r6)
+            r4.addHeader(r5, r6)
             java.lang.String r5 = "Accept"
         */
         //  java.lang.String r6 = "*/*"
         /*
-            r4.m499a(r5, r6)
+            r4.addHeader(r5, r6)
             java.lang.String r5 = r7.m8509P(r10)
             android.webkit.CookieManager r6 = android.webkit.CookieManager.getInstance()
             java.lang.String r10 = r6.getCookie(r10)
@@ -1552,7 +1515,7 @@ public class C2061mf {
             if (r10 != 0) goto L83
             java.lang.String r10 = "Cookie"
             java.lang.String r5 = r5.trim()
-            r4.m499a(r10, r5)
+            r4.addHeader(r10, r5)
         L83:
             if (r1 == 0) goto L9d
             java.util.Iterator r10 = r1.keys()
@@ -1598,7 +1561,7 @@ public class C2061mf {
             java.lang.String r10 = p000.AbstractC0760Qe.m3666k(r0, r10, r1)
             boolean r0 = android.text.TextUtils.isEmpty(r10)
             if (r0 != 0) goto Lfe
-            java.lang.String[] r10 = p000.AbstractC0115Cd.m447b(r10)
+            java.lang.String[] r10 = p000.NetworkUtils.m447b(r10)
             r0 = 0
             r1 = r10[r0]
             r2 = 2
@@ -1610,7 +1573,7 @@ public class C2061mf {
         Lfe:
             Ck r10 = r4.m500b()
             Jh r0 = r7.f6186a
-            J3 r10 = r0.m2004y(r10)
+            J3 r10 = r0.newCall(r10)
             mf$l r0 = new mf$l
             r0.<init>(r8, r9, r3)
             r10.mo1791i(r0)
@@ -1621,24 +1584,27 @@ public class C2061mf {
 
     public void m8536h0(String str) {
         if (FileUtils.getFileSize(str) > 5242880) {
-            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_file_too_large));
+            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_file_too_large));
             return;
         }
         if (!FileUtils.isMostlyTextFile(str)) {
-            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_invalid_file_format));
+            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_invalid_file_format));
             return;
         }
         Toast.makeText(BrowserActivity.getActivity(), R.string.toast_installing_script, Toast.LENGTH_SHORT).show();
         try {
             m8546p0(str, FileUtils.readFileToString(str), 2);
-            BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_install_script_success));
+            BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_install_script_success));
         } catch (Exception e2) {
             e2.printStackTrace();
         }
     }
 
-    public void m8537i0() {
-        Looper.myQueue().addIdleHandler(new a());
+    public void init() {
+        Looper.myQueue().addIdleHandler(() -> {
+            BackgroundTaskManager.submitBackgroundTask(() -> m8540l0());
+            return false;
+        });
     }
 
     public void m8538j0(AbstractC2359t abstractC2359t, String str) {
@@ -1681,7 +1647,7 @@ public class C2061mf {
                 cursorQuery.close();
             }
             if (str.equals("ep.menu.tool")) {
-                m8471f0().m8494H0(abstractC2359t);
+                getInstance().m8494H0(abstractC2359t);
             }
         } catch (Exception e2) {
             e2.printStackTrace();
@@ -1689,14 +1655,14 @@ public class C2061mf {
     }
 
     public final void m8539k0(String str) {
-        if (FileUtils.fileExists(m8515T(str))) {
+        if (FileUtils.fileExists(getScriptPath(str))) {
             return;
         }
-        String strM8492G0 = m8492G0("module", str);
+        String strM8492G0 = getAssetScriptContent("module", str);
         if (TextUtils.isEmpty(strM8492G0)) {
             return;
         }
-        m8486D0(str, strM8492G0);
+        installScript(str, strM8492G0);
     }
 
     public final void m8540l0() {
@@ -1706,49 +1672,47 @@ public class C2061mf {
         m8539k0("page_tts_v2");
     }
 
-    public final void m8541m0() {
-        if (this.f6186a == null) {
+    public final void initialize() {
+        if (this.httpClient == null) {
             C1112Y8 c1112y8 = new C1112Y8();
             c1112y8.m4883j(64);
             c1112y8.m4884k(5);
-            this.f6186a = new OkHttpClient();
+            this.httpClient = new OkHttpClient();
         }
     }
 
-    public void m8542n0(WebView webView, String str) {
-        if (str.lastIndexOf(".js") < 0) {
-            str = str + ".js";
+    public void injectJavascript(WebView webView, String name) {
+        if (name.lastIndexOf(".js") < 0) {
+            name = name + ".js";
         }
-        String strM8492G0 = m8492G0("inject", str);
-        if (TextUtils.isEmpty(strM8492G0)) {
-            return;
+        String script = getAssetScriptContent("inject", name);
+        if (!TextUtils.isEmpty(script)) {
+            evaluateJavascript(webView, script);
         }
-        m8483C(webView, strM8492G0);
     }
 
     public void m8543o(WebView webView) {
         if (!SharedPreferencesHelper.getInstance().m6893f0()) {
-            m8483C(webView, "if(window._COLOR_THEME_) window._COLOR_THEME_.removeThemeStyle()");
-            if (SharedPreferencesHelper.getInstance().enterNightMode) {
-                return;
+            evaluateJavascript(webView, "if(window._COLOR_THEME_) window._COLOR_THEME_.removeThemeStyle()");
+            if (!SharedPreferencesHelper.getInstance().enterNightMode) {
+                ThemeManager.getInstance().m9474B(BrowserActivity.getActivity().getColors());
             }
-            ThemeManager.getInstance().m9474B(BrowserActivity.getActivity().m6258S0());
-            return;
+        } else {
+            String theme = ThemeDialog.getThemeForColor(SharedPreferencesHelper.getInstance().goodForEyeColor);
+            if ("default".equals(theme)) {
+                evaluateJavascript(webView, "if(window._COLOR_THEME_) window._COLOR_THEME_.removeThemeStyle()");
+                ThemeManager.getInstance().m9474B(WebViewBrowserController.getColorsByTheme());
+            } else {
+                evaluateJavascript(webView, "if(window._COLOR_THEME_) window._COLOR_THEME_.applyColorTheme('" + theme + "')");
+                ThemeManager.getInstance().m9474B(new int[]{SharedPreferencesHelper.getInstance().goodForEyeColor, SharedPreferencesHelper.getInstance().goodForEyeColor});
+            }
         }
-        String strM1570c = DialogC0344Hc.m1570c(SharedPreferencesHelper.getInstance().goodForEyeColor);
-        if (strM1570c.equals("default")) {
-            m8483C(webView, "if(window._COLOR_THEME_) window._COLOR_THEME_.removeThemeStyle()");
-            ThemeManager.getInstance().m9474B(WebViewBrowserController.m6731J());
-            return;
-        }
-        m8483C(webView, "if(window._COLOR_THEME_) window._COLOR_THEME_.applyColorTheme('" + strM1570c + "')");
-        ThemeManager.getInstance().m9474B(new int[]{SharedPreferencesHelper.getInstance().goodForEyeColor, SharedPreferencesHelper.getInstance().goodForEyeColor});
     }
 
     public void m8544o0(WebView webView) {
-        m8542n0(webView, "xjsapi");
-        m8542n0(webView, "color_theme");
-        BrowserActivity.getActivity().getHandler().postDelayed(new g(webView), 100L);
+        injectJavascript(webView, "xjsapi");
+        injectJavascript(webView, "color_theme");
+        BrowserActivity.getActivity().getHandler().postDelayed(() -> m8543o(webView), 100L);
         m8543o(webView);
     }
 
@@ -1919,11 +1883,11 @@ public class C2061mf {
     }
 
     public void m8552s0(WebView webView, String str) {
-        String strM8515T = m8515T(str);
+        String strM8515T = getScriptPath(str);
         if (FileUtils.fileExists(strM8515T)) {
-            m8483C(webView, FileUtils.readFileToString(strM8515T));
+            evaluateJavascript(webView, FileUtils.readFileToString(strM8515T));
         } else {
-            BrowserActivity.getActivity().m6251Q1(str);
+            BrowserActivity.getActivity().onLoadModuleFailed(str);
         }
     }
 
@@ -1963,7 +1927,7 @@ public class C2061mf {
             if (strArrM470y.length > 0) {
                 String str2 = strArrM470y[1];
                 String str3 = strArrM470y[2];
-                String strM2046a = ResourceCacheManager.getInstance().m2046a(str, 9);
+                String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(str, 9);
                 if (str2 == null || !str2.equals("base64")) {
                     return;
                 }
@@ -1986,7 +1950,7 @@ public class C2061mf {
     }
 
     public final void m8557v(String str) {
-        if (FileUtils.fileExists(ResourceCacheManager.getInstance().m2046a(str, 9))) {
+        if (FileUtils.fileExists(ResourceCacheManager.getInstance().getUrlOrFilePath(str, 9))) {
             return;
         }
         C0232F1.m1169l().m1173h(str);
@@ -2029,7 +1993,7 @@ public class C2061mf {
 
     public final void m8560x(StringBuffer stringBuffer, String str) {
         if (this.f6190e == null) {
-            this.f6190e = new C2453v1();
+            this.f6190e = new ScriptMap();
         }
         String host = Uri.parse(str).getHost();
         String string = stringBuffer.toString();
@@ -2080,23 +2044,23 @@ public class C2061mf {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
             BrowserActivity browserActivityM6183s1;
             String string;
-            if (c0490Kk.m2396j() != 200) {
-                BrowserActivity.getActivity().m6256R2("Upload fail server status code:" + c0490Kk.m2396j());
+            if (response.getStatus() != 200) {
+                BrowserActivity.getActivity().showToast("Upload fail server status code:" + response.getStatus());
                 return;
             }
-            String strM2399p = c0490Kk.m2399p("Content-Type");
+            String strM2399p = response.getContentType("Content-Type");
             if (strM2399p == null || strM2399p.indexOf("application/json") < 0) {
                 return;
             }
             try {
-                int i = new JSONObject(c0490Kk.m2392a().m2714l()).getInt("status");
+                int i = new JSONObject(response.body().m2714l()).getInt("status");
                 if (i == 1) {
                     BrowserActivity.getActivity().runOnUiThread(new a());
                 } else if (i == 2) {
-                    C2061mf.this.m8506N0(this.f6199a, BrowserActivity.getActivity().getString(R.string.share_script_title) + "[" + C2061mf.this.m8523a0(this.f6199a) + "]");
+                    m8506N0(this.f6199a, BrowserActivity.getActivity().getString(R.string.share_script_title) + "[" + m8523a0(this.f6199a) + "]");
                 } else {
                     if (i == 3) {
                         browserActivityM6183s1 = BrowserActivity.getActivity();
@@ -2108,19 +2072,19 @@ public class C2061mf {
                         browserActivityM6183s1 = BrowserActivity.getActivity();
                         string = BrowserActivity.getActivity().getString(R.string.toast_script_exist);
                     }
-                    browserActivityM6183s1.m6256R2(string);
+                    browserActivityM6183s1.showToast(string);
                 }
             } catch (JSONException unused) {
             } catch (Throwable th) {
-                c0490Kk.m2392a().close();
+                response.body().close();
                 throw th;
             }
-            c0490Kk.m2392a().close();
+            response.body().close();
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            BrowserActivity.getActivity().m6256R2("Netwrok error!");
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            BrowserActivity.getActivity().showToast("Netwrok error!");
         }
 
         public class a implements Runnable {
@@ -2179,10 +2143,10 @@ public class C2061mf {
             public void onShown() {
                 if (e.this.f6205l.startsWith("http")) {
                     e eVar = e.this;
-                    C2061mf.this.m8503M(eVar.f6205l);
+                    m8503M(eVar.f6205l);
                 } else {
                     e eVar2 = e.this;
-                    C2061mf.this.m8536h0(eVar2.f6205l);
+                    m8536h0(eVar2.f6205l);
                 }
             }
 
@@ -2225,7 +2189,7 @@ public class C2061mf {
                 jSONObject.put("methodName", "GM_notification");
                 jSONObject.put("callbackName", "onclick");
                 String strQuote = JSONObject.quote(jSONObject.toString());
-                BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + this.f6214a + "'," + strQuote + ")");
+                BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + this.f6214a + "'," + strQuote + ")");
             } catch (Exception unused) {
             }
         }
@@ -2237,7 +2201,7 @@ public class C2061mf {
                 jSONObject.put("methodName", "GM_notification");
                 jSONObject.put("callbackName", "ondone");
                 String strQuote = JSONObject.quote(jSONObject.toString());
-                BrowserActivity.getActivity().m6361u0("_XJSAPI_.exec_gm_callback('" + this.f6214a + "'," + strQuote + ")");
+                BrowserActivity.getActivity().updateTitle("_XJSAPI_.exec_gm_callback('" + this.f6214a + "'," + strQuote + ")");
             } catch (Exception unused) {
             }
         }

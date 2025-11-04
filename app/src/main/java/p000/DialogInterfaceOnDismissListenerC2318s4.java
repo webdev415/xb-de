@@ -14,7 +14,7 @@ import com.xbrowser.play.R;
 import java.util.ArrayList;
 import org.json.JSONException;
 
-public class DialogInterfaceOnDismissListenerC2318s4 extends AbstractDialogC2267r implements DialogInterface.OnDismissListener {
+public class DialogInterfaceOnDismissListenerC2318s4 extends BaseDialog implements DialogInterface.OnDismissListener {
 
     public BrowserActivity f7009b;
 
@@ -32,7 +32,7 @@ public class DialogInterfaceOnDismissListenerC2318s4 extends AbstractDialogC2267
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             DialogInterfaceOnDismissListenerC2318s4 dialogInterfaceOnDismissListenerC2318s4 = DialogInterfaceOnDismissListenerC2318s4.this;
             dialogInterfaceOnDismissListenerC2318s4.f7011d = i;
-            dialogInterfaceOnDismissListenerC2318s4.f7010c = ((C1224ai.a) dialogInterfaceOnDismissListenerC2318s4.f7012e.get(i)).f3548a;
+            dialogInterfaceOnDismissListenerC2318s4.f7010c = ((C1224ai.ThirdApp) dialogInterfaceOnDismissListenerC2318s4.f7012e.get(i)).pkg;
         }
     }
 
@@ -43,11 +43,11 @@ public class DialogInterfaceOnDismissListenerC2318s4 extends AbstractDialogC2267
         this.f7012e = null;
         this.f7009b = browserActivity;
         setOnDismissListener(this);
-        this.f7012e = C1224ai.m5285e().m5292h("language");
+        this.f7012e = C1224ai.getInstance().getAppList("language");
     }
 
     @Override
-    public void mo320a(Bundle bundle) throws JSONException, Resources.NotFoundException {
+    public void initView(Bundle bundle) throws JSONException, Resources.NotFoundException {
         setOnDismissListener(this);
         setContentView(R.layout.dlg_change_language);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
@@ -58,13 +58,13 @@ public class DialogInterfaceOnDismissListenerC2318s4 extends AbstractDialogC2267
         if (TextUtils.isEmpty(str)) {
             this.f7010c = "";
         }
-        int iM5291g = C1224ai.m5285e().m5291g("language", this.f7010c.toString());
+        int iM5291g = C1224ai.getInstance().m5291g("language", this.f7010c.toString());
         int color = this.f7009b.getColor(R.color.neutral_text_color);
         for (int i = 0; i < this.f7012e.size(); i++) {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(-1, -2);
             RadioButton radioButton = new RadioButton(getContext());
             radioButton.setTextColor(color);
-            radioButton.setText(((C1224ai.a) this.f7012e.get(i)).f3549b);
+            radioButton.setText(((C1224ai.ThirdApp) this.f7012e.get(i)).name);
             radioButton.setId(i);
             layoutParams.topMargin = dimension;
             layoutParams.bottomMargin = dimension;
@@ -85,6 +85,6 @@ public class DialogInterfaceOnDismissListenerC2318s4 extends AbstractDialogC2267
             SharedPreferencesHelper.getInstance().m6931z0();
             Toast.makeText(this.f7009b, R.string.toast_change_language, Toast.LENGTH_LONG).show();
         }
-        C1199a3.m5090f().m5096h("language");
+        C1199a3.getInstance().m5096h("language");
     }
 }

@@ -2,31 +2,31 @@ package p000;
 
 import java.util.List;
 
-public final class C0783R1 extends AbstractC1967kd {
+public final class HeartBeatResult extends AbstractC1967kd {
 
-    public final String f2311a;
+    public final String userAgent;
 
-    public final List f2312b;
+    public final List usedDates;
 
-    public C0783R1(String str, List list) {
+    public HeartBeatResult(String str, List list) {
         if (str == null) {
             throw new NullPointerException("Null userAgent");
         }
-        this.f2311a = str;
+        this.userAgent = str;
         if (list == null) {
             throw new NullPointerException("Null usedDates");
         }
-        this.f2312b = list;
+        this.usedDates = list;
     }
 
     @Override
     public List mo3749b() {
-        return this.f2312b;
+        return this.usedDates;
     }
 
     @Override
     public String mo3750c() {
-        return this.f2311a;
+        return this.userAgent;
     }
 
     public boolean equals(Object obj) {
@@ -37,14 +37,14 @@ public final class C0783R1 extends AbstractC1967kd {
             return false;
         }
         AbstractC1967kd abstractC1967kd = (AbstractC1967kd) obj;
-        return this.f2311a.equals(abstractC1967kd.mo3750c()) && this.f2312b.equals(abstractC1967kd.mo3749b());
+        return this.userAgent.equals(abstractC1967kd.mo3750c()) && this.usedDates.equals(abstractC1967kd.mo3749b());
     }
 
     public int hashCode() {
-        return ((this.f2311a.hashCode() ^ 1000003) * 1000003) ^ this.f2312b.hashCode();
+        return ((this.userAgent.hashCode() ^ 1000003) * 1000003) ^ this.usedDates.hashCode();
     }
 
     public String toString() {
-        return "HeartBeatResult{userAgent=" + this.f2311a + ", usedDates=" + this.f2312b + "}";
+        return "HeartBeatResult{userAgent=" + this.userAgent + ", usedDates=" + this.usedDates + "}";
     }
 }

@@ -195,7 +195,7 @@ public class C0219Ep extends WebView {
                     if (C0219Ep.this.f560k) {
                         return;
                     }
-                    C2061mf.m8471f0().m8483C(C0219Ep.this, "_XJSAPI_.force_select_text(" + C0219Ep.this.f550a + "," + C0219Ep.this.f551b + "," + C0219Ep.this.getHeight() + "," + C0219Ep.this.getWidth() + ")");
+                    JSManager.getInstance().evaluateJavascript(C0219Ep.this, "_XJSAPI_.force_select_text(" + C0219Ep.this.f550a + "," + C0219Ep.this.f551b + "," + C0219Ep.this.getHeight() + "," + C0219Ep.this.getWidth() + ")");
                 }
             }
 
@@ -307,7 +307,7 @@ public class C0219Ep extends WebView {
     }
 
     public void m1084e() {
-        C2061mf.m8471f0().m8483C(this, "_XJSAPI_.cancel_select()");
+        JSManager.getInstance().evaluateJavascript(this, "_XJSAPI_.cancel_select()");
     }
 
     public final void m1085f() {
@@ -326,7 +326,7 @@ public class C0219Ep extends WebView {
 
     public final void m1086g() {
         this.f572w = true;
-        C2061mf.m8471f0().m8483C(this, "if(window._XJSAPI_ != undefined) _XJSAPI_.hit_test(" + this.f550a + "," + this.f551b + "," + getHeight() + "," + getWidth() + ")");
+        JSManager.getInstance().evaluateJavascript(this, "if(window._XJSAPI_ != undefined) _XJSAPI_.hit_test(" + this.f550a + "," + this.f551b + "," + getHeight() + "," + getWidth() + ")");
     }
 
     public String getHitTestData() {
@@ -358,12 +358,12 @@ public class C0219Ep extends WebView {
         BrowserActivity.getActivity().m6196C2(0);
         if (this.f574y != 0) {
             Log.i("video-seek", "seek " + this.f574y);
-            C2061mf.m8471f0().m8483C(this, "_XJSAPI_.change_video_seek(" + this.f574y + ")");
+            JSManager.getInstance().evaluateJavascript(this, "_XJSAPI_.change_video_seek(" + this.f574y + ")");
         }
     }
 
     public void m1090k() {
-        C2061mf.m8471f0().m8483C(this, "_XJSAPI_.select_text(" + this.f550a + "," + this.f551b + "," + getHeight() + "," + getWidth() + ")");
+        JSManager.getInstance().evaluateJavascript(this, "_XJSAPI_.select_text(" + this.f550a + "," + this.f551b + "," + getHeight() + "," + getWidth() + ")");
     }
 
     public void m1091l(int i, int i2) {
@@ -481,11 +481,11 @@ public class C0219Ep extends WebView {
                         float fAbs = (Math.abs(i) - this.f553d) / 2.0f;
                         if (i > 0) {
                             this.f574y = -((int) (fAbs * BrowserActivity.getActivity().m6270V0()));
-                            c2564xbM10653b = C2564xb.m10653b();
+                            c2564xbM10653b = C2564xb.getInstance();
                             drawable = this.f546A;
                         } else {
                             this.f574y = (int) (fAbs * BrowserActivity.getActivity().m6270V0());
-                            c2564xbM10653b = C2564xb.m10653b();
+                            c2564xbM10653b = C2564xb.getInstance();
                             drawable = this.f575z;
                         }
                         c2564xbM10653b.m10656d(y, drawable, AndroidSystemUtils.m8710r(Math.abs(this.f574y) * 1000));

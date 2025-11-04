@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-public class DialogC0076Bk extends AbstractDialogC2267r {
+public class DialogC0076Bk extends BaseDialog {
 
     public String f190b;
 
@@ -43,7 +43,7 @@ public class DialogC0076Bk extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_area_text_box);
         ((EditText) findViewById(R.id.text_info)).setHint(R.string.report_site_hint);
         Button button = (Button) findViewById(R.id.btn_ok);
@@ -57,7 +57,7 @@ public class DialogC0076Bk extends AbstractDialogC2267r {
     }
 
     public void m322c() {
-        C1344c1.m5691d().m5699i(((EditText) findViewById(R.id.text_info)).getText().toString(), "report_site", this.f190b);
+        C1344c1.getInstance().m5699i(((EditText) findViewById(R.id.text_info)).getText().toString(), "report_site", this.f190b);
         Toast.makeText(this.f191c, R.string.toast_data_reported, Toast.LENGTH_LONG).show();
     }
 }

@@ -5,28 +5,28 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class C0420J5 {
+public final class Component {
 
     public final String f1266a;
 
     public final Set f1267b;
 
-    public final Set f1268c;
+    public final Set deps;
 
     public final int f1269d;
 
-    public final int f1270e;
+    public final int type;
 
     public final InterfaceC0604N5 f1271f;
 
     public final Set f1272g;
 
-    public C0420J5(String str, Set set, Set set2, int i, int i2, InterfaceC0604N5 interfaceC0604N5, Set set3) {
+    public Component(String str, Set set, Set set2, int i, int i2, InterfaceC0604N5 interfaceC0604N5, Set set3) {
         this.f1266a = str;
         this.f1267b = Collections.unmodifiableSet(set);
-        this.f1268c = Collections.unmodifiableSet(set2);
+        this.deps = Collections.unmodifiableSet(set2);
         this.f1269d = i;
-        this.f1270e = i2;
+        this.type = i2;
         this.f1271f = interfaceC0604N5;
         this.f1272g = Collections.unmodifiableSet(set3);
     }
@@ -47,11 +47,11 @@ public final class C0420J5 {
         return new b(cls, clsArr);
     }
 
-    public static C0420J5 m1798l(final Object obj, Class cls) {
+    public static Component m1798l(final Object obj, Class cls) {
         return m1799m(cls).m1816e(new InterfaceC0604N5() {
             @Override
             public final Object mo432a(InterfaceC0466K5 interfaceC0466K5) {
-                return C0420J5.m1800q(obj, interfaceC0466K5);
+                return Component.m1800q(obj, interfaceC0466K5);
             }
         }).m1814c();
     }
@@ -60,17 +60,17 @@ public final class C0420J5 {
         return m1796e(cls).m1817f();
     }
 
-    public static C0420J5 m1802s(final Object obj, Class cls, Class... clsArr) {
+    public static Component m1802s(final Object obj, Class cls, Class... clsArr) {
         return m1797f(cls, clsArr).m1816e(new InterfaceC0604N5() {
             @Override
             public final Object mo432a(InterfaceC0466K5 interfaceC0466K5) {
-                return C0420J5.m1801r(obj, interfaceC0466K5);
+                return Component.m1801r(obj, interfaceC0466K5);
             }
         }).m1814c();
     }
 
     public Set m1803g() {
-        return this.f1268c;
+        return this.deps;
     }
 
     public InterfaceC0604N5 m1804h() {
@@ -98,15 +98,15 @@ public final class C0420J5 {
     }
 
     public boolean m1810p() {
-        return this.f1270e == 0;
+        return this.type == 0;
     }
 
-    public C0420J5 m1811t(InterfaceC0604N5 interfaceC0604N5) {
-        return new C0420J5(this.f1266a, this.f1267b, this.f1268c, this.f1269d, this.f1270e, interfaceC0604N5, this.f1272g);
+    public Component m1811t(InterfaceC0604N5 interfaceC0604N5) {
+        return new Component(this.f1266a, this.f1267b, this.deps, this.f1269d, this.type, interfaceC0604N5, this.f1272g);
     }
 
     public String toString() {
-        return "Component<" + Arrays.toString(this.f1267b.toArray()) + ">{" + this.f1269d + ", type=" + this.f1270e + ", deps=" + Arrays.toString(this.f1268c.toArray()) + "}";
+        return "Component<" + Arrays.toString(this.f1267b.toArray()) + ">{" + this.f1269d + ", type=" + this.type + ", deps=" + Arrays.toString(this.deps.toArray()) + "}";
     }
 
     public static class b {
@@ -141,16 +141,16 @@ public final class C0420J5 {
             Collections.addAll(this.f1274b, c0167DjArr);
         }
 
-        public b m1813b(C0193E8 c0193e8) {
-            AbstractC1177Zi.m5051c(c0193e8, "Null dependency");
-            m1820i(c0193e8.m877b());
-            this.f1275c.add(c0193e8);
+        public b m1813b(Dependency dependency) {
+            AbstractC1177Zi.m5051c(dependency, "Null dependency");
+            m1820i(dependency.m877b());
+            this.f1275c.add(dependency);
             return this;
         }
 
-        public C0420J5 m1814c() {
+        public Component m1814c() {
             AbstractC1177Zi.m5052d(this.f1278f != null, "Missing required property: factory.");
-            return new C0420J5(this.f1273a, new HashSet(this.f1274b), new HashSet(this.f1275c), this.f1276d, this.f1277e, this.f1278f, this.f1279g);
+            return new Component(this.f1273a, new HashSet(this.f1274b), new HashSet(this.f1275c), this.f1276d, this.f1277e, this.f1278f, this.f1279g);
         }
 
         public b m1815d() {

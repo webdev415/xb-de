@@ -3,28 +3,28 @@ package p000;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
-public final class C1328bl {
+public final class Route {
 
-    public final C2498w0 f3880a;
+    public final Address f3880a;
 
     public final Proxy f3881b;
 
     public final InetSocketAddress f3882c;
 
-    public C1328bl(C2498w0 c2498w0, Proxy proxy, InetSocketAddress inetSocketAddress) {
-        AbstractC0116Ce.m476e(c2498w0, "address");
+    public Route(Address address, Proxy proxy, InetSocketAddress inetSocketAddress) {
+        AbstractC0116Ce.m476e(address, "address");
         AbstractC0116Ce.m476e(proxy, "proxy");
         AbstractC0116Ce.m476e(inetSocketAddress, "socketAddress");
-        this.f3880a = c2498w0;
+        this.f3880a = address;
         this.f3881b = proxy;
         this.f3882c = inetSocketAddress;
     }
 
-    public final C2498w0 m5675a() {
+    public final Address m5675a() {
         return this.f3880a;
     }
 
-    public final Proxy m5676b() {
+    public final Proxy getProxy() {
         return this.f3881b;
     }
 
@@ -32,14 +32,14 @@ public final class C1328bl {
         return this.f3880a.m10420k() != null && this.f3881b.type() == Proxy.Type.HTTP;
     }
 
-    public final InetSocketAddress m5678d() {
+    public final InetSocketAddress getHostAddress() {
         return this.f3882c;
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof C1328bl) {
-            C1328bl c1328bl = (C1328bl) obj;
-            if (AbstractC0116Ce.m472a(c1328bl.f3880a, this.f3880a) && AbstractC0116Ce.m472a(c1328bl.f3881b, this.f3881b) && AbstractC0116Ce.m472a(c1328bl.f3882c, this.f3882c)) {
+        if (obj instanceof Route) {
+            Route route = (Route) obj;
+            if (AbstractC0116Ce.m472a(route.f3880a, this.f3880a) && AbstractC0116Ce.m472a(route.f3881b, this.f3881b) && AbstractC0116Ce.m472a(route.f3882c, this.f3882c)) {
                 return true;
             }
         }

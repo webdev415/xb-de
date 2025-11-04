@@ -26,7 +26,7 @@ public class C0988Vd {
         void mo4401b();
     }
 
-    public static C0988Vd m4391d() {
+    public static C0988Vd getInstance() {
         if (f2965c == null) {
             f2965c = new C0988Vd();
         }
@@ -34,7 +34,7 @@ public class C0988Vd {
     }
 
     public void m4392a(String str, String str2, b bVar) {
-        new OkHttpClient().m2004y(new C0122Ck.a().m507i(str).m500b()).mo1791i(new a(bVar));
+        new OkHttpClient().newCall(new Request.Builder().url(str).m500b()).mo1791i(new a(bVar));
     }
 
     public final int m4393b(String str, String str2) {
@@ -59,7 +59,7 @@ public class C0988Vd {
         return bitmapCreateBitmap;
     }
 
-    public void m4395e(Activity activity) {
+    public void init(Activity activity) {
         this.f2966a = activity;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -105,9 +105,9 @@ public class C0988Vd {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
             try {
-                String strM2399p = c0490Kk.m2399p("Content-Type");
+                String strM2399p = response.getContentType("Content-Type");
                 if (strM2399p == null || !strM2399p.startsWith("image/")) {
                     b bVar = this.f2968a;
                     if (bVar != null) {
@@ -116,16 +116,16 @@ public class C0988Vd {
                 } else {
                     b bVar2 = this.f2968a;
                     if (bVar2 != null) {
-                        bVar2.mo4400a(c0490Kk.m2392a().m2709b());
+                        bVar2.mo4400a(response.body().m2709b());
                     }
                 }
-                c0490Kk.m2392a().close();
+                response.body().close();
             } catch (Exception unused) {
             }
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
         }
     }
 }

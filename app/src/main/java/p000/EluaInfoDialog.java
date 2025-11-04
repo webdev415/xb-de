@@ -16,107 +16,100 @@ import android.widget.TextView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-public abstract class BaseViewOnClickListenerC1638Da extends BaseDialog implements View.OnClickListener {
+public abstract class EluaInfoDialog extends BaseDialog implements View.OnClickListener {
 
-    public BrowserActivity f5312b;
+    public BrowserActivity browserActivity;
 
-    public String f5313c;
+    public String title;
 
-    public String f5314d;
+    public String eluaInfo;
 
-    public class c extends URLSpan {
-        public c(String str) {
-            super(str);
-        }
-
-        @Override
-        public void onClick(View view) {
-            mo6387f(this);
-        }
-    }
-
-    public BaseViewOnClickListenerC1638Da(BrowserActivity browserActivity) {
+    public EluaInfoDialog(BrowserActivity browserActivity) {
         super(browserActivity);
-        this.f5313c = null;
-        this.f5314d = null;
-        this.f5312b = browserActivity;
+        this.title = null;
+        this.eluaInfo = null;
+        this.browserActivity = browserActivity;
         setCancelable(false);
     }
 
     @Override
     public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_elua_info);
-        TextView textView = (TextView) findViewById(R.id.title_info);
-        if (!TextUtils.isEmpty(this.f5313c)) {
-            textView.setText(this.f5313c);
+        TextView tvTitle = (TextView) findViewById(R.id.title_info);
+        if (!TextUtils.isEmpty(this.title)) {
+            tvTitle.setText(this.title);
         }
-        TextView textView2 = (TextView) findViewById(R.id.elua_info);
+        TextView tvInfo = (TextView) findViewById(R.id.elua_info);
         String string = getContext().getString(R.string.str_elua_info);
-        if (TextUtils.isEmpty(this.f5314d)) {
-            this.f5314d = string;
+        if (TextUtils.isEmpty(this.eluaInfo)) {
+            this.eluaInfo = string;
         } else {
-            textView2.setText(this.f5314d);
+            tvInfo.setText(this.eluaInfo);
         }
-        textView2.setText(Html.fromHtml(this.f5314d));
-        textView2.setMovementMethod(LinkMovementMethod.getInstance());
-        CharSequence text = textView2.getText();
-        int length = text.length();
-        Spannable spannable = (Spannable) textView2.getText();
-        URLSpan[] uRLSpanArr = (URLSpan[]) spannable.getSpans(0, length, URLSpan.class);
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-        spannableStringBuilder.clearSpans();
+        tvInfo.setText(Html.fromHtml(this.eluaInfo));
+        tvInfo.setMovementMethod(LinkMovementMethod.getInstance());
+        CharSequence text = tvInfo.getText();
+        Spannable spannable = (Spannable) tvInfo.getText();
+        URLSpan[] uRLSpanArr = spannable.getSpans(0, text.length(), URLSpan.class);
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        builder.clearSpans();
         for (URLSpan uRLSpan : uRLSpanArr) {
-            spannableStringBuilder.setSpan(new c(uRLSpan.getURL()), spannable.getSpanStart(uRLSpan), spannable.getSpanEnd(uRLSpan), 33);
+            builder.setSpan(new URLSpan(uRLSpan.getURL()) {
+                @Override
+                public void onClick(View view) {
+                    handleUrlClick(this);
+                }
+            }, spannable.getSpanStart(uRLSpan), spannable.getSpanEnd(uRLSpan), 33);
         }
-        textView2.setText(spannableStringBuilder);
-        Button button = (Button) findViewById(R.id.btn_cancel);
-        String strM7320b = m7320b();
-        if (!TextUtils.isEmpty(strM7320b)) {
-            button.setText(strM7320b);
+        tvInfo.setText(builder);
+        Button btnCancel = (Button) findViewById(R.id.btn_cancel);
+        String cancelLabel = getCancelLabel();
+        if (!TextUtils.isEmpty(cancelLabel)) {
+            btnCancel.setText(cancelLabel);
         }
-        button.setOnClickListener(view -> {
+        btnCancel.setOnClickListener(view -> {
             dismiss();
-            mo6386e();
+            onCancel();
         });
-        Button button2 = (Button) findViewById(R.id.btn_ok);
-        String strMo6384c = mo6384c();
-        if (!TextUtils.isEmpty(strMo6384c)) {
-            button2.setText(strMo6384c);
+        Button btnOK = (Button) findViewById(R.id.btn_ok);
+        String okLabel = getOKLabel();
+        if (!TextUtils.isEmpty(okLabel)) {
+            btnOK.setText(okLabel);
         }
-        button2.setOnClickListener(view -> {
+        btnOK.setOnClickListener(view -> {
             dismiss();
-            mo6385d();
+            onOK();
         });
     }
 
-    public String m7320b() {
+    public String getCancelLabel() {
         return "";
     }
 
-    public String mo6384c() {
+    public String getOKLabel() {
         return "";
     }
 
-    public abstract void mo6385d();
+    public abstract void onOK();
 
-    public void mo6386e() throws SQLException {
-        this.f5312b.finish();
+    public void onCancel() throws SQLException {
+        this.browserActivity.finish();
     }
 
-    public void mo6387f(URLSpan uRLSpan) {
+    public void handleUrlClick(URLSpan uRLSpan) {
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.setData(Uri.parse(uRLSpan.getURL()));
         getContext().startActivity(intent);
     }
 
-    public BaseViewOnClickListenerC1638Da(BrowserActivity browserActivity, String str, String str2) {
+    public EluaInfoDialog(BrowserActivity browserActivity, String title, String elua) {
         super(browserActivity);
-        this.f5313c = null;
-        this.f5314d = null;
-        this.f5312b = browserActivity;
+        this.title = null;
+        this.eluaInfo = null;
+        this.browserActivity = browserActivity;
         setCancelable(false);
-        this.f5313c = str;
-        this.f5314d = str2;
+        this.title = title;
+        this.eluaInfo = elua;
     }
 
     @Override

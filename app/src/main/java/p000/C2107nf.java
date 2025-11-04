@@ -24,11 +24,11 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.BrowserActivityDelegate;
-import com.mmbox.xbrowser.C1539a;
-import com.mmbox.xbrowser.C1541c;
+import com.mmbox.xbrowser.ContentDataManager;
+import com.mmbox.xbrowser.BrowserDownloadManager;
 import com.mmbox.xbrowser.C1570e;
-import com.mmbox.xbrowser.C1571f;
-import com.mmbox.xbrowser.C1572g;
+import com.mmbox.xbrowser.VideoSniffingManager;
+import com.mmbox.xbrowser.MenuConfigManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.mmbox.xbrowser.controllers.WebViewBrowserController;
 import com.mmbox.xbrowser.provider.BrowserProvider;
@@ -46,7 +46,7 @@ import org.json.JSONObject;
 
 public class C2107nf {
 
-    public BrowserActivity f6313a;
+    public BrowserActivity browserActivity;
 
     public class A implements Runnable {
 
@@ -61,7 +61,7 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.m6315f2(this.f6314l, this.f6315m);
+            C2107nf.this.browserActivity.m6315f2(this.f6314l, this.f6315m);
         }
     }
 
@@ -71,7 +71,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6374x1();
+            C2107nf.this.browserActivity.openDownloads();
         }
     }
 
@@ -88,7 +88,7 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.openUrl(this.f6318l, true, this.f6319m);
+            C2107nf.this.browserActivity.openUrl(this.f6318l, true, this.f6319m);
         }
     }
 
@@ -102,7 +102,7 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.m6307d2(this.f6321l);
+            C2107nf.this.browserActivity.m6307d2(this.f6321l);
         }
     }
 
@@ -122,7 +122,7 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.m6311e2(this.f6323l, null, this.f6324m, this.f6325n);
+            C2107nf.this.browserActivity.m6311e2(this.f6323l, null, this.f6324m, this.f6325n);
         }
     }
 
@@ -132,7 +132,7 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.m6307d2(C2439uo.getInstance().m10235v());
+            C2107nf.this.browserActivity.m6307d2(C2439uo.getInstance().m10235v());
         }
     }
 
@@ -142,7 +142,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6320g3();
+            C2107nf.this.browserActivity.m6320g3();
         }
     }
 
@@ -154,12 +154,12 @@ public class C2107nf {
 
             @Override
             public void run() {
-                int[] iArrM6258S0 = C2107nf.this.f6313a.m6258S0();
+                int[] iArrM6258S0 = C2107nf.this.browserActivity.getColors();
                 if (iArrM6258S0 == null || iArrM6258S0.length <= 0) {
                     return;
                 }
                 SharedPreferencesHelper.getInstance().putBoolean("is_light_start_page_bg", ThemeManager.getInstance().isColorLight(iArrM6258S0[0]));
-                C2107nf.this.f6313a.m6361u0("document.dispatchEvent(new CustomEvent('themechange'))");
+                C2107nf.this.browserActivity.updateTitle("document.dispatchEvent(new CustomEvent('themechange'))");
             }
         }
 
@@ -168,8 +168,8 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6203E1();
-            C2107nf.this.f6313a.getHandler().postDelayed(new a(), 200L);
+            C2107nf.this.browserActivity.m6203E1();
+            C2107nf.this.browserActivity.getHandler().postDelayed(new a(), 200L);
         }
     }
 
@@ -179,8 +179,8 @@ public class C2107nf {
 
         @Override
         public void run() {
-            new ViewOnClickListenerC1110Y6(C2107nf.this.f6313a).m4873b(SharedPreferencesHelper.getInstance().m6857H());
-            C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+            new ViewOnClickListenerC1110Y6(C2107nf.this.browserActivity).m4873b(SharedPreferencesHelper.getInstance().m6857H());
+            SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
         }
     }
 
@@ -222,7 +222,7 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.openUrl("file://" + this.f6336l, true, 0);
+            C2107nf.this.browserActivity.openUrl("file://" + this.f6336l, true, 0);
         }
     }
 
@@ -237,9 +237,9 @@ public class C2107nf {
         @Override
         public void run() {
             try {
-                FileUtils.writeBytesToFile(this.f6338l.getBytes(StandardCharsets.UTF_8), FileUtils.getNextAvailableFilePath(PhoneUtils.getInstance().getOfflinesDirPath() + "/" + NetworkUtils.sanitizeFileName(((InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y()).mo1574c(), Math.abs(((InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y()).mo1573b().hashCode()) + "", ".html")));
+                FileUtils.writeBytesToFile(this.f6338l.getBytes(StandardCharsets.UTF_8), FileUtils.getNextAvailableFilePath(PhoneUtils.getInstance().getOfflinesDirPath() + "/" + NetworkUtils.sanitizeFileName(((InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y()).mo1574c(), Math.abs(((InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y()).getUrlFromTitle().hashCode()) + "", ".html")));
             } catch (Exception unused) {
-                Toast.makeText(C2107nf.this.f6313a, "Save as html file fail", Toast.LENGTH_SHORT).show();
+                Toast.makeText(C2107nf.this.browserActivity, "Save as html file fail", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -255,9 +255,9 @@ public class C2107nf {
         @Override
         public void run() {
             try {
-                FileUtils.writeBytesToFile(this.f6340l.getBytes(StandardCharsets.UTF_8), FileUtils.getNextAvailableFilePath(PhoneUtils.getInstance().getOfflinesDirPath() + "/" + NetworkUtils.sanitizeFileName(((InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y()).mo1574c(), Math.abs(((InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y()).mo1573b().hashCode()) + "", ".txt")));
+                FileUtils.writeBytesToFile(this.f6340l.getBytes(StandardCharsets.UTF_8), FileUtils.getNextAvailableFilePath(PhoneUtils.getInstance().getOfflinesDirPath() + "/" + NetworkUtils.sanitizeFileName(((InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y()).mo1574c(), Math.abs(((InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y()).getUrlFromTitle().hashCode()) + "", ".txt")));
             } catch (Exception unused) {
-                Toast.makeText(C2107nf.this.f6313a, "Save as text file fail", Toast.LENGTH_SHORT).show();
+                Toast.makeText(C2107nf.this.browserActivity, "Save as text file fail", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -288,7 +288,7 @@ public class C2107nf {
 
     public class S implements Runnable {
 
-        public class a extends AbstractDialogC1688ee {
+        public class a extends ImportBookmarkDialog {
             public a(BrowserActivity browserActivity) {
                 super(browserActivity);
             }
@@ -299,7 +299,7 @@ public class C2107nf {
                 Code decompiled incorrectly, please refer to instructions dump.
                 To view partially-correct code enable 'Show inconsistent code' option in preferences
             */
-            public void mo7415b(int r4) {
+            public void onOK(int type) {
                 /*
                     r3 = this;
                     r0 = 0
@@ -311,7 +311,7 @@ public class C2107nf {
                     r1 = 1
                     if (r4 != r1) goto L3
                 L8:
-                    f3 r4 = p000.C1714f3.m7483o0()
+                    f3 r4 = p000.MySQLiteOpenHelper.getInstance()
                     java.lang.String r2 = "bookmark"
                     int r4 = r4.m7529m0(r2, r1)
                     nf$S r1 = p000.C2107nf.S.this
@@ -342,7 +342,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            new a(C2107nf.this.f6313a).show();
+            new a(C2107nf.this.browserActivity).show();
         }
     }
 
@@ -356,9 +356,9 @@ public class C2107nf {
 
         @Override
         public void run() {
-            Toast.makeText(C2107nf.this.f6313a, String.format(C2107nf.this.f6313a.getString(com.xbrowser.play.R.string.toast_total_marked_ad_saved), this.f6350l + ""), Toast.LENGTH_SHORT).show();
-            C2107nf.this.f6313a.m6361u0("commit_marked_targets()");
-            C2107nf.this.f6313a.m6377y0();
+            Toast.makeText(C2107nf.this.browserActivity, String.format(C2107nf.this.browserActivity.getString(com.xbrowser.play.R.string.toast_total_marked_ad_saved), this.f6350l + ""), Toast.LENGTH_SHORT).show();
+            C2107nf.this.browserActivity.updateTitle("commit_marked_targets()");
+            C2107nf.this.browserActivity.m6377y0();
         }
     }
 
@@ -368,7 +368,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6267U1();
+            C2107nf.this.browserActivity.m6267U1();
         }
     }
 
@@ -386,7 +386,7 @@ public class C2107nf {
         @Override
         public void run() {
             try {
-                C1199a3.m5090f().m5094e(this.f6354m, new JSONObject(this.f6353l));
+                C1199a3.getInstance().m5094e(this.f6354m, new JSONObject(this.f6353l));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -408,12 +408,12 @@ public class C2107nf {
 
             @Override
             public void run() throws IOException {
-                Uri uriM8703k = AndroidSystemUtils.m8703k(C2107nf.this.f6313a, FileUtils.getFileName(this.f6357l), this.f6358m, C2107nf.this.f6313a.getString(com.xbrowser.play.R.string.app_name));
+                Uri uriM8703k = AndroidSystemUtils.m8703k(C2107nf.this.browserActivity, FileUtils.getFileName(this.f6357l), this.f6358m, C2107nf.this.browserActivity.getString(com.xbrowser.play.R.string.app_name));
                 if (uriM8703k != null) {
-                    AndroidSystemUtils.m8698f(C2107nf.this.f6313a, this.f6357l, uriM8703k);
+                    AndroidSystemUtils.m8698f(C2107nf.this.browserActivity, this.f6357l, uriM8703k);
                 }
-                AndroidSystemUtils.scanMediaFile(C2107nf.this.f6313a, this.f6357l);
-                Toast.makeText(C2107nf.this.f6313a, "已经保存至了相册", Toast.LENGTH_SHORT).show();
+                AndroidSystemUtils.scanMediaFile(C2107nf.this.browserActivity, this.f6357l);
+                Toast.makeText(C2107nf.this.browserActivity, "已经保存至了相册", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -423,7 +423,7 @@ public class C2107nf {
 
             @Override
             public void run() {
-                Toast.makeText(C2107nf.this.f6313a, "download failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(C2107nf.this.browserActivity, "download failed", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -432,12 +432,12 @@ public class C2107nf {
 
         @Override
         public void mo844a(String str, String str2) {
-            C2107nf.this.f6313a.runOnUiThread(new a(str, str2));
+            C2107nf.this.browserActivity.runOnUiThread(new a(str, str2));
         }
 
         @Override
         public void mo845b() {
-            C2107nf.this.f6313a.runOnUiThread(new b());
+            C2107nf.this.browserActivity.runOnUiThread(new b());
         }
     }
 
@@ -447,7 +447,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y();
             if (interfaceC1300b3 instanceof WebViewBrowserController) {
                 ((WebViewBrowserController) interfaceC1300b3).m6786V0();
             }
@@ -464,7 +464,7 @@ public class C2107nf {
 
             @Override
             public void run() {
-                C2107nf.this.f6313a.m6259S1(false);
+                C2107nf.this.browserActivity.m6259S1(false);
             }
         }
 
@@ -475,9 +475,9 @@ public class C2107nf {
         @Override
         public void run() {
             if (TextUtils.isEmpty(this.f6362l)) {
-                C2107nf.this.f6313a.getHandler().postDelayed(new a(), 500L);
+                C2107nf.this.browserActivity.getHandler().postDelayed(new a(), 500L);
             } else {
-                C2107nf.this.f6313a.m6259S1(true);
+                C2107nf.this.browserActivity.m6259S1(true);
             }
         }
     }
@@ -488,7 +488,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6381z0();
+            C2107nf.this.browserActivity.m6381z0();
         }
     }
 
@@ -498,7 +498,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6415X();
+            C2107nf.this.browserActivity.getActivityDelegate().mo6415X();
         }
     }
 
@@ -508,7 +508,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6431k();
+            C2107nf.this.browserActivity.getActivityDelegate().mo6431k();
         }
     }
 
@@ -518,7 +518,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6407P();
+            C2107nf.this.browserActivity.getActivityDelegate().mo6407P();
         }
     }
 
@@ -533,7 +533,7 @@ public class C2107nf {
         @Override
         public void run() throws NumberFormatException {
             int i;
-            String strM2046a = ResourceCacheManager.getInstance().m2046a(((InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y()).mo1573b(), 1004);
+            String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(((InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y()).getUrlFromTitle(), 1004);
             try {
                 i = Integer.parseInt(C1570e.getInstance().getHost(7, strM2046a).extra);
             } catch (Exception unused) {
@@ -547,7 +547,7 @@ public class C2107nf {
                 i2 = 200;
             }
             C1570e.getInstance().m6958a(7, strM2046a, i2 + "");
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y();
             if (interfaceC1300b3 instanceof WebViewBrowserController) {
                 ((WebViewBrowserController) interfaceC1300b3).m6770F0().getSettings().setTextZoom(i2);
             }
@@ -564,7 +564,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6413V(this.f6371l);
+            C2107nf.this.browserActivity.getActivityDelegate().mo6413V(this.f6371l);
         }
     }
 
@@ -594,7 +594,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6410S();
+            C2107nf.this.browserActivity.getActivityDelegate().mo6410S();
         }
     }
 
@@ -611,7 +611,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y();
             if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
                 return;
             }
@@ -629,7 +629,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6409R(this.f6381l);
+            C2107nf.this.browserActivity.getActivityDelegate().mo6409R(this.f6381l);
         }
     }
 
@@ -643,7 +643,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6423d0(this.f6383l);
+            C2107nf.this.browserActivity.getActivityDelegate().mo6423d0(this.f6383l);
         }
     }
 
@@ -663,7 +663,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            Toast.makeText(C2107nf.this.f6313a, com.xbrowser.play.R.string.toast_user_rule_source_exist, Toast.LENGTH_SHORT).show();
+            Toast.makeText(C2107nf.this.browserActivity, com.xbrowser.play.R.string.toast_user_rule_source_exist, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -687,7 +687,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            Toast.makeText(C2107nf.this.f6313a, com.xbrowser.play.R.string.toast_add_rule_import_task, Toast.LENGTH_LONG).show();
+            Toast.makeText(C2107nf.this.browserActivity, com.xbrowser.play.R.string.toast_add_rule_import_task, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -702,9 +702,9 @@ public class C2107nf {
         @Override
         public void run() {
             if (this.f6390l) {
-                C2107nf.this.f6313a.getWindow().addFlags(128);
+                C2107nf.this.browserActivity.getWindow().addFlags(128);
             } else {
-                C2107nf.this.f6313a.getWindow().clearFlags(128);
+                C2107nf.this.browserActivity.getWindow().clearFlags(128);
             }
         }
     }
@@ -715,7 +715,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            Toast.makeText(C2107nf.this.f6313a, com.xbrowser.play.R.string.toast_add_rule_import_task, Toast.LENGTH_LONG).show();
+            Toast.makeText(C2107nf.this.browserActivity, com.xbrowser.play.R.string.toast_add_rule_import_task, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -739,7 +739,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2564xb.m10653b().m10657e(null, this.f6394l);
+            C2564xb.getInstance().m10657e(null, this.f6394l);
         }
     }
 
@@ -753,7 +753,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            new DialogInterfaceOnDismissListenerC0097C4(C2107nf.this.f6313a, this.f6396l).show();
+            new DialogInterfaceOnDismissListenerC0097C4(C2107nf.this.browserActivity, this.f6396l).show();
         }
     }
 
@@ -763,7 +763,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2564xb.m10653b().m10654a();
+            C2564xb.getInstance().m10654a();
         }
     }
 
@@ -778,9 +778,9 @@ public class C2107nf {
         @Override
         public void run() throws URISyntaxException {
             if (this.f6399l.indexOf("_xbpm_") >= 0) {
-                C2107nf.this.f6313a.openUrl(this.f6399l, true, 0);
+                C2107nf.this.browserActivity.openUrl(this.f6399l, true, 0);
             } else {
-                C2107nf.this.f6313a.m6315f2(this.f6399l, true);
+                C2107nf.this.browserActivity.m6315f2(this.f6399l, true);
             }
         }
     }
@@ -791,10 +791,10 @@ public class C2107nf {
 
         @Override
         public void run() {
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.f6313a.m6222J0().m9316y();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) C2107nf.this.browserActivity.getTabManager().m9316y();
             if (interfaceC1300b3 instanceof WebViewBrowserController) {
                 ((C0219Ep) ((WebViewBrowserController) interfaceC1300b3).m6770F0()).m1092m();
-                C2107nf.this.f6313a.m6361u0("native_call_fullscreen()");
+                C2107nf.this.browserActivity.updateTitle("native_call_fullscreen()");
             }
         }
     }
@@ -805,7 +805,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            Toast.makeText(C2107nf.this.f6313a, com.xbrowser.play.R.string.toast_reset_site_conf, Toast.LENGTH_SHORT).show();
+            Toast.makeText(C2107nf.this.browserActivity, com.xbrowser.play.R.string.toast_reset_site_conf, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -819,7 +819,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6196C2(this.f6403l);
+            C2107nf.this.browserActivity.m6196C2(this.f6403l);
         }
     }
 
@@ -829,7 +829,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            new DialogInterfaceOnDismissListenerC0189E4(C2107nf.this.f6313a).show();
+            new DialogInterfaceOnDismissListenerC0189E4(C2107nf.this.browserActivity).show();
         }
     }
 
@@ -839,7 +839,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6382z1();
+            C2107nf.this.browserActivity.m6382z1();
         }
     }
 
@@ -849,7 +849,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            new DialogInterfaceOnDismissListenerC0554M1(C2107nf.this.f6313a).show();
+            new DialogInterfaceOnDismissListenerC0554M1(C2107nf.this.browserActivity).show();
         }
     }
 
@@ -859,7 +859,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            new DialogInterfaceOnDismissListenerC1974kk(C2107nf.this.f6313a).show();
+            new DialogInterfaceOnDismissListenerC1974kk(C2107nf.this.browserActivity).show();
         }
     }
 
@@ -869,11 +869,11 @@ public class C2107nf {
 
         @Override
         public void run() throws JSONException, IOException {
-            C0600N1.m3257k().m3260h();
+            C0600N1.getInstance().m3260h();
         }
     }
 
-    public class DialogC2744p extends AbstractDialogC0537Ll {
+    public class DialogC2744p extends SetDefaultBrowserDialog {
 
         public final boolean f6411c;
 
@@ -884,8 +884,8 @@ public class C2107nf {
         }
 
         @Override
-        public void mo317b() {
-            AndroidSystemUtils.m8687U(C2107nf.this.f6313a, this.f6411c);
+        public void onGo() {
+            AndroidSystemUtils.m8687U(C2107nf.this.browserActivity, this.f6411c);
         }
     }
 
@@ -902,7 +902,7 @@ public class C2107nf {
 
         @Override
         public void run() throws UnsupportedEncodingException {
-            C2107nf.this.f6313a.m6218I0().mo6424e(this.f6413l, null, null, null, this.f6414m, 0L);
+            C2107nf.this.browserActivity.getActivityDelegate().mo6424e(this.f6413l, null, null, null, this.f6414m, 0L);
         }
     }
 
@@ -912,8 +912,8 @@ public class C2107nf {
 
         @Override
         public void run() {
-            Toast.makeText(C2107nf.this.f6313a, com.xbrowser.play.R.string.toast_created_new_ad_rule, Toast.LENGTH_SHORT).show();
-            C2107nf.this.f6313a.m6300c0();
+            Toast.makeText(C2107nf.this.browserActivity, com.xbrowser.play.R.string.toast_created_new_ad_rule, Toast.LENGTH_SHORT).show();
+            C2107nf.this.browserActivity.m6300c0();
         }
     }
 
@@ -931,7 +931,7 @@ public class C2107nf {
         @Override
         public void run() {
             try {
-                C2061mf.m8471f0().m8530e(this.f6417l, this.f6418m);
+                JSManager.getInstance().m8530e(this.f6417l, this.f6418m);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -957,7 +957,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6420b0(this.f6420l, this.f6421m, this.f6422n, this.f6423o);
+            C2107nf.this.browserActivity.getActivityDelegate().mo6420b0(this.f6420l, this.f6421m, this.f6422n, this.f6423o);
         }
     }
 
@@ -971,7 +971,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C1651dn.m7356c().m7361h(this.f6425l);
+            C1651dn.getInstance().m7361h(this.f6425l);
         }
     }
 
@@ -985,7 +985,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6412U(this.f6427l);
+            C2107nf.this.browserActivity.getActivityDelegate().mo6412U(this.f6427l);
         }
     }
 
@@ -996,7 +996,7 @@ public class C2107nf {
         @Override
         public void run() {
             C2107nf.this.showToast("test");
-            C2107nf.this.f6313a.m6356s2(Uri.parse("https://www.xbext.com"));
+            C2107nf.this.browserActivity.installApk(Uri.parse("https://www.xbext.com"));
         }
     }
 
@@ -1015,12 +1015,12 @@ public class C2107nf {
         public void run() {
             if (this.f6430l) {
                 if (this.f6431m && !SharedPreferencesHelper.getInstance().enterNightMode) {
-                    C2107nf.this.f6313a.m6352r0(true, false);
+                    C2107nf.this.browserActivity.m6352r0(true, false);
                 } else if (!this.f6431m && SharedPreferencesHelper.getInstance().enterNightMode) {
-                    C2107nf.this.f6313a.m6352r0(false, false);
+                    C2107nf.this.browserActivity.m6352r0(false, false);
                 }
             }
-            C1572g.getInstance().m7037t();
+            MenuConfigManager.getInstance().m7037t();
         }
     }
 
@@ -1030,7 +1030,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6340n0(false);
+            C2107nf.this.browserActivity.m6340n0(false);
         }
     }
 
@@ -1040,7 +1040,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.getBrowserFrameLayout().m6461j();
+            C2107nf.this.browserActivity.getBrowserFrameLayout().m6461j();
         }
     }
 
@@ -1054,7 +1054,7 @@ public class C2107nf {
 
         @Override
         public void run() {
-            C2107nf.this.f6313a.m6218I0().mo6421c0(this.f6438l);
+            C2107nf.this.browserActivity.getActivityDelegate().mo6421c0(this.f6438l);
         }
     }
 
@@ -1071,13 +1071,13 @@ public class C2107nf {
             Intent intent = new Intent("android.intent.action.SEND");
             intent.setType("text/plain");
             intent.putExtra("android.intent.extra.TEXT", this.f6440l);
-            intent.putExtra("android.intent.extra.SUBJECT", C2107nf.this.f6313a.getString(com.xbrowser.play.R.string.share_sign));
+            intent.putExtra("android.intent.extra.SUBJECT", C2107nf.this.browserActivity.getString(com.xbrowser.play.R.string.share_sign));
             intent.setFlags(268435456);
             try {
-                C2107nf.this.f6313a.startActivity(Intent.createChooser(intent, C2107nf.this.f6313a.getString(com.xbrowser.play.R.string.choose_app)));
+                C2107nf.this.browserActivity.startActivity(Intent.createChooser(intent, C2107nf.this.browserActivity.getString(com.xbrowser.play.R.string.choose_app)));
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(C2107nf.this.f6313a, "no app to share", Toast.LENGTH_SHORT).show();
+                Toast.makeText(C2107nf.this.browserActivity, "no app to share", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -1095,16 +1095,16 @@ public class C2107nf {
             BrowserActivity browserActivity;
             int i;
             if (this.f6442l.equals("auto")) {
-                browserActivity = C2107nf.this.f6313a;
+                browserActivity = C2107nf.this.browserActivity;
                 i = 10;
             } else if (this.f6442l.equals("landscape")) {
-                browserActivity = C2107nf.this.f6313a;
+                browserActivity = C2107nf.this.browserActivity;
                 i = 0;
             } else {
                 if (!this.f6442l.equals("portrait")) {
                     return;
                 }
-                browserActivity = C2107nf.this.f6313a;
+                browserActivity = C2107nf.this.browserActivity;
                 i = 1;
             }
             browserActivity.setRequestedOrientation(i);
@@ -1117,7 +1117,7 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.m6307d2("x:block-rule");
+            C2107nf.this.browserActivity.m6307d2("x:block-rule");
         }
     }
 
@@ -1127,17 +1127,17 @@ public class C2107nf {
 
         @Override
         public void run() throws URISyntaxException {
-            C2107nf.this.f6313a.m6307d2("x:autoproxy");
+            C2107nf.this.browserActivity.m6307d2("x:autoproxy");
         }
     }
 
     public C2107nf(BrowserActivity browserActivity) {
-        this.f6313a = browserActivity;
+        this.browserActivity = browserActivity;
     }
 
     @JavascriptInterface
     public void GM_EX_ShareTextToApp(String str) {
-        this.f6313a.runOnUiThread(new RunnableC2751w(str));
+        this.browserActivity.runOnUiThread(new RunnableC2751w(str));
     }
 
     @JavascriptInterface
@@ -1153,14 +1153,14 @@ public class C2107nf {
     @JavascriptInterface
     public String GM_EX_getSearchEngines() throws JSONException {
         JSONArray jSONArray = new JSONArray();
-        ArrayList arrayListM5292h = C1224ai.m5285e().m5292h("search_engine");
+        ArrayList arrayListM5292h = C1224ai.getInstance().getAppList("search_engine");
         for (int i = 0; i < arrayListM5292h.size(); i++) {
-            C1224ai.a aVar = (C1224ai.a) arrayListM5292h.get(i);
+            C1224ai.ThirdApp thirdAppVar = (C1224ai.ThirdApp) arrayListM5292h.get(i);
             JSONObject jSONObject = new JSONObject();
             try {
-                String str = aVar.f3548a;
+                String str = thirdAppVar.pkg;
                 String strM471z = NetworkUtils.getHostFileExtension(str);
-                jSONObject.put("name", aVar.f3549b);
+                jSONObject.put("name", thirdAppVar.name);
                 jSONObject.put("host", strM471z);
                 jSONObject.put("url", str);
                 jSONArray.put(jSONObject);
@@ -1173,12 +1173,12 @@ public class C2107nf {
 
     @JavascriptInterface
     public void GM_EX_setDeviceOrientation(String str) {
-        this.f6313a.runOnUiThread(new RunnableC2752x(str));
+        this.browserActivity.runOnUiThread(new RunnableC2752x(str));
     }
 
     @JavascriptInterface
     public void GM_EX_sniffMedia() {
-        this.f6313a.runOnUiThread(new RunnableC2749u());
+        this.browserActivity.runOnUiThread(new RunnableC2749u());
     }
 
     @JavascriptInterface
@@ -1264,8 +1264,8 @@ public class C2107nf {
 
     @JavascriptInterface
     public void GM_deleteValue(String str, String str2) throws SQLException {
-        C2061mf.m8471f0().deleteResourceMap(str + "_" + str2);
-        String strM2046a = ResourceCacheManager.getInstance().m2046a(str, 1009);
+        JSManager.getInstance().deleteResourceMap(str + "_" + str2);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(str, 1009);
         if (TextUtils.isEmpty(strM2046a)) {
             return;
         }
@@ -1280,14 +1280,14 @@ public class C2107nf {
 
     @JavascriptInterface
     public void GM_download(String str, String str2, boolean z, String str3) {
-        this.f6313a.m6218I0().m6405N(str, str2, z, str3);
+        this.browserActivity.getActivityDelegate().m6405N(str, str2, z, str3);
     }
 
     @JavascriptInterface
     public void GM_downloadV2(String str, String str2, String str3) {
         try {
-            this.f6313a.m6236M2(com.xbrowser.play.R.string.toast_script_downding, 5000L);
-            C2061mf.m8471f0().m8524b(str, str2, str3);
+            this.browserActivity.m6236M2(com.xbrowser.play.R.string.toast_script_downding, 5000L);
+            JSManager.getInstance().m8524b(str, str2, str3);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1295,42 +1295,42 @@ public class C2107nf {
 
     @JavascriptInterface
     public String GM_getResourceText(String str, String str2) {
-        return C2061mf.m8471f0().m8526c(str, str2.trim());
+        return JSManager.getInstance().m8526c(str, str2.trim());
     }
 
     @JavascriptInterface
     public String GM_getResourceURL(String str, String str2) {
-        return C2061mf.m8471f0().m8528d(str, str2);
+        return JSManager.getInstance().m8528d(str, str2);
     }
 
     @JavascriptInterface
     public String GM_getResourceValue(String str, String str2) {
-        return C2061mf.m8471f0().getUserScriptResourceValue(str, str2);
+        return JSManager.getInstance().getUserScriptResourceValue(str, str2);
     }
 
     @JavascriptInterface
     public String GM_getValue(String str, String str2) {
-        return ResourceCacheManager.getInstance().m2046a(str + "_" + str2, 1008);
+        return ResourceCacheManager.getInstance().getUrlOrFilePath(str + "_" + str2, 1008);
     }
 
     @JavascriptInterface
     public String GM_listValueKeys(String str) {
-        return ResourceCacheManager.getInstance().m2046a(str, 1009);
+        return ResourceCacheManager.getInstance().getUrlOrFilePath(str, 1009);
     }
 
     @JavascriptInterface
     public void GM_notification(String str, String str2) {
-        this.f6313a.runOnUiThread(new q0(str, str2));
+        this.browserActivity.runOnUiThread(new q0(str, str2));
     }
 
     @JavascriptInterface
     public String GM_readStream(String str) {
-        return C2061mf.m8471f0().m8532f(str);
+        return JSManager.getInstance().m8532f(str);
     }
 
     @JavascriptInterface
     public String GM_registerMenuCommand(String str, String str2, String str3) {
-        return C2061mf.m8471f0().m8533g(str, str2, str3);
+        return JSManager.getInstance().m8533g(str, str2, str3);
     }
 
     @JavascriptInterface
@@ -1338,7 +1338,7 @@ public class C2107nf {
         ResourceCacheManager.getInstance().m2061q(str + "_" + str2, str3, 1008);
         JSONArray jSONArray = new JSONArray();
         try {
-            String strM2049e = ResourceCacheManager.getInstance().getCachedResource(str);
+            String strM2049e = ResourceCacheManager.getInstance().getResourceValueByKey(str);
             if (strM2049e != null) {
                 jSONArray = new JSONArray(strM2049e);
             }
@@ -1358,17 +1358,17 @@ public class C2107nf {
 
     @JavascriptInterface
     public void GM_unregisterMenuCommand(String str, String str2) throws NumberFormatException {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6313a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return;
         }
-        C2061mf.m8471f0().m8508O0(str, str2);
+        JSManager.getInstance().m8508O0(str, str2);
     }
 
     @JavascriptInterface
     public void GM_xmlhttpRequest(String str, String str2, String str3) {
         try {
-            C2061mf.m8471f0().m8535h(str, str2, str3);
+            JSManager.getInstance().m8535h(str, str2, str3);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1376,17 +1376,17 @@ public class C2107nf {
 
     @JavascriptInterface
     public void TTS(String str) {
-        this.f6313a.runOnUiThread(new r0(str));
+        this.browserActivity.runOnUiThread(new r0(str));
     }
 
     @JavascriptInterface
     public void activeAdBlock(boolean z) {
-        C1539a.getInstance().m6636q(z);
+        ContentDataManager.getInstance().m6636q(z);
     }
 
     @JavascriptInterface
     public void activeSearchBar() {
-        this.f6313a.m6360u();
+        this.browserActivity.m6360u();
     }
 
     @JavascriptInterface
@@ -1396,7 +1396,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void addBadRule(String str) throws NoSuchAlgorithmException {
-        C1539a.getInstance().m6642s(str);
+        ContentDataManager.getInstance().m6642s(str);
     }
 
     @JavascriptInterface
@@ -1438,10 +1438,10 @@ public class C2107nf {
 
     @JavascriptInterface
     public void addCustomAdRule(String str) {
-        if (C1539a.getInstance().m6644t(str) != null) {
-            this.f6313a.runOnUiThread(new RunnableC2745q());
+        if (ContentDataManager.getInstance().m6644t(str) != null) {
+            this.browserActivity.runOnUiThread(new RunnableC2745q());
         } else {
-            this.f6313a.m6252Q2(com.xbrowser.play.R.string.toast_rule_syntax_not_support);
+            this.browserActivity.m6252Q2(com.xbrowser.play.R.string.toast_rule_syntax_not_support);
         }
     }
 
@@ -1455,7 +1455,7 @@ public class C2107nf {
     public void addCustomUAString(String str) throws JSONException {
         m8764f("custom_ua", str);
         SharedPreferencesHelper.getInstance().m6897h0();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     @JavascriptInterface
@@ -1465,7 +1465,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void addImageRes(String str, String str2) throws JSONException {
-        C1571f.getInstance().m6994d(str, str2);
+        VideoSniffingManager.getInstance().m6994d(str, str2);
     }
 
     @JavascriptInterface
@@ -1504,22 +1504,22 @@ public class C2107nf {
 
     @JavascriptInterface
     public void addQuickAccess(String str, String str2, int i) throws Resources.NotFoundException {
-        this.f6313a.m6376y(str, str2, i);
+        this.browserActivity.m6376y(str, str2, i);
     }
 
     @JavascriptInterface
     public void addTagToResource(String str, String str2) {
-        C1571f.getInstance().m6996f(str, str2);
+        VideoSniffingManager.getInstance().m6996f(str, str2);
     }
 
     @JavascriptInterface
     public void adjustBrightness() {
-        this.f6313a.m6185A();
+        this.browserActivity.m6185A();
     }
 
     @JavascriptInterface
     public void adjustFontSize() {
-        this.f6313a.m6249Q();
+        this.browserActivity.m6249Q();
     }
 
     @JavascriptInterface
@@ -1580,7 +1580,7 @@ public class C2107nf {
     }
 
     public final boolean m8760b() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6313a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return false;
         }
@@ -1622,7 +1622,7 @@ public class C2107nf {
     @JavascriptInterface
     public boolean bookmarkNewOrder(String str, int i, int i2, String str2) {
         boolean zM7488C = MySQLiteOpenHelper.getInstance().m7488C(str, i, i2, str2);
-        C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
         return zM7488C;
     }
 
@@ -1642,37 +1642,37 @@ public class C2107nf {
 
     @JavascriptInterface
     public void changeBackForwardGesutre() {
-        new DialogC2180p4(this.f6313a).show();
+        new DialogC2180p4(this.browserActivity).show();
     }
 
     @JavascriptInterface
     public void changeGestureAction(String str) {
-        new DialogC2272r4(this.f6313a, str).show();
+        new DialogC2272r4(this.browserActivity, str).show();
     }
 
     @JavascriptInterface
     public void changeLanguage() {
-        new DialogInterfaceOnDismissListenerC2318s4(this.f6313a).show();
+        new DialogInterfaceOnDismissListenerC2318s4(this.browserActivity).show();
     }
 
     @JavascriptInterface
     public void chooseExpoint(String str) {
-        this.f6313a.runOnUiThread(new RunnableC2738j(str));
+        this.browserActivity.runOnUiThread(new RunnableC2738j(str));
     }
 
     @JavascriptInterface
     public void chooseScreenRotation() {
-        this.f6313a.m6295b0();
+        this.browserActivity.m6295b0();
     }
 
     @JavascriptInterface
     public void chooseSearchEngine() {
-        this.f6313a.runOnUiThread(new RunnableC2741m());
+        this.browserActivity.runOnUiThread(new RunnableC2741m());
     }
 
     @JavascriptInterface
     public void chooseUA() {
-        new DialogC0235F4(this.f6313a).show();
+        new DialogC0235F4(this.browserActivity).show();
     }
 
     @JavascriptInterface
@@ -1682,25 +1682,25 @@ public class C2107nf {
 
     @JavascriptInterface
     public void cleanData() {
-        this.f6313a.m6313f0();
+        this.browserActivity.m6313f0();
     }
 
     @JavascriptInterface
     public void cleanStartPageBg() {
-        this.f6313a.m6309e0();
-        this.f6313a.m6363u2();
-        this.f6313a.m6305d0();
+        this.browserActivity.m6309e0();
+        this.browserActivity.m6363u2();
+        this.browserActivity.clearImmersePageCache();
     }
 
     @JavascriptInterface
     public void cleanStartPageLogo() {
-        FileUtils.deleteFile(ResourceCacheManager.getInstance().m2046a("start-page.logo", 9));
+        FileUtils.deleteFile(ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.logo", 9));
     }
 
     @JavascriptInterface
     public void cleanWebCacheOnExit(boolean z) {
         if (z) {
-            new DialogC0465K4(this.f6313a, false).show();
+            new DialogC0465K4(this.browserActivity, false).show();
         }
         m8762d("clean-web-cache-on-exit", z);
         SharedPreferencesHelper.getInstance().cleanCacheOnExit = z;
@@ -1716,18 +1716,18 @@ public class C2107nf {
                     cursorQuery.getString(cursorQuery.getColumnIndexOrThrow("icon_uri"));
                     String strM471z = NetworkUtils.getHostFileExtension(string);
                     if (!TextUtils.isEmpty(strM471z)) {
-                        C1344c1.m5691d().m5698h("QA Item Click", "qa_item_click/" + strM471z);
+                        C1344c1.getInstance().m5698h("QA Item Click", "qa_item_click/" + strM471z);
                         try {
-                            FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this.f6313a);
-                            firebaseAnalytics.m5981b(true);
+                            FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this.browserActivity);
+                            firebaseAnalytics.setAnalyticsCollectionEnabled(true);
                             Bundle bundle = new Bundle();
                             bundle.putString("domain", strM471z);
                             bundle.putString("country_code", PhoneUtils.getInstance().getSimOrNetworkCountryCode());
-                            firebaseAnalytics.m5980a("qa_item_click", bundle);
+                            firebaseAnalytics.logEvent("qa_item_click", bundle);
                         } catch (Throwable unused) {
                         }
                     }
-                    this.f6313a.runOnUiThread(new RunnableC2739k(string));
+                    this.browserActivity.runOnUiThread(new RunnableC2739k(string));
                 }
             } catch (Exception unused2) {
             } catch (Throwable th) {
@@ -1745,7 +1745,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void commitBookmarkImport() {
-        this.f6313a.runOnUiThread(new S());
+        this.browserActivity.runOnUiThread(new S());
     }
 
     @JavascriptInterface
@@ -1760,7 +1760,7 @@ public class C2107nf {
         if (TextUtils.isEmpty(host)) {
             return;
         }
-        C1539a.getInstance().m6560D(host);
+        ContentDataManager.getInstance().m6560D(host);
         if (z) {
             C1570e.getInstance().m6958a(1, host, "true");
         }
@@ -1768,28 +1768,28 @@ public class C2107nf {
 
     @JavascriptInterface
     public void copyToClipboard(String str) {
-        AndroidSystemUtils.m8701i(this.f6313a, str);
-        Toast.makeText(this.f6313a, com.xbrowser.play.R.string.toast_copy_to_clip_board, Toast.LENGTH_SHORT).show();
+        AndroidSystemUtils.m8701i(this.browserActivity, str);
+        Toast.makeText(this.browserActivity, com.xbrowser.play.R.string.toast_copy_to_clip_board, Toast.LENGTH_SHORT).show();
     }
 
     @JavascriptInterface
     public void costExchangeCode(int i, int i2) {
-        C1825ha c1825haM7824d;
+        EventQueueManager eventQueueManagerM7824D;
         String str;
         int i3;
         if (i2 == 0) {
-            c1825haM7824d = C1825ha.m7824d();
+            eventQueueManagerM7824D = EventQueueManager.getInstance();
             str = i + "";
             i3 = 15;
         } else {
             if (i2 != 1) {
                 return;
             }
-            c1825haM7824d = C1825ha.m7824d();
+            eventQueueManagerM7824D = EventQueueManager.getInstance();
             str = i + "";
             i3 = 16;
         }
-        c1825haM7824d.m7829f(i3, str);
+        eventQueueManagerM7824D.processEvent(i3, str);
     }
 
     @JavascriptInterface
@@ -1800,7 +1800,7 @@ public class C2107nf {
     public final void m8762d(String str, boolean z) {
         if (m8760b()) {
             SharedPreferencesHelper.getInstance().putBoolean(str, z);
-            C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+            SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
         }
     }
 
@@ -1812,30 +1812,30 @@ public class C2107nf {
     @JavascriptInterface
     public void deleteBookmark(String str) {
         if (m8760b()) {
-            this.f6313a.m6321h0(str);
+            this.browserActivity.m6321h0(str);
         }
     }
 
     @JavascriptInterface
     public void deleteFile(String str) {
-        C0801Ra.m3798f().m3801c(str);
+        C0801Ra.getInstance().m3801c(str);
     }
 
     @JavascriptInterface
     public void disableADBOnDomain(String str, boolean z) {
         if (z) {
             C1570e.getInstance().m6958a(1, str, null);
-            C1539a.getInstance().m6560D(str);
+            ContentDataManager.getInstance().m6560D(str);
         } else {
             C1570e.getInstance().m6951T(1, str);
-            C1539a.getInstance().m6613e1(str);
+            ContentDataManager.getInstance().m6613e1(str);
         }
     }
 
     @JavascriptInterface
     public void disableCallApp(boolean z) {
-        SharedPreferencesHelper.getInstance().m6914q(!z);
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SharedPreferencesHelper.getInstance().setEnableCallApp(!z);
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     @JavascriptInterface
@@ -1849,10 +1849,10 @@ public class C2107nf {
         m8762d("disable-pull-to-refresh-gesture", z);
         SharedPreferencesHelper.getInstance().disablePullToRefreshGesture = z;
         if (z) {
-            browserActivity = this.f6313a;
+            browserActivity = this.browserActivity;
             i = com.xbrowser.play.R.string.toast_disable_pull_to_refresh_gesture;
         } else {
-            browserActivity = this.f6313a;
+            browserActivity = this.browserActivity;
             i = com.xbrowser.play.R.string.toast_enable_pull_to_refresh_gesture;
         }
         Toast.makeText(browserActivity, i, Toast.LENGTH_SHORT).show();
@@ -1872,7 +1872,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void disableRule(String str, boolean z) {
-        C1539a.getInstance().m6574K(str, z);
+        ContentDataManager.getInstance().m6574K(str, z);
     }
 
     @JavascriptInterface
@@ -1891,22 +1891,22 @@ public class C2107nf {
     public void disableThirdCookies(boolean z) {
         SharedPreferencesHelper.getInstance().disableThirdCookies = z;
         m8762d("disable-third-cookies", z);
-        this.f6313a.m6280X2();
+        this.browserActivity.m6280X2();
     }
 
     @JavascriptInterface
     public void dismissContextMenu() {
-        this.f6313a.runOnUiThread(new RunnableC2750v());
+        this.browserActivity.runOnUiThread(new RunnableC2750v());
     }
 
     @JavascriptInterface
     public void dismissFloatMessageBox() {
-        this.f6313a.runOnUiThread(new j0());
+        this.browserActivity.runOnUiThread(new j0());
     }
 
     @JavascriptInterface
     public void dispatchEvent(String str, String str2) {
-        this.f6313a.runOnUiThread(new V(str2, str));
+        this.browserActivity.runOnUiThread(new V(str2, str));
     }
 
     @JavascriptInterface
@@ -1941,12 +1941,12 @@ public class C2107nf {
 
     @JavascriptInterface
     public void doTest() {
-        C1825ha.m7824d().m7828e(18);
+        EventQueueManager.getInstance().processEvent(18);
     }
 
     @JavascriptInterface
     public void donateTryApp(String str) {
-        this.f6313a.runOnUiThread(new K(str));
+        this.browserActivity.runOnUiThread(new K(str));
     }
 
     @JavascriptInterface
@@ -1958,12 +1958,12 @@ public class C2107nf {
     public void dumpDom(String str) {
         String str2 = PhoneUtils.getInstance().getCacheDirPath() + "/dom_dump.txt";
         FileUtils.writeBytesToFile(str.getBytes(StandardCharsets.UTF_8), str2);
-        this.f6313a.runOnUiThread(new L(str2));
+        this.browserActivity.runOnUiThread(new L(str2));
     }
 
     public final void m8763e(String str, int i) {
         SharedPreferencesHelper.getInstance().putInt(str, i);
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     @JavascriptInterface
@@ -1979,7 +1979,7 @@ public class C2107nf {
             SharedPreferencesHelper.getInstance().activeAdBlock = true;
             m8762d("active-ad-block", true);
         }
-        C1539a.getInstance().m6575K0();
+        ContentDataManager.getInstance().m6575K0();
     }
 
     @JavascriptInterface
@@ -1989,19 +1989,19 @@ public class C2107nf {
         if (z) {
             return;
         }
-        this.f6313a.runOnUiThread(new RunnableC2734f());
+        this.browserActivity.runOnUiThread(new RunnableC2734f());
     }
 
     @JavascriptInterface
     public void enableRemoteDebug(boolean z) {
         SharedPreferencesHelper.getInstance().enableRemoteDebug = z;
         m8762d("enable-remote-debug", z);
-        this.f6313a.runOnUiThread(new RunnableC2735g(z));
+        this.browserActivity.runOnUiThread(new RunnableC2735g(z));
     }
 
     @JavascriptInterface
     public void enableSmartAdb(boolean z) {
-        C1539a.getInstance().m6582O(z);
+        ContentDataManager.getInstance().m6582O(z);
     }
 
     @JavascriptInterface
@@ -2011,22 +2011,22 @@ public class C2107nf {
 
     @JavascriptInterface
     public void enterDevToolSelectMode() {
-        this.f6313a.f4264k = 4;
+        this.browserActivity.uiLayoutMode = 4;
     }
 
     @JavascriptInterface
     public void exitDevToolSelectMode() {
-        this.f6313a.f4264k = 0;
+        this.browserActivity.uiLayoutMode = 0;
     }
 
     @JavascriptInterface
     public void exitMediaPlayer() {
-        this.f6313a.runOnUiThread(new a0());
+        this.browserActivity.runOnUiThread(new a0());
     }
 
     @JavascriptInterface
     public void exitReadMode(String str, String str2, String str3, String str4) {
-        this.f6313a.runOnUiThread(new Z());
+        this.browserActivity.runOnUiThread(new Z());
     }
 
     @JavascriptInterface
@@ -2036,18 +2036,18 @@ public class C2107nf {
 
     @JavascriptInterface
     public void exportCustomRule() {
-        C1539a.getInstance().m6584P();
+        ContentDataManager.getInstance().m6584P();
     }
 
     @JavascriptInterface
     public void exportDirToZipFile(String str) {
-        C2439uo.getInstance().m10233t(this.f6313a.getExternalFilesDir("").getAbsolutePath() + File.separator + str);
+        C2439uo.getInstance().m10233t(this.browserActivity.getExternalFilesDir("").getAbsolutePath() + File.separator + str);
     }
 
     public final void m8764f(String str, String str2) {
         if (m8760b()) {
             SharedPreferencesHelper.getInstance().putString(str, str2);
-            C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+            SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
         }
     }
 
@@ -2058,7 +2058,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void fetchScript(String str) {
-        C2061mf.m8471f0().m8501L(str);
+        JSManager.getInstance().m8501L(str);
     }
 
     @JavascriptInterface
@@ -2090,7 +2090,7 @@ public class C2107nf {
     @JavascriptInterface
     public String getAppLogoUri() {
         try {
-            return AndroidSystemUtils.m8672F(this.f6313a, com.xbrowser.play.R.drawable.ic_slogan);
+            return AndroidSystemUtils.m8672F(this.browserActivity, com.xbrowser.play.R.drawable.ic_slogan);
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -2105,12 +2105,12 @@ public class C2107nf {
     @JavascriptInterface
     public void getBase64FromBlobData(String str, String str2) {
         Log.i("blob", "receive-blob:" + str);
-        this.f6313a.runOnUiThread(new p0(str, str2));
+        this.browserActivity.runOnUiThread(new p0(str, str2));
     }
 
     @JavascriptInterface
     public String getBfGestureName() {
-        return SharedPreferencesHelper.getInstance().gestureMode == 0 ? this.f6313a.getString(com.xbrowser.play.R.string.bf_gesture_none) : SharedPreferencesHelper.getInstance().gestureMode == 1 ? this.f6313a.getString(com.xbrowser.play.R.string.bf_gesture_normal) : SharedPreferencesHelper.getInstance().gestureMode == 2 ? this.f6313a.getString(com.xbrowser.play.R.string.bf_gesture_edge) : SharedPreferencesHelper.getInstance().gestureMode == 3 ? this.f6313a.getString(com.xbrowser.play.R.string.bf_gesture_bottom) : this.f6313a.getString(com.xbrowser.play.R.string.bf_gesture_normal);
+        return SharedPreferencesHelper.getInstance().gestureMode == 0 ? this.browserActivity.getString(com.xbrowser.play.R.string.bf_gesture_none) : SharedPreferencesHelper.getInstance().gestureMode == 1 ? this.browserActivity.getString(com.xbrowser.play.R.string.bf_gesture_normal) : SharedPreferencesHelper.getInstance().gestureMode == 2 ? this.browserActivity.getString(com.xbrowser.play.R.string.bf_gesture_edge) : SharedPreferencesHelper.getInstance().gestureMode == 3 ? this.browserActivity.getString(com.xbrowser.play.R.string.bf_gesture_bottom) : this.browserActivity.getString(com.xbrowser.play.R.string.bf_gesture_normal);
     }
 
     @JavascriptInterface
@@ -2176,7 +2176,7 @@ public class C2107nf {
     public String getBrowserInfoObj() throws JSONException {
         JSONObject jSONObject = new JSONObject();
         try {
-            jSONObject.put("package_name", this.f6313a.getPackageName());
+            jSONObject.put("package_name", this.browserActivity.getPackageName());
             jSONObject.put("channel", PhoneUtils.getInstance().getChannelCode());
             jSONObject.put("lang", PhoneUtils.getInstance().getLanguageCode());
         } catch (JSONException e) {
@@ -2187,34 +2187,34 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getBrowserLayoutType() {
-        if ((this.f6313a.getBrowserFrameLayout().getLayoutType() & 4097) == 4097) {
+        if ((this.browserActivity.getBrowserFrameLayout().getLayoutType() & 4097) == 4097) {
             return "search-bar-at-top";
         }
-        this.f6313a.getBrowserFrameLayout().getLayoutType();
+        this.browserActivity.getBrowserFrameLayout().getLayoutType();
         return "search-bar-at-bottom";
     }
 
     @JavascriptInterface
     public int getBrowserState() {
-        return this.f6313a.m6226K0();
+        return this.browserActivity.m6226K0();
     }
 
     @JavascriptInterface
     public int getBrowserToolbarHeight() {
         View bottomContainer;
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        this.f6313a.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        this.browserActivity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 8192) == 8192) {
             return 0;
         }
         if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 4097) == 4097) {
-            View topContainer = this.f6313a.getBrowserFrameLayout().getTopContainer();
-            View bottomContainer2 = this.f6313a.getBrowserFrameLayout().getBottomContainer();
+            View topContainer = this.browserActivity.getBrowserFrameLayout().getTopContainer();
+            View bottomContainer2 = this.browserActivity.getBrowserFrameLayout().getBottomContainer();
             height = topContainer != null ? topContainer.getHeight() : 0;
             if (bottomContainer2 != null) {
                 height += bottomContainer2.getHeight();
             }
-        } else if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 4098) == 4098 && (bottomContainer = this.f6313a.getBrowserFrameLayout().getBottomContainer()) != null) {
+        } else if ((SharedPreferencesHelper.getInstance().defaultLayoutType & 4098) == 4098 && (bottomContainer = this.browserActivity.getBrowserFrameLayout().getBottomContainer()) != null) {
             height = bottomContainer.getHeight();
         }
         return (int) (height / displayMetrics.density);
@@ -2249,13 +2249,13 @@ public class C2107nf {
     public String getCurrentDownloaderName() {
         String strM6871P = SharedPreferencesHelper.getInstance().getString("default_downloader", "com.x.browser.downloader");
         if (strM6871P.equals("com.x.browser.downloader")) {
-            return this.f6313a.getString(com.xbrowser.play.R.string.title_default_downloader);
+            return this.browserActivity.getString(com.xbrowser.play.R.string.title_default_downloader);
         }
         if (strM6871P.equals("com.android.providers.downloads")) {
-            return this.f6313a.getString(com.xbrowser.play.R.string.title_system_downloader);
+            return this.browserActivity.getString(com.xbrowser.play.R.string.title_system_downloader);
         }
-        Player playerM9886D = C2406u0.m9882f().m9886d(strM6871P);
-        return playerM9886D != null ? playerM9886D.f7126a : this.f6313a.getString(com.xbrowser.play.R.string.title_default_downloader);
+        Addon addonM9886D = C2406u0.getInstance().m9886d(strM6871P);
+        return addonM9886D != null ? addonM9886D.title : this.browserActivity.getString(com.xbrowser.play.R.string.title_default_downloader);
     }
 
     @JavascriptInterface
@@ -2304,7 +2304,7 @@ public class C2107nf {
             try {
                 if (!TextUtils.isEmpty(strM6871P)) {
                     JSONObject jSONObject = new JSONObject();
-                    jSONObject.put("title", this.f6313a.getString(com.xbrowser.play.R.string.search_name_custom));
+                    jSONObject.put("title", this.browserActivity.getString(com.xbrowser.play.R.string.search_name_custom));
                     jSONObject.put("url", strM6871P);
                     jSONObject.put("id", AndroidSystemUtils.prefixWithMd5(strM6871P));
                     jSONArray.put(jSONObject);
@@ -2355,10 +2355,10 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getDownloadInfo(String str) throws JSONException {
-        C1541c.i iVarM6698n = C1541c.m6674q().m6698n(str);
+        BrowserDownloadManager.i iVarM6698n = BrowserDownloadManager.getInstance().m6698n(str);
         JSONObject jSONObject = new JSONObject();
         if (iVarM6698n != null) {
-            long j = iVarM6698n.f4652i;
+            long j = iVarM6698n.downloadedBytes;
             String strM8711s = AndroidSystemUtils.formatFileSize(j);
             String strM8711s2 = AndroidSystemUtils.formatFileSize(iVarM6698n.f4654k);
             String str2 = String.format("%s/%s", strM8711s, strM8711s2);
@@ -2366,7 +2366,7 @@ public class C2107nf {
             try {
                 jSONObject.put("downloaded", j);
                 jSONObject.put("total", iVarM6698n.f4654k);
-                jSONObject.put("status", iVarM6698n.f4655l);
+                jSONObject.put("status", iVarM6698n.downloadStatus);
                 jSONObject.put("text_progress", str2);
                 jSONObject.put("text_total", strM8711s2);
                 jSONObject.put("text_speed", strM6712c);
@@ -2379,15 +2379,15 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getElementRules(String str) {
-        String strM458m = NetworkUtils.getFileExtension(str);
+        String strM458m = NetworkUtils.getDomain(str);
         JSONArray jSONArray = new JSONArray();
-        ArrayList arrayListM6599X = C1539a.getInstance().m6599X(strM458m);
-        ArrayList arrayListM6599X2 = C1539a.getInstance().m6599X(str);
-        ArrayList arrayListM6599X3 = C1539a.getInstance().m6599X("*");
+        ArrayList arrayListM6599X = ContentDataManager.getInstance().m6599X(strM458m);
+        ArrayList arrayListM6599X2 = ContentDataManager.getInstance().m6599X(str);
+        ArrayList arrayListM6599X3 = ContentDataManager.getInstance().m6599X("*");
         if (arrayListM6599X != null) {
             for (int i = 0; i < arrayListM6599X.size(); i++) {
                 String str2 = (String) arrayListM6599X.get(i);
-                if (C1539a.getInstance().m6649v0(str2 + "@" + strM458m) && C1539a.getInstance().m6649v0(str2 + "@" + str)) {
+                if (ContentDataManager.getInstance().m6649v0(str2 + "@" + strM458m) && ContentDataManager.getInstance().m6649v0(str2 + "@" + str)) {
                     jSONArray.put(arrayListM6599X.get(i));
                 }
             }
@@ -2395,7 +2395,7 @@ public class C2107nf {
         if (arrayListM6599X2 != null) {
             for (int i2 = 0; i2 < arrayListM6599X2.size(); i2++) {
                 String str3 = (String) arrayListM6599X2.get(i2);
-                if (C1539a.getInstance().m6649v0(str3 + "@" + str) && C1539a.getInstance().m6649v0(str3 + "@" + strM458m)) {
+                if (ContentDataManager.getInstance().m6649v0(str3 + "@" + str) && ContentDataManager.getInstance().m6649v0(str3 + "@" + strM458m)) {
                     jSONArray.put(str3);
                 }
             }
@@ -2403,7 +2403,7 @@ public class C2107nf {
         if (arrayListM6599X3 != null) {
             for (int i3 = 0; i3 < arrayListM6599X3.size(); i3++) {
                 String str4 = (String) arrayListM6599X3.get(i3);
-                if (C1539a.getInstance().m6649v0(str4) && C1539a.getInstance().m6649v0(str4 + "@" + strM458m) && C1539a.getInstance().m6649v0(str4 + "@" + str)) {
+                if (ContentDataManager.getInstance().m6649v0(str4) && ContentDataManager.getInstance().m6649v0(str4 + "@" + strM458m) && ContentDataManager.getInstance().m6649v0(str4 + "@" + str)) {
                     jSONArray.put(str4);
                 }
             }
@@ -2421,7 +2421,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getExtraCss() {
-        return C2061mf.m8471f0().m8511Q();
+        return JSManager.getInstance().m8511Q();
     }
 
     @JavascriptInterface
@@ -2433,12 +2433,12 @@ public class C2107nf {
             c0896TdM4137c = C0896Td.m4137c();
             str = "http://" + str;
         }
-        return c0896TdM4137c.m4138a(str);
+        return c0896TdM4137c.getIconUri(str);
     }
 
     @JavascriptInterface
     public String getFiles(String str, String str2) {
-        return C0801Ra.m3798f().m3802d(str, str2);
+        return C0801Ra.getInstance().getFilesAsJson(str, str2);
     }
 
     @JavascriptInterface
@@ -2471,13 +2471,13 @@ public class C2107nf {
                         jSONObject.put("url", string2);
                         jSONObject.put("intro", string3);
                         jSONObject.put("ctr_flag", i);
-                        jSONObject.put("icon_url", ResourceCacheManager.getInstance().m2046a(string2, 7));
+                        jSONObject.put("icon_url", ResourceCacheManager.getInstance().getUrlOrFilePath(string2, 7));
                         jSONObject.put("added", MySQLiteOpenHelper.getInstance().m7541w0(MySQLiteOpenHelper.getInstance().getWritableDatabase(), string2));
                         jSONArray.put(jSONObject);
                     } while (cursorQuery.moveToNext());
                 } else {
                     try {
-                        Toast.makeText(this.f6313a, "no data please reload page", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this.browserActivity, "no data please reload page", Toast.LENGTH_SHORT).show();
                         C2275r7.m9348e().m9354g("browser.h5store");
                     } catch (Exception e) {
                         e = e;
@@ -2518,9 +2518,9 @@ public class C2107nf {
                         String string2 = cursorQuery.getString(cursorQuery.getColumnIndex("url"));
                         long j = cursorQuery.getLong(cursorQuery.getColumnIndex("last_visit"));
                         try {
-                            String strM8717y = AndroidSystemUtils.m8717y(this.f6313a, j);
+                            String strM8717y = AndroidSystemUtils.m8717y(this.browserActivity, j);
                             String strM8668B = AndroidSystemUtils.m8668B(j);
-                            String strM4138a = C0896Td.m4137c().m4138a(string2);
+                            String strM4138a = C0896Td.m4137c().getIconUri(string2);
                             jSONObject.put("id", AndroidSystemUtils.prefixWithMd5(string2));
                             jSONObject.put("raw_title", string);
                             if (!TextUtils.isEmpty(str)) {
@@ -2552,7 +2552,7 @@ public class C2107nf {
     public String getHosts(int i) throws JSONException {
         JSONArray jSONArray = new JSONArray();
         try {
-            Cursor cursorQuery = this.f6313a.getContentResolver().query(BrowserProvider.uriHostList, DatabaseColumns.HOST_LIST, "host_type = ?", new String[]{i + ""}, null);
+            Cursor cursorQuery = this.browserActivity.getContentResolver().query(BrowserProvider.uriHostList, DatabaseColumns.HOST_LIST, "host_type = ?", new String[]{i + ""}, null);
             if (cursorQuery != null) {
                 if (cursorQuery.moveToFirst()) {
                     do {
@@ -2571,12 +2571,12 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getImageResWithJson() {
-        return C1571f.getInstance().m7003m();
+        return VideoSniffingManager.getInstance().m7003m();
     }
 
     @JavascriptInterface
     public String getInstallInfo(String str, String str2) {
-        return C2061mf.m8471f0().m8513R(str, str2);
+        return JSManager.getInstance().m8513R(str, str2);
     }
 
     @JavascriptInterface
@@ -2596,7 +2596,7 @@ public class C2107nf {
     @JavascriptInterface
     public String getItem(String str) {
         try {
-            return C1199a3.m5090f().mo5091b(str);
+            return C1199a3.getInstance().mo5091b(str);
         } catch (Exception e) {
             e.printStackTrace();
             return "ErrorData";
@@ -2605,7 +2605,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getJsModuleListenerMethods() {
-        return C2061mf.m8471f0().m8514S();
+        return JSManager.getInstance().m8514S();
     }
 
     @JavascriptInterface
@@ -2639,7 +2639,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getMenuConfig(String str) {
-        return C1572g.getInstance().m7025g(str);
+        return MenuConfigManager.getInstance().m7025g(str);
     }
 
     @JavascriptInterface
@@ -2702,13 +2702,13 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getResourceListWithJson(String str, String str2) {
-        return C1571f.getInstance().m7004o(str, str2);
+        return VideoSniffingManager.getInstance().m7004o(str, str2);
     }
 
     @JavascriptInterface
     public String getRuleFiles() {
-        C1539a.getInstance().m6594U0();
-        return C1539a.getInstance().m6578M();
+        ContentDataManager.getInstance().m6594U0();
+        return ContentDataManager.getInstance().m6578M();
     }
 
     @JavascriptInterface
@@ -2718,7 +2718,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getSelectedOptionName(String str) {
-        return C1224ai.m5285e().m5297m(str);
+        return C1224ai.getInstance().m5297m(str);
     }
 
     @JavascriptInterface
@@ -2745,8 +2745,8 @@ public class C2107nf {
     public String getSniffMediaResource() throws JSONException {
         JSONObject jSONObject = new JSONObject();
         try {
-            jSONObject.put("src", C1571f.getInstance().m7000j().path);
-            jSONObject.put("title", C1571f.getInstance().m7000j().title);
+            jSONObject.put("src", VideoSniffingManager.getInstance().m7000j().path);
+            jSONObject.put("title", VideoSniffingManager.getInstance().m7000j().title);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -2755,12 +2755,12 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getStartPageBg() {
-        return this.f6313a.m6274W0();
+        return this.browserActivity.m6274W0();
     }
 
     @JavascriptInterface
     public String getStartPageLogo() {
-        String strM2046a = ResourceCacheManager.getInstance().m2046a("start-page.logo", 9);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.logo", 9);
         if (FileUtils.fileExists(strM2046a)) {
             return FileUtils.readFileToString(strM2046a);
         }
@@ -2771,7 +2771,7 @@ public class C2107nf {
     public String getStringResource(String str) {
         Log.i("js-console", "resKey:" + str);
         try {
-            return this.f6313a.getString(((Integer) AbstractC2343sk.m9588b(AbstractC0627Nj.class, str)).intValue());
+            return this.browserActivity.getString(((Integer) AbstractC2343sk.m9588b(AbstractC0627Nj.class, str)).intValue());
         } catch (Exception e) {
             e.printStackTrace();
             return "not-found-string-key";
@@ -2785,7 +2785,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getSyncableResourceConf() {
-        return C1089Xm.getInstance().getSyncResourceConfig();
+        return SyncManager.getInstance().getSyncResourceConfig();
     }
 
     @JavascriptInterface
@@ -2802,12 +2802,12 @@ public class C2107nf {
     public String getToolbarIconData() throws JSONException {
         JSONObject jSONObject = new JSONObject();
         try {
-            jSONObject.put("back", AndroidSystemUtils.m8672F(this.f6313a, com.xbrowser.play.R.drawable.ic_arrow_left));
-            jSONObject.put("forward", AndroidSystemUtils.m8672F(this.f6313a, com.xbrowser.play.R.drawable.ic_arrow_right));
-            jSONObject.put("menu", AndroidSystemUtils.m8672F(this.f6313a, com.xbrowser.play.R.drawable.ic_menu));
-            jSONObject.put("tabs", AndroidSystemUtils.m8672F(this.f6313a, com.xbrowser.play.R.drawable.ic_muti_window));
-            jSONObject.put("home", AndroidSystemUtils.m8672F(this.f6313a, com.xbrowser.play.R.drawable.ic_home));
-            jSONObject.put("refresh", AndroidSystemUtils.m8672F(this.f6313a, com.xbrowser.play.R.drawable.ic_refresh_small));
+            jSONObject.put("back", AndroidSystemUtils.m8672F(this.browserActivity, com.xbrowser.play.R.drawable.ic_arrow_left));
+            jSONObject.put("forward", AndroidSystemUtils.m8672F(this.browserActivity, com.xbrowser.play.R.drawable.ic_arrow_right));
+            jSONObject.put("menu", AndroidSystemUtils.m8672F(this.browserActivity, com.xbrowser.play.R.drawable.ic_menu));
+            jSONObject.put("tabs", AndroidSystemUtils.m8672F(this.browserActivity, com.xbrowser.play.R.drawable.ic_muti_window));
+            jSONObject.put("home", AndroidSystemUtils.m8672F(this.browserActivity, com.xbrowser.play.R.drawable.ic_home));
+            jSONObject.put("refresh", AndroidSystemUtils.m8672F(this.browserActivity, com.xbrowser.play.R.drawable.ic_refresh_small));
         } catch (Exception unused) {
         }
         return jSONObject.toString();
@@ -2833,7 +2833,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public int getTotalRules() {
-        return C1539a.getInstance().m6620i0();
+        return ContentDataManager.getInstance().m6620i0();
     }
 
     @JavascriptInterface
@@ -2863,12 +2863,12 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getUserMarkRules(String str) {
-        String strM6626l0 = C1539a.getInstance().m6626l0(NetworkUtils.getFileExtension(str));
+        String strM6626l0 = ContentDataManager.getInstance().m6626l0(NetworkUtils.getDomain(str));
         JSONArray jSONArray = new JSONArray();
         try {
             if (!TextUtils.isEmpty(strM6626l0)) {
                 for (String str2 : strM6626l0.split("#_mark_rule_div_#")) {
-                    if (C1539a.getInstance().m6649v0(str2)) {
+                    if (ContentDataManager.getInstance().m6649v0(str2)) {
                         jSONArray.put(new JSONObject(str2));
                     }
                 }
@@ -2901,12 +2901,12 @@ public class C2107nf {
 
     @JavascriptInterface
     public String getUserScriptByJson(String str) {
-        return C2061mf.m8471f0().getUserScriptJson(str);
+        return JSManager.getInstance().getUserScriptJson(str);
     }
 
     @JavascriptInterface
     public String getUserScriptListByJson() {
-        return C2061mf.m8471f0().m8531e0();
+        return JSManager.getInstance().m8531e0();
     }
 
     @JavascriptInterface
@@ -2946,7 +2946,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public boolean iconIsModify(String str) {
-        return FileUtils.fileExists(ResourceCacheManager.getInstance().m2046a(str, 9));
+        return FileUtils.fileExists(ResourceCacheManager.getInstance().getUrlOrFilePath(str, 9));
     }
 
     @JavascriptInterface
@@ -2958,17 +2958,17 @@ public class C2107nf {
     @JavascriptInterface
     @Deprecated
     public void importAdRule() {
-        this.f6313a.m6326i1();
+        this.browserActivity.m6326i1();
     }
 
     @JavascriptInterface
     public void importAdRuleFromUrl(String str) {
-        C1539a.getInstance().m6630n0(str.trim());
+        ContentDataManager.getInstance().m6630n0(str.trim());
     }
 
     @JavascriptInterface
     public void importBookmarkFromHtml() {
-        this.f6313a.m6329j1();
+        this.browserActivity.openTextFilePicker();
     }
 
     @JavascriptInterface
@@ -2988,7 +2988,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public boolean inWhiteList(String str) {
-        return C1539a.getInstance().m6637q0(str);
+        return ContentDataManager.getInstance().m6637q0(str);
     }
 
     @JavascriptInterface
@@ -3027,7 +3027,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public boolean isAllowRule(String str) {
-        return C1539a.getInstance().m6649v0(str);
+        return ContentDataManager.getInstance().m6649v0(str);
     }
 
     @JavascriptInterface
@@ -3042,7 +3042,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public boolean isDefaultBrowser() {
-        return AndroidSystemUtils.isDefaultBrowser(this.f6313a);
+        return AndroidSystemUtils.isDefaultBrowser(this.browserActivity);
     }
 
     @JavascriptInterface
@@ -3063,7 +3063,7 @@ public class C2107nf {
     @JavascriptInterface
     public boolean isEnableDomainSmartAdb(String str) {
         boolean zM6947P = C1570e.getInstance().m6947P(str);
-        C1539a.getInstance().m6575K0();
+        ContentDataManager.getInstance().m6575K0();
         return zM6947P;
     }
 
@@ -3074,22 +3074,22 @@ public class C2107nf {
 
     @JavascriptInterface
     public boolean isInAdjustmentOderMode() {
-        return this.f6313a.f4264k == 2;
+        return this.browserActivity.uiLayoutMode == 2;
     }
 
     @JavascriptInterface
     public boolean isInDevToolSelectMode() {
-        return this.f6313a.f4264k == 1;
+        return this.browserActivity.uiLayoutMode == 1;
     }
 
     @JavascriptInterface
     public boolean isInMultiSelectMode() {
-        return this.f6313a.f4264k == 3;
+        return this.browserActivity.uiLayoutMode == 3;
     }
 
     @JavascriptInterface
     public boolean isLightStartPageTheme() {
-        return this.f6313a.m6314f1() ? SharedPreferencesHelper.getInstance().getBoolean("is_light_start_page_bg", false) : !SharedPreferencesHelper.getInstance().enterNightMode;
+        return this.browserActivity.m6314f1() ? SharedPreferencesHelper.getInstance().getBoolean("is_light_start_page_bg", false) : !SharedPreferencesHelper.getInstance().enterNightMode;
     }
 
     @JavascriptInterface
@@ -3101,22 +3101,22 @@ public class C2107nf {
     public void keepScreenOn(boolean z) {
         m8762d("keep-screen-on", z);
         SharedPreferencesHelper.getInstance().keepScreenOn = z;
-        this.f6313a.runOnUiThread(new RunnableC2736h(z));
+        this.browserActivity.runOnUiThread(new RunnableC2736h(z));
     }
 
     @JavascriptInterface
     public void launchQrScan() {
-        this.f6313a.runOnUiThread(new m0());
+        this.browserActivity.runOnUiThread(new m0());
     }
 
     @JavascriptInterface
     public String loadAutoFill(String str) {
-        return C0600N1.m3257k().m3266o(str);
+        return C0600N1.getInstance().m3266o(str);
     }
 
     @JavascriptInterface
     public String loadDownloads() {
-        return !m8760b() ? "" : C1541c.m6674q().m6704u();
+        return !m8760b() ? "" : BrowserDownloadManager.getInstance().m6704u();
     }
 
     @JavascriptInterface
@@ -3143,13 +3143,13 @@ public class C2107nf {
             }
             jSONArray = new JSONArray();
         }
-        if (!SharedPreferencesHelper.getInstance().activeAdBlock || TextUtils.isEmpty(strSubstring) || C1539a.getInstance().m6637q0(strSubstring)) {
+        if (!SharedPreferencesHelper.getInstance().activeAdBlock || TextUtils.isEmpty(strSubstring) || ContentDataManager.getInstance().m6637q0(strSubstring)) {
             return str2.equals("json") ? "[]" : "";
         }
-        String strM458m = NetworkUtils.getFileExtension(strSubstring);
-        ArrayList arrayListM6599X = C1539a.getInstance().m6599X(strM458m);
-        ArrayList arrayListM6599X2 = C1539a.getInstance().m6599X(strSubstring);
-        ArrayList arrayListM6599X3 = C1539a.getInstance().m6599X("*");
+        String strM458m = NetworkUtils.getDomain(strSubstring);
+        ArrayList arrayListM6599X = ContentDataManager.getInstance().m6599X(strM458m);
+        ArrayList arrayListM6599X2 = ContentDataManager.getInstance().m6599X(strSubstring);
+        ArrayList arrayListM6599X3 = ContentDataManager.getInstance().m6599X("*");
         if (arrayListM6599X != null) {
             int i2 = 0;
             i = 0;
@@ -3160,7 +3160,7 @@ public class C2107nf {
                     arrayList2 = arrayListM6599X;
                 } else {
                     arrayList2 = arrayListM6599X;
-                    if (C1539a.getInstance().m6649v0(str3 + "@" + strM458m) && C1539a.getInstance().m6649v0(str3 + "@" + strSubstring)) {
+                    if (ContentDataManager.getInstance().m6649v0(str3 + "@" + strM458m) && ContentDataManager.getInstance().m6649v0(str3 + "@" + strSubstring)) {
                         if (!str2.equals("css")) {
                             jSONArray.put(str3);
                         } else if (z) {
@@ -3196,7 +3196,7 @@ public class C2107nf {
                     arrayList = arrayListM6599X2;
                 } else {
                     arrayList = arrayListM6599X2;
-                    if (C1539a.getInstance().m6649v0(str4 + "@" + strSubstring) && C1539a.getInstance().m6649v0(str4 + "@" + strM458m)) {
+                    if (ContentDataManager.getInstance().m6649v0(str4 + "@" + strSubstring) && ContentDataManager.getInstance().m6649v0(str4 + "@" + strM458m)) {
                         if (!str2.equals("css")) {
                             jSONArray.put(str4);
                         } else if (z) {
@@ -3225,7 +3225,7 @@ public class C2107nf {
             for (int i6 = 0; i6 < arrayListM6599X3.size(); i6++) {
                 String str5 = (String) arrayListM6599X3.get(i6);
                 if (!m8761c(str5)) {
-                    if (C1539a.getInstance().m6649v0(str5) && C1539a.getInstance().m6649v0(str5 + "@" + strM458m) && C1539a.getInstance().m6649v0(str5 + "@" + strSubstring)) {
+                    if (ContentDataManager.getInstance().m6649v0(str5) && ContentDataManager.getInstance().m6649v0(str5 + "@" + strM458m) && ContentDataManager.getInstance().m6649v0(str5 + "@" + strSubstring)) {
                         if (!str2.equals("css")) {
                             jSONArray.put(str5);
                         } else if (z) {
@@ -3265,7 +3265,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void logBlockOneAd(String str, String str2, String str3, int i) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        C1539a.getInstance().m6579M0(str, null, str2, str3, i);
+        ContentDataManager.getInstance().m6579M0(str, null, str2, str3, i);
     }
 
     @JavascriptInterface
@@ -3276,9 +3276,9 @@ public class C2107nf {
     @JavascriptInterface
     public void makeAsDefaultBrowser(boolean z) {
         if (z) {
-            new DialogC2744p(this.f6313a, z).show();
+            new DialogC2744p(this.browserActivity, z).show();
         } else {
-            AndroidSystemUtils.m8695c(this.f6313a);
+            AndroidSystemUtils.m8695c(this.browserActivity);
         }
     }
 
@@ -3286,7 +3286,7 @@ public class C2107nf {
     public void makeFollowSysDarkMode(boolean z) {
         SharedPreferencesHelper.getInstance().followSystemDarkMode = z;
         m8762d("follow-sys-dark-mode", z);
-        this.f6313a.runOnUiThread(new RunnableC2748t(z, (SharedPreferencesHelper.getInstance().f4915l0 & 48) == 32));
+        this.browserActivity.runOnUiThread(new RunnableC2748t(z, (SharedPreferencesHelper.getInstance().f4915l0 & 48) == 32));
     }
 
     @JavascriptInterface
@@ -3294,7 +3294,7 @@ public class C2107nf {
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
         intent.setType("image/*");
         intent.addCategory("android.intent.category.OPENABLE");
-        this.f6313a.startActivityForResult(intent, 67);
+        this.browserActivity.startActivityForResult(intent, 67);
     }
 
     @JavascriptInterface
@@ -3302,31 +3302,31 @@ public class C2107nf {
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
         intent.setType("image/*");
         intent.addCategory("android.intent.category.OPENABLE");
-        this.f6313a.m6200D2(str);
-        this.f6313a.startActivityForResult(intent, 64);
+        this.browserActivity.m6200D2(str);
+        this.browserActivity.startActivityForResult(intent, 64);
     }
 
     @JavascriptInterface
     public void newDir(String str) {
-        C0801Ra.m3798f().m3806i(str);
+        C0801Ra.getInstance().m3806i(str);
     }
 
     @JavascriptInterface
     public void newExchangeCode() {
-        this.f6313a.runOnUiThread(new D(ApiEndpointsManager.getInstance().getUserExchangeCodeEndpoint() + "/send_code?user_id=" + C2439uo.getInstance().getUser().getUserId()));
+        this.browserActivity.runOnUiThread(new D(ApiEndpointsManager.getInstance().getUserExchangeCodeEndpoint() + "/send_code?user_id=" + C2439uo.getInstance().getUser().getUserId()));
     }
 
     @JavascriptInterface
     public void notifyBlockNumberAds(int i) {
         if (SharedPreferencesHelper.getInstance().showAdBlockToast) {
-            C1539a.getInstance().m6605a0();
-            C1539a.getInstance().f4571t += i;
+            ContentDataManager.getInstance().m6605a0();
+            ContentDataManager.getInstance().f4571t += i;
         }
     }
 
     @JavascriptInterface
     public void notifyDetectVideoOrientation(String str) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6313a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 instanceof WebViewBrowserController) {
             ((WebViewBrowserController) interfaceC1300b3).f4725y = str;
         }
@@ -3339,17 +3339,17 @@ public class C2107nf {
 
     @JavascriptInterface
     public void notifyFoundUserScript(String str) {
-        C2061mf.m8471f0().m8565z0(str);
+        JSManager.getInstance().m8565z0(str);
     }
 
     @JavascriptInterface
     public void notifyHasVideoTag(String str) {
-        C1571f.getInstance().m6990B(str);
+        VideoSniffingManager.getInstance().m6990B(str);
     }
 
     @JavascriptInterface
     public void notifyLoadModuleFailed(String str) {
-        this.f6313a.m6251Q1(str);
+        this.browserActivity.onLoadModuleFailed(str);
     }
 
     @JavascriptInterface
@@ -3359,7 +3359,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void notifySniffMediaRes(boolean z) {
-        this.f6313a.runOnUiThread(new O());
+        this.browserActivity.runOnUiThread(new O());
     }
 
     @JavascriptInterface
@@ -3367,51 +3367,51 @@ public class C2107nf {
         if (m8760b()) {
             SharedPreferencesHelper.getInstance().f4899d0 = true;
             if (str.equals("export-passwd-auto-fill")) {
-                this.f6313a.runOnUiThread(new o0());
+                this.browserActivity.runOnUiThread(new o0());
             }
         }
     }
 
     @JavascriptInterface
     public void notifyVideoLoad(String str, int i) {
-        C1571f.getInstance().m7000j().f2130b = i;
-        C1571f.getInstance().m6990B(str);
+        VideoSniffingManager.getInstance().m7000j().f2130b = i;
+        VideoSniffingManager.getInstance().m6990B(str);
     }
 
     @JavascriptInterface
     public void notifyVideoPaused() {
-        C1571f.getInstance().m7000j().f2129a = true;
+        VideoSniffingManager.getInstance().m7000j().f2129a = true;
     }
 
     @JavascriptInterface
     public void notifyVideoPlayed(String str, int i, int i2, int i3, String str2) {
         Log.i("sniff-video", ">>>>>> Play video>>>>>>> volume:" + i3);
-        C1571f.getInstance().m7000j().f2129a = false;
-        C1571f.getInstance().m7000j().f2130b = i;
-        C1571f.getInstance().m7000j().f2131c = i2;
-        C1571f.getInstance().m7000j().f2135g = i3;
-        C1571f.getInstance().m6990B(str);
+        VideoSniffingManager.getInstance().m7000j().f2129a = false;
+        VideoSniffingManager.getInstance().m7000j().f2130b = i;
+        VideoSniffingManager.getInstance().m7000j().f2131c = i2;
+        VideoSniffingManager.getInstance().m7000j().f2135g = i3;
+        VideoSniffingManager.getInstance().m6990B(str);
     }
 
     @JavascriptInterface
     public void notifyVideoTimeUpdate(int i, int i2) {
-        C1571f.getInstance().m7000j().f2131c = i;
-        C1571f.getInstance().m7000j().f2130b = i2;
+        VideoSniffingManager.getInstance().m7000j().f2131c = i;
+        VideoSniffingManager.getInstance().m7000j().f2130b = i2;
     }
 
     @JavascriptInterface
     public int numberOfBlocked() {
-        return C1539a.getInstance().f4572u;
+        return ContentDataManager.getInstance().f4572u;
     }
 
     @JavascriptInterface
     public void onDOMContentLoaded() {
-        this.f6313a.getHandler().postDelayed(new X(), 200L);
+        this.browserActivity.getHandler().postDelayed(new X(), 200L);
     }
 
     @JavascriptInterface
     public void onElementHitTest(String str) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6313a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return;
         }
@@ -3420,23 +3420,23 @@ public class C2107nf {
 
     @JavascriptInterface
     public void onOuterCSSApplied() {
-        this.f6313a.getHandler().removeCallbacks(null);
-        this.f6313a.getHandler().postDelayed(new U(), 1500L);
+        this.browserActivity.getHandler().removeCallbacks(null);
+        this.browserActivity.getHandler().postDelayed(new U(), 1500L);
     }
 
     @JavascriptInterface
     public void onSelectTextChange(String str) {
-        this.f6313a.runOnUiThread(new Y(str));
+        this.browserActivity.runOnUiThread(new Y(str));
     }
 
     @JavascriptInterface
     public void onSubmitForm(String str) {
-        C0600N1.m3257k().m3267p(str);
+        C0600N1.getInstance().m3267p(str);
     }
 
     @JavascriptInterface
     public void onTouchEventElement() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6313a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return;
         }
@@ -3446,18 +3446,18 @@ public class C2107nf {
 
     @JavascriptInterface
     public void openAutoProxySetting() {
-        this.f6313a.runOnUiThread(new RunnableC2754z());
+        this.browserActivity.runOnUiThread(new RunnableC2754z());
     }
 
     @JavascriptInterface
     public void openDownload(String str) {
-        C1541c.m6674q().m6709z(str);
+        BrowserDownloadManager.getInstance().m6709z(str);
     }
 
     @JavascriptInterface
     public void openDownloadDir() {
         if (SharedPreferencesHelper.getInstance().f4936w) {
-            this.f6313a.runOnUiThread(new B());
+            this.browserActivity.runOnUiThread(new B());
             return;
         }
         openLocalPage("x:sd?path=" + SharedPreferencesHelper.getInstance().m6878T() + "&sort=date");
@@ -3465,7 +3465,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void openFile(String str) {
-        C0801Ra.m3798f().m3808k(str);
+        C0801Ra.getInstance().m3808k(str);
     }
 
     @JavascriptInterface
@@ -3475,17 +3475,17 @@ public class C2107nf {
 
     @JavascriptInterface
     public void openLoginOrProfile() {
-        this.f6313a.runOnUiThread(new F());
+        this.browserActivity.runOnUiThread(new F());
     }
 
     @JavascriptInterface
     public void openMarket() {
-        this.f6313a.runOnUiThread(new RunnableC2737i());
+        this.browserActivity.runOnUiThread(new RunnableC2737i());
     }
 
     @JavascriptInterface
     public void openMarkingRules() {
-        this.f6313a.runOnUiThread(new RunnableC2753y());
+        this.browserActivity.runOnUiThread(new RunnableC2753y());
     }
 
     @JavascriptInterface
@@ -3499,10 +3499,10 @@ public class C2107nf {
                 intent.putExtra("LauncherUI.From.Scaner.Shortcut", true);
                 intent.setFlags(335544320);
                 intent.setAction("android.intent.action.VIEW");
-                this.f6313a.startActivity(intent);
+                this.browserActivity.startActivity(intent);
                 return;
             } catch (Exception unused) {
-                browserActivity = this.f6313a;
+                browserActivity = this.browserActivity;
                 str = "打开微信扫码失败，请手动打开";
             }
         } else {
@@ -3510,10 +3510,10 @@ public class C2107nf {
                 return;
             }
             try {
-                this.f6313a.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("alipayqr://platformapi/startapp?saId=10000007")));
+                this.browserActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("alipayqr://platformapi/startapp?saId=10000007")));
                 return;
             } catch (Exception unused2) {
-                browserActivity = this.f6313a;
+                browserActivity = this.browserActivity;
                 str = "打开失败，请手动打开";
             }
         }
@@ -3522,44 +3522,44 @@ public class C2107nf {
 
     @JavascriptInterface
     public void openUrl(String str, int i, boolean z) {
-        this.f6313a.runOnUiThread(new E(str, i, z));
+        this.browserActivity.runOnUiThread(new E(str, i, z));
     }
 
     @JavascriptInterface
     public void openUrlOnNewTab(String str, int i) {
-        this.f6313a.runOnUiThread(new C(str, i));
+        this.browserActivity.runOnUiThread(new C(str, i));
     }
 
     @JavascriptInterface
     public void pauseDownload(String str) {
-        C1541c.m6674q().m6676B(str);
+        BrowserDownloadManager.getInstance().m6676B(str);
     }
 
     @JavascriptInterface
     public void prepareCommitMarkedAd(int i, int i2) {
-        AbstractDialogC1303b6 q;
+        ConfirmDialog q;
         BrowserActivity browserActivity;
         int i3;
-        String string = this.f6313a.getString(com.xbrowser.play.R.string.dlg_mark_title);
+        String string = this.browserActivity.getString(com.xbrowser.play.R.string.dlg_mark_title);
         if (i > 10) {
-            q = new P(this.f6313a);
-            browserActivity = this.f6313a;
+            q = new P(this.browserActivity);
+            browserActivity = this.browserActivity;
             i3 = com.xbrowser.play.R.string.dlg_mark_too_many_hits;
         } else if (i != 0) {
-            this.f6313a.runOnUiThread(new T(i2));
+            this.browserActivity.runOnUiThread(new T(i2));
             return;
         } else {
-            q = new Q(this.f6313a);
-            browserActivity = this.f6313a;
+            q = new Q(this.browserActivity);
+            browserActivity = this.browserActivity;
             i3 = com.xbrowser.play.R.string.dlg_mark_no_marked;
         }
-        q.m5643d(string, browserActivity.getString(i3));
+        q.show(string, browserActivity.getString(i3));
     }
 
     @JavascriptInterface
     public void pull() {
         if (C2439uo.getInstance().m10206D()) {
-            C1089Xm.getInstance().m4828p(true);
+            SyncManager.getInstance().m4828p(true);
         } else {
             openLoginOrProfile();
         }
@@ -3568,7 +3568,7 @@ public class C2107nf {
     @JavascriptInterface
     public void push() {
         if (C2439uo.getInstance().m10206D()) {
-            C1089Xm.getInstance().m4829q();
+            SyncManager.getInstance().m4829q();
         } else {
             openLoginOrProfile();
         }
@@ -3597,11 +3597,11 @@ public class C2107nf {
             if (str.equals("fullscreen-with-float-btn")) {
                 SharedPreferencesHelper.getInstance().fullscreenWithFloatBtn = z;
                 if (SharedPreferencesHelper.getInstance().browserFullscreenMode) {
-                    C0848Sb c0848SbM4048n = C0848Sb.m4048n();
+                    C0848Sb c0848SbM4048n = C0848Sb.getInstance();
                     if (z) {
-                        c0848SbM4048n.m4052r();
+                        c0848SbM4048n.restorePosition();
                     } else {
-                        c0848SbM4048n.m4049o();
+                        c0848SbM4048n.hideFloatingButton();
                     }
                 }
             }
@@ -3614,12 +3614,12 @@ public class C2107nf {
 
     @JavascriptInterface
     public void regPendingMethod(String str, String str2) {
-        C2061mf.m8471f0().m8498J0(str, str2);
+        JSManager.getInstance().m8498J0(str, str2);
     }
 
     @JavascriptInterface
     public void reloadFrontPage() {
-        this.f6313a.refreshQuickAccessUI();
+        this.browserActivity.refreshQuickAccessUI();
     }
 
     @JavascriptInterface
@@ -3630,20 +3630,20 @@ public class C2107nf {
 
     @JavascriptInterface
     public void removeAdRule(String str) {
-        C1539a.getInstance().m6602Y0(str);
+        ContentDataManager.getInstance().m6602Y0(str);
     }
 
     @JavascriptInterface
     public void removeAllBookmarks() {
         if (m8760b()) {
-            this.f6313a.getContentResolver().delete(BrowserProvider.uriBookmark, null, null);
+            this.browserActivity.getContentResolver().delete(BrowserProvider.uriBookmark, null, null);
         }
     }
 
     @JavascriptInterface
     public void removeAllDownloads() {
         if (m8760b()) {
-            new n0(this.f6313a).m5644e(this.f6313a.getString(com.xbrowser.play.R.string.dlg_clean_download), this.f6313a.getString(com.xbrowser.play.R.string.dlg_clean_download_confirm), this.f6313a.getString(com.xbrowser.play.R.string.dlg_clean_downoad_file));
+            new n0(this.browserActivity).show(this.browserActivity.getString(com.xbrowser.play.R.string.dlg_clean_download), this.browserActivity.getString(com.xbrowser.play.R.string.dlg_clean_download_confirm), this.browserActivity.getString(com.xbrowser.play.R.string.dlg_clean_downoad_file));
         }
     }
 
@@ -3654,13 +3654,13 @@ public class C2107nf {
 
     @JavascriptInterface
     public void removeAutoFill(String str, String str2) {
-        C0600N1.m3257k().m3268q(str, str2);
+        C0600N1.getInstance().m3268q(str, str2);
     }
 
     @JavascriptInterface
     public void removeBlockLogs() {
         if (m8760b()) {
-            new t0(this.f6313a).m5643d(this.f6313a.getString(com.xbrowser.play.R.string.dlg_clean_adb_log), this.f6313a.getString(com.xbrowser.play.R.string.dlg_clean_adb_log_confirm));
+            new t0(this.browserActivity).show(this.browserActivity.getString(com.xbrowser.play.R.string.dlg_clean_adb_log), this.browserActivity.getString(com.xbrowser.play.R.string.dlg_clean_adb_log_confirm));
         }
     }
 
@@ -3718,7 +3718,7 @@ public class C2107nf {
     @JavascriptInterface
     public void removeHosts(int i) {
         if (m8760b()) {
-            new u0(this.f6313a, i).m5643d(this.f6313a.getString(com.xbrowser.play.R.string.dlg_clean_data), this.f6313a.getString(com.xbrowser.play.R.string.dlg_clean_data_confirm));
+            new u0(this.browserActivity, i).show(this.browserActivity.getString(com.xbrowser.play.R.string.dlg_clean_data), this.browserActivity.getString(com.xbrowser.play.R.string.dlg_clean_data_confirm));
         }
     }
 
@@ -3732,19 +3732,19 @@ public class C2107nf {
 
     @JavascriptInterface
     public void renameFile(String str) {
-        C0801Ra.m3798f().m3811n(str);
+        C0801Ra.getInstance().m3811n(str);
     }
 
     @JavascriptInterface
     public void requestVideoFullScreen() {
-        this.f6313a.runOnUiThread(new k0());
+        this.browserActivity.runOnUiThread(new k0());
     }
 
     @JavascriptInterface
     public void resetSiteSettings(String str) {
         if (m8760b()) {
             C1570e.getInstance().m6952U(str);
-            this.f6313a.runOnUiThread(new RunnableC2740l());
+            this.browserActivity.runOnUiThread(new RunnableC2740l());
         }
     }
 
@@ -3752,83 +3752,83 @@ public class C2107nf {
     public void restoreDefaultDownloader() {
         SharedPreferencesHelper.getInstance().putString("bind_default_downloader", "");
         SharedPreferencesHelper.getInstance().putString("default_downloader", "com.x.browser.downloader");
-        showToast(this.f6313a.getString(com.xbrowser.play.R.string.toast_reset_to_default_downloader));
+        showToast(this.browserActivity.getString(com.xbrowser.play.R.string.toast_reset_to_default_downloader));
     }
 
     @JavascriptInterface
     public void restroeUserData() {
-        this.f6313a.m6342n2();
+        this.browserActivity.m6342n2();
     }
 
     @JavascriptInterface
     public void resumeDownload(String str) {
-        C1541c.m6674q().m6682H(str);
+        BrowserDownloadManager.getInstance().m6682H(str);
     }
 
     @JavascriptInterface
     public void revertDefaultHomePage() {
         SharedPreferencesHelper.getInstance().m6861J0("file:///android_asset/start-page/index.html");
-        this.f6313a.m6361u0("native_call_update_set_home_btn()");
+        this.browserActivity.updateTitle("native_call_update_set_home_btn()");
     }
 
     @JavascriptInterface
     public void revertIcon(String str) {
-        FileUtils.deleteFile(ResourceCacheManager.getInstance().m2046a(str, 9));
-        this.f6313a.m6361u0("native_call_update_item('" + AndroidSystemUtils.prefixWithMd5(str) + "')");
+        FileUtils.deleteFile(ResourceCacheManager.getInstance().getUrlOrFilePath(str, 9));
+        this.browserActivity.updateTitle("native_call_update_item('" + AndroidSystemUtils.prefixWithMd5(str) + "')");
     }
 
     @JavascriptInterface
     public void saveMenuConfig(String str, String str2) {
-        C1572g.getInstance().m7040w(str, str2);
+        MenuConfigManager.getInstance().m7040w(str, str2);
     }
 
     @JavascriptInterface
     public void saveSource(String str) {
-        this.f6313a.runOnUiThread(new M(str));
+        this.browserActivity.runOnUiThread(new M(str));
     }
 
     @JavascriptInterface
     public void saveSyncableResourceConf(String str) {
-        C1089Xm.getInstance().m4833u(str);
+        SyncManager.getInstance().m4833u(str);
     }
 
     @JavascriptInterface
     public void saveText(String str) {
-        this.f6313a.runOnUiThread(new N(str));
+        this.browserActivity.runOnUiThread(new N(str));
     }
 
     @JavascriptInterface
     public boolean scriptInstalled(String str) {
-        return C2061mf.m8471f0().m8504M0(str) != -1;
+        return JSManager.getInstance().m8504M0(str) != -1;
     }
 
     @JavascriptInterface
     public void selectDomainUA(String str) {
-        new DialogC0235F4(this.f6313a, str).show();
+        new DialogC0235F4(this.browserActivity, str).show();
     }
 
     @JavascriptInterface
     public void sendExchangeCode(String str, int i) {
-        new DialogC0812Rl(this.f6313a).m3828d("送你" + i + "M访问Google的特权流量\n兑换码:" + str, "X浏览器下载:http://www.xbext.com/?from=exchange", 1);
+        new TextAreaDialog(this.browserActivity).m3828d("送你" + i + "M访问Google的特权流量\n兑换码:" + str, "X浏览器下载:http://www.xbext.com/?from=exchange", 1);
     }
 
     @JavascriptInterface
     public void sendLongPress(int i, int i2) {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f6313a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return;
         }
-        this.f6313a.runOnUiThread(new c0(interfaceC1300b3, i, i2));
+        this.browserActivity.runOnUiThread(new c0(interfaceC1300b3, i, i2));
     }
 
     @JavascriptInterface
     public void sendTouchEvent(int i, int i2) {
-        this.f6313a.getHandler().postDelayed(new d0(i, i2), 200L);
+        this.browserActivity.getHandler().postDelayed(new d0(i, i2), 200L);
     }
 
     @JavascriptInterface
     public void setAutoBackupCycle() {
-        this.f6313a.runOnUiThread(new RunnableC2742n());
+        this.browserActivity.runOnUiThread(new RunnableC2742n());
     }
 
     @JavascriptInterface
@@ -3838,7 +3838,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void setBrowserState(int i) {
-        this.f6313a.runOnUiThread(new l0(i));
+        this.browserActivity.runOnUiThread(new l0(i));
     }
 
     @JavascriptInterface
@@ -3850,13 +3850,13 @@ public class C2107nf {
 
     @JavascriptInterface
     public void setHomePage() {
-        this.f6313a.runOnUiThread(new I());
+        this.browserActivity.runOnUiThread(new I());
     }
 
     @JavascriptInterface
     public void setItem(String str, String str2) {
         try {
-            C1199a3.m5090f().mo5092c(str, str2);
+            C1199a3.getInstance().mo5092c(str, str2);
         } catch (Exception e) {
             e.printStackTrace();
             throw new IllegalStateException("setItem error");
@@ -3870,7 +3870,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void setRecoveryTabsType() {
-        this.f6313a.runOnUiThread(new RunnableC2743o());
+        this.browserActivity.runOnUiThread(new RunnableC2743o());
     }
 
     @JavascriptInterface
@@ -3880,15 +3880,15 @@ public class C2107nf {
 
     @JavascriptInterface
     public void setStartPageBg(String str) {
-        FileUtils.writeBytesToFile(str.getBytes(), ResourceCacheManager.getInstance().m2046a("start-page.bg", 9));
+        FileUtils.writeBytesToFile(str.getBytes(), ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.bg", 9));
         if (SharedPreferencesHelper.getInstance().enableImmersiveMode) {
-            this.f6313a.getHandler().postDelayed(new H(), 200L);
+            this.browserActivity.getHandler().postDelayed(new H(), 200L);
         }
     }
 
     @JavascriptInterface
     public void setStartPageLogo(String str) {
-        FileUtils.writeBytesToFile(str.getBytes(), ResourceCacheManager.getInstance().m2046a("start-page.logo", 9));
+        FileUtils.writeBytesToFile(str.getBytes(), ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.logo", 9));
     }
 
     @JavascriptInterface
@@ -3905,31 +3905,31 @@ public class C2107nf {
 
     @JavascriptInterface
     public void share(String str, String str2) throws Resources.NotFoundException {
-        AndroidSystemUtils.m8689W(this.f6313a, str, str2, "", this.f6313a.getResources().getString(com.xbrowser.play.R.string.choose_app));
+        AndroidSystemUtils.share(this.browserActivity, str, str2, this.browserActivity.getResources().getString(com.xbrowser.play.R.string.choose_app));
     }
 
     @JavascriptInterface
     public void sharePage() {
         String strM6871P = SharedPreferencesHelper.getInstance().getString("share_message", "");
         if (TextUtils.isEmpty(strM6871P)) {
-            strM6871P = this.f6313a.getString(com.xbrowser.play.R.string.recommand_title);
+            strM6871P = this.browserActivity.getString(com.xbrowser.play.R.string.recommand_title);
         }
-        new DialogC0812Rl(this.f6313a).m3828d(strM6871P, ApiEndpointsManager.getInstance().getAppStoreUrl(), 0);
+        new TextAreaDialog(this.browserActivity).m3828d(strM6871P, ApiEndpointsManager.getInstance().getAppStoreUrl(), 0);
     }
 
     @JavascriptInterface
     public void shareResource(String str, String str2) {
-        AndroidSystemUtils.m8690X(BrowserActivity.getActivity(), str, str2, "", null, null, null);
+        AndroidSystemUtils.share(BrowserActivity.getActivity(), str, str2, null, null, null);
     }
 
     @JavascriptInterface
     public void shareScript(String str, String str2) {
-        C2061mf.m8471f0().m8506N0(str, this.f6313a.getString(com.xbrowser.play.R.string.share_script_title) + "[" + str2 + "]");
+        JSManager.getInstance().m8506N0(str, this.browserActivity.getString(com.xbrowser.play.R.string.share_script_title) + "[" + str2 + "]");
     }
 
     @JavascriptInterface
     public void showAboutDialog() {
-        new ViewOnClickListenerC2082n(this.f6313a).show();
+        new ViewOnClickListenerC2082n(this.browserActivity).show();
     }
 
     @JavascriptInterface
@@ -3940,7 +3940,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void showAddScriptMenu() {
-        this.f6313a.runOnUiThread(new RunnableC2730b());
+        this.browserActivity.runOnUiThread(new RunnableC2730b());
     }
 
     @JavascriptInterface
@@ -3950,17 +3950,17 @@ public class C2107nf {
 
     @JavascriptInterface
     public void showAutoFillContextMenu(String str) {
-        this.f6313a.runOnUiThread(new RunnableC2733e(str));
+        this.browserActivity.runOnUiThread(new RunnableC2733e(str));
     }
 
     @JavascriptInterface
     public void showAutoFillToolMenu() {
-        this.f6313a.runOnUiThread(new RunnableC2732d());
+        this.browserActivity.runOnUiThread(new RunnableC2732d());
     }
 
     @JavascriptInterface
     public void showBookMarkToolMenu(String str) {
-        this.f6313a.runOnUiThread(new RunnableC2747s(str));
+        this.browserActivity.runOnUiThread(new RunnableC2747s(str));
     }
 
     @JavascriptInterface
@@ -3971,32 +3971,32 @@ public class C2107nf {
 
     @JavascriptInterface
     public void showDownloadContextMenu(String str) {
-        this.f6313a.runOnUiThread(new RunnableC2731c(str));
+        this.browserActivity.runOnUiThread(new RunnableC2731c(str));
     }
 
     @JavascriptInterface
     public void showFloatMessageBox(int i, String str) {
-        this.f6313a.runOnUiThread(new i0(str));
+        this.browserActivity.runOnUiThread(new i0(str));
     }
 
     @JavascriptInterface
     public void showImportRuleFileMenu() {
-        this.f6313a.runOnUiThread(new RunnableC2729a());
+        this.browserActivity.runOnUiThread(new RunnableC2729a());
     }
 
     @JavascriptInterface
     public void showResourceContextMenu(String str, String str2, String str3, String str4) {
-        this.f6313a.runOnUiThread(new RunnableC2746r(str, str2, str3, str4));
+        this.browserActivity.runOnUiThread(new RunnableC2746r(str, str2, str3, str4));
     }
 
     @JavascriptInterface
     public void showRuleFileContextMenu(String str) {
-        this.f6313a.runOnUiThread(new v0(str));
+        this.browserActivity.runOnUiThread(new v0(str));
     }
 
     @JavascriptInterface
     public void showScriptContextMenu(String str, int i) {
-        this.f6313a.runOnUiThread(new e0(str));
+        this.browserActivity.runOnUiThread(new e0(str));
     }
 
     @JavascriptInterface
@@ -4011,7 +4011,7 @@ public class C2107nf {
         if (!stringResource.equals("not-found-string-key")) {
             str = stringResource;
         }
-        Toast.makeText(this.f6313a, str, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.browserActivity, str, Toast.LENGTH_SHORT).show();
     }
 
     @JavascriptInterface
@@ -4042,7 +4042,7 @@ public class C2107nf {
         if (z) {
             return;
         }
-        Toast.makeText(this.f6313a, com.xbrowser.play.R.string.toast_disable_supper_cache, Toast.LENGTH_LONG).show();
+        Toast.makeText(this.browserActivity, com.xbrowser.play.R.string.toast_disable_supper_cache, Toast.LENGTH_LONG).show();
     }
 
     @JavascriptInterface
@@ -4065,30 +4065,30 @@ public class C2107nf {
 
     @JavascriptInterface
     public void test() {
-        this.f6313a.runOnUiThread(new s0());
+        this.browserActivity.runOnUiThread(new s0());
     }
 
     @JavascriptInterface
     public boolean toolbarIsShowing() {
-        return this.f6313a.getBrowserFrameLayout().m6458g();
+        return this.browserActivity.getBrowserFrameLayout().m6458g();
     }
 
     @JavascriptInterface
     public void totalBookmarkDeleted(int i) {
         if (i > 0) {
-            Toast.makeText(this.f6313a, String.format(this.f6313a.getString(com.xbrowser.play.R.string.toast_total_bm_deleted), i + ""), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.browserActivity, String.format(this.browserActivity.getString(com.xbrowser.play.R.string.toast_total_bm_deleted), i + ""), Toast.LENGTH_SHORT).show();
         }
     }
 
     @JavascriptInterface
     public void tryApp(String str, String str2) {
-        if (AndroidSystemUtils.isAppInstalled(this.f6313a, str)) {
-            Toast.makeText(this.f6313a, "App has already installed", Toast.LENGTH_SHORT).show();
+        if (AndroidSystemUtils.isAppInstalled(this.browserActivity, str)) {
+            Toast.makeText(this.browserActivity, "App has already installed", Toast.LENGTH_SHORT).show();
             return;
         }
         m8762d("wait_for_try_app", true);
         m8764f("try_app_package", str);
-        this.f6313a.runOnUiThread(new J(str2));
+        this.browserActivity.runOnUiThread(new J(str2));
     }
 
     @JavascriptInterface
@@ -4098,9 +4098,9 @@ public class C2107nf {
 
     @JavascriptInterface
     public void uninstallScript(String str) {
-        C2061mf.m8471f0().m8500K0(str);
-        this.f6313a.m6361u0("nav_call_update_btn_state('" + str + "')");
-        showToast(this.f6313a.getString(com.xbrowser.play.R.string.toast_script_removed));
+        JSManager.getInstance().m8500K0(str);
+        this.browserActivity.updateTitle("nav_call_update_btn_state('" + str + "')");
+        showToast(this.browserActivity.getString(com.xbrowser.play.R.string.toast_script_removed));
     }
 
     @JavascriptInterface
@@ -4115,20 +4115,20 @@ public class C2107nf {
 
     @JavascriptInterface
     public void updateAdRule(String str, String str2) {
-        C1539a.getInstance().m6631n1(str, str2);
+        ContentDataManager.getInstance().m6631n1(str, str2);
     }
 
     @JavascriptInterface
     public void updateAutoFill(String str) {
-        C0600N1.m3257k().m3275x(str);
+        C0600N1.getInstance().m3275x(str);
     }
 
     @JavascriptInterface
     public void updateBrowserLayout(String str) {
         if (!str.equals(getBrowserLayoutType())) {
-            this.f6313a.m6312e3(str);
+            this.browserActivity.m6312e3(str);
         }
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     @JavascriptInterface
@@ -4150,7 +4150,7 @@ public class C2107nf {
     public void updateOrNewQa(String str) throws Resources.NotFoundException, SQLException {
         try {
             JSONObject jSONObject = new JSONObject(str);
-            this.f6313a.m6316f3(JsonUtils.getString(jSONObject, "id", ""), JsonUtils.getString(jSONObject, "title", ""), JsonUtils.getString(jSONObject, "url", ""));
+            this.browserActivity.m6316f3(JsonUtils.getString(jSONObject, "id", ""), JsonUtils.getString(jSONObject, "title", ""), JsonUtils.getString(jSONObject, "url", ""));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -4159,9 +4159,9 @@ public class C2107nf {
     @JavascriptInterface
     public void updateOrNewUserScript(String str) {
         try {
-            C2061mf.m8471f0().m8510P0(str, "local");
+            JSManager.getInstance().m8510P0(str, "local");
         } catch (Exception unused) {
-            this.f6313a.m6256R2(this.f6313a.getString(com.xbrowser.play.R.string.toast_install_script_failed));
+            this.browserActivity.showToast(this.browserActivity.getString(com.xbrowser.play.R.string.toast_install_script_failed));
         }
     }
 
@@ -4178,10 +4178,10 @@ public class C2107nf {
             } else if ("search-bar-at-bottom.toolbar_layout".startsWith(str)) {
                 SharedPreferencesHelper.getInstance().putString("search-bar-at-bottom.toolbar_layout", str2);
             }
-            this.f6313a.runOnUiThread(new G());
+            this.browserActivity.runOnUiThread(new G());
         } catch (Exception unused) {
         }
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     @JavascriptInterface
@@ -4190,7 +4190,7 @@ public class C2107nf {
         String str3 = "";
         String str4 = "title";
         SQLiteDatabase writableDatabase = MySQLiteOpenHelper.getInstance().getWritableDatabase();
-        String string = this.f6313a.getString(com.xbrowser.play.R.string.web_str_title_folder);
+        String string = this.browserActivity.getString(com.xbrowser.play.R.string.web_str_title_folder);
         try {
             try {
                 JSONArray jSONArray = new JSONArray(str);
@@ -4237,7 +4237,7 @@ public class C2107nf {
                 e.printStackTrace();
             }
             writableDatabase.endTransaction();
-            C1089Xm.getInstance().m4822j("syncable_quick_access").incrementVersion();
+            SyncManager.getInstance().getResourceManager("syncable_quick_access").incrementVersion();
         } catch (Throwable th) {
             writableDatabase.endTransaction();
             throw th;
@@ -4257,7 +4257,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void zoomCurrentPage(boolean z) {
-        this.f6313a.runOnUiThread(new b0(z));
+        this.browserActivity.runOnUiThread(new b0(z));
     }
 
     @JavascriptInterface
@@ -4266,10 +4266,10 @@ public class C2107nf {
         if (iM6885Y > 50) {
             SharedPreferencesHelper.getInstance().applyTextSize(iM6885Y - 25);
         } else {
-            Toast.makeText(this.f6313a, "can't adjuest more small", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.browserActivity, "can't adjuest more small", Toast.LENGTH_SHORT).show();
         }
-        this.f6313a.m6280X2();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        this.browserActivity.m6280X2();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     @JavascriptInterface
@@ -4278,27 +4278,27 @@ public class C2107nf {
         if (iM6885Y < 200) {
             SharedPreferencesHelper.getInstance().applyTextSize(iM6885Y + 25);
         } else {
-            Toast.makeText(this.f6313a, "can't adjuest more big", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.browserActivity, "can't adjuest more big", Toast.LENGTH_SHORT).show();
         }
-        this.f6313a.m6280X2();
+        this.browserActivity.m6280X2();
     }
 
     @JavascriptInterface
     public void importAdRule(String str) {
         BrowserActivity browserActivity;
         Runnable h0Var;
-        C1539a.Rule ruleVarM6614F0 = C1539a.getInstance().m6614f0(str);
+        ContentDataManager.Rule ruleVarM6614F0 = ContentDataManager.getInstance().m6614f0(str);
         if (ruleVarM6614F0 == null) {
-            C1539a.getInstance().m6630n0(str);
-            browserActivity = this.f6313a;
+            ContentDataManager.getInstance().m6630n0(str);
+            browserActivity = this.browserActivity;
             h0Var = new h0();
         } else if (ruleVarM6614F0.status != 3) {
-            browserActivity = this.f6313a;
+            browserActivity = this.browserActivity;
             h0Var = new f0();
         } else {
             ruleVarM6614F0.status = -1;
-            C1539a.getInstance().m6630n0(str);
-            browserActivity = this.f6313a;
+            ContentDataManager.getInstance().m6630n0(str);
+            browserActivity = this.browserActivity;
             h0Var = new g0();
         }
         browserActivity.runOnUiThread(h0Var);
@@ -4306,7 +4306,7 @@ public class C2107nf {
 
     @JavascriptInterface
     public void openLocalPage(String str, boolean z) {
-        this.f6313a.runOnUiThread(new A(str, z));
+        this.browserActivity.runOnUiThread(new A(str, z));
     }
 
     public class O implements Runnable {
@@ -4318,7 +4318,7 @@ public class C2107nf {
         }
     }
 
-    public class P extends AbstractDialogC1303b6 {
+    public class P extends ConfirmDialog {
 
         public class a implements Runnable {
             public a() {
@@ -4326,7 +4326,7 @@ public class C2107nf {
 
             @Override
             public void run() {
-                C2107nf.this.f6313a.m6377y0();
+                C2107nf.this.browserActivity.m6377y0();
             }
         }
 
@@ -4335,17 +4335,17 @@ public class C2107nf {
         }
 
         @Override
-        public void mo316c() {
-            C2107nf.this.f6313a.m6361u0("commit_marked_targets()");
-            C2107nf.this.f6313a.runOnUiThread(new a());
+        public void onOK() {
+            C2107nf.this.browserActivity.updateTitle("commit_marked_targets()");
+            C2107nf.this.browserActivity.runOnUiThread(new a());
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
     }
 
-    public class Q extends AbstractDialogC1303b6 {
+    public class Q extends ConfirmDialog {
 
         public class a implements Runnable {
             public a() {
@@ -4353,7 +4353,7 @@ public class C2107nf {
 
             @Override
             public void run() {
-                C2107nf.this.f6313a.m6377y0();
+                C2107nf.this.browserActivity.m6377y0();
             }
         }
 
@@ -4362,49 +4362,49 @@ public class C2107nf {
         }
 
         @Override
-        public void mo316c() {
-            C2107nf.this.f6313a.runOnUiThread(new a());
+        public void onOK() {
+            C2107nf.this.browserActivity.runOnUiThread(new a());
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
     }
 
-    public class n0 extends AbstractDialogC1303b6 {
+    public class n0 extends ConfirmDialog {
         public n0(Context context) {
             super(context);
         }
 
         @Override
-        public void mo316c() {
+        public void onOK() {
             CheckBox checkBox = (CheckBox) findViewById(com.xbrowser.play.R.id.another_condition);
-            C1541c.m6674q().m6678D(checkBox != null && checkBox.isChecked());
-            C2107nf.this.f6313a.m6361u0("native_call_clearDownloads()");
+            BrowserDownloadManager.getInstance().m6678D(checkBox != null && checkBox.isChecked());
+            C2107nf.this.browserActivity.updateTitle("native_call_clearDownloads()");
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
     }
 
-    public class t0 extends AbstractDialogC1303b6 {
+    public class t0 extends ConfirmDialog {
         public t0(Context context) {
             super(context);
         }
 
         @Override
-        public void mo316c() {
-            C1539a.getInstance().m6568H();
-            C2107nf.this.f6313a.m6361u0("native_call_clear_adb_logs()");
+        public void onOK() {
+            ContentDataManager.getInstance().m6568H();
+            C2107nf.this.browserActivity.updateTitle("native_call_clear_adb_logs()");
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
     }
 
-    public class u0 extends AbstractDialogC1303b6 {
+    public class u0 extends ConfirmDialog {
 
         public final int f6435f;
 
@@ -4415,12 +4415,12 @@ public class C2107nf {
         }
 
         @Override
-        public void mo316c() {
+        public void onOK() {
             C1570e.getInstance().m6953V(this.f6435f);
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
     }
 

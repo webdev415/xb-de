@@ -6,7 +6,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class C1621d3 {
+public class MenuController {
 
     public ArrayList f5270a = new ArrayList<>();
 
@@ -16,7 +16,7 @@ public class C1621d3 {
         }
         C1374cl c1374clM7294b = m7294b(str.toLowerCase());
         if (c1374clM7294b != null) {
-            return BrowserActivity.getActivity().m6222J0().mo5705r(c1374clM7294b.f3989a, c1374clM7294b.f3990b);
+            return BrowserActivity.getActivity().getTabManager().mo5705r(c1374clM7294b.f3989a, c1374clM7294b.f3990b);
         }
         return null;
     }

@@ -5,7 +5,6 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import p000.C0733Px;
 
 public final class C1215aJ {
 
@@ -31,8 +30,8 @@ public final class C1215aJ {
         this.f3529b = true;
         this.f3531d = new BitSet();
         this.f3532e = new BitSet();
-        this.f3533f = new C2453v1();
-        this.f3534g = new C2453v1();
+        this.f3533f = new ScriptMap();
+        this.f3534g = new ScriptMap();
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -133,7 +132,7 @@ public final class C1215aJ {
         this.f3531d = bitSet;
         this.f3532e = bitSet2;
         this.f3533f = map;
-        this.f3534g = new C2453v1();
+        this.f3534g = new ScriptMap();
         if (map2 != null) {
             for (Integer num : map2.keySet()) {
                 ArrayList arrayList = new ArrayList<>();

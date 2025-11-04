@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class C2453v1 extends C0950Ul implements Map {
+public class ScriptMap extends C0950Ul implements Map {
 
     public AbstractC2108ng f7619s;
 
@@ -22,7 +22,7 @@ public class C2453v1 extends C0950Ul implements Map {
 
         @Override
         public Map mo8772c() {
-            return C2453v1.this;
+            return ScriptMap.this;
         }
 
         @Override
@@ -56,6 +56,9 @@ public class C2453v1 extends C0950Ul implements Map {
         }
     }
 
+    public ScriptMap() {
+    }
+
     @Override
     public Set entrySet() {
         return m10263m().m8779l();
@@ -86,7 +89,7 @@ public class C2453v1 extends C0950Ul implements Map {
         return m10263m().m8781n();
     }
 
-    public C2453v1(int i) {
+    public ScriptMap(int i) {
         super(i);
     }
 }

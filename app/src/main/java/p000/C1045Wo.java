@@ -54,7 +54,7 @@ public class C1045Wo {
                         Rect rect = (Rect) f3121b.get(obj);
                         Rect rect2 = (Rect) f3122c.get(obj);
                         if (rect != null && rect2 != null) {
-                            C1045Wo c1045WoM4563a = new b().m4564b(C2337se.m9568c(rect)).m4565c(C2337se.m9568c(rect2)).m4563a();
+                            C1045Wo c1045WoM4563a = new b().m4564b(Insets.m9568c(rect)).m4565c(Insets.m9568c(rect2)).m4563a();
                             c1045WoM4563a.m4559p(c1045WoM4563a);
                             c1045WoM4563a.m4547d(view.getRootView());
                             return c1045WoM4563a;
@@ -81,13 +81,13 @@ public class C1045Wo {
             return this.f3124a.mo4567b();
         }
 
-        public b m4564b(C2337se c2337se) {
-            this.f3124a.mo4568d(c2337se);
+        public b m4564b(Insets insets) {
+            this.f3124a.mo4568d(insets);
             return this;
         }
 
-        public b m4565c(C2337se c2337se) {
-            this.f3124a.mo4569f(c2337se);
+        public b m4565c(Insets insets) {
+            this.f3124a.mo4569f(insets);
             return this;
         }
 
@@ -109,7 +109,7 @@ public class C1045Wo {
 
         public WindowInsets f3129c;
 
-        public C2337se f3130d;
+        public Insets f3130d;
 
         public c() {
             this.f3129c = m4566h();
@@ -164,15 +164,15 @@ public class C1045Wo {
         }
 
         @Override
-        public void mo4568d(C2337se c2337se) {
-            this.f3130d = c2337se;
+        public void mo4568d(Insets insets) {
+            this.f3130d = insets;
         }
 
         @Override
-        public void mo4569f(C2337se c2337se) {
+        public void mo4569f(Insets insets) {
             WindowInsets windowInsets = this.f3129c;
             if (windowInsets != null) {
-                this.f3129c = windowInsets.replaceSystemWindowInsets(c2337se.f7065a, c2337se.f7066b, c2337se.f7067c, c2337se.f7068d);
+                this.f3129c = windowInsets.replaceSystemWindowInsets(insets.f7065a, insets.f7066b, insets.f7067c, insets.f7068d);
             }
         }
 
@@ -199,28 +199,28 @@ public class C1045Wo {
         }
 
         @Override
-        public void mo4570c(C2337se c2337se) {
-            this.f3131c.setMandatorySystemGestureInsets(c2337se.m9570e());
+        public void mo4570c(Insets insets) {
+            this.f3131c.setMandatorySystemGestureInsets(insets.m9570e());
         }
 
         @Override
-        public void mo4568d(C2337se c2337se) {
-            this.f3131c.setStableInsets(c2337se.m9570e());
+        public void mo4568d(Insets insets) {
+            this.f3131c.setStableInsets(insets.m9570e());
         }
 
         @Override
-        public void mo4571e(C2337se c2337se) {
-            this.f3131c.setSystemGestureInsets(c2337se.m9570e());
+        public void mo4571e(Insets insets) {
+            this.f3131c.setSystemGestureInsets(insets.m9570e());
         }
 
         @Override
-        public void mo4569f(C2337se c2337se) {
-            this.f3131c.setSystemWindowInsets(c2337se.m9570e());
+        public void mo4569f(Insets insets) {
+            this.f3131c.setSystemWindowInsets(insets.m9570e());
         }
 
         @Override
-        public void mo4572g(C2337se c2337se) {
-            this.f3131c.setTappableElementInsets(c2337se.m9570e());
+        public void mo4572g(Insets insets) {
+            this.f3131c.setTappableElementInsets(insets.m9570e());
         }
 
         public d(C1045Wo c1045Wo) {
@@ -243,56 +243,56 @@ public class C1045Wo {
 
         public final C1045Wo f3132a;
 
-        public C2337se[] f3133b;
+        public Insets[] f3133b;
 
         public f() {
             this(new C1045Wo((C1045Wo) null));
         }
 
         public final void m4573a() {
-            C2337se[] c2337seArr = this.f3133b;
-            if (c2337seArr != null) {
-                C2337se c2337seM4549f = c2337seArr[m.m4599c(1)];
-                C2337se c2337seM4549f2 = this.f3133b[m.m4599c(2)];
-                if (c2337seM4549f2 == null) {
-                    c2337seM4549f2 = this.f3132a.m4549f(2);
+            Insets[] insetsArr = this.f3133b;
+            if (insetsArr != null) {
+                Insets insetsM4549F = insetsArr[m.m4599c(1)];
+                Insets insetsM4549F2 = this.f3133b[m.m4599c(2)];
+                if (insetsM4549F2 == null) {
+                    insetsM4549F2 = this.f3132a.m4549f(2);
                 }
-                if (c2337seM4549f == null) {
-                    c2337seM4549f = this.f3132a.m4549f(1);
+                if (insetsM4549F == null) {
+                    insetsM4549F = this.f3132a.m4549f(1);
                 }
-                mo4569f(C2337se.m9566a(c2337seM4549f, c2337seM4549f2));
-                C2337se c2337se = this.f3133b[m.m4599c(16)];
-                if (c2337se != null) {
-                    mo4571e(c2337se);
+                mo4569f(Insets.m9566a(insetsM4549F, insetsM4549F2));
+                Insets insets = this.f3133b[m.m4599c(16)];
+                if (insets != null) {
+                    mo4571e(insets);
                 }
-                C2337se c2337se2 = this.f3133b[m.m4599c(32)];
-                if (c2337se2 != null) {
-                    mo4570c(c2337se2);
+                Insets insets2 = this.f3133b[m.m4599c(32)];
+                if (insets2 != null) {
+                    mo4570c(insets2);
                 }
-                C2337se c2337se3 = this.f3133b[m.m4599c(64)];
-                if (c2337se3 != null) {
-                    mo4572g(c2337se3);
+                Insets insets3 = this.f3133b[m.m4599c(64)];
+                if (insets3 != null) {
+                    mo4572g(insets3);
                 }
             }
         }
 
         public abstract C1045Wo mo4567b();
 
-        public abstract void mo4568d(C2337se c2337se);
+        public abstract void mo4568d(Insets insets);
 
-        public abstract void mo4569f(C2337se c2337se);
+        public abstract void mo4569f(Insets insets);
 
         public f(C1045Wo c1045Wo) {
             this.f3132a = c1045Wo;
         }
 
-        public void mo4570c(C2337se c2337se) {
+        public void mo4570c(Insets insets) {
         }
 
-        public void mo4571e(C2337se c2337se) {
+        public void mo4571e(Insets insets) {
         }
 
-        public void mo4572g(C2337se c2337se) {
+        public void mo4572g(Insets insets) {
         }
     }
 
@@ -310,35 +310,35 @@ public class C1045Wo {
 
         public final WindowInsets windowInsets;
 
-        public C2337se[] f3140d;
+        public Insets[] f3140d;
 
-        public C2337se f3141e;
+        public Insets f3141e;
 
         public C1045Wo f3142f;
 
-        public C2337se f3143g;
+        public Insets f3143g;
 
         public g(C1045Wo c1045Wo, g gVar) {
             this(c1045Wo, new WindowInsets(gVar.windowInsets));
         }
 
         @SuppressLint({"WrongConstant"})
-        private C2337se m4574s(int i, boolean z) {
-            C2337se c2337seM9566a = C2337se.f7064e;
+        private Insets m4574s(int i, boolean z) {
+            Insets insetsM9566A = Insets.f7064e;
             for (int i2 = 1; i2 <= 256; i2 <<= 1) {
                 if ((i & i2) != 0) {
-                    c2337seM9566a = C2337se.m9566a(c2337seM9566a, m4586t(i2, z));
+                    insetsM9566A = Insets.m9566a(insetsM9566A, m4586t(i2, z));
                 }
             }
-            return c2337seM9566a;
+            return insetsM9566A;
         }
 
-        private C2337se m4575u() {
+        private Insets m4575u() {
             C1045Wo c1045Wo = this.f3142f;
-            return c1045Wo != null ? c1045Wo.m4550g() : C2337se.f7064e;
+            return c1045Wo != null ? c1045Wo.m4550g() : Insets.f7064e;
         }
 
-        private C2337se m4576v(View view) throws IllegalAccessException, ClassNotFoundException, SecurityException, IllegalArgumentException, InvocationTargetException {
+        private Insets m4576v(View view) throws IllegalAccessException, ClassNotFoundException, SecurityException, IllegalArgumentException, InvocationTargetException {
             if (Build.VERSION.SDK_INT >= 30) {
                 throw new UnsupportedOperationException("getVisibleInsets() should not be called on API >= 30. Use WindowInsets.isVisible() instead.");
             }
@@ -355,7 +355,7 @@ public class C1045Wo {
                     }
                     Rect rect = (Rect) f3137k.get(f3138l.get(objInvoke));
                     if (rect != null) {
-                        return C2337se.m9568c(rect);
+                        return Insets.m9568c(rect);
                     }
                     return null;
                 } catch (ReflectiveOperationException e) {
@@ -383,11 +383,11 @@ public class C1045Wo {
 
         @Override
         public void mo4578d(View view) throws IllegalAccessException, ClassNotFoundException, SecurityException, IllegalArgumentException, InvocationTargetException {
-            C2337se c2337seM4576v = m4576v(view);
-            if (c2337seM4576v == null) {
-                c2337seM4576v = C2337se.f7064e;
+            Insets insetsM4576V = m4576v(view);
+            if (insetsM4576V == null) {
+                insetsM4576V = Insets.f7064e;
             }
-            mo4584p(c2337seM4576v);
+            mo4584p(insetsM4576V);
         }
 
         @Override
@@ -405,14 +405,14 @@ public class C1045Wo {
         }
 
         @Override
-        public C2337se mo4580g(int i) {
+        public Insets mo4580g(int i) {
             return m4574s(i, false);
         }
 
         @Override
-        public final C2337se mo4581k() {
+        public final Insets mo4581k() {
             if (this.f3141e == null) {
-                this.f3141e = C2337se.m9567b(this.windowInsets.getSystemWindowInsetLeft(), this.windowInsets.getSystemWindowInsetTop(), this.windowInsets.getSystemWindowInsetRight(), this.windowInsets.getSystemWindowInsetBottom());
+                this.f3141e = Insets.m9567b(this.windowInsets.getSystemWindowInsetLeft(), this.windowInsets.getSystemWindowInsetTop(), this.windowInsets.getSystemWindowInsetRight(), this.windowInsets.getSystemWindowInsetBottom());
             }
             return this.f3141e;
         }
@@ -423,13 +423,13 @@ public class C1045Wo {
         }
 
         @Override
-        public void mo4583o(C2337se[] c2337seArr) {
-            this.f3140d = c2337seArr;
+        public void mo4583o(Insets[] insetsArr) {
+            this.f3140d = insetsArr;
         }
 
         @Override
-        public void mo4584p(C2337se c2337se) {
-            this.f3143g = c2337se;
+        public void mo4584p(Insets insets) {
+            this.f3143g = insets;
         }
 
         @Override
@@ -437,26 +437,26 @@ public class C1045Wo {
             this.f3142f = c1045Wo;
         }
 
-        public C2337se m4586t(int i, boolean z) {
-            C2337se c2337seM4550g;
+        public Insets m4586t(int i, boolean z) {
+            Insets insetsM4550G;
             int i2;
             if (i == 1) {
-                return z ? C2337se.m9567b(0, Math.max(m4575u().f7066b, mo4581k().f7066b), 0, 0) : C2337se.m9567b(0, mo4581k().f7066b, 0, 0);
+                return z ? Insets.m9567b(0, Math.max(m4575u().f7066b, mo4581k().f7066b), 0, 0) : Insets.m9567b(0, mo4581k().f7066b, 0, 0);
             }
             if (i == 2) {
                 if (z) {
-                    C2337se c2337seM4575u = m4575u();
-                    C2337se c2337seMo4589i = mo4589i();
-                    return C2337se.m9567b(Math.max(c2337seM4575u.f7065a, c2337seMo4589i.f7065a), 0, Math.max(c2337seM4575u.f7067c, c2337seMo4589i.f7067c), Math.max(c2337seM4575u.f7068d, c2337seMo4589i.f7068d));
+                    Insets insetsM4575U = m4575u();
+                    Insets insetsMo4589I = mo4589i();
+                    return Insets.m9567b(Math.max(insetsM4575U.f7065a, insetsMo4589I.f7065a), 0, Math.max(insetsM4575U.f7067c, insetsMo4589I.f7067c), Math.max(insetsM4575U.f7068d, insetsMo4589I.f7068d));
                 }
-                C2337se c2337seMo4581k = mo4581k();
+                Insets insetsMo4581K = mo4581k();
                 C1045Wo c1045Wo = this.f3142f;
-                c2337seM4550g = c1045Wo != null ? c1045Wo.m4550g() : null;
-                int iMin = c2337seMo4581k.f7068d;
-                if (c2337seM4550g != null) {
-                    iMin = Math.min(iMin, c2337seM4550g.f7068d);
+                insetsM4550G = c1045Wo != null ? c1045Wo.m4550g() : null;
+                int iMin = insetsMo4581K.f7068d;
+                if (insetsM4550G != null) {
+                    iMin = Math.min(iMin, insetsM4550G.f7068d);
                 }
-                return C2337se.m9567b(c2337seMo4581k.f7065a, 0, c2337seMo4581k.f7067c, iMin);
+                return Insets.m9567b(insetsMo4581K.f7065a, 0, insetsMo4581K.f7067c, iMin);
             }
             if (i != 8) {
                 if (i == 16) {
@@ -469,25 +469,25 @@ public class C1045Wo {
                     return mo4596l();
                 }
                 if (i != 128) {
-                    return C2337se.f7064e;
+                    return Insets.f7064e;
                 }
                 C1045Wo c1045Wo2 = this.f3142f;
-                C1352c9 c1352c9M4548e = c1045Wo2 != null ? c1045Wo2.m4548e() : mo4593f();
-                return c1352c9M4548e != null ? C2337se.m9567b(c1352c9M4548e.m5756b(), c1352c9M4548e.m5758d(), c1352c9M4548e.m5757c(), c1352c9M4548e.m5755a()) : C2337se.f7064e;
+                DisplayCutoutCompat displayCutoutCompatM4548E = c1045Wo2 != null ? c1045Wo2.m4548e() : mo4593f();
+                return displayCutoutCompatM4548E != null ? Insets.m9567b(displayCutoutCompatM4548E.m5756b(), displayCutoutCompatM4548E.m5758d(), displayCutoutCompatM4548E.m5757c(), displayCutoutCompatM4548E.m5755a()) : Insets.f7064e;
             }
-            C2337se[] c2337seArr = this.f3140d;
-            c2337seM4550g = c2337seArr != null ? c2337seArr[m.m4599c(8)] : null;
-            if (c2337seM4550g != null) {
-                return c2337seM4550g;
+            Insets[] insetsArr = this.f3140d;
+            insetsM4550G = insetsArr != null ? insetsArr[m.m4599c(8)] : null;
+            if (insetsM4550G != null) {
+                return insetsM4550G;
             }
-            C2337se c2337seMo4581k2 = mo4581k();
-            C2337se c2337seM4575u2 = m4575u();
-            int i3 = c2337seMo4581k2.f7068d;
-            if (i3 > c2337seM4575u2.f7068d) {
-                return C2337se.m9567b(0, 0, 0, i3);
+            Insets insetsMo4581K2 = mo4581k();
+            Insets insetsM4575U2 = m4575u();
+            int i3 = insetsMo4581K2.f7068d;
+            if (i3 > insetsM4575U2.f7068d) {
+                return Insets.m9567b(0, 0, 0, i3);
             }
-            C2337se c2337se = this.f3143g;
-            return (c2337se == null || c2337se.equals(C2337se.f7064e) || (i2 = this.f3143g.f7068d) <= c2337seM4575u2.f7068d) ? C2337se.f7064e : C2337se.m9567b(0, 0, 0, i2);
+            Insets insets = this.f3143g;
+            return (insets == null || insets.equals(Insets.f7064e) || (i2 = this.f3143g.f7068d) <= insetsM4575U2.f7068d) ? Insets.f7064e : Insets.m9567b(0, 0, 0, i2);
         }
 
         public g(C1045Wo c1045Wo, WindowInsets windowInsets) {
@@ -499,7 +499,7 @@ public class C1045Wo {
 
     public static class h extends g {
 
-        public C2337se f3144m;
+        public Insets f3144m;
 
         public h(C1045Wo c1045Wo, h hVar) {
             super(c1045Wo, hVar);
@@ -518,9 +518,9 @@ public class C1045Wo {
         }
 
         @Override
-        public final C2337se mo4589i() {
+        public final Insets mo4589i() {
             if (this.f3144m == null) {
-                this.f3144m = C2337se.m9567b(this.windowInsets.getStableInsetLeft(), this.windowInsets.getStableInsetTop(), this.windowInsets.getStableInsetRight(), this.windowInsets.getStableInsetBottom());
+                this.f3144m = Insets.m9567b(this.windowInsets.getStableInsetLeft(), this.windowInsets.getStableInsetTop(), this.windowInsets.getStableInsetRight(), this.windowInsets.getStableInsetBottom());
             }
             return this.f3144m;
         }
@@ -531,8 +531,8 @@ public class C1045Wo {
         }
 
         @Override
-        public void mo4591r(C2337se c2337se) {
-            this.f3144m = c2337se;
+        public void mo4591r(Insets insets) {
+            this.f3144m = insets;
         }
 
         public h(C1045Wo c1045Wo, WindowInsets windowInsets) {
@@ -564,8 +564,8 @@ public class C1045Wo {
         }
 
         @Override
-        public C1352c9 mo4593f() {
-            return C1352c9.m5754e(this.windowInsets.getDisplayCutout());
+        public DisplayCutoutCompat mo4593f() {
+            return DisplayCutoutCompat.m5754e(this.windowInsets.getDisplayCutout());
         }
 
         @Override
@@ -580,11 +580,11 @@ public class C1045Wo {
 
     public static class j extends i {
 
-        public C2337se f3145n;
+        public Insets f3145n;
 
-        public C2337se f3146o;
+        public Insets f3146o;
 
-        public C2337se f3147p;
+        public Insets f3147p;
 
         public j(C1045Wo c1045Wo, j jVar) {
             super(c1045Wo, jVar);
@@ -594,25 +594,25 @@ public class C1045Wo {
         }
 
         @Override
-        public C2337se mo4594h() {
+        public Insets mo4594h() {
             if (this.f3146o == null) {
-                this.f3146o = C2337se.m9569d(this.windowInsets.getMandatorySystemGestureInsets());
+                this.f3146o = Insets.m9569d(this.windowInsets.getMandatorySystemGestureInsets());
             }
             return this.f3146o;
         }
 
         @Override
-        public C2337se mo4595j() {
+        public Insets mo4595j() {
             if (this.f3145n == null) {
-                this.f3145n = C2337se.m9569d(this.windowInsets.getSystemGestureInsets());
+                this.f3145n = Insets.m9569d(this.windowInsets.getSystemGestureInsets());
             }
             return this.f3145n;
         }
 
         @Override
-        public C2337se mo4596l() {
+        public Insets mo4596l() {
             if (this.f3147p == null) {
-                this.f3147p = C2337se.m9569d(this.windowInsets.getTappableElementInsets());
+                this.f3147p = Insets.m9569d(this.windowInsets.getTappableElementInsets());
             }
             return this.f3147p;
         }
@@ -625,7 +625,7 @@ public class C1045Wo {
         }
 
         @Override
-        public void mo4591r(C2337se c2337se) {
+        public void mo4591r(Insets insets) {
         }
     }
 
@@ -638,8 +638,8 @@ public class C1045Wo {
         }
 
         @Override
-        public C2337se mo4580g(int i) {
-            return C2337se.m9569d(this.windowInsets.getInsets(n.m4605a(i)));
+        public Insets mo4580g(int i) {
+            return Insets.m9569d(this.windowInsets.getInsets(n.m4605a(i)));
         }
 
         public k(C1045Wo c1045Wo, WindowInsets windowInsets) {
@@ -786,7 +786,7 @@ public class C1045Wo {
         this.f3119a.mo4578d(view);
     }
 
-    public C1352c9 m4548e() {
+    public DisplayCutoutCompat m4548e() {
         return this.f3119a.mo4593f();
     }
 
@@ -800,11 +800,11 @@ public class C1045Wo {
         return false;
     }
 
-    public C2337se m4549f(int i2) {
+    public Insets m4549f(int i2) {
         return this.f3119a.mo4580g(i2);
     }
 
-    public C2337se m4550g() {
+    public Insets m4550g() {
         return this.f3119a.mo4589i();
     }
 
@@ -837,23 +837,23 @@ public class C1045Wo {
     }
 
     public C1045Wo m4556m(int i2, int i3, int i4, int i5) {
-        return new b(this).m4565c(C2337se.m9567b(i2, i3, i4, i5)).m4563a();
+        return new b(this).m4565c(Insets.m9567b(i2, i3, i4, i5)).m4563a();
     }
 
-    public void m4557n(C2337se[] c2337seArr) {
-        this.f3119a.mo4583o(c2337seArr);
+    public void m4557n(Insets[] insetsArr) {
+        this.f3119a.mo4583o(insetsArr);
     }
 
-    public void m4558o(C2337se c2337se) {
-        this.f3119a.mo4584p(c2337se);
+    public void m4558o(Insets insets) {
+        this.f3119a.mo4584p(insets);
     }
 
     public void m4559p(C1045Wo c1045Wo) {
         this.f3119a.mo4585q(c1045Wo);
     }
 
-    public void m4560q(C2337se c2337se) {
-        this.f3119a.mo4591r(c2337se);
+    public void m4560q(Insets insets) {
+        this.f3119a.mo4591r(insets);
     }
 
     public WindowInsets m4561r() {
@@ -902,15 +902,15 @@ public class C1045Wo {
             return mo4582n() == lVar.mo4582n() && mo4590m() == lVar.mo4590m() && AbstractC0349Hh.m1589a(mo4581k(), lVar.mo4581k()) && AbstractC0349Hh.m1589a(mo4589i(), lVar.mo4589i()) && AbstractC0349Hh.m1589a(mo4593f(), lVar.mo4593f());
         }
 
-        public C1352c9 mo4593f() {
+        public DisplayCutoutCompat mo4593f() {
             return null;
         }
 
-        public C2337se mo4580g(int i) {
-            return C2337se.f7064e;
+        public Insets mo4580g(int i) {
+            return Insets.f7064e;
         }
 
-        public C2337se mo4594h() {
+        public Insets mo4594h() {
             return mo4581k();
         }
 
@@ -918,19 +918,19 @@ public class C1045Wo {
             return AbstractC0349Hh.m1590b(Boolean.valueOf(mo4582n()), Boolean.valueOf(mo4590m()), mo4581k(), mo4589i(), mo4593f());
         }
 
-        public C2337se mo4589i() {
-            return C2337se.f7064e;
+        public Insets mo4589i() {
+            return Insets.f7064e;
         }
 
-        public C2337se mo4595j() {
+        public Insets mo4595j() {
             return mo4581k();
         }
 
-        public C2337se mo4581k() {
-            return C2337se.f7064e;
+        public Insets mo4581k() {
+            return Insets.f7064e;
         }
 
-        public C2337se mo4596l() {
+        public Insets mo4596l() {
             return mo4581k();
         }
 
@@ -948,16 +948,16 @@ public class C1045Wo {
         public void mo4579e(C1045Wo c1045Wo) {
         }
 
-        public void mo4583o(C2337se[] c2337seArr) {
+        public void mo4583o(Insets[] insetsArr) {
         }
 
-        public void mo4584p(C2337se c2337se) {
+        public void mo4584p(Insets insets) {
         }
 
         public void mo4585q(C1045Wo c1045Wo) {
         }
 
-        public void mo4591r(C2337se c2337se) {
+        public void mo4591r(Insets insets) {
         }
     }
 }

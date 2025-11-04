@@ -34,7 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.BrowserFrameLayout;
-import com.mmbox.xbrowser.C1571f;
+import com.mmbox.xbrowser.VideoSniffingManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import java.net.URISyntaxException;
@@ -59,7 +59,7 @@ public class C2518wb extends FrameLayout {
 
     public int f7836g;
 
-    public ArrayList<Player> playerList;
+    public ArrayList<Addon> addonList;
 
     public ArrayList f7838i;
 
@@ -75,7 +75,7 @@ public class C2518wb extends FrameLayout {
 
                 @Override
                 public void run() {
-                    BrowserActivity.getActivity().f4266m = false;
+                    BrowserActivity.getActivity().hasWindowFocus = false;
                 }
             }
 
@@ -101,29 +101,29 @@ public class C2518wb extends FrameLayout {
     public class e implements OnClickListener {
         @Override
         public void onClick(View view) throws URISyntaxException {
-            String path = C1571f.getInstance().m7000j().path;
+            String path = VideoSniffingManager.getInstance().m7000j().path;
             if (path != null) {
-                Player player = getCurrentPlayer();
-                if (player == null) {
+                Addon addon = getCurrentPlayer();
+                if (addon == null) {
                     Toast.makeText(getContext(), "Not bind any player", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (player.type == 2) {
+                if (addon.type == 2) {
                     Intent intent = new Intent("android.intent.action.VIEW");
                     intent.setDataAndType(Uri.parse(path), "video/*");
-                    intent.putExtra("title", C1571f.getInstance().m7000j().title);
+                    intent.putExtra("title", VideoSniffingManager.getInstance().m7000j().title);
                     getContext().startActivity(intent);
                     return;
                 }
-                if (player.type == 3) {
+                if (addon.type == 3) {
                     if (!TextUtils.isEmpty(path)) {
                         BrowserActivity.getActivity().openUrl(path, true, 0);
                     }
-                } else if (player.type == 0) {
+                } else if (addon.type == 0) {
                     Intent intent2 = new Intent("android.intent.action.VIEW");
                     intent2.setDataAndType(Uri.parse(path), "video/*");
-                    intent2.setClassName(player.packageName, player.className);
-                    intent2.putExtra("title", C1571f.getInstance().m7000j().title);
+                    intent2.setClassName(addon.id, addon.mainClassName);
+                    intent2.putExtra("title", VideoSniffingManager.getInstance().m7000j().title);
                     getContext().startActivity(intent2);
                 }
             }
@@ -188,12 +188,12 @@ public class C2518wb extends FrameLayout {
                 view = ThemeManager.getInstance().m9492m();
             }
             TextView textView = (TextView) view.findViewById(R.id.menu_item_title);
-            Player player = (Player) this.f7852a.get(i);
+            Addon addon = (Addon) this.f7852a.get(i);
             if (i == 0 && TextUtils.isEmpty(str)) {
-                str = player.packageName;
+                str = addon.id;
             }
-            textView.setText(player.f7126a);
-            ((TextView) view.findViewById(R.id.check_flag)).setVisibility(player.packageName.equals(str) ? 0 : 4);
+            textView.setText(addon.title);
+            ((TextView) view.findViewById(R.id.check_flag)).setVisibility(addon.id.equals(str) ? 0 : 4);
             return view;
         }
     }
@@ -204,7 +204,7 @@ public class C2518wb extends FrameLayout {
         this.f7834e = "";
         this.isPopupVisible = false;
         this.f7836g = 0;
-        this.playerList = new ArrayList<>();
+        this.addonList = new ArrayList<>();
         this.f7838i = new ArrayList<>();
         this.adapter = new k();
         m10536f();
@@ -216,21 +216,21 @@ public class C2518wb extends FrameLayout {
         View btnCast = floatControlView.findViewById(R.id.btn_cast);
         if (btnPlyrSetting != null) {
             btnPlyrSetting.setOnClickListener(view -> {
-                if (!BrowserActivity.getActivity().f4266m) {
+                if (!BrowserActivity.getActivity().hasWindowFocus) {
                     m10540k();
-                    BrowserActivity.getActivity().f4266m = true;
+                    BrowserActivity.getActivity().hasWindowFocus = true;
                 }
             });
         }
         if (btnCast != null) {
-            btnCast.setOnClickListener(view -> BrowserActivity.getActivity().m6237N(C1571f.getInstance().m7000j().path));
+            btnCast.setOnClickListener(view -> BrowserActivity.getActivity().m6237N(VideoSniffingManager.getInstance().m7000j().path));
         }
         if (btnDown != null) {
             btnDown.setOnClickListener(view -> {
-                String str = C1571f.getInstance().m7000j().path;
+                String str = VideoSniffingManager.getInstance().m7000j().path;
                 if (str != null) {
                     Log.i("video-sniff", "media url:" + str);
-                    C1571f.getInstance().m7002l();
+                    VideoSniffingManager.getInstance().m7002l();
                 }
             });
         }
@@ -239,7 +239,7 @@ public class C2518wb extends FrameLayout {
         }
         if (btnCopyLink != null) {
             btnCopyLink.setOnClickListener(view -> {
-                String str = C1571f.getInstance().m7000j().path;
+                String str = VideoSniffingManager.getInstance().m7000j().path;
                 if (str != null) {
                     AndroidSystemUtils.m8701i(getContext(), str);
                     Toast.makeText(getContext(), R.string.toast_copy_link_to_clipboard, Toast.LENGTH_LONG).show();
@@ -257,11 +257,11 @@ public class C2518wb extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public Player getCurrentPlayer() {
-        for (int i2 = 0; i2 < this.playerList.size(); i2++) {
-            Player player = (Player) this.playerList.get(i2);
-            if (player.packageName.equals(this.f7833d)) {
-                return player;
+    public Addon getCurrentPlayer() {
+        for (int i2 = 0; i2 < this.addonList.size(); i2++) {
+            Addon addon = (Addon) this.addonList.get(i2);
+            if (addon.id.equals(this.f7833d)) {
+                return addon;
             }
         }
         return null;
@@ -272,7 +272,7 @@ public class C2518wb extends FrameLayout {
     }
 
     public static void m10534j(BrowserFrameLayout browserFrameLayout) throws Resources.NotFoundException {
-        if (TextUtils.isEmpty(C1571f.getInstance().m7000j().path)) {
+        if (TextUtils.isEmpty(VideoSniffingManager.getInstance().m7000j().path)) {
             Toast.makeText(BrowserActivity.getActivity(), "Lost Media url ,pls try sniff again.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -306,50 +306,50 @@ public class C2518wb extends FrameLayout {
         this.f7833d = SharedPreferencesHelper.getInstance().getString("video.opener", "share");
         this.f7834e = SharedPreferencesHelper.getInstance().getString("video.cast", "");
         m10537g();
-        if ((TextUtils.isEmpty(this.f7833d) || (!this.f7833d.equals("play_at_new_tab") && !C2406u0.m9882f().m9893l(this.f7833d))) && this.playerList.size() > 0) {
-            this.f7833d = ((Player) this.playerList.get(0)).packageName;
+        if ((TextUtils.isEmpty(this.f7833d) || (!this.f7833d.equals("play_at_new_tab") && !C2406u0.getInstance().m9893l(this.f7833d))) && this.addonList.size() > 0) {
+            this.f7833d = ((Addon) this.addonList.get(0)).id;
         }
-        if ((TextUtils.isEmpty(this.f7834e) || !C2406u0.m9882f().m9893l(this.f7834e)) && this.f7838i.size() > 0) {
-            this.f7834e = ((Player) this.f7838i.get(0)).packageName;
+        if ((TextUtils.isEmpty(this.f7834e) || !C2406u0.getInstance().m9893l(this.f7834e)) && this.f7838i.size() > 0) {
+            this.f7834e = ((Addon) this.f7838i.get(0)).id;
         }
     }
 
     public final void m10537g() {
-        Player player3rdParty = new Player();
-        player3rdParty.packageName = "share";
-        player3rdParty.f7126a = getContext().getString(R.string.opt_forward_third_party);
-        player3rdParty.type = 2;
-        playerList.add(player3rdParty);
+        Addon addon3RdParty = new Addon();
+        addon3RdParty.id = "share";
+        addon3RdParty.title = getContext().getString(R.string.opt_forward_third_party);
+        addon3RdParty.type = 2;
+        addonList.add(addon3RdParty);
 
-        Player playerNewTab = new Player();
-        playerNewTab.f7126a = getContext().getString(R.string.opt_open_in_new_tab);
-        playerNewTab.type = 3;
-        playerNewTab.packageName = "play_at_new_tab";
-        playerList.add(playerNewTab);
+        Addon addonNewTab = new Addon();
+        addonNewTab.title = getContext().getString(R.string.opt_open_in_new_tab);
+        addonNewTab.type = 3;
+        addonNewTab.id = "play_at_new_tab";
+        addonList.add(addonNewTab);
 
         Intent intent = new Intent("android.intent.action.VIEW");
-        intent.setDataAndType(Uri.parse(C1571f.getInstance().m7000j().path), "video/*");
+        intent.setDataAndType(Uri.parse(VideoSniffingManager.getInstance().m7000j().path), "video/*");
         PackageManager packageManager = getContext().getPackageManager();
         List<ResolveInfo> listQueryIntentActivities = packageManager.queryIntentActivities(intent, 0);
         for (int i2 = 0; i2 < listQueryIntentActivities.size(); i2++) {
             ActivityInfo activityInfo = listQueryIntentActivities.get(i2).activityInfo;
-            Player playerM9886D = C2406u0.m9882f().m9886d(activityInfo.packageName);
-            if (playerM9886D != null && playerM9886D.f7133h == 8) {
-                playerM9886D.type = 0;
-                playerM9886D.f7126a = activityInfo.applicationInfo.loadLabel(packageManager).toString();
+            Addon addonM9886D = C2406u0.getInstance().m9886d(activityInfo.packageName);
+            if (addonM9886D != null && addonM9886D.extPoint == 8) {
+                addonM9886D.type = 0;
+                addonM9886D.title = activityInfo.applicationInfo.loadLabel(packageManager).toString();
                 String str = activityInfo.name;
-                playerM9886D.className = str;
-                playerM9886D.f7129d = str;
-                this.f7838i.add(playerM9886D);
+                addonM9886D.mainClassName = str;
+                addonM9886D.className = str;
+                this.f7838i.add(addonM9886D);
             }
-            Player c2360t03 = new Player();
+            Addon c2360t03 = new Addon();
             c2360t03.type = 0;
-            c2360t03.f7126a = activityInfo.loadLabel(packageManager).toString();
-            c2360t03.packageName = activityInfo.packageName;
+            c2360t03.title = activityInfo.loadLabel(packageManager).toString();
+            c2360t03.id = activityInfo.packageName;
             String str2 = activityInfo.name;
+            c2360t03.mainClassName = str2;
             c2360t03.className = str2;
-            c2360t03.f7129d = str2;
-            this.playerList.add(c2360t03);
+            this.addonList.add(c2360t03);
         }
     }
 
@@ -426,7 +426,7 @@ public class C2518wb extends FrameLayout {
         });
         openMethodListView.setEmptyView(tvEmpty);
         if (this.f7836g == 0) {
-            arrayList = this.playerList;
+            arrayList = this.addonList;
         } else {
             arrayList = this.f7838i;
         }
@@ -434,12 +434,12 @@ public class C2518wb extends FrameLayout {
         openMethodListView.setAdapter(adapter);
         openMethodListView.setOnItemClickListener((parent, view, position, id) -> {
             if (f7836g == 0) {
-                Player player = (Player) playerList.get(position);
-                f7833d = player.packageName;
+                Addon addon = (Addon) addonList.get(position);
+                f7833d = addon.id;
                 SharedPreferencesHelper.getInstance().putString("video.opener", f7833d);
             } else {
-                Player c2360t02 = (Player) f7838i.get(position);
-                f7834e = c2360t02.packageName;
+                Addon c2360t02 = (Addon) f7838i.get(position);
+                f7834e = c2360t02.id;
                 SharedPreferencesHelper.getInstance().putString("video.cast", f7834e);
             }
             adapter.notifyDataSetChanged();

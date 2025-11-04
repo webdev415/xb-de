@@ -1,6 +1,6 @@
 package p000;
 
-import com.mmbox.xbrowser.C1572g;
+import com.mmbox.xbrowser.MenuConfigManager;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
@@ -11,13 +11,13 @@ public class C2366t6 extends AbstractResourceManager {
 
     @Override
     public String getResourceValue() {
-        return C1572g.getInstance().m7026h();
+        return MenuConfigManager.getInstance().m7026h();
     }
 
     @Override
-    public void applyResource(String str, boolean z) throws Throwable {
-        FileUtils.writeBytesToFile(str.getBytes(StandardCharsets.UTF_8), new File(C1572g.getInstance().getInternalFilePath("context_menu")));
-        C1572g.getInstance().m7036s();
+    public void applyResource(String str, boolean z) {
+        FileUtils.writeBytesToFile(str.getBytes(StandardCharsets.UTF_8), new File(MenuConfigManager.getInstance().getInternalFilePath("context_menu")));
+        MenuConfigManager.getInstance().m7036s();
     }
 
     @Override

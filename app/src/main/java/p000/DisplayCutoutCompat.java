@@ -5,7 +5,7 @@ import android.os.Build;
 import android.view.DisplayCutout;
 import java.util.List;
 
-public final class C1352c9 {
+public final class DisplayCutoutCompat {
 
     public final DisplayCutout f3930a;
 
@@ -35,15 +35,15 @@ public final class C1352c9 {
         }
     }
 
-    public C1352c9(DisplayCutout displayCutout) {
+    public DisplayCutoutCompat(DisplayCutout displayCutout) {
         this.f3930a = displayCutout;
     }
 
-    public static C1352c9 m5754e(DisplayCutout displayCutout) {
+    public static DisplayCutoutCompat m5754e(DisplayCutout displayCutout) {
         if (displayCutout == null) {
             return null;
         }
-        return new C1352c9(displayCutout);
+        return new DisplayCutoutCompat(displayCutout);
     }
 
     public int m5755a() {
@@ -78,10 +78,10 @@ public final class C1352c9 {
         if (this == obj) {
             return true;
         }
-        if (obj == null || C1352c9.class != obj.getClass()) {
+        if (obj == null || DisplayCutoutCompat.class != obj.getClass()) {
             return false;
         }
-        return AbstractC0349Hh.m1589a(this.f3930a, ((C1352c9) obj).f3930a);
+        return AbstractC0349Hh.m1589a(this.f3930a, ((DisplayCutoutCompat) obj).f3930a);
     }
 
     public int hashCode() {

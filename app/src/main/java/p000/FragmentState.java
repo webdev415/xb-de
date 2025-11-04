@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public final class C0573Mb implements Parcelable {
-    public static final Creator<C0573Mb> CREATOR = new a();
+public final class FragmentState implements Parcelable {
+    public static final Creator<FragmentState> CREATOR = new a();
 
     public final String f1808l;
 
@@ -35,17 +35,17 @@ public final class C0573Mb implements Parcelable {
 
     public static class a implements Creator {
         @Override
-        public C0573Mb createFromParcel(Parcel parcel) {
-            return new C0573Mb(parcel);
+        public FragmentState createFromParcel(Parcel parcel) {
+            return new FragmentState(parcel);
         }
 
         @Override
-        public C0573Mb[] newArray(int i) {
-            return new C0573Mb[i];
+        public FragmentState[] newArray(int i) {
+            return new FragmentState[i];
         }
     }
 
-    public C0573Mb(Parcel parcel) {
+    public FragmentState(Parcel parcel) {
         this.f1808l = parcel.readString();
         this.f1809m = parcel.readString();
         this.f1810n = parcel.readInt() != 0;

@@ -8,9 +8,9 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-public class FloatButtonController {
+public class C0848Sb {
 
-    public static FloatButtonController instance;
+    public static C0848Sb instance;
 
     public BrowserActivity browserActivity;
     public View fullscreenFloatBtnHolder;
@@ -26,9 +26,9 @@ public class FloatButtonController {
     private static final int MAX_CLICK_TIME = 200;
 
     // Singleton instance
-    public static FloatButtonController getInstance() {
+    public static C0848Sb getInstance() {
         if (instance == null) {
-            instance = new FloatButtonController();
+            instance = new C0848Sb();
         }
         return instance;
     }

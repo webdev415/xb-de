@@ -7,7 +7,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-public class DialogC0143D4 extends AbstractDialogC2267r {
+public class DialogC0143D4 extends BaseDialog {
 
     public BrowserActivity f346b;
 
@@ -23,7 +23,7 @@ public class DialogC0143D4 extends AbstractDialogC2267r {
 
         @Override
         public void onDismiss(DialogInterface dialogInterface) {
-            DialogC0143D4.this.f346b.m6361u0("updateSelectButtonText()");
+            DialogC0143D4.this.f346b.updateTitle("updateSelectButtonText()");
         }
     }
 
@@ -68,7 +68,7 @@ public class DialogC0143D4 extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         int i;
         setContentView(R.layout.dlg_screen_rotation);
         setOnDismissListener(new a());

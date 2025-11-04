@@ -18,22 +18,22 @@ public final class C0851Se implements InterfaceC0508L1 {
     }
 
     @Override
-    public C0122Ck mo2575a(C1328bl c1328bl, C0490Kk c0490Kk) {
+    public Request mo2575a(Route route, Response response) {
         Proxy proxyM5676b;
         InterfaceC1767g9 interfaceC1767g9M10412c;
         PasswordAuthentication passwordAuthenticationRequestPasswordAuthentication;
-        C2498w0 c2498w0M5675a;
-        AbstractC0116Ce.m476e(c0490Kk, "response");
-        List<C2133o4> listM2395i = c0490Kk.m2395i();
-        C0122Ck c0122CkM2390S = c0490Kk.m2390S();
-        C0069Bd c0069BdM498i = c0122CkM2390S.m498i();
-        boolean z = c0490Kk.m2396j() == 407;
-        if (c1328bl == null || (proxyM5676b = c1328bl.m5676b()) == null) {
+        Address addressM5675A;
+        AbstractC0116Ce.m476e(response, "response");
+        List<C2133o4> listM2395i = response.m2395i();
+        Request requestM2390S = response.getRequest();
+        C0069Bd c0069BdM498i = requestM2390S.getUrl();
+        boolean z = response.getStatus() == 407;
+        if (route == null || (proxyM5676b = route.getProxy()) == null) {
             proxyM5676b = Proxy.NO_PROXY;
         }
         for (C2133o4 c2133o4 : listM2395i) {
             if (AbstractC0538Lm.m2720l("Basic", c2133o4.m8839c(), true)) {
-                if (c1328bl == null || (c2498w0M5675a = c1328bl.m5675a()) == null || (interfaceC1767g9M10412c = c2498w0M5675a.m10412c()) == null) {
+                if (route == null || (addressM5675A = route.m5675a()) == null || (interfaceC1767g9M10412c = addressM5675A.m10412c()) == null) {
                     interfaceC1767g9M10412c = this.f2646d;
                 }
                 if (z) {
@@ -56,7 +56,7 @@ public final class C0851Se implements InterfaceC0508L1 {
                     AbstractC0116Ce.m475d(userName, "auth.userName");
                     char[] password = passwordAuthenticationRequestPasswordAuthentication.getPassword();
                     AbstractC0116Ce.m475d(password, "auth.password");
-                    return c0122CkM2390S.m497h().m501c(str, C0972V6.m4332a(userName, new String(password), c2133o4.m8837a())).m500b();
+                    return requestM2390S.m497h().m501c(str, C0972V6.m4332a(userName, new String(password), c2133o4.m8837a())).m500b();
                 }
             }
         }
