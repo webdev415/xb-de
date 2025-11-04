@@ -6,7 +6,6 @@ import android.os.IInterface;
 import android.os.Parcel;
 import p000.InterfaceC0804Rd;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0850Sd extends IInterface {
 
     public static final String f2645b = "androidx$core$app$unusedapprestrictions$IUnusedAppRestrictionsBackportService".replace('$', '.');

@@ -9,8 +9,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
-public class ViewOnClickListenerC2082n extends AbstractDialogC2267r implements View.OnClickListener {
+public class ViewOnClickListenerC2082n extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f6282b;
 
@@ -42,7 +41,7 @@ public class ViewOnClickListenerC2082n extends AbstractDialogC2267r implements V
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_about_info);
         TextView textView = (TextView) findViewById(R.id.version_info);
         TextView textView2 = (TextView) findViewById(R.id.about_info);

@@ -3,7 +3,6 @@ package p000;
 import java.io.Closeable;
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2425ua extends AbstractC0283G6 implements Closeable {
 
     public static final a f7398n = new a(null);

@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Set;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0466K5 {
     default Object mo2282a(Class cls) {
         return mo2288g(C0167Dj.m716b(cls));

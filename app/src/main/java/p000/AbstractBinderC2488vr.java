@@ -5,7 +5,6 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC2488vr extends Binder implements IInterface {
     public AbstractBinderC2488vr(String str) {
         attachInterface(this, str);

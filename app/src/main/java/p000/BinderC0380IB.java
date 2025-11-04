@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public final class BinderC0380IB extends AbstractBinderC0195EA {
 
     public final byte[] f1137d;

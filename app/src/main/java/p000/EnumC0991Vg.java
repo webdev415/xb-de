@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC0991Vg {
     TERMINATOR(new int[]{0, 0, 0}, 0),
     NUMERIC(new int[]{10, 12, 14}, 1),

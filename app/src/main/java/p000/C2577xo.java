@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2577xo extends AbstractResourceManager {
 
     public class a implements Runnable {
@@ -27,19 +26,19 @@ public class C2577xo extends AbstractResourceManager {
             try {
                 for (int length = this.f8028l.length() - 1; length >= 0; length--) {
                     JSONObject jSONObject = this.f8028l.getJSONObject(length);
-                    WebViewBrowserController webViewBrowserController = new WebViewBrowserController(BrowserActivity.getActivity(), BrowserActivity.getActivity().m6218I0());
+                    WebViewBrowserController webViewBrowserController = new WebViewBrowserController(BrowserActivity.getActivity(), BrowserActivity.getActivity().getActivityDelegate());
                     String strM3666k = JsonUtils.getString(jSONObject, "id", "");
                     String strM3666k2 = JsonUtils.getString(jSONObject, "title", "");
                     String strM3666k3 = JsonUtils.getString(jSONObject, "url", "");
-                    if (BrowserActivity.getActivity().m6222J0().m9281E(strM3666k) < 0 && !TextUtils.isEmpty(strM3666k) && !TextUtils.isEmpty(strM3666k3)) {
+                    if (BrowserActivity.getActivity().getTabManager().m9281E(strM3666k) < 0 && !TextUtils.isEmpty(strM3666k) && !TextUtils.isEmpty(strM3666k3)) {
                         webViewBrowserController.m6792b1(strM3666k, strM3666k2, strM3666k3);
-                        AbstractC2274r6.d dVarM9311t = BrowserActivity.getActivity().m6222J0().m9311t(webViewBrowserController, strM3666k);
-                        if (dVarM9311t != null) {
-                            dVarM9311t.m9324C(JsonUtils.getBoolean(jSONObject, "locked", false));
+                        ContentViewManager.Tab tabVarM9311T = BrowserActivity.getActivity().getTabManager().m9311t(webViewBrowserController, strM3666k);
+                        if (tabVarM9311T != null) {
+                            tabVarM9311T.m9324C(JsonUtils.getBoolean(jSONObject, "locked", false));
                         }
                     }
                 }
-                BrowserActivity.getActivity().m6218I0().mo6428g0();
+                BrowserActivity.getActivity().getActivityDelegate().mo6428g0();
             } catch (JSONException unused) {
             } catch (Throwable th) {
                 this.f8029m.countDown();
@@ -63,20 +62,20 @@ public class C2577xo extends AbstractResourceManager {
         @Override
         public void run() {
             try {
-                int iM9280D = BrowserActivity.getActivity().m6222J0().m9280D();
+                int iM9280D = BrowserActivity.getActivity().getTabManager().getTabCount();
                 for (int i = 0; i < iM9280D; i++) {
-                    String strM9283G = BrowserActivity.getActivity().m6222J0().m9283G(i);
-                    AbstractC2274r6.d dVarM9282F = BrowserActivity.getActivity().m6222J0().m9282F(i);
-                    if (dVarM9282F != null) {
-                        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) dVarM9282F.m9333l();
+                    String strM9283G = BrowserActivity.getActivity().getTabManager().getTabId(i);
+                    ContentViewManager.Tab tabVarM9282F = BrowserActivity.getActivity().getTabManager().getTab(i);
+                    if (tabVarM9282F != null) {
+                        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) tabVarM9282F.m9333l();
                         if (interfaceC1300b3 == null) {
                             break;
                         }
                         JSONObject jSONObject = new JSONObject();
                         jSONObject.put("id", strM9283G);
                         jSONObject.put("title", interfaceC1300b3.mo1574c());
-                        jSONObject.put("url", interfaceC1300b3.mo1573b());
-                        jSONObject.put("locked", dVarM9282F.m9345x());
+                        jSONObject.put("url", interfaceC1300b3.getUrlFromTitle());
+                        jSONObject.put("locked", tabVarM9282F.m9345x());
                         this.f8031l.put(jSONObject);
                     }
                 }
@@ -106,7 +105,7 @@ public class C2577xo extends AbstractResourceManager {
     }
 
     @Override
-    public void applyResource(String str, boolean z) throws InterruptedException {
+    public void applyResource(String str, boolean z) {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         BrowserActivity.getActivity().getHandler().post(new a(new JSONArray(str), countDownLatch));
         try {

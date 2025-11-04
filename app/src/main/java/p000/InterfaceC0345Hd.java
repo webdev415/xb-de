@@ -2,19 +2,18 @@ package p000;
 
 import android.content.SharedPreferences;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0345Hd extends InterfaceC0391Id {
     void mo1572D(String str);
 
-    String mo1573b();
+    String getUrlFromTitle();
 
     String mo1574c();
 
-    boolean mo1575e();
+    boolean hasNext();
 
     void mo1576g();
 
-    void mo1577k();
+    void onDestroy();
 
     void mo1578l();
 
@@ -32,7 +31,7 @@ public interface InterfaceC0345Hd extends InterfaceC0391Id {
 
     void mo1585v(String str, SharedPreferences.Editor editor);
 
-    boolean mo1586x();
+    boolean hasPrevious();
 
     boolean mo1587z();
 }

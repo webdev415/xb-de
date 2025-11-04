@@ -7,7 +7,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.api.Scope;
 
-/* loaded from: classes.dex */
 public final class C0475KE implements Parcelable.Creator {
     public static void m2318a(C0114Cc c0114Cc, Parcel parcel, int i) {
         int iM8181a = AbstractC1929jl.m8181a(parcel);

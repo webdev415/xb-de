@@ -3,7 +3,6 @@ package p000;
 import android.util.Log;
 import java.io.Writer;
 
-/* loaded from: classes.dex */
 public class C1644dg extends Writer {
 
     public final String f5318l;

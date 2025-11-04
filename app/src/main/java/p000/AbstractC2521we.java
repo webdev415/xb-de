@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2521we implements Iterator {
     public abstract int mo10565b();
 

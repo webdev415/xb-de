@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0025Af implements InterfaceC2335sc, Serializable {
 
     public final int f76l;

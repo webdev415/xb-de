@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC0404Iq {
     UNSET('0'),
     REMOTE_DEFAULT('1'),

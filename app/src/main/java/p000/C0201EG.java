@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0201EG implements InterfaceC0813Rm {
 
     public static C0201EG f520m = new C0201EG();

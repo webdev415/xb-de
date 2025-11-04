@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
 
-/* loaded from: classes.dex */
 public class C0218Eo extends AbstractC0172Do {
 
     public final SparseIntArray f537d;
@@ -25,7 +24,7 @@ public class C0218Eo extends AbstractC0172Do {
     public int f544k;
 
     public C0218Eo(Parcel parcel) {
-        this(parcel, parcel.dataPosition(), parcel.dataSize(), "", new C2453v1(), new C2453v1(), new C2453v1());
+        this(parcel, parcel.dataPosition(), parcel.dataSize(), "", new ScriptMap(), new ScriptMap(), new ScriptMap());
     }
 
     @Override
@@ -149,8 +148,8 @@ public class C0218Eo extends AbstractC0172Do {
         this.f538e.writeInt(z ? 1 : 0);
     }
 
-    public C0218Eo(Parcel parcel, int i, int i2, String str, C2453v1 c2453v1, C2453v1 c2453v12, C2453v1 c2453v13) {
-        super(c2453v1, c2453v12, c2453v13);
+    public C0218Eo(Parcel parcel, int i, int i2, String str, ScriptMap scriptMap, ScriptMap c2453v12, ScriptMap c2453v13) {
+        super(scriptMap, c2453v12, c2453v13);
         this.f537d = new SparseIntArray();
         this.f542i = -1;
         this.f544k = -1;

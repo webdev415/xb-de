@@ -12,7 +12,6 @@ import p000.AbstractC2359t;
 import p000.ThemeManager;
 import p000.InterfaceC0529Ld;
 
-/* loaded from: classes.dex */
 public abstract class AbstractScrollableListController extends AbstractC2359t {
 
     public ListView listView;

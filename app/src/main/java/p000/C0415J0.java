@@ -7,7 +7,6 @@ import java.util.List;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 
-/* loaded from: classes.dex */
 public final class C0415J0 implements InterfaceC1228am {
 
     public static final a f1253a = new a(null);

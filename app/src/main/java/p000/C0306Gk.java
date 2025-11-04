@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-/* loaded from: classes.dex */
 public final class C0306Gk {
     private volatile AtomicReferenceArray<Object> array;
 

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0987Vc {
     public static int m4388a(int i, double d) {
         int iMax = Math.max(i, 2);

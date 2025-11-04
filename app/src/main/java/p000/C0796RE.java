@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-/* loaded from: classes.dex */
 public final class C0796RE extends AbstractC0501Kv {
 
     public Handler f2361c;

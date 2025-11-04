@@ -7,7 +7,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 
-/* loaded from: classes.dex */
 public final class C0139D0 implements SensorEventListener {
 
     public C0877T3 f335a;

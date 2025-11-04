@@ -3,7 +3,6 @@ package p000;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-/* loaded from: classes.dex */
 public final class C1864iC implements InterfaceC2422uG {
 
     public final C1207aB f5792a;

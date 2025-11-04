@@ -15,7 +15,6 @@ import com.xbrowser.play.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public class ThemeManager {
 
     public static final int[] f6998j = {-12303292, -12303292};
@@ -157,14 +156,14 @@ public class ThemeManager {
     public View m9487h(ViewGroup r6) {
         /*
             r5 = this;
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             int r0 = r0.f4890Y
             r1 = 4097(0x1001, float:5.741E-42)
             r0 = r0 & r1
             r2 = 2131296321(0x7f090041, float:1.8210555E38)
             r3 = 0
             if (r0 != r1) goto L37
-            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             java.lang.String r1 = "search-bar-at-top.toolbar_layout"
             java.lang.String r4 = "layout_1"
             java.lang.String r0 = r0.m6871P(r1, r4)

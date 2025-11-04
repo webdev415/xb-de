@@ -8,12 +8,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mmbox.xbrowser.BrowserActivity;
-import com.mmbox.xbrowser.C1539a;
+import com.mmbox.xbrowser.ContentDataManager;
 import com.xbrowser.play.R;
 import org.json.JSONException;
 
-/* loaded from: classes.dex */
-public class DialogC0858Sl extends AbstractDialogC2267r {
+public class DialogC0858Sl extends BaseDialog {
 
     public BrowserActivity f2661b;
 
@@ -34,7 +33,7 @@ public class DialogC0858Sl extends AbstractDialogC2267r {
             if (TextUtils.isEmpty(string)) {
                 Toast.makeText(DialogC0858Sl.this.f2661b, R.string.toast_fill_rule_source_name, Toast.LENGTH_SHORT).show();
             } else {
-                C1539a.getInstance().m6590S0(string, string2, DialogC0858Sl.this.f2662c, string3);
+                ContentDataManager.getInstance().m6590S0(string, string2, DialogC0858Sl.this.f2662c, string3);
                 DialogC0858Sl.this.dismiss();
             }
         }
@@ -57,7 +56,7 @@ public class DialogC0858Sl extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_share_rule_source);
         ((TextView) findViewById(R.id.source_url)).setText(this.f2662c);
         TextView textView = (TextView) findViewById(R.id.from_user);

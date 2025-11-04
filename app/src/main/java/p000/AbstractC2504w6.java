@@ -2,7 +2,6 @@ package p000;
 
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2504w6 extends AbstractC2408u2 {
 
     public final InterfaceC0191E6 f7802m;

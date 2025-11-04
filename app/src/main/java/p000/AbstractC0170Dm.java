@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0170Dm {
     public static void m733a(Appendable appendable, Object obj, InterfaceC0986Vb interfaceC0986Vb) {
         CharSequence charSequenceValueOf;

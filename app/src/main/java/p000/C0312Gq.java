@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* loaded from: classes.dex */
 public final class C0312Gq extends AbstractC0552M {
     public static final Creator<C0312Gq> CREATOR = new C0588Mq();
 

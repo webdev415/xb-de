@@ -5,7 +5,6 @@ import android.hardware.Camera;
 import android.view.SurfaceHolder;
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public class C1015W3 {
 
     public SurfaceHolder f3023a;

@@ -4,7 +4,6 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0389Ib {
 
     public static final C0297Gb f1151b = new C0297Gb();

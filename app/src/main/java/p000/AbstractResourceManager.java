@@ -107,7 +107,7 @@ public abstract class AbstractResourceManager {
 
     public void loadFromCache() {
         try {
-            String cachedStr = ResourceCacheManager.getInstance().getCachedResource(getResourceType());
+            String cachedStr = ResourceCacheManager.getInstance().getResourceValueByKey(getResourceType());
             if (cachedStr != null) {
                 JSONObject jsonObject = new JSONObject(cachedStr);
                 this.currentVersion = jsonObject.getInt("version_code");

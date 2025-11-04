@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import p000.C1898j0;
 
-/* loaded from: classes.dex */
 public class C0736Q {
 
     public static final View.AccessibilityDelegate f2186c = new View.AccessibilityDelegate();

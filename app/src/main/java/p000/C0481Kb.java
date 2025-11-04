@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public final class C0481Kb implements Parcelable {
     public static final Creator<C0481Kb> CREATOR = new a();
 
@@ -32,7 +31,7 @@ public final class C0481Kb implements Parcelable {
 
     public C0481Kb(Parcel parcel) {
         this.f1570o = null;
-        this.f1567l = parcel.createTypedArrayList(C0573Mb.CREATOR);
+        this.f1567l = parcel.createTypedArrayList(FragmentState.CREATOR);
         this.f1568m = parcel.createStringArrayList();
         this.f1569n = (C1666e2[]) parcel.createTypedArray(C1666e2.CREATOR);
         this.f1570o = parcel.readString();

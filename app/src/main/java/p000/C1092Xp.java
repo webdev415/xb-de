@@ -5,7 +5,6 @@ import android.os.Bundle;
 import java.util.Iterator;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C1092Xp extends AbstractC1191Zw {
 
     public final Map f3289b;
@@ -16,8 +15,8 @@ public final class C1092Xp extends AbstractC1191Zw {
 
     public C1092Xp(C2266qz c2266qz) {
         super(c2266qz);
-        this.f3290c = new C2453v1();
-        this.f3289b = new C2453v1();
+        this.f3290c = new ScriptMap();
+        this.f3289b = new ScriptMap();
     }
 
     public static void m4843A(C1092Xp c1092Xp, String str, long j) {

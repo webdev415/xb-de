@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0432JH implements InterfaceC0478KH {
 
     public static final AbstractC2001lA f1320a;

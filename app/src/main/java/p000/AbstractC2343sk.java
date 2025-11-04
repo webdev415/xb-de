@@ -3,7 +3,6 @@ package p000;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2343sk {
     public static Object m9587a(Class cls, Object obj, String str, Class[] clsArr, Object[] objArr) throws NoSuchMethodException, SecurityException {
         try {

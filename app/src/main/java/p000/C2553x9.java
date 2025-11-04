@@ -9,8 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class C2553x9 extends AbstractC2221q {
+public class C2553x9 extends DataSource {
     @Override
     public String mo8842b() {
         return "browser.h5store";

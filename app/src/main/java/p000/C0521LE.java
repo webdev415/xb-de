@@ -2,7 +2,6 @@ package p000;
 
 import android.database.Cursor;
 
-/* loaded from: classes.dex */
 public final class C0521LE {
 
     public Cursor f1700a;

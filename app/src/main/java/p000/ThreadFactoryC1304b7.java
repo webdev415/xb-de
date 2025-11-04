@@ -7,7 +7,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
-/* loaded from: classes.dex */
 public class ThreadFactoryC1304b7 implements ThreadFactory {
 
     public static final ThreadFactory f3848e = Executors.defaultThreadFactory();

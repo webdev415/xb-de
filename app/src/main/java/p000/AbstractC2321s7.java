@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2321s7 {
 
     public static final a f7015a = new a();

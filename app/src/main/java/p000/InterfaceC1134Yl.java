@@ -3,7 +3,6 @@ package p000;
 import java.io.Closeable;
 import java.io.Flushable;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1134Yl extends Closeable, Flushable {
     @Override
     void close();

@@ -3,7 +3,6 @@ package p000;
 import android.net.Uri;
 import java.util.regex.Pattern;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1803gz {
 
     public static final Uri f5668a = Uri.parse("content://com.google.android.gsf.gservices");

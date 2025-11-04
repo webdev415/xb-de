@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.lang.Thread;
 
-/* loaded from: classes.dex */
 public class C0834S6 implements Thread.UncaughtExceptionHandler {
 
     public static C0834S6 f2601c;

@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0382ID extends AbstractC0450Jq {
     public C0382ID(String str, InterfaceC0706PF interfaceC0706PF) {
         super(str);

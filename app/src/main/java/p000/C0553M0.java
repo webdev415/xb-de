@@ -3,7 +3,6 @@ package p000;
 import android.os.Looper;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0553M0 implements InterfaceC1924jg {
     @Override
     public int mo2807a() {

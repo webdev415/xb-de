@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2202ph extends AbstractC1128Yf implements InterfaceC1876ie {
     @Override
     public boolean mo2837a() {

@@ -8,7 +8,6 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0534Li {
 
     public File f1718a;

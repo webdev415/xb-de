@@ -3,7 +3,6 @@ package p000;
 import android.os.Bundle;
 import p000.C0224Eu;
 
-/* loaded from: classes.dex */
 public final class C0822Rv extends C0224Eu.a {
 
     public final Long f2555p;

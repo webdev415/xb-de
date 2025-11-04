@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public final class C0451Jr implements Iterator {
 
     public Iterator f1462l;

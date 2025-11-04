@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2610yb extends AbstractC1327bk {
 
     public static final C2610yb f8070n;

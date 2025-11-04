@@ -2,7 +2,6 @@ package p000;
 
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0719Pj {
 
     public static final int[] f2155a = {R.attr.queryPatterns, R.attr.shortcutMatchRequired};

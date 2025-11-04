@@ -32,7 +32,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* loaded from: classes.dex */
 public abstract class FileUtils {
 
     public static final Pattern FILENAME_NUMBERED_PATTERN = Pattern.compile("([^/\\\\]+)_([0-9]{1,3})(\\.\\w{1,5})?$");
@@ -413,15 +412,19 @@ public abstract class FileUtils {
      * @return true if the first line starts with the prefix, false otherwise
      * @throws IOException If an I/O error occurs
      */
-    public static boolean doesFirstLineStartWith(String filePath, String prefix) throws IOException {
+    public static boolean doesFirstLineStartWith(String filePath, String prefix)  {
         File file = new File(filePath);
         if (!file.exists() || !file.isFile()) {
             return false;
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String firstLine = reader.readLine();
-            return firstLine != null && firstLine.startsWith(prefix);
+        try {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String firstLine = reader.readLine();
+                return firstLine != null && firstLine.startsWith(prefix);
+            }
+        } catch (IOException e) {
+            return false;
         }
     }
 
@@ -498,7 +501,7 @@ public abstract class FileUtils {
      * @return true if the file starts with the ZIP signature (0x50 0x4B 0x03 0x04), false otherwise
      * @throws IOException If an I/O error occurs
      */
-    public static boolean isZipFile(File file) throws IOException {
+    public static boolean isZipFile(File file) {
         if (file == null || !file.exists() || !file.isFile()) {
             return false;
         }
@@ -510,6 +513,8 @@ public abstract class FileUtils {
             }
             // ZIP file magic number: 0x50 0x4B 0x03 0x04
             return Arrays.equals(signature, new byte[]{0x50, 0x4B, 0x03, 0x04});
+        } catch (IOException e) {
+            return false;
         }
     }
 

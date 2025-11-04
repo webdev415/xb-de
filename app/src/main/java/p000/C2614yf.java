@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2614yf implements Comparable {
 
     public static final a f8098p = new a(null);

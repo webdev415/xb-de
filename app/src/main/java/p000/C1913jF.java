@@ -3,7 +3,6 @@ package p000;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* loaded from: classes.dex */
 public final class C1913jF extends AbstractC0552M {
     public static final Creator<C1913jF> CREATOR = new C2191pF();
 

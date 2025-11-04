@@ -5,7 +5,6 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public class C2365t5 {
 
     public static C2365t5 f7180b;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1330bn {
 
     public static final int f3884a = Runtime.getRuntime().availableProcessors();

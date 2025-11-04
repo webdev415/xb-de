@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.api.Scope;
 
-/* loaded from: classes.dex */
 public final class C0725Pp implements Parcelable.Creator {
     @Override
     public final /* bridge */ Object createFromParcel(Parcel parcel) {

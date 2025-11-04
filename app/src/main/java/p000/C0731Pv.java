@@ -3,7 +3,6 @@ package p000;
 import android.content.Intent;
 import p000.C0224Eu;
 
-/* loaded from: classes.dex */
 public final class C0731Pv extends C0224Eu.a {
 
     public final Intent f2181p;

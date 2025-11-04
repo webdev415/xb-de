@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1355cC extends AbstractC1956kB {
 
     public static final Logger f3933b = Logger.getLogger(AbstractC1355cC.class.getName());

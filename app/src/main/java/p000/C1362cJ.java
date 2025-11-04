@@ -4,7 +4,6 @@ import android.os.IBinder;
 import android.os.Parcel;
 import p000.InterfaceC0667Od;
 
-/* loaded from: classes.dex */
 public final class C1362cJ extends AbstractC0954Up implements InterfaceC1333bq {
     public C1362cJ(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.common.internal.ICertData");

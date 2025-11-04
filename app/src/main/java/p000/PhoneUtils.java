@@ -29,7 +29,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
-/* loaded from: classes.dex */
 public class PhoneUtils {
 
     public static String osBuildTag = "";

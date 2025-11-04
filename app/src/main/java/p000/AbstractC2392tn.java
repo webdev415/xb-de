@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2392tn {
 
     public static final String f7257a = AbstractC1229an.m5306e("kotlinx.coroutines.scheduler.default.name", "DefaultDispatcher");

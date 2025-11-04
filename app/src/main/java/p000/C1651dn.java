@@ -12,7 +12,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.util.Locale;
 
-/* loaded from: classes.dex */
 public class C1651dn extends UtteranceProgressListener implements TextToSpeech.OnInitListener {
 
     public static C1651dn f5331i;
@@ -91,7 +90,7 @@ public class C1651dn extends UtteranceProgressListener implements TextToSpeech.O
         }
     }
 
-    public static C1651dn m7356c() {
+    public static C1651dn getInstance() {
         if (f5331i == null) {
             synchronized (C1651dn.class) {
                 try {
@@ -105,7 +104,7 @@ public class C1651dn extends UtteranceProgressListener implements TextToSpeech.O
         return f5331i;
     }
 
-    public void m7357d(BrowserActivity browserActivity) {
+    public void init(BrowserActivity browserActivity) {
         this.f5332a = browserActivity;
     }
 

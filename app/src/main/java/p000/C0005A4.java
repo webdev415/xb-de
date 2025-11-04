@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0005A4 extends AbstractC1173Ze implements InterfaceC2640z4 {
 
     public final InterfaceC0051B4 f5p;

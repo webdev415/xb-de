@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
-/* loaded from: classes.dex */
 public final class C0484Ke extends AbstractC1173Ze {
 
     public static final AtomicIntegerFieldUpdater f1577q = AtomicIntegerFieldUpdater.newUpdater(C0484Ke.class, "_invoked");

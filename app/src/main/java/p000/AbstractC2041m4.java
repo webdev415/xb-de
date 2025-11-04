@@ -3,7 +3,6 @@ package p000;
 import java.util.List;
 import javax.net.ssl.X509TrustManager;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2041m4 {
 
     public static final a f6132a = new a(null);

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.xbrowser.play.R;
 import p000.InterfaceC1300b3;
 
-/* loaded from: classes.dex */
 public class PadBrowserActivtyDelegate extends BrowserActivityDelegate {
     @Override
     public void mo6402K(Bundle bundle) {

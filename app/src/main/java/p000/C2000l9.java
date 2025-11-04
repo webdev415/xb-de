@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.KeyEvent;
 import android.widget.Checkable;
 
-/* loaded from: classes.dex */
 public class C2000l9 extends C1954k9 implements Checkable {
     public C2000l9(Context context) {
         super(context);

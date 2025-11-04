@@ -1,6 +1,6 @@
 package p000;
 
-import com.mmbox.xbrowser.C1572g;
+import com.mmbox.xbrowser.MenuConfigManager;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
@@ -11,7 +11,7 @@ public class SyncTagSettingManager extends AbstractResourceManager {
 
     @Override
     public String getResourceValue() {
-        return C1572g.getInstance().getToolMenuJsonString();
+        return MenuConfigManager.getInstance().getToolMenuJsonString();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class SyncTagSettingManager extends AbstractResourceManager {
 
     @Override
     public void loadFromRemote(String str) throws Throwable {
-        FileUtils.writeBytesToFile(str.getBytes(StandardCharsets.UTF_8), new File(C1572g.getInstance().getInternalFilePath("tool_menu")));
-        C1572g.getInstance().m7036s();
+        FileUtils.writeBytesToFile(str.getBytes(StandardCharsets.UTF_8), new File(MenuConfigManager.getInstance().getInternalFilePath("tool_menu")));
+        MenuConfigManager.getInstance().m7036s();
     }
 }

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0744Q7 implements InterfaceC0903Tk {
 
     public C0606N7 f2204a;

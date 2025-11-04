@@ -1,8 +1,5 @@
 package p000;
 
-import p000.C0829S1;
-
-/* loaded from: classes.dex */
 public abstract class AbstractC2383te {
 
     public static abstract class a {
@@ -25,7 +22,7 @@ public abstract class AbstractC2383te {
     }
 
     public static a m9706a() {
-        return new C0829S1.b();
+        return new InstallationResponse.b();
     }
 
     public abstract AbstractC0263Fn mo3970b();

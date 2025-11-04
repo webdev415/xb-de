@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-/* loaded from: classes.dex */
 public final class C0611NC extends AbstractC2508wA {
     public C0611NC(C2266qz c2266qz) {
         super(c2266qz);

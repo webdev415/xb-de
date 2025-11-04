@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 
-/* loaded from: classes.dex */
 public class C1018W6 {
 
     public final FileChannel f3032a;

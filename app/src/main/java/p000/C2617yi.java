@@ -7,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.os.Binder;
 import android.os.Process;
 
-/* loaded from: classes.dex */
 public class C2617yi {
 
     public final Context f8110a;

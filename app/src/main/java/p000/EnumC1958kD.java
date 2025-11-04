@@ -10,7 +10,6 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'n' uses ext
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-/* loaded from: classes.dex */
 public final class EnumC1958kD {
 
     public static final EnumC1958kD f5981m;

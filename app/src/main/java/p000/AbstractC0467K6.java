@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.InvocationTargetException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0467K6 {
     public static final void m2289a(InterfaceC0191E6 interfaceC0191E6, Throwable th) {
         try {

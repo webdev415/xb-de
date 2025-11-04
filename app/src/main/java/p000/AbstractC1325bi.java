@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1325bi implements Serializable {
     public static AbstractC1325bi m5671a() {
         return C2497w.m10409e();

@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0649O4 {
     public static final void m3381a(Closeable closeable, Throwable th) throws IllegalAccessException, IOException, IllegalArgumentException, InvocationTargetException {
         if (closeable != null) {

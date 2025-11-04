@@ -5,7 +5,6 @@ import java.util.Deque;
 import java.util.concurrent.Executor;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public final class ExecutorC0307Gl implements Executor {
 
     public static final Logger f950q = Logger.getLogger(ExecutorC0307Gl.class.getName());

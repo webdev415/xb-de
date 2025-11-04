@@ -12,11 +12,10 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import androidx.viewpager.widget.ViewPager;
-import com.mmbox.xbrowser.C1572g;
+import com.mmbox.xbrowser.MenuConfigManager;
 import com.xbrowser.play.R;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public class C2179p3 extends AbstractC2359t {
 
     public final int f6613n;
@@ -98,7 +97,7 @@ public class C2179p3 extends AbstractC2359t {
 
     @Override
     public void mo7047F(int i, int i2, int i3) {
-        if (this.f6615p.size() == 0 || C1572g.getInstance().m7031n()) {
+        if (this.f6615p.size() == 0 || MenuConfigManager.getInstance().m7031n()) {
             m9009K();
         }
         m9654t().requestFocus();

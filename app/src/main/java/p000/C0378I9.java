@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0378I9 extends AbstractC1182Zn {
 
     public final int[] f1136i = new int[4];

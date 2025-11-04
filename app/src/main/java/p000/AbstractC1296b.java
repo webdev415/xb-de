@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1296b {
     public static final byte[] m5573a(String str) {
         AbstractC0116Ce.m476e(str, "$this$asUtf8ToByteArray");

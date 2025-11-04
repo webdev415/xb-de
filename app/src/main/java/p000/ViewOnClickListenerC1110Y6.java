@@ -10,8 +10,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
-public class ViewOnClickListenerC1110Y6 extends AbstractDialogC2267r implements View.OnClickListener {
+public class ViewOnClickListenerC1110Y6 extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f3304b;
 
@@ -34,7 +33,7 @@ public class ViewOnClickListenerC1110Y6 extends AbstractDialogC2267r implements 
             }
             SharedPreferencesHelper.getInstance().m6861J0(strTrim);
             ViewOnClickListenerC1110Y6.this.dismiss();
-            ViewOnClickListenerC1110Y6.this.f3304b.m6361u0("native_call_update_set_home_btn()");
+            ViewOnClickListenerC1110Y6.this.f3304b.updateTitle("native_call_update_set_home_btn()");
         }
     }
 
@@ -55,7 +54,7 @@ public class ViewOnClickListenerC1110Y6 extends AbstractDialogC2267r implements 
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_single_text_field);
         EditText editText = (EditText) findViewById(R.id.edit_text);
         editText.setHint(R.string.change_home_page_hint);

@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.Thread;
 
-/* loaded from: classes.dex */
 public final class C1850hz implements Thread.UncaughtExceptionHandler {
 
     public final String f5778a;

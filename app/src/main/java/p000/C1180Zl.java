@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C1180Zl implements Comparable {
 
     public final int f3463l;

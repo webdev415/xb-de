@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0244FD implements InterfaceC0934UE {
 
     public static final InterfaceC1632dE f656b = new C0152DD();

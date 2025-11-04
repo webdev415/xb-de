@@ -44,16 +44,16 @@ import p000.NetworkUtils;
 import p000.AbstractC0168Dk;
 import p000.JsonUtils;
 import p000.FileUtils;
-import p000.AbstractC1807h2;
+import p000.BackgroundTaskManager;
 import p000.AndroidSystemUtils;
 import p000.AbstractCryptoUtils;
-import p000.C0122Ck;
+import p000.Request;
 import p000.ResourceCacheManager;
-import p000.C0490Kk;
+import p000.Response;
 import p000.ApiEndpointsManager;
 import p000.C0716Pg;
 import p000.C0801Ra;
-import p000.C1089Xm;
+import p000.SyncManager;
 import p000.C1199a3;
 import p000.PhoneUtils;
 import p000.C2439uo;
@@ -62,7 +62,6 @@ import p000.InterfaceC0418J3;
 import p000.InterfaceC0556M3;
 import p000.MySQLiteOpenHelper;
 
-/* loaded from: classes.dex */
 public class ContentDataManager {
 
     public static ContentDataManager instance;
@@ -198,29 +197,29 @@ public class ContentDataManager {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            String strM2399p = c0490Kk.m2399p("Content-Type");
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            String strM2399p = response.getContentType("Content-Type");
             if (strM2399p == null || strM2399p.indexOf("application/json") < 0) {
                 return;
             }
             try {
-                int i = new JSONObject(c0490Kk.m2392a().m2714l()).getInt("status");
+                int i = new JSONObject(response.body().m2714l()).getInt("status");
                 if (i == 1) {
                     BrowserActivity.getActivity().runOnUiThread(new SuccessMessageRunnable());
                 } else if (i == 0) {
-                    BrowserActivity.getActivity().m6256R2(BrowserActivity.getActivity().getString(R.string.toast_share_rule_source_exist));
+                    BrowserActivity.getActivity().showToast(BrowserActivity.getActivity().getString(R.string.toast_share_rule_source_exist));
                 }
             } catch (JSONException unused) {
             } catch (Throwable th) {
-                c0490Kk.m2392a().close();
+                response.body().close();
                 throw th;
             }
-            c0490Kk.m2392a().close();
+            response.body().close();
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
-            BrowserActivity.getActivity().m6256R2("Netwrok error!");
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+            BrowserActivity.getActivity().showToast("Netwrok error!");
         }
     }
 
@@ -290,7 +289,7 @@ public class ContentDataManager {
 
         @Override
         public boolean queueIdle() {
-            AbstractC1807h2.m7778a(new InitializationTask());
+            BackgroundTaskManager.submitBackgroundTask(new InitializationTask());
             return false;
         }
     }
@@ -316,11 +315,11 @@ public class ContentDataManager {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) throws JSONException {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) throws JSONException {
             try {
                 try {
-                    if (c0490Kk.m2399p("Content-Type").indexOf("text/") >= 0) {
-                        FileUtils.writeBytesToFile(c0490Kk.m2392a().m2709b(), ResourceCacheManager.getInstance().m2046a(this.rule.sourceUrl, 1));
+                    if (response.getContentType("Content-Type").indexOf("text/") >= 0) {
+                        FileUtils.writeBytesToFile(response.body().m2709b(), ResourceCacheManager.getInstance().getUrlOrFilePath(this.rule.sourceUrl, 1));
                         ContentDataManager.this.m6632o0(this.rule);
                         ContentDataManager.this.m6596V0(this.rule);
                         this.rule.status = 0;
@@ -328,7 +327,7 @@ public class ContentDataManager {
                     } else {
                         this.rule.status = -3;
                     }
-                    c0490Kk.m2392a().close();
+                    response.body().close();
                     RuleOperationCallback iVar = this.callback;
                     if (iVar != null) {
                         iVar.mo6660a(this.rule);
@@ -336,7 +335,7 @@ public class ContentDataManager {
                 } catch (Exception e) {
                     e.printStackTrace();
                     this.rule.status = -3;
-                    c0490Kk.m2392a().close();
+                    response.body().close();
                     RuleOperationCallback iVar2 = this.callback;
                     if (iVar2 != null) {
                         iVar2.mo6660a(this.rule);
@@ -350,7 +349,7 @@ public class ContentDataManager {
                 }
                 ContentDataManager.this.m6583O0(this.rule);
             } catch (Throwable th) {
-                c0490Kk.m2392a().close();
+                response.body().close();
                 RuleOperationCallback iVar3 = this.callback;
                 if (iVar3 != null) {
                     iVar3.mo6660a(this.rule);
@@ -365,7 +364,7 @@ public class ContentDataManager {
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) throws JSONException {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) throws JSONException {
             Rule ruleVar = this.rule;
             ruleVar.status = -2;
             ContentDataManager.this.m6583O0(ruleVar);
@@ -612,7 +611,7 @@ public class ContentDataManager {
             if (r6 != 0) goto L58
             goto L83
         L58:
-            java.lang.String r6 = p000.AbstractC0115Cd.m458m(r12)
+            java.lang.String r6 = p000.NetworkUtils.m458m(r12)
             java.lang.String r8 = r5.f4601b
             if (r8 == 0) goto L6f
             boolean r6 = r8.equals(r6)
@@ -710,7 +709,7 @@ public class ContentDataManager {
             return true;
         }
         StringBuilder sb3 = new StringBuilder();
-        String strM458m = NetworkUtils.getFileExtension(str2);
+        String strM458m = NetworkUtils.getDomain(str2);
         sb3.append(str3);
         sb3.append("@");
         sb3.append(strM458m);
@@ -830,7 +829,7 @@ public class ContentDataManager {
     }
 
     public final void m6565F0() {
-        AbstractC1807h2.m7778a(new RuleFileProcessor());
+        BackgroundTaskManager.submitBackgroundTask(new RuleFileProcessor());
     }
 
     public final void m6566G() {
@@ -1037,7 +1036,7 @@ public class ContentDataManager {
             r7.<init>()
             goto L3a
         L79:
-            p000.AndroidSystemUtils.m8677K()
+            p000.AndroidSystemUtils.logElapsedTime()
             goto L94
         L7d:
             if (r2 == 0) goto L87
@@ -1105,7 +1104,7 @@ public class ContentDataManager {
 
     public final void m6577L0() throws JSONException {
         try {
-            String strM2046a = ResourceCacheManager.getInstance().m2046a("ad_block_white", 1002);
+            String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath("ad_block_white", 1002);
             if (strM2046a != null) {
                 JSONArray jSONArray = new JSONArray(strM2046a);
                 for (int i2 = 0; i2 < jSONArray.length(); i2++) {
@@ -1271,7 +1270,7 @@ public class ContentDataManager {
             ruleVar.hash = string;
             jSONObject.put("transId", "import_rule_from_url");
             jSONObject.put("rule_file_info", buildRuleJson(ruleVar));
-            C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+            C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -1327,7 +1326,7 @@ public class ContentDataManager {
             ruleVar.f4598j = this.browserActivity.getString(R.string.web_str_status_importing);
             jSONObject.put("transId", "import_rule_from_url");
             jSONObject.put("rule_file_info", buildRuleJson(ruleVar));
-            C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+            C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -1340,13 +1339,13 @@ public class ContentDataManager {
             m6587Q0(rule);
             m6619h1();
             OkHttpClient okHttpClientM462Q = NetworkUtils.createUnsafeOkHttpClient();
-            C0122Ck.a aVarM507i = new C0122Ck.a().m507i(rule.sourceUrl);
+            Request.Builder builderVarM507I = new Request.Builder().url(rule.sourceUrl);
             try {
-                aVarM507i.m499a("User-Agent", SharedPreferencesHelper.getInstance().m6849D());
+                builderVarM507I.addHeader("User-Agent", SharedPreferencesHelper.getInstance().m6849D());
             } catch (IllegalArgumentException unused) {
-                aVarM507i.m499a("User-Agent", SharedPreferencesHelper.defaultUserAgent);
+                builderVarM507I.addHeader("User-Agent", SharedPreferencesHelper.defaultUserAgent);
             }
-            okHttpClientM462Q.m2004y(aVarM507i.m500b()).mo1791i(new RuleDownloadCallback(rule, iVar));
+            okHttpClientM462Q.newCall(builderVarM507I.m500b()).mo1791i(new RuleDownloadCallback(rule, iVar));
         } catch (Exception e2) {
             e2.printStackTrace();
             rule.status = -2;
@@ -1359,7 +1358,7 @@ public class ContentDataManager {
         if (ruleVarM6614F0 == null || TextUtils.isEmpty(ruleVarM6614F0.fileName) || !FileUtils.fileExists(ruleVarM6614F0.fileName)) {
             Toast.makeText(this.browserActivity, "file lost", Toast.LENGTH_SHORT).show();
         } else {
-            C0801Ra.m3798f().m3808k(ruleVarM6614F0.fileName);
+            C0801Ra.getInstance().m3808k(ruleVarM6614F0.fileName);
         }
     }
 
@@ -1376,7 +1375,7 @@ public class ContentDataManager {
             OkHttpClient okHttpClient = new OkHttpClient();
             String strM2432l = ApiEndpointsManager.getInstance().getPostShareRuleEndpoint();
             try {
-                okHttpClient.m2004y(new C0122Ck.a().m507i(strM2432l).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), string.getBytes(StandardCharsets.UTF_8))).m500b()).mo1791i(new RuleSharingCallback());
+                okHttpClient.newCall(new Request.Builder().url(strM2432l).m504f(AbstractC0168Dk.m718d(C0716Pg.m3568g("text/json"), string.getBytes(StandardCharsets.UTF_8))).m500b()).mo1791i(new RuleSharingCallback());
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
@@ -1525,7 +1524,7 @@ public class ContentDataManager {
         this.browserActivity.getContentResolver().delete(BrowserProvider.uriAdBlockRule, "rule_hash = ?", strArr);
         this.rulesModified = true;
         m6572J();
-        C1089Xm.getInstance().m4822j("syncable_ad_rule").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_ad_rule").incrementVersion();
     }
 
     public int getUrlRules() {
@@ -1614,7 +1613,7 @@ public class ContentDataManager {
         }
         ruleVarM6614F0.status = 3;
         m6619h1();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
         m6600X0();
     }
 
@@ -1884,7 +1883,7 @@ public class ContentDataManager {
         ruleVar.status = -1;
         m6652x(ruleVar);
         m6586Q(ruleVar);
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     public void m6631n1(String str, String str2) {
@@ -1963,8 +1962,8 @@ public class ContentDataManager {
         }
         m6632o0(ruleVarM6614F0);
         m6585P0(ruleVarM6614F0);
-        this.browserActivity.m6361u0("show_rule_files()");
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        this.browserActivity.updateTitle("show_rule_files()");
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     public final long m6635p1(SQLiteDatabase sQLiteDatabase, String str, int i2) {
@@ -1996,7 +1995,7 @@ public class ContentDataManager {
         } else if (this.urlRulesMap.size() == 0) {
             m6563E0();
         }
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     /* JADX WARN: Removed duplicated region for block: B:88:0x010b  */
@@ -2113,7 +2112,7 @@ public class ContentDataManager {
                 contentValues.put("rule_hash", AbstractCryptoUtils.toMd5(strM6629m1));
                 contentValues.put("rule_data", strM6629m1);
                 this.browserActivity.getContentResolver().insert(BrowserProvider.uriAdBlockRule, contentValues);
-                C1089Xm.getInstance().m4822j("syncable_ad_rule").incrementVersion();
+                SyncManager.getInstance().getResourceManager("syncable_ad_rule").incrementVersion();
             } catch (Exception unused) {
             }
         }
@@ -2123,11 +2122,11 @@ public class ContentDataManager {
     public final void m6645t0() throws JSONException {
         String strM2050f;
         if (PhoneUtils.getInstance().isInChina()) {
-            m6554A(ResourceCacheManager.getInstance().m2050f("ad-rule-core-rule-cn", "https://quantil.jsdelivr.net/gh/examplecode/ad-rules-for-xbrowser@latest/core-rule-cn.txt"), true);
+            m6554A(ResourceCacheManager.getInstance().getStringFromJsonOrDefault("ad-rule-core-rule-cn", "https://quantil.jsdelivr.net/gh/examplecode/ad-rules-for-xbrowser@latest/core-rule-cn.txt"), true);
             if (!PhoneUtils.getInstance().isGooglePlayChannel()) {
                 return;
             } else {
-                strM2050f = ResourceCacheManager.getInstance().m2050f("ad-rule-easylistchina", "https://easylist-downloads.adblockplus.org/easylistchina.txt");
+                strM2050f = ResourceCacheManager.getInstance().getStringFromJsonOrDefault("ad-rule-easylistchina", "https://easylist-downloads.adblockplus.org/easylistchina.txt");
             }
         } else {
             m6554A("https://filters.adtidy.org/extension/chromium/filters/11.txt", true);

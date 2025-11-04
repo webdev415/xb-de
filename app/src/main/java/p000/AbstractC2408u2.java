@@ -3,7 +3,6 @@ package p000;
 import java.io.Serializable;
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2408u2 implements InterfaceC2458v6, InterfaceC0697P6, Serializable {
 
     public final InterfaceC2458v6 f7344l;

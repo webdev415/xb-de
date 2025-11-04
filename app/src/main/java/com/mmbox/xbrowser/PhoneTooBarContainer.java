@@ -6,7 +6,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
-/* loaded from: classes.dex */
 public class PhoneTooBarContainer extends LinearLayout {
 
     public OnTouchListener f4535a;

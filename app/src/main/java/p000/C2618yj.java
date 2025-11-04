@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2618yj {
 
     public EnumC0991Vg f8111a;

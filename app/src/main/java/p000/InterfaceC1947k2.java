@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1947k2 {
     void mo6068a(List list);
 

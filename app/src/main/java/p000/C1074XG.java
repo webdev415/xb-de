@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1074XG implements InterfaceC0813Rm {
 
     public static C1074XG f3213m = new C1074XG();

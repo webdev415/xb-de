@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.CancellationException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1783gf {
     public static final InterfaceC2641z5 m7732a(InterfaceC1081Xe interfaceC1081Xe) {
         return new C1221af(interfaceC1081Xe);

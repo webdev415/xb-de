@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1313bG {
     public abstract int mo5030a(int i, byte[] bArr, int i2, int i3);
 

@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2547x3 extends InterfaceC2161om, ReadableByteChannel {
     String mo7330D();
 

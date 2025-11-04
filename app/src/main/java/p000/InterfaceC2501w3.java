@@ -2,7 +2,6 @@ package p000;
 
 import java.nio.channels.WritableByteChannel;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2501w3 extends InterfaceC1134Yl, WritableByteChannel {
     InterfaceC2501w3 mo5925H(String str);
 

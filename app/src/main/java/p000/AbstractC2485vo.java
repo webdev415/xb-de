@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.os.UserManager;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2485vo {
 
     public static class a {

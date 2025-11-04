@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
-/* loaded from: classes.dex */
 public class C0098C5 {
 
     public static final AtomicIntegerFieldUpdater f243b = AtomicIntegerFieldUpdater.newUpdater(C0098C5.class, "_handled");

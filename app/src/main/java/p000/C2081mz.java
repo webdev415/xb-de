@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
-/* loaded from: classes.dex */
 public final class C2081mz extends FutureTask implements Comparable {
 
     public final long f6278l;

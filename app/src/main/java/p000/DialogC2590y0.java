@@ -8,8 +8,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
-public class DialogC2590y0 extends AbstractDialogC2267r {
+public class DialogC2590y0 extends BaseDialog {
 
     public BrowserActivity f8042b;
 
@@ -22,7 +21,7 @@ public class DialogC2590y0 extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_font_seek_bar);
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekbar);
         this.f8043c = (TextView) findViewById(R.id.text_progress);

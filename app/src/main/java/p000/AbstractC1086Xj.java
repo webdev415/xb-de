@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1086Xj {
     public static final void m4806a(boolean z, Number number) {
         AbstractC0116Ce.m476e(number, "step");

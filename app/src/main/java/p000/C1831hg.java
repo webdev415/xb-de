@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public class C1831hg implements InterfaceC2229q7 {
 
     public static C1831hg f5741g;
@@ -39,7 +38,7 @@ public class C1831hg implements InterfaceC2229q7 {
                 Log.d("mcms", "service :" + strMo61f + " update successed");
                 this.f5743b.edit().putString(strMo61f + ".updated_at", (String) this.f5746e.get(strMo61f)).apply();
                 this.f5743b.edit().putString(strMo61f + ".service_url", interfaceC2183p7.mo9039e()).apply();
-                C1825ha.m7824d().m7829f(53, strMo61f);
+                EventQueueManager.getInstance().processEvent(53, strMo61f);
                 AbstractC2524wh.m10586a(this.f5747f.get(strMo61f));
                 return;
             }

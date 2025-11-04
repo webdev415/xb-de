@@ -3,7 +3,6 @@ package p000;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* loaded from: classes.dex */
 public class C1087Xk extends AbstractC0552M {
     public static final Creator<C1087Xk> CREATOR = new C0266Fq();
 

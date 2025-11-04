@@ -44,7 +44,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.security.auth.x500.X500Principal;
 
-/* loaded from: classes.dex */
 public final class C2514wG extends AbstractC2508wA {
 
     public static final String[] f7816i = {"firebase_", "google_", "ga_"};
@@ -465,8 +464,8 @@ public final class C2514wG extends AbstractC2508wA {
             }
             C0635Nr c0635Nr = c2303rq.f6982r;
             if (c0635Nr != null) {
-                bundle.putString("timed_out_event_name", c0635Nr.f1974l);
-                C0175Dr c0175Dr = c0635Nr.f1975m;
+                bundle.putString("timed_out_event_name", c0635Nr.name);
+                C0175Dr c0175Dr = c0635Nr.params;
                 if (c0175Dr != null) {
                     bundle.putBundle("timed_out_event_params", c0175Dr.m785h());
                 }
@@ -474,8 +473,8 @@ public final class C2514wG extends AbstractC2508wA {
             bundle.putLong("trigger_timeout", c2303rq.f6983s);
             C0635Nr c0635Nr2 = c2303rq.f6984t;
             if (c0635Nr2 != null) {
-                bundle.putString("triggered_event_name", c0635Nr2.f1974l);
-                C0175Dr c0175Dr2 = c0635Nr2.f1975m;
+                bundle.putString("triggered_event_name", c0635Nr2.name);
+                C0175Dr c0175Dr2 = c0635Nr2.params;
                 if (c0175Dr2 != null) {
                     bundle.putBundle("triggered_event_params", c0175Dr2.m785h());
                 }
@@ -484,8 +483,8 @@ public final class C2514wG extends AbstractC2508wA {
             bundle.putLong("time_to_live", c2303rq.f6985u);
             C0635Nr c0635Nr3 = c2303rq.f6986v;
             if (c0635Nr3 != null) {
-                bundle.putString("expired_event_name", c0635Nr3.f1974l);
-                C0175Dr c0175Dr3 = c0635Nr3.f1975m;
+                bundle.putString("expired_event_name", c0635Nr3.name);
+                C0175Dr c0175Dr3 = c0635Nr3.params;
                 if (c0175Dr3 != null) {
                     bundle.putBundle("expired_event_params", c0175Dr3.m785h());
                 }
@@ -1106,11 +1105,11 @@ public final class C2514wG extends AbstractC2508wA {
 
     public final void m10506X(C0043Ax c0043Ax, int i) {
         int i2 = 0;
-        for (String str : new TreeSet(c0043Ax.f98d.keySet())) {
+        for (String str : new TreeSet(c0043Ax.params.keySet())) {
             if (m10454L0(str) && (i2 = i2 + 1) > i) {
-                mo349g().m9619H().m10618c("Event can't contain more than " + i + " params", mo350h().m9209b(c0043Ax.f95a), mo350h().m9208a(c0043Ax.f98d));
-                m10472v0(c0043Ax.f98d, 5);
-                c0043Ax.f98d.remove(str);
+                mo349g().m9619H().m10618c("Event can't contain more than " + i + " params", mo350h().m9209b(c0043Ax.name), mo350h().m9208a(c0043Ax.params));
+                m10472v0(c0043Ax.params, 5);
+                c0043Ax.params.remove(str);
             }
         }
     }

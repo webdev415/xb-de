@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1327bk extends Exception {
 
     public static final boolean f3878l;

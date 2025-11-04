@@ -4,7 +4,6 @@ import android.os.IBinder;
 import java.lang.reflect.Field;
 import p000.InterfaceC0667Od;
 
-/* loaded from: classes.dex */
 public final class BinderC0211Eh extends InterfaceC0667Od.a {
 
     public final Object f525c;

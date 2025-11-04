@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2340sh extends AbstractC1327bk {
 
     public static final C2340sh f7069n;

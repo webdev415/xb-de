@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0916Tx implements InterfaceC1116YC {
 
     public static final InterfaceC1116YC f2796a = new C0916Tx();

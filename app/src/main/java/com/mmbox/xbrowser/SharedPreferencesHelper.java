@@ -31,12 +31,11 @@ import org.json.JSONObject;
 
 import p000.JsonUtils;
 import p000.AbstractC1761g3;
-import p000.AbstractC1807h2;
+import p000.BackgroundTaskManager;
 import p000.AndroidSystemUtils;
-import p000.C1089Xm;
+import p000.SyncManager;
 import p000.PhoneUtils;
 
-/* loaded from: classes.dex */
 public class SharedPreferencesHelper implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static String defaultUserAgent = "Mozilla/5.0 (Linux; Android 13; M2102J2SC Build/TKQ1.220829.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36";
@@ -73,7 +72,7 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
 
     public boolean enableTampermonkey = true;
 
-    public boolean f4910j = false;
+    public boolean adTest = false;
 
     public boolean disableGestureInVideoFullscreen = false;
 
@@ -115,8 +114,10 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
 
     public boolean f4849D = false;
 
+    public boolean f4850D0 = false;
     public int appLaunchTimes = 0;
 
+    public boolean f4852E0 = false;
     public boolean normalExit = false;
 
     public boolean disableSearchBarHotword = false;
@@ -157,23 +158,23 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
 
     public boolean enableImmersiveMode = true;
 
-    public String f4895b0 = null;
+    public String defaultBaiduFeecode = null;
 
-    public String f4897c0 = null;
+    public String baiduFakeFeecode = null;
 
     public boolean f4899d0 = false;
 
     public boolean f4901e0 = false;
 
-    public String f4903f0 = null;
+    public String sogouFeecode = null;
 
-    public String f4905g0 = null;
+    public String qihuFeecode = null;
 
-    public String f4907h0 = null;
+    public String dfttFeecode = null;
 
-    public String f4909i0 = null;
+    public String smFeecode = null;
 
-    public String configSearchUrl = null;
+    public String googleEnhancedSearchUrl = null;
 
     public int f4913k0 = 50;
 
@@ -453,29 +454,34 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         sharedPreferences.edit().putInt("default_layout_type", i).apply();
     }
 
-    public String m6855G(String str) {
-        String string = sharedPreferences.getString(str, "not_set");
-        if (!string.equals("not_set")) {
-            return string;
+    public String getDefaultActionForKey(String key) {
+        String value = sharedPreferences.getString(key, "not_set");
+
+        if (!value.equals("not_set")) {
+            return value;
         }
-        if (str.equals("long_press_multi_tab")) {
-            return "new_tab";
-        }
-        if (!str.equals("long_press_home")) {
-            if (str.equals("long_press_menu")) {
+
+        switch (key) {
+            case "long_press_multi_tab":
+                return "new_tab";
+
+            case "long_press_home":
+                return "search";
+
+            case "long_press_menu":
                 return "open_toolbox";
-            }
-            if (!str.equals("push_bottom_toolbar_up")) {
-                return string;
-            }
-            if ((getInstance().defaultLayoutType & 4098) == 4098) {
-                return "go_to_home";
-            }
-            if ((getInstance().defaultLayoutType & 4097) != 4097) {
-                return string;
-            }
+
+            case "push_bottom_toolbar_up":
+                if ((getInstance().defaultLayoutType & 4098) == 4098) {
+                    return "go_to_home";
+                }
+                if ((getInstance().defaultLayoutType & 4097) != 4097) {
+                    return "not_set";
+                }
+                break;
         }
-        return "search";
+
+        return value; // Default if no case matched
     }
 
     public void m6856G0(String str) {
@@ -569,7 +575,7 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         }
         synchronized (webSettingsList) {
             m6881U0(settings);
-            m6877S0(settings);
+            applyWebSettings(settings);
             webSettingsList.add(new WeakReference<>(settings));
         }
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, !disableThirdCookies);
@@ -658,7 +664,7 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         return PhoneUtils.getInstance().getBoolean(key, defaultValue);
     }
 
-    public void loadPreferences() {
+    public void initSettings() {
         PhoneUtils.getInstance().initialize(context, "xbrowser");
         activeAdBlock = sharedPreferences.getBoolean("active-ad-block", false);
         enableTampermonkey = sharedPreferences.getBoolean("enable-tampermonkey", true);
@@ -744,23 +750,23 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         }
     }
 
-    public SharedPreferences m6875R() {
+    public SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }
 
-    public void m6876R0() {
-        f4895b0 = sharedPreferences.getString("default_baidu_feecode", "1023722p");
-        f4897c0 = sharedPreferences.getString("baidu_fake_feecode", "1023722p");
-        f4905g0 = sharedPreferences.getString("qihu_feecode", "xbrowser_1");
-        f4903f0 = sharedPreferences.getString("sogou_feecode", "sogou-mobb-f30402d250ee0d24");
-        f4907h0 = sharedPreferences.getString("dftt_feecode", "xbrowser");
-        f4909i0 = sharedPreferences.getString("sm_feecode", "wm725516");
-        f4910j = sharedPreferences.getBoolean("ad_test", false);
-        configSearchUrl = sharedPreferences.getString("google_enhanced_search_url", "https://www.google.com/search?q=%keywords%&c=xbrowser");
+    public void initFeecodes() {
+        defaultBaiduFeecode = sharedPreferences.getString("default_baidu_feecode", "1023722p");
+        baiduFakeFeecode = sharedPreferences.getString("baidu_fake_feecode", "1023722p");
+        qihuFeecode = sharedPreferences.getString("qihu_feecode", "xbrowser_1");
+        sogouFeecode = sharedPreferences.getString("sogou_feecode", "sogou-mobb-f30402d250ee0d24");
+        dfttFeecode = sharedPreferences.getString("dftt_feecode", "xbrowser");
+        smFeecode = sharedPreferences.getString("sm_feecode", "wm725516");
+        adTest = sharedPreferences.getBoolean("ad_test", false);
+        googleEnhancedSearchUrl = sharedPreferences.getString("google_enhanced_search_url", "https://www.google.com/search?q=%keywords%&c=xbrowser");
     }
 
-    public final void m6877S0(WebSettings webSettings) {
-        webSettings.setGeolocationEnabled(m6916r());
+    public final void applyWebSettings(WebSettings webSettings) {
+        webSettings.setGeolocationEnabled(isEnableGeolocation());
         webSettings.setJavaScriptEnabled(!disableJavascript);
         webSettings.setLightTouchEnabled(m6920t());
         webSettings.setDefaultTextEncodingName(m6853F());
@@ -982,7 +988,7 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         } else {
             defaultUrl = getString("default.search", "https://www.google.com/search?q=%keywords%");
             PhoneUtils.getInstance().isInIndia();
-            searchUrl = getString("config.search", configSearchUrl);
+            searchUrl = getString("config.search", googleEnhancedSearchUrl);
         }
         return !TextUtils.isEmpty(searchUrl) ? searchUrl : defaultUrl;
     }
@@ -1106,9 +1112,9 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
         m6897h0();
         webSettingsList = new LinkedList();
-        AbstractC1807h2.m7778a(initPreferencesRunnable);
-        loadPreferences();
-        m6876R0();
+        BackgroundTaskManager.submitBackgroundTask(initPreferencesRunnable);
+        initSettings();
+        initFeecodes();
     }
 
     public final String getFallbackSearchUrl(String str) {
@@ -1342,7 +1348,7 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
                 .apply();
     }
 
-    public void m6914q(boolean z) {
+    public void setEnableCallApp(boolean z) {
         enableCallApp = z;
         sharedPreferences.edit().putBoolean("enable_call_app", enableCallApp).apply();
     }
@@ -1351,7 +1357,7 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         saveInt(key, value, false);
     }
 
-    public boolean m6916r() {
+    public boolean isEnableGeolocation() {
         return sharedPreferences.getBoolean("enable_geolocation", true);
     }
 
@@ -1370,7 +1376,7 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
     public void m6918s(boolean z) {
         disableJavascript = !z;
         sharedPreferences.edit().putBoolean("disable-javascript", disableJavascript).apply();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     public void m6919s0(String str, long j) {
@@ -1565,9 +1571,9 @@ public class SharedPreferencesHelper implements SharedPreferences.OnSharedPrefer
         putInt("last_float_btn_x", -1);
         putInt("last_float_btn_y", -1);
         m6894g();
-        loadPreferences();
+        initSettings();
         MenuConfigManager.getInstance().m7038u();
-        C1089Xm.getInstance().m4822j("syncable_setting").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_setting").incrementVersion();
     }
 
     public final String getOverrideSearchUrl() {

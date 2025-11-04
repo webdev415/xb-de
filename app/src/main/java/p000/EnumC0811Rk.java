@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC0811Rk {
     OTHER,
     ORIENTATION,

@@ -30,9 +30,9 @@ import org.json.JSONException;
 import p000.NetworkUtils;
 import p000.AbstractC0448Jo;
 import p000.AndroidSystemUtils;
-import p000.AbstractC2274r6;
-import p000.AbstractDialogC1042Wl;
-import p000.AbstractDialogC1303b6;
+import p000.ContentViewManager;
+import p000.SingleTextFieldDialog;
+import p000.ConfirmDialog;
 import p000.C0401In;
 import p000.ResourceCacheManager;
 import p000.ApiEndpointsManager;
@@ -42,7 +42,7 @@ import p000.C1045Wo;
 import p000.PhoneUtils;
 import p000.C1345c2;
 import p000.C1625d7;
-import p000.C2061mf;
+import p000.JSManager;
 import p000.C2179p3;
 import p000.ThemeManager;
 import p000.C2406u0;
@@ -56,7 +56,6 @@ import p000.ViewOnClickListenerC0309Gn;
 import p000.ViewOnClickListenerC2063mh;
 import p000.ViewOnFocusChangeListenerC0985Va;
 
-/* loaded from: classes.dex */
 public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate implements InterfaceC0529Ld.a, InterfaceC0575Md {
 
     public BrowserActivity browserActivity;
@@ -67,7 +66,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
 
     public TabWindowManager f4516n;
 
-    public class DialogC1520a extends AbstractDialogC1303b6 {
+    public class DialogC1520a extends ConfirmDialog {
 
         public final String f4517f;
 
@@ -78,13 +77,13 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() throws JSONException {
+        public void onOK() throws JSONException {
             Toast.makeText(PhoneBrowserActivtyDelegate.this.browserActivity, R.string.toast_uploading_script, Toast.LENGTH_LONG).show();
-            C2061mf.m8471f0().m8484C0(this.f4517f, false);
+            JSManager.getInstance().m8484C0(this.f4517f, false);
         }
     }
 
@@ -102,32 +101,32 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         }
     }
 
-    public class DialogC1522c extends AbstractDialogC1303b6 {
+    public class DialogC1522c extends ConfirmDialog {
         public DialogC1522c(Context context) {
             super(context);
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() throws URISyntaxException {
+        public void onOK() throws URISyntaxException {
             PhoneBrowserActivtyDelegate.this.browserActivity.m6307d2(C2439uo.getInstance().m10235v() + "&callback=x:rf");
         }
     }
 
-    public class DialogC1523d extends AbstractDialogC1042Wl {
+    public class DialogC1523d extends SingleTextFieldDialog {
         public DialogC1523d(BrowserActivity browserActivity, int i) {
             super(browserActivity, i);
         }
 
         @Override
-        public void mo4538b(String str) {
+        public void onOK(String str) {
             if (TextUtils.isEmpty(str) || !NetworkUtils.isHttpUrl(str)) {
                 Toast.makeText(PhoneBrowserActivtyDelegate.this.browserActivity, R.string.toast_invalid_url, Toast.LENGTH_SHORT).show();
             } else {
-                C2061mf.m8471f0().m8503M(str);
+                JSManager.getInstance().m8503M(str);
             }
         }
     }
@@ -166,9 +165,9 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
 
         @Override
         public void run() throws IOException {
-            String strM445C = NetworkUtils.getFaviconUrl(this.f4524l.mo1573b());
+            String strM445C = NetworkUtils.getFaviconUrl(this.f4524l.getUrlFromTitle());
             if (strM445C != null) {
-                AndroidSystemUtils.saveBitmapToFile(this.f4525m, ResourceCacheManager.getInstance().m2046a(strM445C, 1));
+                AndroidSystemUtils.saveBitmapToFile(this.f4525m, ResourceCacheManager.getInstance().getUrlOrFilePath(strM445C, 1));
             }
         }
     }
@@ -201,7 +200,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         @Override
         public void onClick(View view) throws SQLException {
             PhoneBrowserActivtyDelegate.this.f4514l.m9655v();
-            PhoneBrowserActivtyDelegate.this.browserActivity.m6369w0();
+            PhoneBrowserActivtyDelegate.this.browserActivity.tryExit();
         }
     }
 
@@ -217,7 +216,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         public void mo1615w(InterfaceC0529Ld interfaceC0529Ld, ContextMenu.ContextMenuInfo contextMenuInfo) {
             int iIntValue = ((Integer) interfaceC0529Ld.mo2666e()).intValue();
             if (iIntValue >= 0) {
-                PhoneBrowserActivtyDelegate.this.browserActivity.m6222J0().m9304l(iIntValue);
+                PhoneBrowserActivtyDelegate.this.browserActivity.getTabManager().m9304l(iIntValue);
                 return;
             }
             Log.i("back-menu", "go to step:" + iIntValue);
@@ -245,17 +244,17 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         }
     }
 
-    public class DialogC1533n extends AbstractDialogC1303b6 {
+    public class DialogC1533n extends ConfirmDialog {
         public DialogC1533n(Context context) {
             super(context);
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() throws URISyntaxException {
+        public void onOK() throws URISyntaxException {
             PhoneBrowserActivtyDelegate.this.browserActivity.m6307d2(C2439uo.getInstance().m10235v() + "&callback=x:sc");
         }
     }
@@ -348,7 +347,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
 
     @Override
     public boolean mo6411T() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (!(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return false;
         }
@@ -460,7 +459,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
                 }
             }
         }
-        C2061mf.m8471f0().m8538j0(this.f4515m, "ep.menu.tool");
+        JSManager.getInstance().m8538j0(this.f4515m, "ep.menu.tool");
         int dimension = (int) this.browserActivity.getResources().getDimension(R.dimen.pop_menu_left_margin);
         int dimension2 = (int) this.browserActivity.getResources().getDimension(R.dimen.pop_menu_top_margin);
         int width = (m6440z().getWindow().getDecorView().getWidth() - ((int) this.browserActivity.getResources().getDimension(R.dimen.ctx_menu_width))) - dimension;
@@ -507,10 +506,10 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
 
     @Override
     public void mo2860c(String str) {
-        if (this.browserActivity.m6222J0().m9277A().m9339r().equals(str)) {
+        if (this.browserActivity.getTabManager().getActiveTab().getTabId().equals(str)) {
             return;
         }
-        this.browserActivity.m6222J0().m9300X(str);
+        this.browserActivity.getTabManager().m9300X(str);
         this.f4378b.setVisibility(View.INVISIBLE);
         C1039Wi.m4517p().m4519k();
     }
@@ -566,7 +565,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
             c0401In2.m9649j();
         }
         this.f4515m.m9640C("script_id", str);
-        if (C2061mf.m8471f0().m8504M0(str) == 1) {
+        if (JSManager.getInstance().m8504M0(str) == 1) {
             c0401In = this.f4515m;
             browserActivity = this.browserActivity;
             i = R.string.pop_menu_script_off;
@@ -578,13 +577,13 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         c0401In.m9644d(browserActivity.getString(i), i);
         this.f4515m.m9644d(this.browserActivity.getString(R.string.pop_menu_script_edit), R.string.pop_menu_script_edit);
         this.f4515m.m9644d(this.browserActivity.getString(R.string.pop_menu_script_del), R.string.pop_menu_script_del);
-        if (C2061mf.m8471f0().m8504M0(str) == 1) {
+        if (JSManager.getInstance().m8504M0(str) == 1) {
             if (!C2439uo.getInstance().m10206D()) {
                 PhoneUtils.getInstance().isInChina();
             }
             this.f4515m.m9644d(this.browserActivity.getString(R.string.pop_menu_script_share_to_friend), R.string.pop_menu_script_share_to_friend);
         }
-        String strM8521Z = C2061mf.m8471f0().getUserScriptSource(str);
+        String strM8521Z = JSManager.getInstance().getUserScriptSource(str);
         this.f4515m.m9640C("script_source_url", strM8521Z);
         if (!TextUtils.isEmpty(strM8521Z) && strM8521Z.startsWith("http")) {
             this.f4515m.m9644d(this.browserActivity.getString(R.string.pop_menu_script_review), R.string.pop_menu_script_review);
@@ -600,7 +599,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
             return;
         }
         Drawable bitmapDrawable = new BitmapDrawable(this.browserActivity.getResources(), bitmap);
-        String strMo1573b = interfaceC1300b3.mo1573b();
+        String strMo1573b = interfaceC1300b3.getUrlFromTitle();
         if (strMo1573b != null && (strMo1573b.indexOf("m.so.com") >= 0 || strMo1573b.indexOf("sogou.com") >= 0 || strMo1573b.indexOf("search.yahoo.com") >= 0 || strMo1573b.indexOf("m.sm.cn") >= 0 || strMo1573b.indexOf("so.toutiao.com") >= 0 || strMo1573b.indexOf("skyjem.com") >= 0)) {
             bitmapDrawable = this.browserActivity.getResources().getDrawable(R.drawable.ic_search);
         }
@@ -624,23 +623,23 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         Drawable drawable;
         String string;
         this.f4516n.m9649j();
-        int iM9280D = this.browserActivity.m6222J0().m9280D();
+        int iM9280D = this.browserActivity.getTabManager().getTabCount();
         ((IndicatorImageButton) this.browserActivity.findViewById(R.id.toolbar_btn_muti_window)).setIndicatorText(iM9280D + "");
-        int iM9278B = this.browserActivity.m6222J0().m9278B();
-        ArrayList arrayListM9286J = this.browserActivity.m6222J0().m9286J();
+        int iM9278B = this.browserActivity.getTabManager().getActiveIndex();
+        ArrayList arrayListM9286J = this.browserActivity.getTabManager().getTabList();
         int i = 0;
         while (i < arrayListM9286J.size()) {
-            AbstractC2274r6.d dVar = (AbstractC2274r6.d) arrayListM9286J.get(i);
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) dVar.m9333l();
+            ContentViewManager.Tab tabVar = (ContentViewManager.Tab) arrayListM9286J.get(i);
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) tabVar.m9333l();
             boolean z = i == iM9278B;
-            if (interfaceC1300b3 == null && dVar.m9344w()) {
+            if (interfaceC1300b3 == null && tabVar.m9344w()) {
                 drawableM9503x = ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_default, 1);
-                string = dVar.m9337p();
+                string = tabVar.m9337p();
                 if (TextUtils.isEmpty(string)) {
                 }
                 drawable = drawableM9503x;
                 strMo1574c = string;
-                this.f4516n.m7048J(drawable, strMo1574c, dVar.m9339r(), z, dVar.m9345x());
+                this.f4516n.m7048J(drawable, strMo1574c, tabVar.getTabId(), z, tabVar.m9345x());
                 i++;
             } else if (interfaceC1300b3 != null) {
                 Drawable drawableMo5621A = interfaceC1300b3.mo5621A(1);
@@ -649,7 +648,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
                 }
                 strMo1574c = interfaceC1300b3.mo1574c();
                 drawable = drawableMo5621A;
-                this.f4516n.m7048J(drawable, strMo1574c, dVar.m9339r(), z, dVar.m9345x());
+                this.f4516n.m7048J(drawable, strMo1574c, tabVar.getTabId(), z, tabVar.m9345x());
                 i++;
             } else {
                 drawableM9503x = ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_default, 1);
@@ -657,7 +656,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
             string = this.browserActivity.getString(R.string.des_btn_new_tab);
             drawable = drawableM9503x;
             strMo1574c = string;
-            this.f4516n.m7048J(drawable, strMo1574c, dVar.m9339r(), z, dVar.m9345x());
+            this.f4516n.m7048J(drawable, strMo1574c, tabVar.getTabId(), z, tabVar.m9345x());
             i++;
         }
         this.f4516n.m7055Q();
@@ -673,10 +672,10 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
     }
 
     public final void m6514i0() {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 != null) {
             String strMo1574c = interfaceC1300b3.mo1574c();
-            String strMo1573b = interfaceC1300b3.mo1573b();
+            String strMo1573b = interfaceC1300b3.getUrlFromTitle();
             if (strMo1573b.indexOf("baidu.com") > 0) {
                 strMo1573b.indexOf("from=");
             }
@@ -728,7 +727,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         BrowserActivity browserActivity;
         int i;
         if (z) {
-            String strMo1573b = interfaceC1300b3.mo1573b();
+            String strMo1573b = interfaceC1300b3.getUrlFromTitle();
             if (strMo1573b.equals("x:home")) {
                 browserActivity = this.browserActivity;
                 i = R.string.home_controller_title;
@@ -831,7 +830,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
                 interfaceC0529LdM9646f.mo2670i(z);
             }
         }
-        C2061mf.m8471f0().m8538j0(this.f4514l, "ep.menu.main");
+        JSManager.getInstance().m8538j0(this.f4514l, "ep.menu.main");
     }
 
     public final void m6519n0() {
@@ -862,16 +861,16 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         } else {
             SharedPreferencesHelper.getInstance().enterNightMode = true;
             ThemeManager.getInstance().m9481b(this.browserActivity, "dark");
-            this.browserActivity.m6231L1();
+            this.browserActivity.applyDarkMode();
         }
     }
 
     public final void m6522q0() throws URISyntaxException {
         String strM6871P = SharedPreferencesHelper.getInstance().getString("default_downloader", "com.x.browser.downloader");
         if (strM6871P.equals("com.x.browser.downloader")) {
-            this.browserActivity.m6279X1("x:dl");
+            this.browserActivity.openUrl("x:dl");
         } else if (!strM6871P.equals("com.android.providers.downloads")) {
-            C2406u0.m9882f().m9894m(strM6871P);
+            C2406u0.getInstance().m9894m(strM6871P);
         } else {
             this.browserActivity.startActivity(new Intent("android.intent.action.VIEW_DOWNLOADS"));
         }
@@ -920,10 +919,10 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
     @Override
     public void mo6438x(String str) {
         try {
-            this.f4516n.m7054P(this.browserActivity.m6222J0().m9277A().m9339r());
+            this.f4516n.m7054P(this.browserActivity.getTabManager().getActiveTab().getTabId());
             this.f4516n.m7050L(str);
-            this.browserActivity.m6222J0().m9294R(str);
-            if (this.browserActivity.m6222J0().m9280D() == 0) {
+            this.browserActivity.getTabManager().removeTab(str);
+            if (this.browserActivity.getTabManager().getTabCount() == 0) {
                 this.f4516n.m9655v();
                 this.browserActivity.m6307d2(SharedPreferencesHelper.getInstance().m6857H());
             }
@@ -942,7 +941,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
         if (this.browserActivity.m6230L0() != 0 && this.browserActivity.m6230L0() != 512 && this.browserActivity.m6230L0() != 32) {
             return false;
         }
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (str.equals("go_to_top")) {
             if (interfaceC1300b3 != null && (interfaceC1300b3 instanceof WebViewBrowserController)) {
                 ((WebViewBrowserController) interfaceC1300b3).m6770F0().pageUp(true);
@@ -975,7 +974,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
                 return true;
             }
             if (str.equals("close_tab")) {
-                this.browserActivity.m6218I0().mo6431k();
+                this.browserActivity.getActivityDelegate().mo6431k();
                 return true;
             }
             if (str.equals("revert_tab")) {
@@ -983,18 +982,18 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
                 return true;
             }
             if (str.equals("next_tab")) {
-                this.browserActivity.m6222J0().m9290N();
+                this.browserActivity.getTabManager().m9290N();
                 return true;
             }
             if (str.equals("previous_tab")) {
-                this.browserActivity.m6222J0().m9291O();
+                this.browserActivity.getTabManager().m9291O();
                 return true;
             }
             if (str.equals("add_to_bm")) {
                 m6514i0();
             } else {
                 if (str.equals("copy_url")) {
-                    AndroidSystemUtils.m8701i(this.browserActivity, interfaceC1300b3.mo1573b());
+                    AndroidSystemUtils.m8701i(this.browserActivity, interfaceC1300b3.getUrlFromTitle());
                     Toast.makeText(this.browserActivity, R.string.toast_copy_to_clip_board, Toast.LENGTH_SHORT).show();
                     return true;
                 }
@@ -1011,7 +1010,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
                         return true;
                     }
                     if (str.equals("open_history")) {
-                        this.browserActivity.m6279X1("x:history");
+                        this.browserActivity.openUrl("x:history");
                         return true;
                     }
                     if (str.equals("switch_search_engine")) {
@@ -1019,7 +1018,7 @@ public class PhoneBrowserActivtyDelegate extends BrowserActivityDelegate impleme
                         return true;
                     }
                     if (str.equals("open_site_config")) {
-                        this.browserActivity.m6302c2();
+                        this.browserActivity.openSiteFromCurrentTab();
                     }
                 }
             }

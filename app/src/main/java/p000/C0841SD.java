@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0841SD extends AbstractC1795gr {
 
     public final C2142oD f2608e;

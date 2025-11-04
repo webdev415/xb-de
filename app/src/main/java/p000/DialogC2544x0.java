@@ -10,8 +10,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
-public class DialogC2544x0 extends AbstractDialogC2267r {
+public class DialogC2544x0 extends BaseDialog {
 
     public BrowserActivity f7929b;
 
@@ -38,17 +37,17 @@ public class DialogC2544x0 extends AbstractDialogC2267r {
                 z2 = false;
                 SharedPreferencesHelper.getInstance().putBoolean("support_adjust_brightness", false);
                 SharedPreferencesHelper.getInstance().f4872O0 = false;
-                DialogC2544x0.this.f7929b.m6245P(-1);
+                DialogC2544x0.this.f7929b.setScreenBrightness(-1);
             } else {
                 z2 = true;
                 SharedPreferencesHelper.getInstance().f4872O0 = true;
                 SharedPreferencesHelper.getInstance().putBoolean("support_adjust_brightness", true);
                 if (SharedPreferencesHelper.getInstance().enterNightMode) {
-                    DialogC2544x0.this.f7929b.m6245P(SharedPreferencesHelper.getInstance().nightBrightness);
+                    DialogC2544x0.this.f7929b.setScreenBrightness(SharedPreferencesHelper.getInstance().nightBrightness);
                     seekBar = this.f7933a;
                     i = SharedPreferencesHelper.getInstance().nightBrightness;
                 } else {
-                    DialogC2544x0.this.f7929b.m6245P(SharedPreferencesHelper.getInstance().defaultBrightness);
+                    DialogC2544x0.this.f7929b.setScreenBrightness(SharedPreferencesHelper.getInstance().defaultBrightness);
                     seekBar = this.f7933a;
                     i = SharedPreferencesHelper.getInstance().defaultBrightness;
                 }
@@ -65,7 +64,7 @@ public class DialogC2544x0 extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         int i;
         setContentView(R.layout.dlg_brightness_seek_bar);
         m10623b();
@@ -122,7 +121,7 @@ public class DialogC2544x0 extends AbstractDialogC2267r {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean z) {
             if (SharedPreferencesHelper.getInstance().f4872O0) {
-                DialogC2544x0.this.f7929b.m6245P(i);
+                DialogC2544x0.this.f7929b.setScreenBrightness(i);
                 if (SharedPreferencesHelper.getInstance().enterNightMode) {
                     SharedPreferencesHelper.getInstance().putInt("night_brightness", i);
                     SharedPreferencesHelper.getInstance().nightBrightness = i;

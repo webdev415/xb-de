@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Formatter;
 
-/* loaded from: classes.dex */
 public class C0377I8 {
 
     public final C0968V2 f1134a;

@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.Array;
 
-/* loaded from: classes.dex */
 public final class C2085n2 {
 
     public final C2224q2[] f6289a;

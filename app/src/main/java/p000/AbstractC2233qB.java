@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Locale;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2233qB implements Serializable, Iterable {
 
     public static final AbstractC2233qB f6688m = new C0564MB(AbstractC0932UC.f2840b);

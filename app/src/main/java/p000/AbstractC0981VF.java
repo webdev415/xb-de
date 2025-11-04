@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0981VF {
     public static void m4375a(byte b, byte b2, byte b3, byte b4, char[] cArr, int i) throws C1771gD {
         if (m4379e(b2) || (((b << 28) + (b2 + 112)) >> 30) != 0 || m4379e(b3) || m4379e(b4)) {

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1080Xd extends AbstractC1034Wd implements List, RandomAccess {
 
     public static final AbstractC2255qo f3230m = new a(C2435uk.f7562p, 0);

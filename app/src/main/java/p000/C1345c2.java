@@ -10,7 +10,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public class C1345c2 extends AbstractC1540b {
 
     public BrowserActivity f3912t;
@@ -32,11 +31,11 @@ public class C1345c2 extends AbstractC1540b {
     }
 
     public final void m5703N(WebBackForwardList webBackForwardList) {
-        ArrayList arrayListM9334m = this.f3912t.m6222J0().m9277A().m9334m();
-        int iM9336o = this.f3912t.m6222J0().m9277A().m9336o();
+        ArrayList arrayListM9334m = this.f3912t.getTabManager().getActiveTab().m9334m();
+        int iM9336o = this.f3912t.getTabManager().getActiveTab().m9336o();
         for (int i = 0; i < iM9336o; i++) {
             InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) arrayListM9334m.get(i);
-            String strMo1573b = interfaceC1300b3.mo1573b();
+            String strMo1573b = interfaceC1300b3.getUrlFromTitle();
             String strMo1574c = interfaceC1300b3.mo1574c();
             String strM445C = NetworkUtils.getFaviconUrl(strMo1573b);
             C0762Qg c0762Qg = new C0762Qg();

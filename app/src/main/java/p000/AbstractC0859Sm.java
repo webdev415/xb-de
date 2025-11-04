@@ -3,7 +3,6 @@ package p000;
 import java.io.Serializable;
 import java.util.Objects;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0859Sm {
 
     public static class a implements InterfaceC0813Rm, Serializable {

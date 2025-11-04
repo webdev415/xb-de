@@ -3,7 +3,6 @@ package p000;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-/* loaded from: classes.dex */
 public final class C1695el extends RuntimeException {
 
     public IOException f5454l;

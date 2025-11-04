@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1308bB implements InterfaceC2172ox {
 
     public final C2266qz f3854a;

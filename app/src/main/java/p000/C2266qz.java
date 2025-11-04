@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2266qz implements InterfaceC0241FA {
 
     public static volatile C2266qz f6823I;

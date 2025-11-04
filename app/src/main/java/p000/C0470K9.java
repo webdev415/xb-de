@@ -3,7 +3,6 @@ package p000;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0470K9 {
 
     public final List f1549a = new ArrayList<>();

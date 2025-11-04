@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-/* loaded from: classes.dex */
 public final class C2602yC implements Application.ActivityLifecycleCallbacks {
 
     public final C1207aB f8061a;

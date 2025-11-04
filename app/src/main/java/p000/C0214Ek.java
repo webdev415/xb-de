@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public class C0214Ek {
 
     public static final long f528d = TimeUnit.HOURS.toMillis(24);

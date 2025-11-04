@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class RunnableC1293ax implements Runnable {
 
     public final C2449uy f3812l;

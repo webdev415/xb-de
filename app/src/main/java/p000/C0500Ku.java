@@ -7,7 +7,6 @@ import com.google.android.gms.dynamite.DynamiteModule;
 import com.google.android.gms.dynamite.descriptors.com.google.android.gms.measurement.dynamite.ModuleDescriptor;
 import p000.C0224Eu;
 
-/* loaded from: classes.dex */
 public final class C0500Ku extends C0224Eu.a {
 
     public final String f1635p;

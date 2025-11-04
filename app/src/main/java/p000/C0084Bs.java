@@ -2,7 +2,6 @@ package p000;
 
 import dalvik.system.PathClassLoader;
 
-/* loaded from: classes.dex */
 public final class C0084Bs extends PathClassLoader {
     public C0084Bs(String str, ClassLoader classLoader) {
         super(str, classLoader);

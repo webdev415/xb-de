@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0961Uw {
 
     public static final Object f2892g = new Object();

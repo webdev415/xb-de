@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public final class C1135Ym implements InterfaceC0071Bf, Serializable {
 
     public InterfaceC0894Tb f3358l;

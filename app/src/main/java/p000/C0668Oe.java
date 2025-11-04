@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.InvocationTargetException;
 
-/* loaded from: classes.dex */
 public class C0668Oe extends C0855Si {
 
     public static final class a {

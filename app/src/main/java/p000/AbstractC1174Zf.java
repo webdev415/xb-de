@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1174Zf {
 
     public static final Object f3443a = new C0951Um("CONDITION_FALSE");

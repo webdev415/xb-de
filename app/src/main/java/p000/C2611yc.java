@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2611yc {
 
     public static final C2611yc f8071h = new C2611yc(4201, 4096, 1);

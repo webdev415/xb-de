@@ -5,9 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
-import p000.AbstractC0619Nb;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0665Ob {
 
     public static final int[] f2029a = {0, 3, 0, 1, 5, 4, 7, 6, 9, 8, 10};
@@ -79,10 +77,10 @@ public abstract class AbstractC0665Ob {
         }
     }
 
-    public static C2453v1 m3397c(int i, ArrayList arrayList, ArrayList arrayList2, int i2, int i3) {
+    public static ScriptMap m3397c(int i, ArrayList arrayList, ArrayList arrayList2, int i2, int i3) {
         ArrayList arrayList3;
         ArrayList arrayList4;
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         for (int i4 = i3 - 1; i4 >= i2; i4--) {
             C1620d2 c1620d2 = (C1620d2) arrayList.get(i4);
             if (c1620d2.m7287j(i)) {
@@ -101,17 +99,17 @@ public abstract class AbstractC0665Ob {
                     for (int i5 = 0; i5 < size; i5++) {
                         String str = (String) arrayList4.get(i5);
                         String str2 = (String) arrayList3.get(i5);
-                        String str3 = (String) c2453v1.remove(str2);
+                        String str3 = (String) scriptMap.remove(str2);
                         if (str3 != null) {
-                            c2453v1.put(str, str3);
+                            scriptMap.put(str, str3);
                         } else {
-                            c2453v1.put(str, str2);
+                            scriptMap.put(str, str2);
                         }
                     }
                 }
             }
         }
-        return c2453v1;
+        return scriptMap;
     }
 
     public static void m3398d(C1620d2 c1620d2, SparseArray sparseArray, boolean z) {
@@ -159,17 +157,17 @@ public abstract class AbstractC0665Ob {
         throw null;
     }
 
-    public static Object m3402h(AbstractC0757Qb abstractC0757Qb, ViewGroup viewGroup, View view, C2453v1 c2453v1, b bVar, ArrayList arrayList, ArrayList arrayList2, Object obj, Object obj2) {
+    public static Object m3402h(AbstractC0757Qb abstractC0757Qb, ViewGroup viewGroup, View view, ScriptMap scriptMap, b bVar, ArrayList arrayList, ArrayList arrayList2, Object obj, Object obj2) {
         bVar.getClass();
         return null;
     }
 
-    public static Object m3403i(AbstractC0757Qb abstractC0757Qb, ViewGroup viewGroup, View view, C2453v1 c2453v1, b bVar, ArrayList arrayList, ArrayList arrayList2, Object obj, Object obj2) {
+    public static Object m3403i(AbstractC0757Qb abstractC0757Qb, ViewGroup viewGroup, View view, ScriptMap scriptMap, b bVar, ArrayList arrayList, ArrayList arrayList2, Object obj, Object obj2) {
         bVar.getClass();
         return null;
     }
 
-    public static void m3404j(LayoutInflaterFactory2C0435Jb layoutInflaterFactory2C0435Jb, int i, b bVar, View view, C2453v1 c2453v1) {
+    public static void m3404j(LayoutInflaterFactory2C0435Jb layoutInflaterFactory2C0435Jb, int i, b bVar, View view, ScriptMap scriptMap) {
         Object obj;
         ViewGroup viewGroup = layoutInflaterFactory2C0435Jb.f1346r.mo1030g() ? (ViewGroup) layoutInflaterFactory2C0435Jb.f1346r.mo1029d(i) : null;
         if (viewGroup == null) {
@@ -186,7 +184,7 @@ public abstract class AbstractC0665Ob {
         Object objM3407m = m3407m(abstractC0757QbM3400f, null, z2);
         ArrayList arrayList = new ArrayList<>();
         ArrayList arrayList2 = new ArrayList<>();
-        Object objM3402h = m3402h(abstractC0757QbM3400f, viewGroup, view, c2453v1, bVar, arrayList, arrayList2, objM3406l, objM3407m);
+        Object objM3402h = m3402h(abstractC0757QbM3400f, viewGroup, view, scriptMap, bVar, arrayList, arrayList2, objM3406l, objM3407m);
         if (objM3406l == null && objM3402h == null) {
             obj = objM3407m;
             if (obj == null) {
@@ -203,13 +201,13 @@ public abstract class AbstractC0665Ob {
             ArrayList arrayList3 = new ArrayList<>();
             abstractC0757QbM3400f.mo3550k(objM3408n, objM3406l, arrayList3, obj2, arrayListM3401g, objM3402h, arrayList2);
             m3411q(abstractC0757QbM3400f, viewGroup, null, view, arrayList2, objM3406l, arrayList3, obj2, arrayListM3401g);
-            abstractC0757QbM3400f.m3654l(viewGroup, arrayList2, c2453v1);
+            abstractC0757QbM3400f.m3654l(viewGroup, arrayList2, scriptMap);
             abstractC0757QbM3400f.mo3545b(viewGroup, objM3408n);
-            abstractC0757QbM3400f.m3653j(viewGroup, arrayList2, c2453v1);
+            abstractC0757QbM3400f.m3653j(viewGroup, arrayList2, scriptMap);
         }
     }
 
-    public static void m3405k(LayoutInflaterFactory2C0435Jb layoutInflaterFactory2C0435Jb, int i, b bVar, View view, C2453v1 c2453v1) {
+    public static void m3405k(LayoutInflaterFactory2C0435Jb layoutInflaterFactory2C0435Jb, int i, b bVar, View view, ScriptMap scriptMap) {
         Object obj;
         ViewGroup viewGroup = layoutInflaterFactory2C0435Jb.f1346r.mo1030g() ? (ViewGroup) layoutInflaterFactory2C0435Jb.f1346r.mo1029d(i) : null;
         if (viewGroup == null) {
@@ -226,7 +224,7 @@ public abstract class AbstractC0665Ob {
         ArrayList arrayList2 = new ArrayList<>();
         Object objM3406l = m3406l(abstractC0757QbM3400f, null, z);
         Object objM3407m = m3407m(abstractC0757QbM3400f, null, z2);
-        Object objM3403i = m3403i(abstractC0757QbM3400f, viewGroup, view, c2453v1, bVar, arrayList2, arrayList, objM3406l, objM3407m);
+        Object objM3403i = m3403i(abstractC0757QbM3400f, viewGroup, view, scriptMap, bVar, arrayList2, arrayList, objM3406l, objM3407m);
         if (objM3406l == null && objM3403i == null) {
             obj = objM3407m;
             if (obj == null) {
@@ -244,7 +242,7 @@ public abstract class AbstractC0665Ob {
             ArrayList arrayListM3652g = abstractC0757QbM3400f.m3652g(arrayList);
             abstractC0757QbM3400f.mo3550k(objM3408n, objM3406l, arrayListM3401g2, obj, arrayListM3401g, objM3403i, arrayList);
             abstractC0757QbM3400f.mo3545b(viewGroup, objM3408n);
-            abstractC0757QbM3400f.m3655m(viewGroup, arrayList2, arrayList, arrayListM3652g, c2453v1);
+            abstractC0757QbM3400f.m3655m(viewGroup, arrayList2, arrayList, arrayListM3652g, scriptMap);
             m3412r(arrayListM3401g2, 0);
             abstractC0757QbM3400f.mo3551n(objM3403i, arrayList2, arrayList);
         }
@@ -301,7 +299,7 @@ public abstract class AbstractC0665Ob {
             int size = sparseArray.size();
             for (int i4 = 0; i4 < size; i4++) {
                 int iKeyAt = sparseArray.keyAt(i4);
-                C2453v1 c2453v1M3397c = m3397c(iKeyAt, arrayList, arrayList2, i, i2);
+                ScriptMap c2453v1M3397c = m3397c(iKeyAt, arrayList, arrayList2, i, i2);
                 b bVar = (b) sparseArray.valueAt(i4);
                 if (z) {
                     m3405k(layoutInflaterFactory2C0435Jb, iKeyAt, bVar, view, c2453v1M3397c);

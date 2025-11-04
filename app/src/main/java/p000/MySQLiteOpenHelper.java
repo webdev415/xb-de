@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     public static MySQLiteOpenHelper instance;
@@ -127,7 +126,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public int m7489C0() {
+    public int getPendingSize() {
         return this.pendingEntries.size();
     }
 
@@ -279,10 +278,10 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                 e.printStackTrace();
             }
             writableDatabase.endTransaction();
-            C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+            SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
         } catch (Throwable th) {
             writableDatabase.endTransaction();
-            C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+            SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
             throw th;
         }
     }
@@ -292,10 +291,10 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             getInstance().getWritableDatabase().execSQL("UPDATE bookmark SET status='" + i + "' WHERE url='" + str + "'");
         } catch (Exception unused) {
         } catch (Throwable th) {
-            C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+            SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
             throw th;
         }
-        C1089Xm.getInstance().m4822j("syncable_bookmark").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_bookmark").incrementVersion();
     }
 
     public void m7501L0(SQLiteDatabase sQLiteDatabase, int i, String str) {

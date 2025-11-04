@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0860Sn {
     public static Object m4073a(Object obj, int i) {
         if (obj != null && !m4075c(obj, i)) {

@@ -10,7 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C0962Ux extends AbstractC2513wF {
     public C0962Ux(C0200EF c0200ef) {
         super(c0200ef);

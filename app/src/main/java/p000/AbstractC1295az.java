@@ -2,7 +2,6 @@ package p000;
 
 import android.content.ContentResolver;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1295az {
 
     public static final InterfaceC1943jz f3816a = AbstractC1709ez.m7479a();

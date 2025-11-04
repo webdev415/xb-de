@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public final class C0338HF {
 
     public static final C0338HF f1038f = new C0338HF(0, new int[0], new Object[0], false);

@@ -2,7 +2,6 @@ package p000;
 
 import android.view.MotionEvent;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1223ah {
     public static int m5280a(MotionEvent motionEvent, int i) {
         return motionEvent.findPointerIndex(i);

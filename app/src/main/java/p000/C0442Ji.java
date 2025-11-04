@@ -10,7 +10,6 @@ import android.util.Log;
 import java.io.File;
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public class C0442Ji {
 
     public static final String f1425b = "Ji";

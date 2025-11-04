@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1177Zi {
     public static void m5049a(boolean z, String str) {
         if (!z) {

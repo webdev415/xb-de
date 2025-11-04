@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 
-/* loaded from: classes.dex */
-public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements View.OnClickListener {
+public class ViewOnClickListenerC2063mh extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f6225b;
 
@@ -145,7 +144,7 @@ public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements 
                     if (!TextUtils.isEmpty(strTrim)) {
                         ViewOnClickListenerC2063mh viewOnClickListenerC2063mh = ViewOnClickListenerC2063mh.this;
                         if (viewOnClickListenerC2063mh.f6229f) {
-                            viewOnClickListenerC2063mh.f6225b.m6303c3(viewOnClickListenerC2063mh.f6227d, str, strTrim, string);
+                            viewOnClickListenerC2063mh.f6225b.updateBookmark(viewOnClickListenerC2063mh.f6227d, str, strTrim, string);
                         } else {
                             viewOnClickListenerC2063mh.f6225b.m6368w(strTrim, str, string, true);
                         }
@@ -154,7 +153,7 @@ public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements 
                 }
                 ViewOnClickListenerC2063mh.this.dismiss();
                 SharedPreferencesHelper.getInstance().putString("last_bm_dir", string);
-                strMo1573b = ((InterfaceC1300b3) ViewOnClickListenerC2063mh.this.f6225b.m6222J0().m9316y()).mo1573b();
+                strMo1573b = ((InterfaceC1300b3) ViewOnClickListenerC2063mh.this.f6225b.getTabManager().m9316y()).getUrlFromTitle();
                 if (TextUtils.isEmpty(strMo1573b)) {
                     return;
                 } else {
@@ -167,12 +166,12 @@ public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements 
                 toastMakeText = Toast.makeText(ViewOnClickListenerC2063mh.this.f6225b, "title not allow empty", 0);
             } else {
                 if (!TextUtils.isEmpty(strTrim3)) {
-                    if (!TextUtils.isEmpty(strTrim3) && strTrim3.indexOf("baidu.com") > 0 && strTrim3.indexOf(SharedPreferencesHelper.getInstance().f4897c0) > 0 && !TextUtils.isEmpty(ViewOnClickListenerC2063mh.this.f6228e)) {
+                    if (!TextUtils.isEmpty(strTrim3) && strTrim3.indexOf("baidu.com") > 0 && strTrim3.indexOf(SharedPreferencesHelper.getInstance().baiduFakeFeecode) > 0 && !TextUtils.isEmpty(ViewOnClickListenerC2063mh.this.f6228e)) {
                         strTrim3 = strTrim3.replaceAll("from=[a-z0-9_]{8,20}", "from=" + ViewOnClickListenerC2063mh.this.f6228e);
                     }
                     ViewOnClickListenerC2063mh viewOnClickListenerC2063mh2 = ViewOnClickListenerC2063mh.this;
                     if (viewOnClickListenerC2063mh2.f6229f) {
-                        viewOnClickListenerC2063mh2.f6225b.m6303c3(viewOnClickListenerC2063mh2.f6227d, strTrim3, strTrim2, string);
+                        viewOnClickListenerC2063mh2.f6225b.updateBookmark(viewOnClickListenerC2063mh2.f6227d, strTrim3, strTrim2, string);
                     } else {
                         viewOnClickListenerC2063mh2.f6225b.m6368w(strTrim2, strTrim3, string, false);
                     }
@@ -181,7 +180,7 @@ public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements 
                     }
                     ViewOnClickListenerC2063mh.this.dismiss();
                     SharedPreferencesHelper.getInstance().putString("last_bm_dir", string);
-                    strMo1573b = ((InterfaceC1300b3) ViewOnClickListenerC2063mh.this.f6225b.m6222J0().m9316y()).mo1573b();
+                    strMo1573b = ((InterfaceC1300b3) ViewOnClickListenerC2063mh.this.f6225b.getTabManager().m9316y()).getUrlFromTitle();
                     if (TextUtils.isEmpty(strMo1573b) || strMo1573b.indexOf("x:bm") < 0) {
                         return;
                     }
@@ -219,7 +218,7 @@ public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements 
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         String strReplaceAll;
         setContentView(R.layout.dlg_bookmark_add);
         EditText editText = (EditText) findViewById(R.id.title);
@@ -245,7 +244,7 @@ public class ViewOnClickListenerC2063mh extends AbstractDialogC2267r implements 
             strReplaceAll = this.f6227d;
         } else {
             this.f6228e = NetworkUtils.extractFirstGroup(this.f6227d, NetworkUtils.FROM_PARAM_PATTERN);
-            strReplaceAll = str.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().f4897c0);
+            strReplaceAll = str.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().baiduFakeFeecode);
         }
         editText2.setText(strReplaceAll);
         ((Button) findViewById(R.id.btn_ok)).setOnClickListener(new d(editText, editText2, checkBox));

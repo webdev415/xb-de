@@ -6,8 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class C2185p9 extends AbstractC2221q {
+public class C2185p9 extends DataSource {
     @Override
     public String mo8842b() {
         return "browser.addon";
@@ -23,12 +22,12 @@ public class C2185p9 extends AbstractC2221q {
         JSONArray jSONArray = new JSONArray((String) obj);
         for (int i2 = 0; i2 < jSONArray.length(); i2++) {
             JSONObject jSONObject = jSONArray.getJSONObject(i2);
-            Player player = new Player();
-            player.f7126a = jSONObject.getString("title");
-            player.f7127b = jSONObject.getString("intro");
-            player.packageName = jSONObject.getString("addon_id");
-            player.type = jSONObject.getInt("addon_type");
-            player.f7133h = jSONObject.getInt("ext_point");
+            Addon addon = new Addon();
+            addon.title = jSONObject.getString("title");
+            addon.intro = jSONObject.getString("intro");
+            addon.id = jSONObject.getString("addon_id");
+            addon.type = jSONObject.getInt("addon_type");
+            addon.extPoint = jSONObject.getInt("ext_point");
         }
         if (BrowserActivity.getActivity() == null) {
             return null;

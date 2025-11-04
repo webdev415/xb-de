@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1028WG implements InterfaceC0813Rm {
 
     public static C1028WG f3047m = new C1028WG();

@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Random;
 
-/* loaded from: classes.dex */
 public final class C0480Ka extends AbstractC0368I {
 
     public final a f1566n = new a();

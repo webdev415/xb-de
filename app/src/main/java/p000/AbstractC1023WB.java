@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1023WB {
 
     public static volatile int f3038b = 100;

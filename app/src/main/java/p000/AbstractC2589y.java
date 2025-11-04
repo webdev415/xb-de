@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2589y extends C1877if implements InterfaceC1081Xe, InterfaceC2458v6, InterfaceC0559M6 {
 
     public final InterfaceC0191E6 f8041n;

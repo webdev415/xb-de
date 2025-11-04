@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import p000.C1651dn;
 
-/* loaded from: classes.dex */
 public class TextToSpeechActivity extends Activity {
 
     public String f4550a;
@@ -15,7 +14,7 @@ public class TextToSpeechActivity extends Activity {
             String stringExtra = intent.getStringExtra("android.intent.extra.PROCESS_TEXT");
             this.f4550a = stringExtra;
             if (stringExtra != null) {
-                C1651dn.m7356c().m7361h(this.f4550a);
+                C1651dn.getInstance().m7361h(this.f4550a);
             }
         }
     }

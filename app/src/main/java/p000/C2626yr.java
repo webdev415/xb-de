@@ -4,7 +4,6 @@ import java.lang.ref.WeakReference;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public final class C2626yr extends Thread {
 
     public final WeakReference f8148l;

@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2359t {
 
     public FrameLayout f7102a;
@@ -88,9 +87,6 @@ public abstract class AbstractC2359t {
     }
 
     public class b extends ViewOutlineProvider {
-        public b() {
-        }
-
         @Override
         public void getOutline(View view, Outline outline) {
             outline.setRect(new Rect(0, 0, f7103b.getWidth(), f7103b.getHeight()));
@@ -98,9 +94,6 @@ public abstract class AbstractC2359t {
     }
 
     public class f implements Runnable {
-        public f() {
-        }
-
         @Override
         public void run() {
             AbstractC2359t abstractC2359t = AbstractC2359t.this;

@@ -2,7 +2,6 @@ package p000;
 
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public enum EnumC2342sj {
     HTTP_1_0("http/1.0"),
     HTTP_1_1("http/1.1"),

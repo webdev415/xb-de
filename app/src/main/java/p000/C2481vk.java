@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Objects;
 import p000.AbstractC1126Yd;
 
-/* loaded from: classes.dex */
 public final class C2481vk extends AbstractC1126Yd {
 
     public static final AbstractC1126Yd f7743s = new C2481vk(null, new Object[0], 0);

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import p000.C1836hl;
 
-/* loaded from: classes.dex */
 public class C0572Ma extends C1836hl {
 
     public final HashMap f1807p = new HashMap<>();

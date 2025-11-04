@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Callable;
 
-/* loaded from: classes.dex */
 public final class RunnableC1871iJ implements Runnable {
 
     public final C1076XI f5801l;

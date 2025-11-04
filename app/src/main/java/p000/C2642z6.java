@@ -4,7 +4,6 @@ import android.p001os.OutcomeReceiver;
 import java.util.concurrent.atomic.AtomicBoolean;
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public final class C2642z6 extends AtomicBoolean implements OutcomeReceiver {
 
     public final InterfaceC2458v6 f8174l;

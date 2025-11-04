@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Collection;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0576Me {
     public static Collection m2865a(Iterable iterable) {
         return iterable instanceof Collection ? (Collection) iterable : AbstractC0898Tf.m4159g(iterable.iterator());

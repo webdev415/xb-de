@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC0171Dn {
     TLS_1_3("TLSv1.3"),
     TLS_1_2("TLSv1.2"),

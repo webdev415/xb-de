@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2438un extends C0188E3 {
     @Override
     public int mo777c(char c, StringBuilder sb) {

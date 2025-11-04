@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.widget.CheckBox;
@@ -31,25 +32,24 @@ import java.net.URLDecoder;
 import p000.NetworkUtils;
 import p000.FileUtils;
 import p000.AndroidSystemUtils;
-import p000.AbstractDialogC1303b6;
-import p000.AbstractDialogC1814h9;
+import p000.ConfirmDialog;
+import p000.DownloadConfirmDialog;
 import p000.C0219Ep;
 import p000.ResourceCacheManager;
-import p000.C1089Xm;
+import p000.SyncManager;
 import p000.PhoneUtils;
-import p000.C2061mf;
+import p000.JSManager;
 import p000.C2406u0;
 import p000.InterfaceC0345Hd;
 import p000.InterfaceC1300b3;
 import p000.ViewOnClickListenerC0309Gn;
 import p000.ViewOnFocusChangeListenerC0985Va;
 
-/* loaded from: classes.dex */
 public abstract class BrowserActivityDelegate implements BrowserControllerListener {
 
     public static String f4376j = "";
 
-    public BrowserActivity f4377a;
+    public BrowserActivity browserActivity;
 
     public boolean f4379c;
 
@@ -67,7 +67,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
     public String f4385i = null;
 
-    public class DialogC1486a extends AbstractDialogC1814h9 {
+    public class DialogC1486a extends DownloadConfirmDialog {
 
         public final String f4386n;
 
@@ -98,8 +98,8 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void mo6442f() {
-            ((ClipboardManager) BrowserActivityDelegate.this.f4377a.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("download_link", this.f4387o));
-            Toast.makeText(BrowserActivityDelegate.this.f4377a, R.string.toast_copy_link_to_clipboard, Toast.LENGTH_SHORT).show();
+            ((ClipboardManager) browserActivity.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("download_link", this.f4387o));
+            Toast.makeText(browserActivity, R.string.toast_copy_link_to_clipboard, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -109,12 +109,12 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
             if (TextUtils.isEmpty(strM457l) || strM457l.equals("application/octet-stream")) {
                 strM457l = this.f4386n;
             }
-            BrowserActivityDelegate.this.m6399H(this.f4387o, this.f4388p, this.f4389q, string, strM457l, this.f4390r);
+            m6399H(this.f4387o, this.f4388p, this.f4389q, string, strM457l, this.f4390r);
         }
 
         @Override
         public void mo6444h() {
-            AndroidSystemUtils.m8690X(BrowserActivityDelegate.this.f4377a, this.f4391s, this.f4387o, "", null, null, null);
+            AndroidSystemUtils.share(browserActivity, this.f4391s, this.f4387o, null, null, null);
         }
     }
 
@@ -136,7 +136,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
             public final long f4400o;
 
-            public class DialogC2707a extends AbstractDialogC1814h9 {
+            public class DialogC2707a extends DownloadConfirmDialog {
                 public DialogC2707a(BrowserActivity browserActivity) {
                     super(browserActivity);
                 }
@@ -147,8 +147,8 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
                 @Override
                 public void mo6442f() {
-                    ((ClipboardManager) BrowserActivityDelegate.this.f4377a.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("download_link", a.this.f4397l));
-                    Toast.makeText(BrowserActivityDelegate.this.f4377a, R.string.toast_copy_link_to_clipboard, Toast.LENGTH_SHORT).show();
+                    ((ClipboardManager) browserActivity.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("download_link", a.this.f4397l));
+                    Toast.makeText(browserActivity, R.string.toast_copy_link_to_clipboard, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -156,14 +156,12 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
                     String string = ((EditText) findViewById(R.id.file_name)).getText().toString();
                     a aVar = a.this;
                     C1487b c1487b = C1487b.this;
-                    BrowserActivityDelegate.this.m6400I(aVar.f4397l, null, null, string, aVar.f4399n, aVar.f4400o, c1487b.f4395c);
+                    m6400I(aVar.f4397l, null, null, string, aVar.f4399n, aVar.f4400o, c1487b.f4395c);
                 }
 
                 @Override
                 public void mo6444h() {
-                    BrowserActivity browserActivity = BrowserActivityDelegate.this.f4377a;
-                    a aVar = a.this;
-                    AndroidSystemUtils.m8690X(browserActivity, C1487b.this.f4393a, aVar.f4397l, "", null, null, null);
+                    AndroidSystemUtils.share(browserActivity, f4393a, f4397l, null, null, null);
                 }
             }
 
@@ -179,22 +177,22 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
                 BrowserActivity browserActivity;
                 int i;
                 String strM6871P = SharedPreferencesHelper.getInstance().getString("bind_default_downloader", "");
-                if (!TextUtils.isEmpty((strM6871P.equals("com.x.browser.downloader") || strM6871P.equals("com.android.providers.downloads") || C2406u0.m9882f().m9893l(strM6871P)) ? strM6871P : "")) {
-                    BrowserActivityDelegate.this.m6399H(this.f4397l, null, null, this.f4398m, this.f4399n, this.f4400o);
+                if (!TextUtils.isEmpty((strM6871P.equals("com.x.browser.downloader") || strM6871P.equals("com.android.providers.downloads") || C2406u0.getInstance().m9893l(strM6871P)) ? strM6871P : "")) {
+                    m6399H(this.f4397l, null, null, this.f4398m, this.f4399n, this.f4400o);
                     return;
                 }
                 C1487b c1487b = C1487b.this;
                 if (!c1487b.f4394b) {
-                    BrowserActivityDelegate.this.m6400I(this.f4397l, null, null, this.f4398m, this.f4399n, this.f4400o, c1487b.f4395c);
+                    m6400I(this.f4397l, null, null, this.f4398m, this.f4399n, this.f4400o, c1487b.f4395c);
                     return;
                 }
-                DialogC2707a dialogC2707a = new DialogC2707a(BrowserActivityDelegate.this.f4377a);
-                String string = BrowserActivityDelegate.this.f4377a.getString(R.string.dlg_download_title);
-                if (AndroidSystemUtils.isWifiConnected(BrowserActivityDelegate.this.f4377a)) {
-                    browserActivity = BrowserActivityDelegate.this.f4377a;
+                DialogC2707a dialogC2707a = new DialogC2707a(BrowserActivityDelegate.this.browserActivity);
+                String string = BrowserActivityDelegate.this.browserActivity.getString(R.string.dlg_download_title);
+                if (AndroidSystemUtils.isWifiConnected(BrowserActivityDelegate.this.browserActivity)) {
+                    browserActivity = BrowserActivityDelegate.this.browserActivity;
                     i = R.string.dlg_download_text;
                 } else {
-                    browserActivity = BrowserActivityDelegate.this.f4377a;
+                    browserActivity = BrowserActivityDelegate.this.browserActivity;
                     i = R.string.dlg_download_text_no_wifi;
                 }
                 dialogC2707a.m7812i(string, browserActivity.getString(i), this.f4398m, AndroidSystemUtils.formatFileSize(this.f4400o));
@@ -216,11 +214,11 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
             if (!TextUtils.isEmpty(this.f4393a)) {
                 str3 = "filename=\"" + this.f4393a + "\"";
             }
-            BrowserActivityDelegate.this.f4377a.runOnUiThread(new a(str, NetworkUtils.generateFileName(str, str3, str2), str2, j));
+            browserActivity.runOnUiThread(new a(str, NetworkUtils.generateFileName(str, str3, str2), str2, j));
         }
     }
 
-    public class DialogC1488c extends AbstractDialogC1814h9 {
+    public class DialogC1488c extends DownloadConfirmDialog {
 
         public final String f4403n;
 
@@ -251,8 +249,8 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void mo6442f() {
-            ((ClipboardManager) BrowserActivityDelegate.this.f4377a.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("download_link", this.f4407r));
-            Toast.makeText(BrowserActivityDelegate.this.f4377a, R.string.toast_copy_link_to_clipboard, Toast.LENGTH_SHORT).show();
+            ((ClipboardManager) browserActivity.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("download_link", this.f4407r));
+            Toast.makeText(browserActivity, R.string.toast_copy_link_to_clipboard, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -268,13 +266,13 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
             } else {
                 FileUtils.writeBytesToFile(this.f4406q.getBytes(), this.f4404o + "/" + string);
             }
-            BrowserDownloadManager.m6674q().m6689e(str, str, this.f4404o, strM457l);
-            Toast.makeText(BrowserActivityDelegate.this.f4377a, R.string.toast_download_stared, Toast.LENGTH_SHORT).show();
+            BrowserDownloadManager.getInstance().m6689e(str, str, this.f4404o, strM457l);
+            Toast.makeText(browserActivity, R.string.toast_download_stared, Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void mo6444h() {
-            AndroidSystemUtils.m8690X(BrowserActivityDelegate.this.f4377a, this.f4408s, this.f4407r, "", null, null, null);
+            AndroidSystemUtils.share(browserActivity, this.f4408s, this.f4407r, null, null, null);
         }
     }
 
@@ -305,7 +303,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
             @Override
             public void run() {
                 C1489d c1489d = C1489d.this;
-                BrowserActivityDelegate.this.m6425e0(this.f4415l, c1489d.f4411b, c1489d.f4412c, this.f4416m, c1489d.f4413d, this.f4417n);
+                m6425e0(this.f4415l, c1489d.f4411b, c1489d.f4412c, this.f4416m, c1489d.f4413d, this.f4417n);
             }
         }
 
@@ -325,7 +323,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
             if (str3 == null) {
                 str3 = this.f4410a;
             }
-            BrowserActivityDelegate.this.f4377a.runOnUiThread(new a(str, NetworkUtils.generateFileName(str, str3, str2), j));
+            browserActivity.runOnUiThread(new a(str, NetworkUtils.generateFileName(str, str3, str2), j));
         }
     }
 
@@ -343,7 +341,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
         @Override
         public void run() {
             if (SiteSettingsManager.getInstance().m6946O(Uri.parse(this.f4419l).getHost())) {
-                BrowserActivityDelegate.this.f4377a.m6191B1(this.f4420m.mo1574c(), this.f4419l);
+                browserActivity.m6191B1(this.f4420m.mo1574c(), this.f4419l);
             }
         }
     }
@@ -354,16 +352,16 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void run() {
-            int progress = BrowserActivityDelegate.this.f4378b.getProgress();
-            if (BrowserActivityDelegate.this.f4378b.getVisibility() == 4) {
-                BrowserActivityDelegate.this.f4378b.setVisibility(View.VISIBLE);
+            int progress = f4378b.getProgress();
+            if (f4378b.getVisibility() == 4) {
+                f4378b.setVisibility(View.VISIBLE);
             }
             BrowserActivityDelegate browserActivityDelegate = BrowserActivityDelegate.this;
             if (!browserActivityDelegate.f4379c || progress >= 85) {
                 return;
             }
             browserActivityDelegate.f4378b.setProgress(progress + 15);
-            BrowserActivityDelegate.this.f4377a.getHandler().postDelayed(this, 20L);
+            browserActivity.getHandler().postDelayed(this, 20L);
         }
     }
 
@@ -377,7 +375,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void onShown() throws URISyntaxException {
-            BrowserActivityDelegate.this.f4377a.m6190B0(this.f4423a);
+            browserActivity.m6190B0(this.f4423a);
         }
 
         @Override
@@ -395,7 +393,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void run() {
-            BrowserActivityDelegate.this.f4377a.m6324h3();
+            browserActivity.m6324h3();
         }
     }
 
@@ -405,36 +403,36 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void run() throws URISyntaxException {
-            if (BrowserActivityDelegate.this.f4377a == null) {
+            if (browserActivity == null) {
                 return;
             }
-            boolean zIsDestroyed = BrowserActivityDelegate.this.f4377a.isDestroyed();
-            if (BrowserActivityDelegate.this.f4377a.isFinishing() || zIsDestroyed) {
+            boolean zIsDestroyed = browserActivity.isDestroyed();
+            if (browserActivity.isFinishing() || zIsDestroyed) {
                 return;
             }
-            if (BrowserActivityDelegate.this.f4377a.m6222J0().m9280D() == 0) {
-                BrowserActivityDelegate.this.f4377a.m6307d2(SharedPreferencesHelper.getInstance().m6857H());
+            if (browserActivity.getTabManager().getTabCount() == 0) {
+                browserActivity.m6307d2(SharedPreferencesHelper.getInstance().m6857H());
             }
-            BrowserActivityDelegate.this.mo6428g0();
+            mo6428g0();
         }
     }
 
-    public class DialogC1495j extends AbstractDialogC1303b6 {
+    public class DialogC1495j extends ConfirmDialog {
         public DialogC1495j(Context context) {
             super(context);
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() {
+        public void onOK() {
             CheckBox checkBox = (CheckBox) findViewById(R.id.another_condition);
             if (checkBox != null && checkBox.isChecked()) {
                 SharedPreferencesHelper.getInstance().putBoolean("confirm-when-close-tabs", false);
             }
-            BrowserActivityDelegate.this.m6437v();
+            m6437v();
         }
     }
 
@@ -444,7 +442,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void run() {
-            Toast.makeText(BrowserActivityDelegate.this.f4377a, R.string.toast_download_stared, Toast.LENGTH_SHORT).show();
+            Toast.makeText(browserActivity, R.string.toast_download_stared, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -454,12 +452,12 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
         @Override
         public void run() {
-            Toast.makeText(BrowserActivityDelegate.this.f4377a, "Not invalid url", Toast.LENGTH_SHORT).show();
+            Toast.makeText(browserActivity, "Not invalid url", Toast.LENGTH_SHORT).show();
         }
     }
 
     public BrowserActivityDelegate(BrowserActivity browserActivity) {
-        this.f4377a = browserActivity;
+        this.browserActivity = browserActivity;
     }
 
     public AbstractScrollableListController mo6393A() {
@@ -471,18 +469,18 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
     }
 
     public void m6395D() {
-        if (m6397F(this.f4377a.m6234M0(), SharedPreferencesHelper.getInstance().m6857H())) {
+        if (m6397F(this.browserActivity.m6234M0(), SharedPreferencesHelper.getInstance().m6857H())) {
             return;
         }
-        int iM9280D = this.f4377a.m6222J0().m9280D();
+        int iM9280D = this.browserActivity.getTabManager().getTabCount();
         for (int i = 0; i < iM9280D; i++) {
-            InterfaceC0345Hd interfaceC0345HdM9333l = this.f4377a.m6222J0().m9282F(i).m9333l();
-            if (interfaceC0345HdM9333l != null && (interfaceC0345HdM9333l instanceof WebViewBrowserController) && m6397F(interfaceC0345HdM9333l.mo1573b(), SharedPreferencesHelper.getInstance().m6857H())) {
-                this.f4377a.m6222J0().m9298V(i);
+            InterfaceC0345Hd interfaceC0345HdM9333l = this.browserActivity.getTabManager().getTab(i).m9333l();
+            if (interfaceC0345HdM9333l != null && (interfaceC0345HdM9333l instanceof WebViewBrowserController) && m6397F(interfaceC0345HdM9333l.getUrlFromTitle(), SharedPreferencesHelper.getInstance().m6857H())) {
+                this.browserActivity.getTabManager().m9298V(i);
                 return;
             }
         }
-        this.f4377a.m6307d2(SharedPreferencesHelper.getInstance().m6857H());
+        this.browserActivity.m6307d2(SharedPreferencesHelper.getInstance().m6857H());
     }
 
     public void m6396E() {
@@ -493,15 +491,15 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
         if (str.equals(str2)) {
             return true;
         }
-        String strM2046a = ResourceCacheManager.getInstance().m2046a(str, 2);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(str, 2);
         return strM2046a != null && strM2046a.equals(str2);
     }
 
     public final boolean m6398G(String str) {
-        if (!str.startsWith("http") || TextUtils.isEmpty(SharedPreferencesHelper.getInstance().configSearchUrl)) {
+        if (!str.startsWith("http") || TextUtils.isEmpty(SharedPreferencesHelper.getInstance().googleEnhancedSearchUrl)) {
             return false;
         }
-        return SharedPreferencesHelper.getInstance().configSearchUrl.indexOf(Uri.parse(str).getHost()) >= 0;
+        return SharedPreferencesHelper.getInstance().googleEnhancedSearchUrl.indexOf(Uri.parse(str).getHost()) >= 0;
     }
 
     public void m6399H(String str, String str2, String str3, String str4, String str5, long j) {
@@ -512,15 +510,15 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
         String strM6871P = SharedPreferencesHelper.getInstance().getString("default_downloader", "com.x.browser.downloader");
         if (!strM6871P.equals("com.android.providers.downloads")) {
             if (strM6871P.equals("com.x.browser.downloader")) {
-                BrowserDownloadManager.m6674q().m6685K(str, str2, str3, str4, str5, j, str6);
+                BrowserDownloadManager.getInstance().m6685K(str, str2, str3, str4, str5, j, str6);
                 return;
             } else {
-                C2406u0.m9882f().m9884b(strM6871P, str, str3, str2, CookieManager.getInstance().getCookie(str));
+                C2406u0.getInstance().m9884b(strM6871P, str, str3, str2, CookieManager.getInstance().getCookie(str));
                 return;
             }
         }
-        this.f4377a.runOnUiThread(new RunnableC1496k());
-        DownloadManager downloadManager = (DownloadManager) this.f4377a.getSystemService("download");
+        this.browserActivity.runOnUiThread(new RunnableC1496k());
+        DownloadManager downloadManager = (DownloadManager) this.browserActivity.getSystemService("download");
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(str));
         if (str2 != null) {
             request.addRequestHeader("Referer", str2);
@@ -544,7 +542,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
     public void m6403L(String str) {
         if (str.equals("file:///android_asset/start-page/index.html")) {
-            this.f4381e.m1438u(this.f4377a.getDrawable(R.drawable.ic_fav_default));
+            this.f4381e.m1438u(this.browserActivity.getDrawable(R.drawable.ic_fav_default));
             return;
         }
         this.f4378b.setVisibility(View.VISIBLE);
@@ -565,12 +563,12 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
     }
 
     public void m6405N(String str, String str2, boolean z, String str3) {
-        BrowserDownloadManager.m6674q().m6691g(str, null, new C1487b(str2, z, str3));
+        BrowserDownloadManager.getInstance().m6691g(str, null, new C1487b(str2, z, str3));
     }
 
     public void m6406O(int i) {
-        this.f4377a.setContentView(i);
-        this.f4378b = (ProgressBar) this.f4377a.findViewById(R.id.progress_bar);
+        this.browserActivity.setContentView(i);
+        this.f4378b = (ProgressBar) this.browserActivity.findViewById(R.id.progress_bar);
     }
 
     public void mo6407P() {
@@ -615,8 +613,8 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
     @Override
     public void mo6419b(InterfaceC1300b3 interfaceC1300b3) {
-        this.f4377a.m6222J0().m9312u(interfaceC1300b3, true);
-        C1089Xm.getInstance().m4822j("syncable_user_tabs").incrementVersion();
+        this.browserActivity.getTabManager().m9312u(interfaceC1300b3, true);
+        SyncManager.getInstance().getResourceManager("syncable_user_tabs").incrementVersion();
         mo6428g0();
     }
 
@@ -632,7 +630,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
         int iMo5626h;
         this.f4380d = false;
         if (str.indexOf("greasyfork.org") > 0 && str.endsWith(".js") && str.indexOf("http", 4) < 0) {
-            C2061mf.m8471f0().m8565z0(str);
+            JSManager.getInstance().m8565z0(str);
             return true;
         }
         if (str.startsWith("http") || str.startsWith("x:") || str.startsWith("file:///")) {
@@ -646,22 +644,22 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
                         webViewM6770F0.getHitTestResult();
                         if (z) {
                             if (SharedPreferencesHelper.getInstance().forceOpenInBackground) {
-                                BrowserActivity browserActivity2 = this.f4377a;
+                                BrowserActivity browserActivity2 = this.browserActivity;
                                 browserActivity2.openUrl(str, false, browserActivity2.m6230L0());
                             } else if (!SharedPreferencesHelper.getInstance().forceOpenInNewTab) {
                                 if (interfaceC1300b3.mo5626h() == 0) {
-                                    browserActivity = this.f4377a;
+                                    browserActivity = this.browserActivity;
                                     iMo5626h = browserActivity.m6230L0();
                                 } else {
-                                    browserActivity = this.f4377a;
+                                    browserActivity = this.browserActivity;
                                     iMo5626h = interfaceC1300b3.mo5626h();
                                 }
                                 browserActivity.m6311e2(str, interfaceC1300b3, iMo5626h, true);
                             } else if (interfaceC1300b3.mo5626h() == 0) {
-                                BrowserActivity browserActivity3 = this.f4377a;
+                                BrowserActivity browserActivity3 = this.browserActivity;
                                 browserActivity3.openUrl(str, true, browserActivity3.m6230L0());
                             } else {
-                                this.f4377a.openUrl(str, true, interfaceC1300b3.mo5626h());
+                                this.browserActivity.openUrl(str, true, interfaceC1300b3.mo5626h());
                             }
                             return true;
                         }
@@ -677,7 +675,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
                 }
                 return true;
             }
-            this.f4377a.m6194C0(str);
+            this.browserActivity.m6194C0(str);
         }
         return true;
     }
@@ -703,24 +701,24 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
             String str8 = strArrM447b[1];
             String str9 = strArrM447b[2];
             String strM468w = NetworkUtils.generateFileName(str, str6, str7);
-            new DialogC1488c(this.f4377a, false, str7, PhoneUtils.getInstance().getDownloadsDirPath(), str8, str9, str, strM468w).m7812i(this.f4377a.getString(R.string.dlg_download_title), this.f4377a.getString(R.string.dlg_download_text), strM468w, AndroidSystemUtils.formatFileSize(j));
+            new DialogC1488c(this.browserActivity, false, str7, PhoneUtils.getInstance().getDownloadsDirPath(), str8, str9, str, strM468w).m7812i(this.browserActivity.getString(R.string.dlg_download_title), this.browserActivity.getString(R.string.dlg_download_text), strM468w, AndroidSystemUtils.formatFileSize(j));
             return;
         }
         if (str.startsWith("blob:")) {
-            this.f4377a.m6361u0("_XJSAPI_.downloadBlobUrl('" + str + "', '" + str5 + "');");
+            this.browserActivity.updateTitle("_XJSAPI_.downloadBlobUrl('" + str + "', '" + str5 + "');");
             return;
         }
         if (TextUtils.isEmpty(str6) && TextUtils.isEmpty(str5)) {
-            String str10 = "filename=" + ((InterfaceC1300b3) this.f4377a.m6222J0().m9316y()).mo1574c();
-            Toast.makeText(this.f4377a, R.string.toast_getting_download_info, Toast.LENGTH_SHORT).show();
-            BrowserDownloadManager.m6674q().m6691g(str, str2, new C1489d(str10, str2, str3, str5));
+            String str10 = "filename=" + ((InterfaceC1300b3) this.browserActivity.getTabManager().m9316y()).mo1574c();
+            Toast.makeText(this.browserActivity, R.string.toast_getting_download_info, Toast.LENGTH_SHORT).show();
+            BrowserDownloadManager.getInstance().m6691g(str, str2, new C1489d(str10, str2, str3, str5));
         } else {
             String strDecode = URLDecoder.decode(str6, "utf-8");
             String strTrim = NetworkUtils.generateFileName(str, strDecode, str5).trim();
             String strM457l = !TextUtils.isEmpty(strDecode) ? NetworkUtils.getMimeType(strTrim) : str5;
             m6425e0(str, str2, str3, strTrim, TextUtils.isEmpty(strM457l) ? str5 : strM457l, j);
         }
-        mo6432n(this.f4377a.m6210G0(), str);
+        mo6432n(this.browserActivity.getBrowserController(), str);
     }
 
     public void m6425e0(String str, String str2, String str3, String str4, String str5, long j) {
@@ -728,27 +726,27 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
         int i;
         int i2;
         if (!str.startsWith("http")) {
-            this.f4377a.runOnUiThread(new RunnableC1497l());
+            this.browserActivity.runOnUiThread(new RunnableC1497l());
             return;
         }
-        String string = this.f4377a.getString(R.string.dlg_download_title);
+        String string = this.browserActivity.getString(R.string.dlg_download_title);
         if (SharedPreferencesHelper.getInstance().f4936w && (i2 = Build.VERSION.SDK_INT) < 29 && SharedPreferencesHelper.getInstance().f4936w && i2 < 29 && !BrowserActivity.getActivity().m6285Z("android.permission.WRITE_EXTERNAL_STORAGE")) {
             BrowserActivity.getActivity().m6290a0();
             return;
         }
         String strM6871P = SharedPreferencesHelper.getInstance().getString("bind_default_downloader", "");
         String strM6871P2 = SharedPreferencesHelper.getInstance().getString("default_downloader", "com.x.browser.downloader");
-        String str6 = (strM6871P.equals("com.x.browser.downloader") || strM6871P.equals("com.android.providers.downloads") || C2406u0.m9882f().m9893l(strM6871P)) ? strM6871P : "";
+        String str6 = (strM6871P.equals("com.x.browser.downloader") || strM6871P.equals("com.android.providers.downloads") || C2406u0.getInstance().m9893l(strM6871P)) ? strM6871P : "";
         if (str.indexOf("open=true") > 0 || (!TextUtils.isEmpty(str6) && !strM6871P2.equals("com.x.browser.downloader"))) {
             m6399H(str, str2, str3, str4, str5, j);
             return;
         }
-        DialogC1486a dialogC1486a = new DialogC1486a(this.f4377a, str5, str, str2, str3, j, string);
-        if (AndroidSystemUtils.isWifiConnected(this.f4377a)) {
-            browserActivity = this.f4377a;
+        DialogC1486a dialogC1486a = new DialogC1486a(this.browserActivity, str5, str, str2, str3, j, string);
+        if (AndroidSystemUtils.isWifiConnected(this.browserActivity)) {
+            browserActivity = this.browserActivity;
             i = R.string.dlg_download_text;
         } else {
-            browserActivity = this.f4377a;
+            browserActivity = this.browserActivity;
             i = R.string.dlg_download_text_no_wifi;
         }
         dialogC1486a.m7812i(string, browserActivity.getString(i), str4, AndroidSystemUtils.formatFileSize(j));
@@ -757,7 +755,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
     public final void m6426f0() {
         this.f4379c = true;
         this.f4378b.setVisibility(View.VISIBLE);
-        this.f4377a.getHandler().postDelayed(new RunnableC1491f(), 10L);
+        this.browserActivity.getHandler().postDelayed(new RunnableC1491f(), 10L);
     }
 
     @Override
@@ -786,11 +784,10 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
     @Override
     public void mo6429h(InterfaceC1300b3 interfaceC1300b3, String str, Bitmap bitmap) {
         this.f4380d = false;
-        if (!interfaceC1300b3.mo5624a() || str.equals("file:///android_asset/start-page/index.html")) {
-            return;
+        if (interfaceC1300b3.mo5624a() && !str.equals("file:///android_asset/start-page/index.html")) {
+            this.f4378b.setVisibility(View.VISIBLE);
+            this.f4381e.m1429l(1);
         }
-        this.f4378b.setVisibility(View.VISIBLE);
-        this.f4381e.m1429l(1);
     }
 
     public void mo6430h0() {
@@ -798,9 +795,9 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
     @Override
     public void mo6431k() {
-        mo6438x(this.f4377a.m6222J0().m9277A().m9339r());
+        mo6438x(this.browserActivity.getTabManager().getActiveTab().getTabId());
         SiteSettingsManager.getInstance().m6950S();
-        C1089Xm.getInstance().m4822j("syncable_user_tabs").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_user_tabs").incrementVersion();
     }
 
     @Override
@@ -809,7 +806,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
         this.f4380d = true;
         this.f4378b.setVisibility(View.INVISIBLE);
         this.f4379c = false;
-        this.f4377a.m6254R0().m7074k();
+        this.browserActivity.m6254R0().m7074k();
         if (!TextUtils.isEmpty(interfaceC1300b3.mo1574c())) {
             interfaceC1300b3.mo5624a();
         }
@@ -822,22 +819,22 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
         if (str.equals("x:history") || SharedPreferencesHelper.getInstance().enterPrivateMode || interfaceC1300b3.mo5626h() == 8 || str.indexOf("article_list_for_xb_readmode") >= 0 || str.startsWith("x:") || str.startsWith("data:")) {
             return;
         }
-        this.f4377a.getHandler().postDelayed(new RunnableC1490e(str, interfaceC1300b3), 500L);
+        this.browserActivity.getHandler().postDelayed(new RunnableC1490e(str, interfaceC1300b3), 500L);
     }
 
     public void m6434s() {
-        this.f4377a.openUrl(SharedPreferencesHelper.getInstance().m6857H(), true, 0);
+        this.browserActivity.openUrl(SharedPreferencesHelper.getInstance().m6857H(), true, 0);
         m6394C().m1429l(0);
-        C1089Xm.getInstance().m4822j("syncable_user_tabs").incrementVersion();
-        this.f4377a.getHandler().postDelayed(new RunnableC1493h(), 500L);
+        SyncManager.getInstance().getResourceManager("syncable_user_tabs").incrementVersion();
+        this.browserActivity.getHandler().postDelayed(new RunnableC1493h(), 500L);
     }
 
     public final void m6435t(String str, boolean z) throws Resources.NotFoundException, URISyntaxException {
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f4377a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.browserActivity.getTabManager().m9316y();
         if (interfaceC1300b3 == null || !(interfaceC1300b3 instanceof WebViewBrowserController)) {
             return;
         }
-        String strMo1573b = interfaceC1300b3.mo1573b();
+        String strMo1573b = interfaceC1300b3.getUrlFromTitle();
         Log.i("third-app", "refererUrl: " + strMo1573b + " mLastTouchCanResonse:" + ((C0219Ep) ((WebViewBrowserController) interfaceC1300b3).m6770F0()).f556g);
         String host = Uri.parse(strMo1573b).getHost();
         if (!z) {
@@ -855,7 +852,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
                     m6408Q(host, str);
                 }
             }
-            this.f4377a.m6190B0(str);
+            this.browserActivity.m6190B0(str);
             return;
         }
         if (str.indexOf("mimarket://details?id=com.baidu.searchbox") < 0 && str.indexOf("sinanews://") < 0 && str.indexOf("bytedance://dispatch_message/") < 0 && str.indexOf("baiduboxlite://v1/browser/open") < 0 && str.indexOf("baiduboxapp://v1/browser/open") < 0 && str.indexOf("baiduboxlite://utils") < 0 && str.indexOf("baiduboxapp://utils") < 0) {
@@ -872,7 +869,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
                     m6408Q(host, str);
                     return;
                 }
-                this.f4377a.m6190B0(str);
+                this.browserActivity.m6190B0(str);
                 return;
             }
             m6408Q(host, str);
@@ -881,22 +878,22 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
 
     public void m6436u() {
         if (SharedPreferencesHelper.getInstance().getBoolean("confirm-when-close-tabs", true)) {
-            new DialogC1495j(this.f4377a).m5644e(this.f4377a.getString(R.string.dlg_remove_tabs), this.f4377a.getString(R.string.dlg_remove_tabs_confrim), this.f4377a.getString(R.string.check_box_do_not_show));
+            new DialogC1495j(this.browserActivity).show(this.browserActivity.getString(R.string.dlg_remove_tabs), this.browserActivity.getString(R.string.dlg_remove_tabs_confrim), this.browserActivity.getString(R.string.check_box_do_not_show));
         } else {
             m6437v();
         }
     }
 
     public final void m6437v() {
-        BrowserActivity browserActivity = this.f4377a;
+        BrowserActivity browserActivity = this.browserActivity;
         if (browserActivity == null) {
             return;
         }
         boolean zIsDestroyed = browserActivity.isDestroyed();
-        if (this.f4377a.isFinishing() || zIsDestroyed) {
+        if (this.browserActivity.isFinishing() || zIsDestroyed) {
             return;
         }
-        this.f4377a.m6222J0().m9292P(new RunnableC1494i());
+        this.browserActivity.getTabManager().m9292P(new RunnableC1494i());
     }
 
     public void mo6438x(String str) {
@@ -907,7 +904,7 @@ public abstract class BrowserActivityDelegate implements BrowserControllerListen
     }
 
     public Activity m6440z() {
-        return this.f4377a;
+        return this.browserActivity;
     }
 
     public void mo6401J(InterfaceC0345Hd interfaceC0345Hd) {

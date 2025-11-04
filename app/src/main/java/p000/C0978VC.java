@@ -9,13 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import p000.C0365Hx;
-import p000.C0457Jx;
-import p000.C0549Lx;
-import p000.C0595Mx;
-import p000.C0779Qx;
 
-/* loaded from: classes.dex */
 public final class C0978VC extends AbstractC2513wF {
     public C0978VC(C0200EF c0200ef) {
         super(c0200ef);
@@ -47,8 +41,8 @@ public final class C0978VC extends AbstractC2513wF {
             mo349g().m9617F().m10617b("Generating ScionPayload disabled. packageName", str);
             return new byte[0];
         }
-        if (!"_iap".equals(c0635Nr.f1974l) && !"_iapx".equals(c0635Nr.f1974l)) {
-            mo349g().m9617F().m10618c("Generating a payload for this event is not available. package_name, event_name", str, c0635Nr.f1974l);
+        if (!"_iap".equals(c0635Nr.name) && !"_iapx".equals(c0635Nr.name)) {
+            mo349g().m9617F().m10618c("Generating a payload for this event is not available. package_name, event_name", str, c0635Nr.name);
             return null;
         }
         C0549Lx.a aVarM2772L = C0549Lx.m2772L();
@@ -142,25 +136,25 @@ public final class C0978VC extends AbstractC2513wF {
                 this.f6912b.m929b0(c2403tyM2488L0, aVarM3155S0);
             }
             C0043Ax c0043AxM169b = C0043Ax.m169b(c0635Nr);
-            mo352j().m10490N(c0043AxM169b.f98d, mo3246q().m2484J0(str));
+            mo352j().m10490N(c0043AxM169b.params, mo3246q().m2484J0(str));
             mo352j().m10506X(c0043AxM169b, mo347e().m10822x(str));
-            Bundle bundle2 = c0043AxM169b.f98d;
+            Bundle bundle2 = c0043AxM169b.params;
             bundle2.putLong("_c", 1L);
             mo349g().m9617F().m10616a("Marking in-app purchase as real-time");
             bundle2.putLong("_r", 1L);
-            bundle2.putString("_o", c0635Nr.f1976n);
+            bundle2.putString("_o", c0635Nr.origin);
             if (mo352j().m10480E0(aVarM3155S0.m3169Z0(), c2403tyM2488L0.m9868v())) {
                 mo352j().m10491O(bundle2, "_dbg", 1L);
                 mo352j().m10491O(bundle2, "_r", 1L);
             }
-            C0267Fr c0267FrM2486K0 = mo3246q().m2486K0(str, c0635Nr.f1974l);
+            C0267Fr c0267FrM2486K0 = mo3246q().m2486K0(str, c0635Nr.name);
             if (c0267FrM2486K0 == null) {
                 bundle = bundle2;
                 aVar = aVarM3155S0;
                 aVar2 = aVarM2772L;
                 c2403ty = c2403tyM2488L0;
                 bArr = null;
-                c0267FrM1291a = new C0267Fr(str, c0635Nr.f1974l, 0L, 0L, c0635Nr.f1977o, 0L, null, null, null, null);
+                c0267FrM1291a = new C0267Fr(str, c0635Nr.name, 0L, 0L, c0635Nr.f1977o, 0L, null, null, null, null);
                 j = 0;
             } else {
                 bundle = bundle2;
@@ -172,20 +166,20 @@ public final class C0978VC extends AbstractC2513wF {
                 c0267FrM1291a = c0267FrM2486K0.m1291a(c0635Nr.f1977o);
             }
             mo3246q().m2516b0(c0267FrM1291a);
-            C2672zr c2672zr = new C2672zr(this.f8058a, c0635Nr.f1976n, str, c0635Nr.f1974l, c0635Nr.f1977o, j, bundle);
-            C0365Hx.a aVarM1658x = C0365Hx.m1631S().m1647D(c2672zr.f8284d).m1660z(c2672zr.f8282b).m1658x(c2672zr.f8285e);
-            Iterator it2 = c2672zr.f8286f.iterator();
+            Event_ event = new Event_(this.f8058a, c0635Nr.origin, str, c0635Nr.name, c0635Nr.f1977o, j, bundle);
+            C0365Hx.a aVarM1658x = C0365Hx.m1631S().m1647D(event.f8284d).m1660z(event.name).m1658x(event.f8285e);
+            Iterator it2 = event.params.iterator();
             while (it2.hasNext()) {
                 String str2 = (String) it2.next();
                 C0457Jx.a aVarM2210x = C0457Jx.m2185U().m2210x(str2);
-                Object objM787k = c2672zr.f8286f.m787k(str2);
+                Object objM787k = event.params.m787k(str2);
                 if (objM787k != null) {
                     mo3244o().m8921a0(aVarM2210x, objM787k);
                     aVarM1658x.m1644A(aVarM2210x);
                 }
             }
             C0595Mx.a aVar3 = aVar;
-            aVar3.m3124D(aVarM1658x).m3126E(C0641Nx.m3344G().m3347t(C0411Ix.m1747G().m1751t(c0267FrM1291a.f685c).m1752u(c0635Nr.f1974l)));
+            aVar3.m3124D(aVarM1658x).m3126E(C0641Nx.m3344G().m3347t(C0411Ix.m1747G().m1751t(c0267FrM1291a.f685c).m1752u(c0635Nr.name)));
             aVar3.m3207z(mo3245p().m4032y(c2403ty.m9848l(), Collections.emptyList(), aVar3.m3136J(), Long.valueOf(aVarM1658x.m1649F()), Long.valueOf(aVarM1658x.m1649F())));
             if (aVarM1658x.m1653J()) {
                 aVar3.m3206y0(aVarM1658x.m1649F()).m3183h0(aVarM1658x.m1649F());

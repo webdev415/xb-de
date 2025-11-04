@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2175p implements InterfaceC2319s5 {
     public boolean m8998b(Context context, JSONObject jSONObject) {
         boolean zEquals;
@@ -87,6 +86,6 @@ public abstract class AbstractC2175p implements InterfaceC2319s5 {
     }
 
     public void m8999c(Context context, String str) {
-        C1344c1.m5691d().m5698h("Execute Action", "action/" + str);
+        C1344c1.getInstance().m5698h("Execute Action", "action/" + str);
     }
 }

@@ -25,7 +25,6 @@ import p000.DialogInterfaceOnDismissListenerC0189E4;
 import p000.InterfaceC0299Gd;
 import p000.InterfaceC0625Nh;
 
-/* loaded from: classes.dex */
 public class SearchBarActivity extends Activity implements SuggestionInputView.InterfaceC1581f {
 
     public SuggestionInputView f4538a;
@@ -310,7 +309,7 @@ public class SearchBarActivity extends Activity implements SuggestionInputView.I
         }
         Handler handler = new Handler();
         if (BrowserActivity.getActivity() != null) {
-            BrowserActivity.getActivity().m6339m2(handler);
+            BrowserActivity.getActivity().handleClipboardUrl(handler);
         }
     }
 

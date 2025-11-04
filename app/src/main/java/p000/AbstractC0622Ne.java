@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0622Ne {
 
     public class a extends AbstractC2209po {

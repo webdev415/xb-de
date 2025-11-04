@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2105nd {
     public static int m8744a(CharSequence charSequence, int i) {
         int length = charSequence.length();

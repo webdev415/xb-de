@@ -4,7 +4,6 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2167os implements IInterface {
 
     public final IBinder f6590c;

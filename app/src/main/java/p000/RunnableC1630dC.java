@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public final class RunnableC1630dC implements Runnable {
 
     public final Bundle f5276l;

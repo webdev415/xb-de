@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2625yq {
 
     public static final Object f8144a = new Object();

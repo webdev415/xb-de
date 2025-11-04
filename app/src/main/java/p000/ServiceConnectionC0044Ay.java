@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-/* loaded from: classes.dex */
 public final class ServiceConnectionC0044Ay implements ServiceConnection {
 
     public final String f99a;

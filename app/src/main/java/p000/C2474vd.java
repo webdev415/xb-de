@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public final class C2474vd implements InterfaceC2333sa {
 
     public volatile C2566xd f7668a;
@@ -16,7 +15,7 @@ public final class C2474vd implements InterfaceC2333sa {
 
     public volatile boolean f7670c;
 
-    public final C1741fk f7671d;
+    public final Connection f7671d;
 
     public final C1882ik f7672e;
 
@@ -32,20 +31,20 @@ public final class C2474vd implements InterfaceC2333sa {
         public a() {
         }
 
-        public final List m10351a(C0122Ck c0122Ck) {
-            AbstractC0116Ce.m476e(c0122Ck, "request");
-            C1079Xc c1079XcM494e = c0122Ck.m494e();
-            ArrayList arrayList = new ArrayList<>(c1079XcM494e.size() + 4);
-            arrayList.add(new C1033Wc(C1033Wc.f3054f, c0122Ck.m496g()));
-            arrayList.add(new C1033Wc(C1033Wc.f3055g, C0260Fk.f676a.m1272c(c0122Ck.m498i())));
-            String strM493d = c0122Ck.m493d("Host");
+        public final List m10351a(Request request) {
+            AbstractC0116Ce.m476e(request, "request");
+            Headers headersM494E = request.m494e();
+            ArrayList arrayList = new ArrayList<>(headersM494E.size() + 4);
+            arrayList.add(new C1033Wc(C1033Wc.f3054f, request.m496g()));
+            arrayList.add(new C1033Wc(C1033Wc.f3055g, C0260Fk.f676a.m1272c(request.getUrl())));
+            String strM493d = request.m493d("Host");
             if (strM493d != null) {
                 arrayList.add(new C1033Wc(C1033Wc.f3057i, strM493d));
             }
-            arrayList.add(new C1033Wc(C1033Wc.f3056h, c0122Ck.m498i().m257p()));
-            int size = c1079XcM494e.size();
+            arrayList.add(new C1033Wc(C1033Wc.f3056h, request.getUrl().m257p()));
+            int size = headersM494E.size();
             for (int i = 0; i < size; i++) {
-                String strM4738f = c1079XcM494e.m4738f(i);
+                String strM4738f = headersM494E.m4738f(i);
                 Locale locale = Locale.US;
                 AbstractC0116Ce.m475d(locale, "Locale.US");
                 if (strM4738f == null) {
@@ -53,22 +52,22 @@ public final class C2474vd implements InterfaceC2333sa {
                 }
                 String lowerCase = strM4738f.toLowerCase(locale);
                 AbstractC0116Ce.m475d(lowerCase, "(this as java.lang.String).toLowerCase(locale)");
-                if (!C2474vd.f7665g.contains(lowerCase) || (AbstractC0116Ce.m472a(lowerCase, "te") && AbstractC0116Ce.m472a(c1079XcM494e.m4740h(i), "trailers"))) {
-                    arrayList.add(new C1033Wc(lowerCase, c1079XcM494e.m4740h(i)));
+                if (!C2474vd.f7665g.contains(lowerCase) || (AbstractC0116Ce.m472a(lowerCase, "te") && AbstractC0116Ce.m472a(headersM494E.m4740h(i), "trailers"))) {
+                    arrayList.add(new C1033Wc(lowerCase, headersM494E.m4740h(i)));
                 }
             }
             return arrayList;
         }
 
-        public final C0490Kk.a m10352b(C1079Xc c1079Xc, EnumC2342sj enumC2342sj) throws ProtocolException, NumberFormatException {
-            AbstractC0116Ce.m476e(c1079Xc, "headerBlock");
+        public final Response.a m10352b(Headers headers, EnumC2342sj enumC2342sj) throws ProtocolException, NumberFormatException {
+            AbstractC0116Ce.m476e(headers, "headerBlock");
             AbstractC0116Ce.m476e(enumC2342sj, "protocol");
-            C1079Xc.a aVar = new C1079Xc.a();
-            int size = c1079Xc.size();
+            Headers.a aVar = new Headers.a();
+            int size = headers.size();
             C2529wm c2529wmM10597a = null;
             for (int i = 0; i < size; i++) {
-                String strM4738f = c1079Xc.m4738f(i);
-                String strM4740h = c1079Xc.m4740h(i);
+                String strM4738f = headers.m4738f(i);
+                String strM4740h = headers.m4740h(i);
                 if (AbstractC0116Ce.m472a(strM4738f, ":status")) {
                     c2529wmM10597a = C2529wm.f7894d.m10597a("HTTP/1.1 " + strM4740h);
                 } else if (!C2474vd.f7666h.contains(strM4738f)) {
@@ -76,7 +75,7 @@ public final class C2474vd implements InterfaceC2333sa {
                 }
             }
             if (c2529wmM10597a != null) {
-                return new C0490Kk.a().m2417p(enumC2342sj).m2408g(c2529wmM10597a.f7896b).m2414m(c2529wmM10597a.f7897c).m2412k(aVar.m4745d());
+                return new Response.a().m2417p(enumC2342sj).m2408g(c2529wmM10597a.f7896b).m2414m(c2529wmM10597a.f7897c).m2412k(aVar.m4745d());
             }
             throw new ProtocolException("Expected ':status' header not present");
         }
@@ -86,12 +85,12 @@ public final class C2474vd implements InterfaceC2333sa {
         }
     }
 
-    public C2474vd(OkHttpClient okHttpClient, C1741fk c1741fk, C1882ik c1882ik, C2428ud c2428ud) {
+    public C2474vd(OkHttpClient okHttpClient, Connection connection, C1882ik c1882ik, C2428ud c2428ud) {
         AbstractC0116Ce.m476e(okHttpClient, "client");
-        AbstractC0116Ce.m476e(c1741fk, "connection");
+        AbstractC0116Ce.m476e(connection, "connection");
         AbstractC0116Ce.m476e(c1882ik, "chain");
         AbstractC0116Ce.m476e(c2428ud, "http2Connection");
-        this.f7671d = c1741fk;
+        this.f7671d = connection;
         this.f7672e = c1882ik;
         this.f7673f = c2428ud;
         List listM1977A = okHttpClient.m1977A();
@@ -100,12 +99,12 @@ public final class C2474vd implements InterfaceC2333sa {
     }
 
     @Override
-    public void mo9530a(C0122Ck c0122Ck) throws IOException {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+    public void mo9530a(Request request) throws IOException {
+        AbstractC0116Ce.m476e(request, "request");
         if (this.f7668a != null) {
             return;
         }
-        this.f7668a = this.f7673f.m10046i0(f7667i.m10351a(c0122Ck), c0122Ck.m490a() != null);
+        this.f7668a = this.f7673f.m10046i0(f7667i.m10351a(request), request.m490a() != null);
         if (this.f7670c) {
             C2566xd c2566xd = this.f7668a;
             AbstractC0116Ce.m473b(c2566xd);
@@ -124,8 +123,8 @@ public final class C2474vd implements InterfaceC2333sa {
     }
 
     @Override
-    public InterfaceC2161om mo9531b(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "response");
+    public InterfaceC2161om mo9531b(Response response) {
+        AbstractC0116Ce.m476e(response, "response");
         C2566xd c2566xd = this.f7668a;
         AbstractC0116Ce.m473b(c2566xd);
         return c2566xd.m10695p();
@@ -153,10 +152,10 @@ public final class C2474vd implements InterfaceC2333sa {
     }
 
     @Override
-    public C0490Kk.a mo9534e(boolean z) throws ProtocolException, NumberFormatException {
+    public Response.a mo9534e(boolean z) throws ProtocolException, NumberFormatException {
         C2566xd c2566xd = this.f7668a;
         AbstractC0116Ce.m473b(c2566xd);
-        C0490Kk.a aVarM10352b = f7667i.m10352b(c2566xd.m10677C(), this.f7669b);
+        Response.a aVarM10352b = f7667i.m10352b(c2566xd.m10677C(), this.f7669b);
         if (z && aVarM10352b.m2409h() == 100) {
             return null;
         }
@@ -164,24 +163,24 @@ public final class C2474vd implements InterfaceC2333sa {
     }
 
     @Override
-    public InterfaceC1134Yl mo9535f(C0122Ck c0122Ck, long j) {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+    public InterfaceC1134Yl mo9535f(Request request, long j) {
+        AbstractC0116Ce.m476e(request, "request");
         C2566xd c2566xd = this.f7668a;
         AbstractC0116Ce.m473b(c2566xd);
         return c2566xd.m10693n();
     }
 
     @Override
-    public long mo9536g(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "response");
-        if (AbstractC2658zd.m11020b(c0490Kk)) {
-            return AbstractC2623yo.m10944s(c0490Kk);
+    public long mo9536g(Response response) {
+        AbstractC0116Ce.m476e(response, "response");
+        if (AbstractC2658zd.m11020b(response)) {
+            return AbstractC2623yo.m10944s(response);
         }
         return 0L;
     }
 
     @Override
-    public C1741fk mo9537h() {
+    public Connection mo9537h() {
         return this.f7671d;
     }
 }

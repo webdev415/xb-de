@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1225aj {
     public static Object m5300a(Object obj) {
         obj.getClass();

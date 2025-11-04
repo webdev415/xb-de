@@ -9,7 +9,6 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
-/* loaded from: classes.dex */
 public class C1227al extends Drawable {
 
     public final Paint f3551a;

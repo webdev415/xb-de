@@ -3,7 +3,6 @@ package p000;
 import java.util.Collection;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2543x implements Collection {
 
     public static final class a extends AbstractC0025Af implements InterfaceC0986Vb {

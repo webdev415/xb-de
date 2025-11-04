@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2513wF extends AbstractC2283rF {
 
     public boolean f7815c;

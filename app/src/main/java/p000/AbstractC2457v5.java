@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Arrays;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2457v5 {
     public static Object m10314a(int i) {
         if (i >= 2 && i <= 1073741824 && Integer.highestOneBit(i) == i) {

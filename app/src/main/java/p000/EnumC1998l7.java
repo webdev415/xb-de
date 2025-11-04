@@ -2,7 +2,6 @@ package p000;
 
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
 /* JADX WARN: Unknown enum class pattern. Please report as an issue! */
-/* loaded from: classes.dex */
 public abstract class EnumC1998l7 {
 
     public static final EnumC1998l7 f6053l;

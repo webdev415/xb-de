@@ -23,9 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
-import p000.C0425JA;
 
-/* loaded from: classes.dex */
 public final class C1207aB extends AbstractC0501Kv {
 
     public C2602yC f3502c;
@@ -359,14 +357,14 @@ public final class C1207aB extends AbstractC0501Kv {
                     mo349g().m9618G().m10617b("Timed out waiting for handle get user properties, includeInternal", Boolean.valueOf(z));
                     return Collections.emptyMap();
                 }
-                C2453v1 c2453v1 = new C2453v1(list.size());
+                ScriptMap scriptMap = new ScriptMap(list.size());
                 for (C2053mG c2053mG : list) {
                     Object objM8448d = c2053mG.m8448d();
                     if (objM8448d != null) {
-                        c2453v1.put(c2053mG.f6158m, objM8448d);
+                        scriptMap.put(c2053mG.f6158m, objM8448d);
                     }
                 }
-                return c2453v1;
+                return scriptMap;
             }
             c2540wxM9618G = mo349g().m9618G();
             str3 = "Cannot get user properties from main thread";

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0023Ad {
 
     public static final C0023Ad f66a = new C0023Ad();

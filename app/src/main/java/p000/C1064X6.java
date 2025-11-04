@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1064X6 {
 
     public int f3186a = 0;

@@ -1,9 +1,7 @@
 package p000;
 
 import java.io.Serializable;
-import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public final class C2227q5 implements InterfaceC0191E6, Serializable {
 
     public final InterfaceC0191E6 f6680l;
@@ -43,7 +41,7 @@ public final class C2227q5 implements InterfaceC0191E6, Serializable {
             return this.f6680l;
         }
         InterfaceC0191E6 interfaceC0191E6Mo852B = this.f6680l.mo852B(cVar);
-        return interfaceC0191E6Mo852B == this.f6680l ? this : interfaceC0191E6Mo852B == C0608N9.f1911l ? this.f6681m : new C2227q5(interfaceC0191E6Mo852B, this.f6681m);
+        return interfaceC0191E6Mo852B == this.f6680l ? this : interfaceC0191E6Mo852B == EmptyCoroutineContext.f1911l ? this.f6681m : new C2227q5(interfaceC0191E6Mo852B, this.f6681m);
     }
 
     @Override

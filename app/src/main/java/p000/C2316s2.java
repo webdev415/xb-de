@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2316s2 implements InterfaceC0929U9 {
     public static char m9470c(char c, int i) {
         int i2 = c + ((i * 149) % 255) + 1;

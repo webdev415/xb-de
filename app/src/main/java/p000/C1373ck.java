@@ -2,7 +2,6 @@ package p000;
 
 import java.nio.ByteBuffer;
 
-/* loaded from: classes.dex */
 public final class C1373ck implements InterfaceC2501w3 {
 
     public final C2409u3 f3986l;

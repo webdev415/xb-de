@@ -15,12 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSocketFactory;
 
-/* loaded from: classes.dex */
 public final class C1694ek implements InterfaceC0418J3 {
 
     public final OkHttpClient f5431A;
 
-    public final C0122Ck f5432B;
+    public final Request f5432B;
 
     public final boolean f5433C;
 
@@ -36,7 +35,7 @@ public final class C1694ek implements InterfaceC0418J3 {
 
     public C2379ta f5439q;
 
-    public C1741fk f5440r;
+    public Connection f5440r;
 
     public boolean f5441s;
 
@@ -52,7 +51,7 @@ public final class C1694ek implements InterfaceC0418J3 {
 
     public volatile C2287ra f5447y;
 
-    public volatile C1741fk f5448z;
+    public volatile Connection f5448z;
 
     public final class a implements Runnable {
 
@@ -89,7 +88,7 @@ public final class C1694ek implements InterfaceC0418J3 {
                     InterruptedIOException interruptedIOException = new InterruptedIOException("executor rejected");
                     interruptedIOException.initCause(e);
                     this.f5451n.m7452y(interruptedIOException);
-                    this.f5450m.mo1181b(this.f5451n, interruptedIOException);
+                    this.f5450m.onError(this.f5451n, interruptedIOException);
                     this.f5451n.m7442n().m1995o().m4879f(this);
                 }
             } catch (Throwable th) {
@@ -107,7 +106,7 @@ public final class C1694ek implements InterfaceC0418J3 {
         }
 
         public final String m7457d() {
-            return this.f5451n.m7447t().m498i().m249h();
+            return this.f5451n.m7447t().getUrl().m249h();
         }
 
         public final void m7458e(a aVar) {
@@ -139,14 +138,14 @@ public final class C1694ek implements InterfaceC0418J3 {
                         th = th2;
                     }
                     try {
-                        this.f5450m.mo1180a(this.f5451n, this.f5451n.m7448u());
+                        this.f5450m.onSuccess(this.f5451n, this.f5451n.m7448u());
                         c1112y8M1995o = this.f5451n.m7442n().m1995o();
                     } catch (IOException e3) {
                         e = e3;
                         if (z) {
                             C0764Qi.f2268c.m3690g().m3679j("Callback failure for " + this.f5451n.m7434F(), 4, e);
                         } else {
-                            this.f5450m.mo1181b(this.f5451n, e);
+                            this.f5450m.onError(this.f5451n, e);
                         }
                         c1112y8M1995o = this.f5451n.m7442n().m1995o();
                         c1112y8M1995o.m4879f(this);
@@ -156,7 +155,7 @@ public final class C1694ek implements InterfaceC0418J3 {
                         if (!z) {
                             IOException iOException = new IOException("canceled due to " + th);
                             AbstractC2241qa.m9151a(iOException, th);
-                            this.f5450m.mo1181b(this.f5451n, iOException);
+                            this.f5450m.onError(this.f5451n, iOException);
                         }
                         throw th;
                     }
@@ -197,11 +196,11 @@ public final class C1694ek implements InterfaceC0418J3 {
         }
     }
 
-    public C1694ek(OkHttpClient okHttpClient, C0122Ck c0122Ck, boolean z) {
+    public C1694ek(OkHttpClient okHttpClient, Request request, boolean z) {
         AbstractC0116Ce.m476e(okHttpClient, "client");
-        AbstractC0116Ce.m476e(c0122Ck, "originalRequest");
+        AbstractC0116Ce.m476e(request, "originalRequest");
         this.f5431A = okHttpClient;
-        this.f5432B = c0122Ck;
+        this.f5432B = request;
         this.f5433C = z;
         this.f5434l = okHttpClient.m1992j().m7389a();
         this.f5435m = okHttpClient.m1997r().mo8158a(this);
@@ -214,19 +213,19 @@ public final class C1694ek implements InterfaceC0418J3 {
     }
 
     public final Socket m7429A() {
-        C1741fk c1741fk = this.f5440r;
-        AbstractC0116Ce.m473b(c1741fk);
-        if (AbstractC2623yo.f8134h && !Thread.holdsLock(c1741fk)) {
+        Connection connection = this.f5440r;
+        AbstractC0116Ce.m473b(connection);
+        if (AbstractC2623yo.f8134h && !Thread.holdsLock(connection)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Thread ");
             Thread threadCurrentThread = Thread.currentThread();
             AbstractC0116Ce.m475d(threadCurrentThread, "Thread.currentThread()");
             sb.append(threadCurrentThread.getName());
             sb.append(" MUST hold lock on ");
-            sb.append(c1741fk);
+            sb.append(connection);
             throw new AssertionError(sb.toString());
         }
-        List listM7625n = c1741fk.m7625n();
+        List listM7625n = connection.m7625n();
         Iterator it = listM7625n.iterator();
         int i = 0;
         while (true) {
@@ -245,9 +244,9 @@ public final class C1694ek implements InterfaceC0418J3 {
         listM7625n.remove(i);
         this.f5440r = null;
         if (listM7625n.isEmpty()) {
-            c1741fk.m7607B(System.nanoTime());
-            if (this.f5434l.m7846c(c1741fk)) {
-                return c1741fk.m7609D();
+            connection.m7607B(System.nanoTime());
+            if (this.f5434l.m7846c(connection)) {
+                return connection.m7609D();
             }
         }
         return null;
@@ -259,8 +258,8 @@ public final class C1694ek implements InterfaceC0418J3 {
         return c2379ta.m9697e();
     }
 
-    public final void m7431C(C1741fk c1741fk) {
-        this.f5448z = c1741fk;
+    public final void m7431C(Connection connection) {
+        this.f5448z = connection;
     }
 
     public final void m7432D() {
@@ -291,14 +290,14 @@ public final class C1694ek implements InterfaceC0418J3 {
         return sb.toString();
     }
 
-    public final void m7435c(C1741fk c1741fk) {
-        AbstractC0116Ce.m476e(c1741fk, "connection");
-        if (!AbstractC2623yo.f8134h || Thread.holdsLock(c1741fk)) {
+    public final void m7435c(Connection connection) {
+        AbstractC0116Ce.m476e(connection, "connection");
+        if (!AbstractC2623yo.f8134h || Thread.holdsLock(connection)) {
             if (!(this.f5440r == null)) {
                 throw new IllegalStateException("Check failed.".toString());
             }
-            this.f5440r = c1741fk;
-            c1741fk.m7625n().add(new b(this, this.f5438p));
+            this.f5440r = connection;
+            connection.m7625n().add(new b(this, this.f5438p));
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -307,7 +306,7 @@ public final class C1694ek implements InterfaceC0418J3 {
         AbstractC0116Ce.m475d(threadCurrentThread, "Thread.currentThread()");
         sb.append(threadCurrentThread.getName());
         sb.append(" MUST hold lock on ");
-        sb.append(c1741fk);
+        sb.append(connection);
         throw new AssertionError(sb.toString());
     }
 
@@ -321,9 +320,9 @@ public final class C1694ek implements InterfaceC0418J3 {
         if (c2287ra != null) {
             c2287ra.m9361b();
         }
-        C1741fk c1741fk = this.f5448z;
-        if (c1741fk != null) {
-            c1741fk.m7615d();
+        Connection connection = this.f5448z;
+        if (connection != null) {
+            connection.m7615d();
         }
         this.f5435m.m8137f(this);
     }
@@ -341,26 +340,26 @@ public final class C1694ek implements InterfaceC0418J3 {
             sb.append(this);
             throw new AssertionError(sb.toString());
         }
-        C1741fk c1741fk = this.f5440r;
-        if (c1741fk != null) {
-            if (z && Thread.holdsLock(c1741fk)) {
+        Connection connection = this.f5440r;
+        if (connection != null) {
+            if (z && Thread.holdsLock(connection)) {
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append("Thread ");
                 Thread threadCurrentThread2 = Thread.currentThread();
                 AbstractC0116Ce.m475d(threadCurrentThread2, "Thread.currentThread()");
                 sb2.append(threadCurrentThread2.getName());
                 sb2.append(" MUST NOT hold lock on ");
-                sb2.append(c1741fk);
+                sb2.append(connection);
                 throw new AssertionError(sb2.toString());
             }
-            synchronized (c1741fk) {
+            synchronized (connection) {
                 socketM7429A = m7429A();
             }
             if (this.f5440r == null) {
                 if (socketM7429A != null) {
                     AbstractC2623yo.m10936k(socketM7429A);
                 }
-                this.f5435m.m8142k(this, c1741fk);
+                this.f5435m.m8142k(this, connection);
             } else {
                 if (!(socketM7429A == null)) {
                     throw new IllegalStateException("Check failed.".toString());
@@ -388,7 +387,7 @@ public final class C1694ek implements InterfaceC0418J3 {
     }
 
     @Override
-    public C0490Kk mo1790g() {
+    public Response execute() {
         if (!this.f5437o.compareAndSet(false, true)) {
             throw new IllegalStateException("Already Executed".toString());
         }
@@ -402,7 +401,7 @@ public final class C1694ek implements InterfaceC0418J3 {
         }
     }
 
-    public final C2498w0 m7439h(C0069Bd c0069Bd) {
+    public final Address m7439h(C0069Bd c0069Bd) {
         SSLSocketFactory sSLSocketFactoryM1984H;
         HostnameVerifier hostnameVerifierM2001v;
         C2087n4 c2087n4M1990f;
@@ -415,7 +414,7 @@ public final class C1694ek implements InterfaceC0418J3 {
             hostnameVerifierM2001v = null;
             c2087n4M1990f = null;
         }
-        return new C2498w0(c0069Bd.m249h(), c0069Bd.m253l(), this.f5431A.m1996q(), this.f5431A.m1983G(), sSLSocketFactoryM1984H, hostnameVerifierM2001v, c2087n4M1990f, this.f5431A.m1979C(), this.f5431A.m1978B(), this.f5431A.m1977A(), this.f5431A.m1993m(), this.f5431A.m1980D());
+        return new Address(c0069Bd.m249h(), c0069Bd.m253l(), this.f5431A.m1996q(), this.f5431A.m1983G(), sSLSocketFactoryM1984H, hostnameVerifierM2001v, c2087n4M1990f, this.f5431A.m1979C(), this.f5431A.m1978B(), this.f5431A.m1977A(), this.f5431A.m1993m(), this.f5431A.m1980D());
     }
 
     @Override
@@ -428,8 +427,8 @@ public final class C1694ek implements InterfaceC0418J3 {
         this.f5431A.m1995o().m4874a(new a(this, interfaceC0556M3));
     }
 
-    public final void m7440j(C0122Ck c0122Ck, boolean z) {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+    public final void m7440j(Request request, boolean z) {
+        AbstractC0116Ce.m476e(request, "request");
         if (!(this.f5442t == null)) {
             throw new IllegalStateException("Check failed.".toString());
         }
@@ -443,7 +442,7 @@ public final class C1694ek implements InterfaceC0418J3 {
             C2116no c2116no = C2116no.f6480a;
         }
         if (z) {
-            this.f5439q = new C2379ta(this.f5434l, m7439h(c0122Ck.m498i()), this, this.f5435m);
+            this.f5439q = new C2379ta(this.f5434l, m7439h(request.getUrl()), this, this.f5435m);
         }
     }
 
@@ -465,7 +464,7 @@ public final class C1694ek implements InterfaceC0418J3 {
         return this.f5431A;
     }
 
-    public final C1741fk m7443o() {
+    public final Connection m7443o() {
         return this.f5440r;
     }
 
@@ -481,7 +480,7 @@ public final class C1694ek implements InterfaceC0418J3 {
         return this.f5442t;
     }
 
-    public final C0122Ck m7447t() {
+    public final Request m7447t() {
         return this.f5432B;
     }
 
@@ -490,7 +489,7 @@ public final class C1694ek implements InterfaceC0418J3 {
         Code decompiled incorrectly, please refer to instructions dump.
         To view partially-correct code enable 'Show inconsistent code' option in preferences
     */
-    public final C0490Kk m7448u() throws Throwable {
+    public final Response m7448u() throws Throwable {
         /*
             r12 = this;
             java.util.ArrayList r2 = new java.util.ArrayList
@@ -655,9 +654,9 @@ public final class C1694ek implements InterfaceC0418J3 {
         }
         if (z3) {
             this.f5447y = null;
-            C1741fk c1741fk = this.f5440r;
-            if (c1741fk != null) {
-                c1741fk.m7630s();
+            Connection connection = this.f5440r;
+            if (connection != null) {
+                connection.m7630s();
             }
         }
         return z4 ? m7436d(iOException) : iOException;
@@ -683,6 +682,6 @@ public final class C1694ek implements InterfaceC0418J3 {
     }
 
     public final String m7453z() {
-        return this.f5432B.m498i().m255n();
+        return this.f5432B.getUrl().m255n();
     }
 }

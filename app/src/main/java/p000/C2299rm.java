@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2299rm extends C0828S0 {
 
     public static final a f6960j = new a(null);

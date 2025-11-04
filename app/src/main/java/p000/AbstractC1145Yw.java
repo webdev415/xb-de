@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1145Yw {
     public static double m4994a(double d) {
         if (Double.isNaN(d)) {

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2601yB extends C0564MB {
 
     public final int f8059p;

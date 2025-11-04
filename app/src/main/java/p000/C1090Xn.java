@@ -3,7 +3,6 @@ package p000;
 import java.util.EnumMap;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C1090Xn {
 
     public static final int[] f3286c = {24, 20, 18, 17, 12, 6, 3, 10, 9, 5};

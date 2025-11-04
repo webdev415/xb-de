@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0832S4 implements InterfaceC2319s5 {
     @Override
     public void mo3474a(Context context, C2273r5 c2273r5) throws JSONException, SQLException {

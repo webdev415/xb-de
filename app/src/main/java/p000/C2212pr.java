@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* loaded from: classes.dex */
 public final class C2212pr implements Parcelable.Creator {
     @Override
     public final /* bridge */ Object createFromParcel(Parcel parcel) {

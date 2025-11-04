@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2516wI implements InterfaceC0813Rm {
 
     public static C2516wI f7827m = new C2516wI();

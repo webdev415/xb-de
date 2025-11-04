@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0728Ps extends AbstractC1750ft {
 
     public String f2177a;
@@ -29,7 +28,7 @@ public final class C0728Ps extends AbstractC1750ft {
     @Override
     public final AbstractC1844ht mo3589c() {
         if (this.f2180d == 3 && this.f2177a != null && this.f2179c != null) {
-            return new C0819Rs(this.f2177a, this.f2178b, this.f2179c);
+            return new FileComplianceOptions(this.f2177a, this.f2178b, this.f2179c);
         }
         StringBuilder sb = new StringBuilder();
         if (this.f2177a == null) {

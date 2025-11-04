@@ -5,7 +5,6 @@ import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0176Ds {
 
     public static final ClassLoader f436a = AbstractC0176Ds.class.getClassLoader();

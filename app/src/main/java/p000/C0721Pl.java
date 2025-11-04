@@ -6,7 +6,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0721Pl extends AbstractResourceManager {
 
     public class a implements Runnable {
@@ -130,7 +129,7 @@ public class C0721Pl extends AbstractResourceManager {
             jSONObject.put("back-forward-gesture-trigger-type", SharedPreferencesHelper.getInstance().getInt("back-forward-gesture-trigger-type", 1));
             jSONObject.put("show-confirm-dlg-on-exit", SharedPreferencesHelper.getInstance().getBoolean("show-confirm-dlg-on-exit", false));
             for (int i = 0; i < SharedPreferencesHelper.f4840Y0.length; i++) {
-                jSONObject.put(SharedPreferencesHelper.f4840Y0[i], SharedPreferencesHelper.getInstance().m6855G(SharedPreferencesHelper.f4840Y0[i]));
+                jSONObject.put(SharedPreferencesHelper.f4840Y0[i], SharedPreferencesHelper.getInstance().getDefaultActionForKey(SharedPreferencesHelper.f4840Y0[i]));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -266,7 +265,7 @@ public class C0721Pl extends AbstractResourceManager {
             while (true) {
                 String[] strArr = SharedPreferencesHelper.f4840Y0;
                 if (i >= strArr.length) {
-                    SharedPreferencesHelper.getInstance().loadPreferences();
+                    SharedPreferencesHelper.getInstance().initSettings();
                     ThemeManager.getInstance().m9477E();
                     try {
                         BrowserActivity.getActivity().runOnUiThread(new a());

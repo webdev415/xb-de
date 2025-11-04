@@ -3,7 +3,6 @@ package p000;
 import android.os.Looper;
 import android.text.TextUtils;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1085Xi {
     public static void m4792a(boolean z) {
         if (!z) {

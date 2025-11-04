@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0905Tm extends AbstractC2504w6 implements InterfaceC2335sc {
 
     public final int f2780o;

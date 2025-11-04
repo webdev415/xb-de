@@ -5,7 +5,6 @@ import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0539Ln {
 
     public static long f1732a;

@@ -14,15 +14,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import p000.AbstractC0703PC;
-import p000.C0595Mx;
-import p000.C0687Ox;
-import p000.C1940jw;
-import p000.C1986kw;
-import p000.C2032lw;
-import p000.C2124nw;
 
-/* loaded from: classes.dex */
 public final class C0496Kq extends AbstractC2513wF {
 
     public static final String[] f1622f = {"last_bundled_timestamp", "ALTER TABLE events ADD COLUMN last_bundled_timestamp INTEGER;", "last_bundled_day", "ALTER TABLE events ADD COLUMN last_bundled_day INTEGER;", "last_sampled_complex_event_id", "ALTER TABLE events ADD COLUMN last_sampled_complex_event_id INTEGER;", "last_sampling_rate", "ALTER TABLE events ADD COLUMN last_sampling_rate INTEGER;", "last_exempt_from_sampling", "ALTER TABLE events ADD COLUMN last_exempt_from_sampling INTEGER;", "current_session_count", "ALTER TABLE events ADD COLUMN current_session_count INTEGER;"};
@@ -952,7 +944,7 @@ public final class C0496Kq extends AbstractC2513wF {
         mo356n();
         AbstractC1085Xi.m4795d(str);
         AbstractC1085Xi.m4795d(str2);
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         Cursor cursor = null;
         try {
             try {
@@ -966,10 +958,10 @@ public final class C0496Kq extends AbstractC2513wF {
                     try {
                         C1986kw c1986kw = (C1986kw) ((AbstractC0703PC) ((C1986kw.a) C2145oG.m8894P(C1986kw.m8321K(), cursorQuery.getBlob(1))).m3526o());
                         int i = cursorQuery.getInt(0);
-                        List arrayList = (List) c2453v1.get(Integer.valueOf(i));
+                        List arrayList = (List) scriptMap.get(Integer.valueOf(i));
                         if (arrayList == null) {
                             arrayList = new ArrayList<>();
-                            c2453v1.put(Integer.valueOf(i), arrayList);
+                            scriptMap.put(Integer.valueOf(i), arrayList);
                         }
                         arrayList.add(c1986kw);
                     } catch (IOException e) {
@@ -977,7 +969,7 @@ public final class C0496Kq extends AbstractC2513wF {
                     }
                 } while (cursorQuery.moveToNext());
                 cursorQuery.close();
-                return c2453v1;
+                return scriptMap;
             } catch (SQLiteException e2) {
                 mo349g().m9618G().m10618c("Database error querying filters. appId", C2356sx.m9613v(str), e2);
                 Map mapEmptyMap2 = Collections.emptyMap();
@@ -1168,7 +1160,7 @@ public final class C0496Kq extends AbstractC2513wF {
         mo356n();
         AbstractC1085Xi.m4795d(str);
         AbstractC1085Xi.m4795d(str2);
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         Cursor cursor = null;
         try {
             try {
@@ -1182,10 +1174,10 @@ public final class C0496Kq extends AbstractC2513wF {
                     try {
                         C2124nw c2124nw = (C2124nw) ((AbstractC0703PC) ((C2124nw.a) C2145oG.m8894P(C2124nw.m8799I(), cursorQuery.getBlob(1))).m3526o());
                         int i = cursorQuery.getInt(0);
-                        List arrayList = (List) c2453v1.get(Integer.valueOf(i));
+                        List arrayList = (List) scriptMap.get(Integer.valueOf(i));
                         if (arrayList == null) {
                             arrayList = new ArrayList<>();
-                            c2453v1.put(Integer.valueOf(i), arrayList);
+                            scriptMap.put(Integer.valueOf(i), arrayList);
                         }
                         arrayList.add(c2124nw);
                     } catch (IOException e) {
@@ -1193,7 +1185,7 @@ public final class C0496Kq extends AbstractC2513wF {
                     }
                 } while (cursorQuery.moveToNext());
                 cursorQuery.close();
-                return c2453v1;
+                return scriptMap;
             } catch (SQLiteException e2) {
                 mo349g().m9618G().m10618c("Database error querying filters. appId", C2356sx.m9613v(str), e2);
                 Map mapEmptyMap2 = Collections.emptyMap();
@@ -1597,17 +1589,17 @@ public final class C0496Kq extends AbstractC2513wF {
                     cursorQuery.close();
                     return mapEmptyMap;
                 }
-                C2453v1 c2453v1 = new C2453v1();
+                ScriptMap scriptMap = new ScriptMap();
                 do {
                     int i = cursorQuery.getInt(0);
                     try {
-                        c2453v1.put(Integer.valueOf(i), (C0687Ox) ((AbstractC0703PC) ((C0687Ox.a) C2145oG.m8894P(C0687Ox.m3454R(), cursorQuery.getBlob(1))).m3526o()));
+                        scriptMap.put(Integer.valueOf(i), (C0687Ox) ((AbstractC0703PC) ((C0687Ox.a) C2145oG.m8894P(C0687Ox.m3454R(), cursorQuery.getBlob(1))).m3526o()));
                     } catch (IOException e) {
                         mo349g().m9618G().m10619d("Failed to merge filter results. appId, audienceId, error", C2356sx.m9613v(str), Integer.valueOf(i), e);
                     }
                 } while (cursorQuery.moveToNext());
                 cursorQuery.close();
-                return c2453v1;
+                return scriptMap;
             } catch (SQLiteException e2) {
                 mo349g().m9618G().m10618c("Database error querying filter results. appId", C2356sx.m9613v(str), e2);
                 Map mapEmptyMap2 = Collections.emptyMap();
@@ -1638,7 +1630,7 @@ public final class C0496Kq extends AbstractC2513wF {
 
     public final Map m2513Z0(String str) {
         AbstractC1085Xi.m4795d(str);
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         Cursor cursor = null;
         try {
             try {
@@ -1653,10 +1645,10 @@ public final class C0496Kq extends AbstractC2513wF {
                         C1986kw c1986kw = (C1986kw) ((AbstractC0703PC) ((C1986kw.a) C2145oG.m8894P(C1986kw.m8321K(), cursorQuery.getBlob(1))).m3526o());
                         if (c1986kw.m8331S()) {
                             int i = cursorQuery.getInt(0);
-                            List arrayList = (List) c2453v1.get(Integer.valueOf(i));
+                            List arrayList = (List) scriptMap.get(Integer.valueOf(i));
                             if (arrayList == null) {
                                 arrayList = new ArrayList<>();
-                                c2453v1.put(Integer.valueOf(i), arrayList);
+                                scriptMap.put(Integer.valueOf(i), arrayList);
                             }
                             arrayList.add(c1986kw);
                         }
@@ -1665,7 +1657,7 @@ public final class C0496Kq extends AbstractC2513wF {
                     }
                 } while (cursorQuery.moveToNext());
                 cursorQuery.close();
-                return c2453v1;
+                return scriptMap;
             } catch (SQLiteException e2) {
                 mo349g().m9618G().m10618c("Database error querying filters. appId", C2356sx.m9613v(str), e2);
                 Map mapEmptyMap2 = Collections.emptyMap();
@@ -1704,7 +1696,7 @@ public final class C0496Kq extends AbstractC2513wF {
         m10440u();
         mo356n();
         AbstractC1085Xi.m4795d(str);
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         Cursor cursor = null;
         try {
             try {
@@ -1716,15 +1708,15 @@ public final class C0496Kq extends AbstractC2513wF {
                 }
                 do {
                     int i = cursorRawQuery.getInt(0);
-                    List arrayList = (List) c2453v1.get(Integer.valueOf(i));
+                    List arrayList = (List) scriptMap.get(Integer.valueOf(i));
                     if (arrayList == null) {
                         arrayList = new ArrayList<>();
-                        c2453v1.put(Integer.valueOf(i), arrayList);
+                        scriptMap.put(Integer.valueOf(i), arrayList);
                     }
                     arrayList.add(Integer.valueOf(cursorRawQuery.getInt(1)));
                 } while (cursorRawQuery.moveToNext());
                 cursorRawQuery.close();
-                return c2453v1;
+                return scriptMap;
             } catch (SQLiteException e) {
                 mo349g().m9618G().m10618c("Database error querying scoped filters. appId", C2356sx.m9613v(str), e);
                 Map mapEmptyMap2 = Collections.emptyMap();
@@ -1773,16 +1765,16 @@ public final class C0496Kq extends AbstractC2513wF {
         }
     }
 
-    public final boolean m2520d0(long j, C2672zr c2672zr, long j2, boolean z) {
+    public final boolean m2520d0(long j, Event_ event, long j2, boolean z) {
         mo356n();
         m10440u();
-        AbstractC1085Xi.m4801j(c2672zr);
-        AbstractC1085Xi.m4795d(c2672zr.f8281a);
-        byte[] bArrM4464i = mo3244o().m8917N(c2672zr).m4464i();
+        AbstractC1085Xi.m4801j(event);
+        AbstractC1085Xi.m4795d(event.appId);
+        byte[] bArrM4464i = mo3244o().m8917N(event).m4464i();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("app_id", c2672zr.f8281a);
-        contentValues.put("name", c2672zr.f8282b);
-        contentValues.put("timestamp", Long.valueOf(c2672zr.f8284d));
+        contentValues.put("app_id", event.appId);
+        contentValues.put("name", event.name);
+        contentValues.put("timestamp", Long.valueOf(event.f8284d));
         contentValues.put("metadata_fingerprint", Long.valueOf(j2));
         contentValues.put("data", bArrM4464i);
         contentValues.put("realtime", Integer.valueOf(z ? 1 : 0));
@@ -1791,10 +1783,10 @@ public final class C0496Kq extends AbstractC2513wF {
             if (jUpdate == 1) {
                 return true;
             }
-            mo349g().m9618G().m10618c("Failed to update raw event. appId, updatedRows", C2356sx.m9613v(c2672zr.f8281a), Long.valueOf(jUpdate));
+            mo349g().m9618G().m10618c("Failed to update raw event. appId, updatedRows", C2356sx.m9613v(event.appId), Long.valueOf(jUpdate));
             return false;
         } catch (SQLiteException e) {
-            mo349g().m9618G().m10618c("Error updating raw event. appId", C2356sx.m9613v(c2672zr.f8281a), e);
+            mo349g().m9618G().m10618c("Error updating raw event. appId", C2356sx.m9613v(event.appId), e);
             return false;
         }
     }
@@ -1916,7 +1908,7 @@ public final class C0496Kq extends AbstractC2513wF {
     public final boolean m2526g0(String str, Bundle bundle) {
         mo356n();
         m10440u();
-        byte[] bArrM4464i = mo3244o().m8917N(new C2672zr(this.f8058a, "", str, "dep", 0L, 0L, bundle)).m4464i();
+        byte[] bArrM4464i = mo3244o().m8917N(new Event_(this.f8058a, "", str, "dep", 0L, 0L, bundle)).m4464i();
         mo349g().m9622K().m10618c("Saving default event parameters, appId, data size", mo350h().m9209b(str), Integer.valueOf(bArrM4464i.length));
         ContentValues contentValues = new ContentValues();
         contentValues.put("app_id", str);
@@ -2129,16 +2121,16 @@ public final class C0496Kq extends AbstractC2513wF {
         return m2470C0("select count(1) > 0 from queue where has_realtime = 1", null) != 0;
     }
 
-    public final boolean m2536l0(C2672zr c2672zr, long j, boolean z) {
+    public final boolean m2536l0(Event_ event, long j, boolean z) {
         mo356n();
         m10440u();
-        AbstractC1085Xi.m4801j(c2672zr);
-        AbstractC1085Xi.m4795d(c2672zr.f8281a);
-        byte[] bArrM4464i = mo3244o().m8917N(c2672zr).m4464i();
+        AbstractC1085Xi.m4801j(event);
+        AbstractC1085Xi.m4795d(event.appId);
+        byte[] bArrM4464i = mo3244o().m8917N(event).m4464i();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("app_id", c2672zr.f8281a);
-        contentValues.put("name", c2672zr.f8282b);
-        contentValues.put("timestamp", Long.valueOf(c2672zr.f8284d));
+        contentValues.put("app_id", event.appId);
+        contentValues.put("name", event.name);
+        contentValues.put("timestamp", Long.valueOf(event.f8284d));
         contentValues.put("metadata_fingerprint", Long.valueOf(j));
         contentValues.put("data", bArrM4464i);
         contentValues.put("realtime", Integer.valueOf(z ? 1 : 0));
@@ -2146,10 +2138,10 @@ public final class C0496Kq extends AbstractC2513wF {
             if (m2467B().insert("raw_events", null, contentValues) != -1) {
                 return true;
             }
-            mo349g().m9618G().m10617b("Failed to insert raw event (got -1). appId", C2356sx.m9613v(c2672zr.f8281a));
+            mo349g().m9618G().m10617b("Failed to insert raw event (got -1). appId", C2356sx.m9613v(event.appId));
             return false;
         } catch (SQLiteException e) {
-            mo349g().m9618G().m10618c("Error storing raw event. appId", C2356sx.m9613v(c2672zr.f8281a), e);
+            mo349g().m9618G().m10618c("Error storing raw event. appId", C2356sx.m9613v(event.appId), e);
             return false;
         }
     }

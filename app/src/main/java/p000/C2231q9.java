@@ -5,8 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class C2231q9 extends AbstractC2221q {
+public class C2231q9 extends DataSource {
     public C2231q9(boolean z) {
         super(z);
     }

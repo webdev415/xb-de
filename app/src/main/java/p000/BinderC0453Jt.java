@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public final class BinderC0453Jt extends AbstractBinderC1841hq {
 
     public AbstractC2454v2 f1464c;

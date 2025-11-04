@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0930UA implements InterfaceC1819hE {
     public abstract Object clone();
 

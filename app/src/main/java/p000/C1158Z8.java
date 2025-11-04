@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1158Z8 {
 
     public static final C1158Z8 f3400a = new C1158Z8();

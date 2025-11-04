@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import p000.InterfaceC0667Od;
 
-/* loaded from: classes.dex */
 public final class C0797RF extends AbstractC0552M {
     public static final Creator<C0797RF> CREATOR = new C0615NG();
 

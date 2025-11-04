@@ -7,7 +7,6 @@ import java.net.SocketAddress;
 import java.net.URI;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0027Ah extends ProxySelector {
 
     public static final C0027Ah f77a = new C0027Ah();

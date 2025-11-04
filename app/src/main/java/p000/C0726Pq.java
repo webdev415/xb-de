@@ -3,7 +3,6 @@ package p000;
 import java.util.Iterator;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0726Pq implements InterfaceC0909Tq {
     @Override
     public final InterfaceC0909Tq mo151c() {

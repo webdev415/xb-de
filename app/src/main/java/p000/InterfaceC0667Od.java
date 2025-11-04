@@ -3,7 +3,6 @@ package p000;
 import android.os.IBinder;
 import android.os.IInterface;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0667Od extends IInterface {
 
     public static abstract class a extends AbstractBinderC2488vr implements InterfaceC0667Od {

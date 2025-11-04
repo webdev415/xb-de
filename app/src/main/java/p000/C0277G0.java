@@ -8,7 +8,6 @@ import java.util.List;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.X509TrustManager;
 
-/* loaded from: classes.dex */
 public final class C0277G0 extends C0764Qi {
 
     public static final boolean f700e;

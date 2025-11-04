@@ -3,7 +3,6 @@ package p000;
 import java.util.AbstractList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0322H extends AbstractList implements List {
     public abstract int mo1462d();
 

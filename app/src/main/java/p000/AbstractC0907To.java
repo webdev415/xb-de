@@ -5,7 +5,6 @@ import android.webkit.WebView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0907To {
 
     public static String f2782a;

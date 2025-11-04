@@ -13,8 +13,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
-public class DialogC0465K4 extends AbstractDialogC2267r {
+public class DialogC0465K4 extends BaseDialog {
 
     public BrowserActivity f1518b;
 
@@ -64,7 +63,7 @@ public class DialogC0465K4 extends AbstractDialogC2267r {
                 SharedPreferencesHelper.getInstance().m6906m(true);
             }
             if (DialogC0465K4.this.f1522f) {
-                DialogC0465K4.this.f1518b.m6262T0().clear();
+                DialogC0465K4.this.f1518b.getActiveControllers().clear();
                 SharedPreferencesHelper.getInstance().m6900j();
             }
             if (DialogC0465K4.this.f1523g) {
@@ -186,7 +185,7 @@ public class DialogC0465K4 extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_clean_data);
         CheckBox checkBox = (CheckBox) findViewById(R.id.clean_his);
         boolean zM6873Q = SharedPreferencesHelper.getInstance().getBoolean("clean_history_checked", true);

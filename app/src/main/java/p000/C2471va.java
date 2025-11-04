@@ -4,7 +4,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionException;
 
-/* loaded from: classes.dex */
 public final class C2471va extends AbstractC2425ua implements InterfaceC2091n8 {
 
     public final Executor f7664o;

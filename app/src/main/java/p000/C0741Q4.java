@@ -7,7 +7,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C0741Q4 extends AbstractC2175p {
 
     public class a implements Runnable {

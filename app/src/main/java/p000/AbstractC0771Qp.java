@@ -3,7 +3,6 @@ package p000;
 import android.app.PendingIntent;
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0771Qp extends AbstractC0038As {
 
     public final int f2296d;

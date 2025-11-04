@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.os.IBinder;
 import android.os.IInterface;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0253Fd extends IInterface {
 
     public static abstract class a extends AbstractBinderC2488vr implements InterfaceC0253Fd {

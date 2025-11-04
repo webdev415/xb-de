@@ -8,7 +8,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/* loaded from: classes.dex */
 public class ServiceConnectionC0739Q2 implements ServiceConnection {
 
     public boolean f2193a = false;

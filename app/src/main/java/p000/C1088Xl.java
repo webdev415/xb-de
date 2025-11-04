@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1088Xl extends AbstractC1220ae {
 
     public final transient Object f3260n;

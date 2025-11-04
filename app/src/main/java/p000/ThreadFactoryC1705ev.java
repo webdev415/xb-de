@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-/* loaded from: classes.dex */
 public final class ThreadFactoryC1705ev implements ThreadFactory {
 
     public ThreadFactory f5472a = Executors.defaultThreadFactory();

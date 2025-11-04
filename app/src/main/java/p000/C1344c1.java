@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1344c1 {
 
     public static String f3903d;
@@ -34,19 +33,19 @@ public class C1344c1 {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
             PrintStream printStream = System.out;
-            printStream.println("Response code: " + c0490Kk.m2396j());
-            printStream.println("Response body: " + c0490Kk.m2392a().m2714l());
+            printStream.println("Response code: " + response.getStatus());
+            printStream.println("Response body: " + response.body().m2714l());
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
             iOException.printStackTrace();
         }
     }
 
-    public static C1344c1 m5691d() {
+    public static C1344c1 getInstance() {
         if (f3907h == null) {
             f3907h = new C1344c1();
         }
@@ -80,7 +79,7 @@ public class C1344c1 {
         return strM5602i.toUpperCase();
     }
 
-    public void m5695e() {
+    public void init() {
         SharedPreferencesHelper sharedPreferencesHelperM6833I;
         String str;
         if (PhoneUtils.getInstance().isInChina()) {
@@ -176,7 +175,7 @@ public class C1344c1 {
                 jSONObject.put("hits", jSONArray);
                 AbstractC0168Dk abstractC0168DkM719e = AbstractC0168Dk.m719e(jSONObject.toString(), f3905f);
                 this.f3910c.clear();
-                f3906g.m2004y(new C0122Ck.a().m507i(f3903d).m499a("Authorization", "Bearer " + f3904e).m499a("Content-Type", "application/json").m499a("User-Agent", SharedPreferencesHelper.getInstance().m6849D()).m504f(abstractC0168DkM719e).m500b()).mo1791i(new a());
+                f3906g.newCall(new Request.Builder().url(f3903d).addHeader("Authorization", "Bearer " + f3904e).addHeader("Content-Type", "application/json").addHeader("User-Agent", SharedPreferencesHelper.getInstance().m6849D()).m504f(abstractC0168DkM719e).m500b()).mo1791i(new a());
             }
         } catch (Throwable th) {
             throw th;

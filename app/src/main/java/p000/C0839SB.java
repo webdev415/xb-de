@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0839SB implements InterfaceC2509wB {
     public C0839SB() {
     }

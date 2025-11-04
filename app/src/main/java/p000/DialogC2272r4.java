@@ -14,8 +14,7 @@ import com.xbrowser.play.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class DialogC2272r4 extends AbstractDialogC2267r {
+public class DialogC2272r4 extends BaseDialog {
 
     public BrowserActivity f6863b;
 
@@ -34,11 +33,11 @@ public class DialogC2272r4 extends AbstractDialogC2267r {
             try {
                 JSONObject jSONObject = new JSONObject();
                 jSONObject.put("transId", "option_changed");
-                C1224ai c1224aiM5285e = C1224ai.m5285e();
+                C1224ai c1224aiM5285e = C1224ai.getInstance();
                 String str = DialogC2272r4.this.f6866e;
                 DialogC2272r4 dialogC2272r4 = DialogC2272r4.this;
-                jSONObject.put("selectedOptionName", c1224aiM5285e.m5293i(str, dialogC2272r4.f6863b.m6238N0(dialogC2272r4.f6866e)));
-                C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+                jSONObject.put("selectedOptionName", c1224aiM5285e.m5293i(str, dialogC2272r4.f6863b.getLongPressDescription(dialogC2272r4.f6866e)));
+                C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
             } catch (Exception unused) {
             }
         }
@@ -52,7 +51,7 @@ public class DialogC2272r4 extends AbstractDialogC2267r {
 
             @Override
             public void run() {
-                DialogC2272r4.this.f6863b.m6218I0().m6394C().m1435r();
+                DialogC2272r4.this.f6863b.getActivityDelegate().m6394C().m1435r();
             }
         }
 
@@ -82,13 +81,13 @@ public class DialogC2272r4 extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         RadioButton radioButton;
         setContentView(R.layout.dlg_change_gesture);
         setOnDismissListener(new a());
         this.f6864c = (RadioGroup) findViewById(R.id.radioGroup);
         if (this.f6865d == null) {
-            this.f6865d = SharedPreferencesHelper.getInstance().m6855G(this.f6866e);
+            this.f6865d = SharedPreferencesHelper.getInstance().getDefaultActionForKey(this.f6866e);
         }
         if (this.f6866e.equals("double_click_blank") && (radioButton = (RadioButton) this.f6864c.findViewById(R.id.ac_toggle_fullscreen)) != null) {
             radioButton.setVisibility(View.VISIBLE);
@@ -123,9 +122,9 @@ public class DialogC2272r4 extends AbstractDialogC2267r {
                 return false;
             }
             String str3 = strArr[i];
-            String strM6855G = SharedPreferencesHelper.getInstance().m6855G(str3);
+            String strM6855G = SharedPreferencesHelper.getInstance().getDefaultActionForKey(str3);
             if (!str2.equals("none") && strM6855G.equals(str2) && !str3.equals(str)) {
-                Toast.makeText(this.f6863b, this.f6863b.getString(R.string.toast_action_has_bound) + "\"" + this.f6863b.m6238N0(str3) + "\"", Toast.LENGTH_LONG).show();
+                Toast.makeText(this.f6863b, this.f6863b.getString(R.string.toast_action_has_bound) + "\"" + this.f6863b.getLongPressDescription(str3) + "\"", Toast.LENGTH_LONG).show();
                 return false;
             }
             i++;

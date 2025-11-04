@@ -13,7 +13,6 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 import org.openjsse.net.ssl.OpenJSSE;
 
-/* loaded from: classes.dex */
 public final class C1176Zh extends C0764Qi {
 
     public static final boolean f3452e;

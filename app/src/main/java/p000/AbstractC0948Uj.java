@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0948Uj {
     public static int m4267a(int i, int i2) {
         int i3 = i - i2;

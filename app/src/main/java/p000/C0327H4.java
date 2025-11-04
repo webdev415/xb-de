@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
-/* loaded from: classes.dex */
 public class C0327H4 extends Drawable {
 
     public final Paint f1014a;

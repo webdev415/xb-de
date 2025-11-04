@@ -4,7 +4,6 @@ import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C2479vi implements InterfaceC0081Bp {
     public static C0325H2 m10369b(byte[][] bArr, int i) {
         int i2 = i * 2;

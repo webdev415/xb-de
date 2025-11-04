@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0425JA;
 
-/* loaded from: classes.dex */
 public enum EnumC0517LA {
     STORAGE(C0425JA.a.f1298m, C0425JA.a.f1299n),
     DMA(C0425JA.a.f1300o);

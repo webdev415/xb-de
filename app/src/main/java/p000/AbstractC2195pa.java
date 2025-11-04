@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.CancellationException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2195pa {
     public static final CancellationException m9058a(String str, Throwable th) {
         CancellationException cancellationException = new CancellationException(str);

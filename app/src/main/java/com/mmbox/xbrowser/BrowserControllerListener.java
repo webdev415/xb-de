@@ -3,7 +3,6 @@ package com.mmbox.xbrowser;
 import android.graphics.Bitmap;
 import p000.InterfaceC1300b3;
 
-/* loaded from: classes.dex */
 public interface BrowserControllerListener {
     void mo6447a(InterfaceC1300b3 interfaceC1300b3, int i, String str, String str2);
 

@@ -2,7 +2,6 @@ package p000;
 
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0038As {
 
     public Object f91a;

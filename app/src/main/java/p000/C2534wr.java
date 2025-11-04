@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/* loaded from: classes.dex */
 public final class C2534wr {
 
     public final C0455Jv f7907a;
@@ -65,9 +64,9 @@ public final class C2534wr {
         }
     }
 
-    public final boolean m10610d(C1888iq c1888iq) {
+    public final boolean m10610d(Event event) {
         try {
-            this.f7909c.m7475c(c1888iq);
+            this.f7909c.m7475c(event);
             this.f7907a.f1468c.m9636h("runtime.counter", new C0036Aq(Double.valueOf(0.0d)));
             this.f7910d.m5083c(this.f7908b.m9632d(), this.f7909c);
             if (m10613g()) {

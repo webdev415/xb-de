@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public final class C1980kq implements InterfaceC2165oq {
 
     public final CountDownLatch f6033a = new CountDownLatch(1);

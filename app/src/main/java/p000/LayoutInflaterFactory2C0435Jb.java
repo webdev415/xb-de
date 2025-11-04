@@ -28,9 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import p000.AbstractComponentCallbacksC0159Db;
 
-/* loaded from: classes.dex */
 public final class LayoutInflaterFactory2C0435Jb extends AbstractC0389Ib implements LayoutInflater.Factory2 {
 
     public static boolean f1323F = false;
@@ -41,7 +39,7 @@ public final class LayoutInflaterFactory2C0435Jb extends AbstractC0389Ib impleme
 
     public ArrayList f1328C;
 
-    public C0527Lb f1329D;
+    public FragmentManagerViewModel f1329D;
 
     public ArrayList f1331c;
 
@@ -827,7 +825,7 @@ public final class LayoutInflaterFactory2C0435Jb extends AbstractC0389Ib impleme
             this.f1338j = onBackPressedDispatcherMo3573b;
             onBackPressedDispatcherMo3573b.m5315a(interfaceC0717Ph, this.f1339k);
         }
-        this.f1329D = abstractC0343Hb instanceof InterfaceC0724Po ? C0527Lb.m2652d(((InterfaceC0724Po) abstractC0343Hb).mo3586e()) : new C0527Lb(false);
+        this.f1329D = abstractC0343Hb instanceof InterfaceC0724Po ? FragmentManagerViewModel.m2652d(((InterfaceC0724Po) abstractC0343Hb).mo3586e()) : new FragmentManagerViewModel(false);
     }
 
     public void m1934g0(Parcelable parcelable) {
@@ -846,7 +844,7 @@ public final class LayoutInflaterFactory2C0435Jb extends AbstractC0389Ib impleme
             }
             Iterator it2 = c0481Kb.f1567l.iterator();
             if (it2.hasNext()) {
-                String str = ((C0573Mb) it2.next()).f1809m;
+                String str = ((FragmentState) it2.next()).f1809m;
                 throw null;
             }
             if (f1323F) {
@@ -858,9 +856,9 @@ public final class LayoutInflaterFactory2C0435Jb extends AbstractC0389Ib impleme
         this.f1335g.clear();
         Iterator it3 = c0481Kb.f1567l.iterator();
         while (it3.hasNext()) {
-            C0573Mb c0573Mb = (C0573Mb) it3.next();
-            if (c0573Mb != null) {
-                c0573Mb.m2853a(this.f1345q.m1565h().getClassLoader(), mo1689b());
+            FragmentState fragmentState = (FragmentState) it3.next();
+            if (fragmentState != null) {
+                fragmentState.m2853a(this.f1345q.m1565h().getClassLoader(), mo1689b());
                 throw null;
             }
         }

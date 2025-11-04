@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0130Cs {
 
     public static final ClassLoader f322a = AbstractC0130Cs.class.getClassLoader();

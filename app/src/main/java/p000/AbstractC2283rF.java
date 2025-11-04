@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2283rF extends AbstractC2600yA implements InterfaceC0241FA {
 
     public final C0200EF f6912b;

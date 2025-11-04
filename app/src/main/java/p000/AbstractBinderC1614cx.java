@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC1614cx extends AbstractBinderC2443us implements InterfaceC1707ex {
     public AbstractBinderC1614cx() {
         super("com.google.android.gms.measurement.internal.IMeasurementService");

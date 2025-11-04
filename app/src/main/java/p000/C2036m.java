@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2036m implements InterfaceC0929U9 {
     public static char m8429b(char c, char c2) {
         if (AbstractC2105nd.m8749f(c) && AbstractC2105nd.m8749f(c2)) {

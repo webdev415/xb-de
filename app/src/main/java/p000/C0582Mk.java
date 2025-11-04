@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/* loaded from: classes.dex */
 public final class C0582Mk implements InterfaceC0466K5 {
 
     public final Set f1840a;
@@ -33,26 +32,26 @@ public final class C0582Mk implements InterfaceC0466K5 {
         }
     }
 
-    public C0582Mk(C0420J5 c0420j5, InterfaceC0466K5 interfaceC0466K5) {
+    public C0582Mk(Component component, InterfaceC0466K5 interfaceC0466K5) {
         HashSet hashSet = new HashSet();
         HashSet hashSet2 = new HashSet();
         HashSet hashSet3 = new HashSet();
         HashSet hashSet4 = new HashSet();
         HashSet hashSet5 = new HashSet();
-        for (C0193E8 c0193e8 : c0420j5.m1803g()) {
-            if (c0193e8.m879d()) {
-                boolean zM881f = c0193e8.m881f();
-                C0167Dj c0167DjM877b = c0193e8.m877b();
+        for (Dependency dependency : component.m1803g()) {
+            if (dependency.m879d()) {
+                boolean zM881f = dependency.m881f();
+                C0167Dj c0167DjM877b = dependency.m877b();
                 if (zM881f) {
                     hashSet4.add(c0167DjM877b);
                 } else {
                     hashSet.add(c0167DjM877b);
                 }
-            } else if (c0193e8.m878c()) {
-                hashSet3.add(c0193e8.m877b());
+            } else if (dependency.m878c()) {
+                hashSet3.add(dependency.m877b());
             } else {
-                boolean zM881f2 = c0193e8.m881f();
-                C0167Dj c0167DjM877b2 = c0193e8.m877b();
+                boolean zM881f2 = dependency.m881f();
+                C0167Dj c0167DjM877b2 = dependency.m877b();
                 if (zM881f2) {
                     hashSet5.add(c0167DjM877b2);
                 } else {
@@ -60,7 +59,7 @@ public final class C0582Mk implements InterfaceC0466K5 {
                 }
             }
         }
-        if (!c0420j5.m1807k().isEmpty()) {
+        if (!component.m1807k().isEmpty()) {
             hashSet.add(C0167Dj.m716b(InterfaceC2526wj.class));
         }
         this.f1840a = Collections.unmodifiableSet(hashSet);
@@ -68,7 +67,7 @@ public final class C0582Mk implements InterfaceC0466K5 {
         this.f1842c = Collections.unmodifiableSet(hashSet3);
         this.f1843d = Collections.unmodifiableSet(hashSet4);
         this.f1844e = Collections.unmodifiableSet(hashSet5);
-        this.f1845f = c0420j5.m1807k();
+        this.f1845f = component.m1807k();
         this.f1846g = interfaceC0466K5;
     }
 

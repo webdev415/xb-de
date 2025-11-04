@@ -5,7 +5,6 @@ import android.content.ServiceConnection;
 import android.os.HandlerThread;
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0298Gc {
 
     public static final Object f939a = new Object();

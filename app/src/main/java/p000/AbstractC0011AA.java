@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0011AA {
     public static Object m66a(Bundle bundle, String str, Class cls, Object obj) {
         Object obj2 = bundle.get(str);

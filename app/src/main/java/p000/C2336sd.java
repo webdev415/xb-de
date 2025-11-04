@@ -6,7 +6,6 @@ import java.net.ProtocolException;
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public final class C2336sd implements InterfaceC2333sa {
 
     public static final d f7039h = new d(null);
@@ -15,11 +14,11 @@ public final class C2336sd implements InterfaceC2333sa {
 
     public final C1125Yc f7041b;
 
-    public C1079Xc f7042c;
+    public Headers f7042c;
 
     public final OkHttpClient f7043d;
 
-    public final C1741fk f7044e;
+    public final Connection f7044e;
 
     public final InterfaceC2547x3 f7045f;
 
@@ -177,9 +176,9 @@ public final class C2336sd implements InterfaceC2333sa {
                     AbstractC0116Ce.m473b(okHttpClient);
                     InterfaceC0053B6 interfaceC0053B6M1994n = okHttpClient.m1994n();
                     C0069Bd c0069Bd = this.f7055q;
-                    C1079Xc c1079Xc = this.f7056r.f7042c;
-                    AbstractC0116Ce.m473b(c1079Xc);
-                    AbstractC2658zd.m11024f(interfaceC0053B6M1994n, c0069Bd, c1079Xc);
+                    Headers headers = this.f7056r.f7042c;
+                    AbstractC0116Ce.m473b(headers);
+                    AbstractC2658zd.m11024f(interfaceC0053B6M1994n, c0069Bd, headers);
                     m9563b();
                 }
             } catch (NumberFormatException e) {
@@ -365,52 +364,52 @@ public final class C2336sd implements InterfaceC2333sa {
         }
     }
 
-    public C2336sd(OkHttpClient okHttpClient, C1741fk c1741fk, InterfaceC2547x3 interfaceC2547x3, InterfaceC2501w3 interfaceC2501w3) {
-        AbstractC0116Ce.m476e(c1741fk, "connection");
+    public C2336sd(OkHttpClient okHttpClient, Connection connection, InterfaceC2547x3 interfaceC2547x3, InterfaceC2501w3 interfaceC2501w3) {
+        AbstractC0116Ce.m476e(connection, "connection");
         AbstractC0116Ce.m476e(interfaceC2547x3, "source");
         AbstractC0116Ce.m476e(interfaceC2501w3, "sink");
         this.f7043d = okHttpClient;
-        this.f7044e = c1741fk;
+        this.f7044e = connection;
         this.f7045f = interfaceC2547x3;
         this.f7046g = interfaceC2501w3;
         this.f7041b = new C1125Yc(interfaceC2547x3);
     }
 
-    public final void m9552A(C1079Xc c1079Xc, String str) {
-        AbstractC0116Ce.m476e(c1079Xc, "headers");
+    public final void m9552A(Headers headers, String str) {
+        AbstractC0116Ce.m476e(headers, "headers");
         AbstractC0116Ce.m476e(str, "requestLine");
         if (!(this.f7040a == 0)) {
             throw new IllegalStateException(("state: " + this.f7040a).toString());
         }
         this.f7046g.mo5925H(str).mo5925H("\r\n");
-        int size = c1079Xc.size();
+        int size = headers.size();
         for (int i = 0; i < size; i++) {
-            this.f7046g.mo5925H(c1079Xc.m4738f(i)).mo5925H(": ").mo5925H(c1079Xc.m4740h(i)).mo5925H("\r\n");
+            this.f7046g.mo5925H(headers.m4738f(i)).mo5925H(": ").mo5925H(headers.m4740h(i)).mo5925H("\r\n");
         }
         this.f7046g.mo5925H("\r\n");
         this.f7040a = 1;
     }
 
     @Override
-    public void mo9530a(C0122Ck c0122Ck) {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+    public void mo9530a(Request request) {
+        AbstractC0116Ce.m476e(request, "request");
         C0260Fk c0260Fk = C0260Fk.f676a;
-        Proxy.Type type = mo9537h().m7637z().m5676b().type();
+        Proxy.Type type = mo9537h().m7637z().getProxy().type();
         AbstractC0116Ce.m475d(type, "connection.route().proxy.type()");
-        m9552A(c0122Ck.m494e(), c0260Fk.m1270a(c0122Ck, type));
+        m9552A(request.m494e(), c0260Fk.m1270a(request, type));
     }
 
     @Override
-    public InterfaceC2161om mo9531b(C0490Kk c0490Kk) {
+    public InterfaceC2161om mo9531b(Response response) {
         long jM10944s;
-        AbstractC0116Ce.m476e(c0490Kk, "response");
-        if (!AbstractC2658zd.m11020b(c0490Kk)) {
+        AbstractC0116Ce.m476e(response, "response");
+        if (!AbstractC2658zd.m11020b(response)) {
             jM10944s = 0;
         } else {
-            if (m9555t(c0490Kk)) {
-                return m9557v(c0490Kk.m2390S().m498i());
+            if (m9555t(response)) {
+                return m9557v(response.getRequest().getUrl());
             }
-            jM10944s = AbstractC2623yo.m10944s(c0490Kk);
+            jM10944s = AbstractC2623yo.m10944s(response);
             if (jM10944s == -1) {
                 return m9560y();
             }
@@ -434,7 +433,7 @@ public final class C2336sd implements InterfaceC2333sa {
     }
 
     @Override
-    public C0490Kk.a mo9534e(boolean z) {
+    public Response.a mo9534e(boolean z) {
         int i = this.f7040a;
         boolean z2 = true;
         if (i != 1 && i != 3) {
@@ -445,7 +444,7 @@ public final class C2336sd implements InterfaceC2333sa {
         }
         try {
             C2529wm c2529wmM10597a = C2529wm.f7894d.m10597a(this.f7041b.m4937b());
-            C0490Kk.a aVarM2412k = new C0490Kk.a().m2417p(c2529wmM10597a.f7895a).m2408g(c2529wmM10597a.f7896b).m2414m(c2529wmM10597a.f7897c).m2412k(this.f7041b.m4936a());
+            Response.a aVarM2412k = new Response.a().m2417p(c2529wmM10597a.f7895a).m2408g(c2529wmM10597a.f7896b).m2414m(c2529wmM10597a.f7897c).m2412k(this.f7041b.m4936a());
             if (z && c2529wmM10597a.f7896b == 100) {
                 return null;
             }
@@ -461,12 +460,12 @@ public final class C2336sd implements InterfaceC2333sa {
     }
 
     @Override
-    public InterfaceC1134Yl mo9535f(C0122Ck c0122Ck, long j) throws ProtocolException {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
-        if (c0122Ck.m490a() != null && c0122Ck.m490a().m722f()) {
+    public InterfaceC1134Yl mo9535f(Request request, long j) throws ProtocolException {
+        AbstractC0116Ce.m476e(request, "request");
+        if (request.m490a() != null && request.m490a().m722f()) {
             throw new ProtocolException("Duplex connections are not supported for HTTP/1");
         }
-        if (m9554s(c0122Ck)) {
+        if (m9554s(request)) {
             return m9556u();
         }
         if (j != -1) {
@@ -476,19 +475,19 @@ public final class C2336sd implements InterfaceC2333sa {
     }
 
     @Override
-    public long mo9536g(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "response");
-        if (!AbstractC2658zd.m11020b(c0490Kk)) {
+    public long mo9536g(Response response) {
+        AbstractC0116Ce.m476e(response, "response");
+        if (!AbstractC2658zd.m11020b(response)) {
             return 0L;
         }
-        if (m9555t(c0490Kk)) {
+        if (m9555t(response)) {
             return -1L;
         }
-        return AbstractC2623yo.m10944s(c0490Kk);
+        return AbstractC2623yo.m10944s(response);
     }
 
     @Override
-    public C1741fk mo9537h() {
+    public Connection mo9537h() {
         return this.f7044e;
     }
 
@@ -499,12 +498,12 @@ public final class C2336sd implements InterfaceC2333sa {
         c0125CnM440i.mo434b();
     }
 
-    public final boolean m9554s(C0122Ck c0122Ck) {
-        return AbstractC0538Lm.m2720l("chunked", c0122Ck.m493d("Transfer-Encoding"), true);
+    public final boolean m9554s(Request request) {
+        return AbstractC0538Lm.m2720l("chunked", request.m493d("Transfer-Encoding"), true);
     }
 
-    public final boolean m9555t(C0490Kk c0490Kk) {
-        return AbstractC0538Lm.m2720l("chunked", C0490Kk.m2383w(c0490Kk, "Transfer-Encoding", null, 2, null), true);
+    public final boolean m9555t(Response response) {
+        return AbstractC0538Lm.m2720l("chunked", Response.m2383w(response, "Transfer-Encoding", null, 2, null), true);
     }
 
     public final InterfaceC1134Yl m9556u() {
@@ -548,9 +547,9 @@ public final class C2336sd implements InterfaceC2333sa {
         throw new IllegalStateException(("state: " + this.f7040a).toString());
     }
 
-    public final void m9561z(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "response");
-        long jM10944s = AbstractC2623yo.m10944s(c0490Kk);
+    public final void m9561z(Response response) {
+        AbstractC0116Ce.m476e(response, "response");
+        long jM10944s = AbstractC2623yo.m10944s(response);
         if (jM10944s == -1) {
             return;
         }

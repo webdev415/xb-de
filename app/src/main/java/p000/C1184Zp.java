@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-/* loaded from: classes.dex */
 public final class C1184Zp {
 
     public final TreeMap f3474a = new TreeMap();
@@ -38,10 +37,10 @@ public final class C1184Zp {
     public final void m5083c(C2357sy c2357sy, C1700eq c1700eq) {
         C0567ME c0567me = new C0567ME(c1700eq);
         for (Integer num : this.f3474a.keySet()) {
-            C1888iq c1888iq = (C1888iq) c1700eq.m7476d().clone();
+            Event event = (Event) c1700eq.m7476d().clone();
             int iM5081a = m5081a(c2357sy, (C1001Vq) this.f3474a.get(num), c0567me);
             if (iM5081a == 2 || iM5081a == -1) {
-                c1700eq.m7477e(c1888iq);
+                c1700eq.m7477e(event);
             }
         }
         Iterator it = this.f3475b.keySet().iterator();

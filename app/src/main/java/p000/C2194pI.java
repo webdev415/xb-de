@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2194pI implements InterfaceC0813Rm {
 
     public static C2194pI f6640m = new C2194pI();

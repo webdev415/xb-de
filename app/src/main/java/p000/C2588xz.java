@@ -2,7 +2,6 @@ package p000;
 
 import android.content.Context;
 
-/* loaded from: classes.dex */
 public final class C2588xz extends AbstractC2646zA {
 
     public final Context f8039a;

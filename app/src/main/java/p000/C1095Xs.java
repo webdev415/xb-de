@@ -2,7 +2,6 @@ package p000;
 
 import java.io.File;
 
-/* loaded from: classes.dex */
 public final class C1095Xs implements InterfaceC1187Zs {
     @Override
     public final String mo4853a(File file, String str, AbstractC1844ht abstractC1844ht) {

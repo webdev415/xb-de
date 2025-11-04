@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.CancellationException;
 
-/* loaded from: classes.dex */
 public final class C1127Ye extends CancellationException {
 
     public final transient InterfaceC1081Xe f3354l;

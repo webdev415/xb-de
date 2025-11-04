@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1669e5 {
     public static List m7387a(Object obj) {
         return Collections.singletonList(obj);

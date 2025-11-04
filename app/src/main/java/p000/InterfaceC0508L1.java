@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0508L1 {
 
     public static final a f1649c = new a(null);
@@ -13,8 +12,8 @@ public interface InterfaceC0508L1 {
 
         public static final class C2690a implements InterfaceC0508L1 {
             @Override
-            public C0122Ck mo2575a(C1328bl c1328bl, C0490Kk c0490Kk) {
-                AbstractC0116Ce.m476e(c0490Kk, "response");
+            public Request mo2575a(Route route, Response response) {
+                AbstractC0116Ce.m476e(response, "response");
                 return null;
             }
         }
@@ -27,5 +26,5 @@ public interface InterfaceC0508L1 {
         }
     }
 
-    C0122Ck mo2575a(C1328bl c1328bl, C0490Kk c0490Kk);
+    Request mo2575a(Route route, Response response);
 }

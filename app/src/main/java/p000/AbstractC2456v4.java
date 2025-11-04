@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2456v4 extends AbstractC2410u4 {
     public static final boolean m10313d(char c, char c2, boolean z) {
         if (c == c2) {

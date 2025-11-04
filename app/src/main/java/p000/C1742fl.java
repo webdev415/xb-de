@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-/* loaded from: classes.dex */
 public final class C1742fl {
 
     public static final a f5533i = new a(null);
@@ -25,7 +24,7 @@ public final class C1742fl {
 
     public final List f5537d;
 
-    public final C2498w0 f5538e;
+    public final Address f5538e;
 
     public final C1649dl f5539f;
 
@@ -77,14 +76,14 @@ public final class C1742fl {
             return this.f5542a < this.f5543b.size();
         }
 
-        public final C1328bl m7650c() {
+        public final Route m7650c() {
             if (!m7649b()) {
                 throw new NoSuchElementException();
             }
             List list = this.f5543b;
             int i = this.f5542a;
             this.f5542a = i + 1;
-            return (C1328bl) list.get(i);
+            return (Route) list.get(i);
         }
     }
 
@@ -117,19 +116,19 @@ public final class C1742fl {
         }
     }
 
-    public C1742fl(C2498w0 c2498w0, C1649dl c1649dl, InterfaceC0418J3 interfaceC0418J3, AbstractC1918ja abstractC1918ja) {
-        AbstractC0116Ce.m476e(c2498w0, "address");
+    public C1742fl(Address address, C1649dl c1649dl, InterfaceC0418J3 interfaceC0418J3, AbstractC1918ja abstractC1918ja) {
+        AbstractC0116Ce.m476e(address, "address");
         AbstractC0116Ce.m476e(c1649dl, "routeDatabase");
         AbstractC0116Ce.m476e(interfaceC0418J3, "call");
         AbstractC0116Ce.m476e(abstractC1918ja, "eventListener");
-        this.f5538e = c2498w0;
+        this.f5538e = address;
         this.f5539f = c1649dl;
         this.f5540g = interfaceC0418J3;
         this.f5541h = abstractC1918ja;
         this.f5534a = AbstractC1810h5.m7783f();
         this.f5536c = AbstractC1810h5.m7783f();
         this.f5537d = new ArrayList<>();
-        m7646g(c2498w0.m10421l(), c2498w0.m10416g());
+        m7646g(address.m10421l(), address.m10416g());
     }
 
     public final boolean m7641b() {
@@ -149,11 +148,11 @@ public final class C1742fl {
             Proxy proxyM7644e = m7644e();
             Iterator it = this.f5536c.iterator();
             while (it.hasNext()) {
-                C1328bl c1328bl = new C1328bl(this.f5538e, proxyM7644e, (InetSocketAddress) it.next());
-                if (this.f5539f.m7353c(c1328bl)) {
-                    this.f5537d.add(c1328bl);
+                Route route = new Route(this.f5538e, proxyM7644e, (InetSocketAddress) it.next());
+                if (this.f5539f.m7353c(route)) {
+                    this.f5537d.add(route);
                 } else {
-                    arrayList.add(c1328bl);
+                    arrayList.add(route);
                 }
             }
             if (!arrayList.isEmpty()) {

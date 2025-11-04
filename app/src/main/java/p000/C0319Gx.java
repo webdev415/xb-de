@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0703PC;
 
-/* loaded from: classes.dex */
 public final class C0319Gx extends AbstractC0703PC implements InterfaceC2097nE {
     private static final C0319Gx zzc;
     private static volatile InterfaceC2650zE zzd;

@@ -1,8 +1,5 @@
 package p000;
 
-import p000.C1013W1;
-
-/* loaded from: classes.dex */
 public abstract class AbstractC0263Fn {
 
     public static abstract class a {
@@ -22,7 +19,7 @@ public abstract class AbstractC0263Fn {
     }
 
     public static a m1282a() {
-        return new C1013W1.b().mo1289d(0L);
+        return new TokenResult.b().mo1289d(0L);
     }
 
     public abstract b mo1283b();

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0530Le extends AbstractC1830hf {
 
     public final InterfaceC0986Vb f1714p;

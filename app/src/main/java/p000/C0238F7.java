@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0238F7 extends AbstractC0376I7 {
 
     public final char f649b;

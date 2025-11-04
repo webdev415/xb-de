@@ -7,8 +7,7 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
-public class DialogC2180p4 extends AbstractDialogC2267r {
+public class DialogC2180p4 extends BaseDialog {
 
     public BrowserActivity f6624b;
 
@@ -22,7 +21,7 @@ public class DialogC2180p4 extends AbstractDialogC2267r {
 
             @Override
             public void run() {
-                f6624b.m6361u0("update_bf_gesture_name()");
+                f6624b.updateTitle("update_bf_gesture_name()");
             }
         }
 
@@ -56,7 +55,7 @@ public class DialogC2180p4 extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         RadioGroup radioGroup;
         int i;
         setContentView(R.layout.dlg_change_bf_gesture);

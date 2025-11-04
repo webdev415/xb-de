@@ -1,10 +1,10 @@
 package p000;
 
 import com.mmbox.xbrowser.BrowserActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1199a3 implements InterfaceC1671e7, InterfaceC0028Ai {
 
     public static C1199a3 f3483d;
@@ -29,7 +29,7 @@ public class C1199a3 implements InterfaceC1671e7, InterfaceC0028Ai {
         }
     }
 
-    public static final C1199a3 m5090f() {
+    public static final C1199a3 getInstance() {
         if (f3483d == null) {
             f3483d = new C1199a3();
         }
@@ -62,18 +62,15 @@ public class C1199a3 implements InterfaceC1671e7, InterfaceC0028Ai {
     }
 
     public void m5094e(String str, JSONObject jSONObject) {
-        if (!str.equals("event_app_to_page")) {
-            if (str.equals("event_page_to_app")) {
-                this.f3484a.runOnUiThread(new a(jSONObject));
-                return;
-            }
-            return;
+        if (str.equals("event_app_to_page")) {
+            String strQuote = JSONObject.quote(jSONObject.toString());
+            this.f3484a.updateTitle("_XAPP_.dispatchEvent('" + str + "'," + strQuote + ")");
+        } else if (str.equals("event_page_to_app")) {
+            this.f3484a.runOnUiThread(new a(jSONObject));
         }
-        String strQuote = JSONObject.quote(jSONObject.toString());
-        this.f3484a.m6361u0("_XAPP_.dispatchEvent('" + str + "'," + strQuote + ")");
     }
 
-    public final void m5095g(BrowserActivity browserActivity) {
+    public final void init(BrowserActivity browserActivity) {
         this.f3484a = browserActivity;
         this.f3486c = new C0074Bi(browserActivity);
         this.f3485b = new C1718f7(browserActivity);
@@ -83,8 +80,8 @@ public class C1199a3 implements InterfaceC1671e7, InterfaceC0028Ai {
         try {
             JSONObject jSONObject = new JSONObject();
             jSONObject.put("transId", "option_changed");
-            jSONObject.put("selectedOptionName", C1224ai.m5285e().m5297m(str));
-            m5090f().m5094e("event_app_to_page", jSONObject);
+            jSONObject.put("selectedOptionName", C1224ai.getInstance().m5297m(str));
+            getInstance().m5094e("event_app_to_page", jSONObject);
         } catch (Exception unused) {
         }
     }

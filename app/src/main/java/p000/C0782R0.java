@@ -14,9 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.X509TrustManager;
-import p000.C2299rm;
 
-/* loaded from: classes.dex */
 public final class C0782R0 extends C0764Qi {
 
     public static final boolean f2305f;
@@ -47,24 +45,24 @@ public final class C0782R0 extends C0764Qi {
         }
     }
 
-    public static final class b implements InterfaceC0723Pn {
+    public static final class CustomTrustRootIndex implements InterfaceC0723Pn {
 
-        public final X509TrustManager f2309a;
+        public final X509TrustManager trustManager;
 
-        public final Method f2310b;
+        public final Method findByIssuerAndSignatureMethod;
 
-        public b(X509TrustManager x509TrustManager, Method method) {
+        public CustomTrustRootIndex(X509TrustManager x509TrustManager, Method method) {
             AbstractC0116Ce.m476e(x509TrustManager, "trustManager");
             AbstractC0116Ce.m476e(method, "findByIssuerAndSignatureMethod");
-            this.f2309a = x509TrustManager;
-            this.f2310b = method;
+            this.trustManager = x509TrustManager;
+            this.findByIssuerAndSignatureMethod = method;
         }
 
         @Override
         public X509Certificate mo3585a(X509Certificate x509Certificate) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
             AbstractC0116Ce.m476e(x509Certificate, "cert");
             try {
-                Object objInvoke = this.f2310b.invoke(this.f2309a, x509Certificate);
+                Object objInvoke = this.findByIssuerAndSignatureMethod.invoke(this.trustManager, x509Certificate);
                 if (objInvoke != null) {
                     return ((TrustAnchor) objInvoke).getTrustedCert();
                 }
@@ -80,22 +78,22 @@ public final class C0782R0 extends C0764Qi {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof b)) {
+            if (!(obj instanceof CustomTrustRootIndex)) {
                 return false;
             }
-            b bVar = (b) obj;
-            return AbstractC0116Ce.m472a(this.f2309a, bVar.f2309a) && AbstractC0116Ce.m472a(this.f2310b, bVar.f2310b);
+            CustomTrustRootIndex customTrustRootIndexVar = (CustomTrustRootIndex) obj;
+            return AbstractC0116Ce.m472a(this.trustManager, customTrustRootIndexVar.trustManager) && AbstractC0116Ce.m472a(this.findByIssuerAndSignatureMethod, customTrustRootIndexVar.findByIssuerAndSignatureMethod);
         }
 
         public int hashCode() {
-            X509TrustManager x509TrustManager = this.f2309a;
+            X509TrustManager x509TrustManager = this.trustManager;
             int iHashCode = (x509TrustManager != null ? x509TrustManager.hashCode() : 0) * 31;
-            Method method = this.f2310b;
+            Method method = this.findByIssuerAndSignatureMethod;
             return iHashCode + (method != null ? method.hashCode() : 0);
         }
 
         public String toString() {
-            return "CustomTrustRootIndex(trustManager=" + this.f2309a + ", findByIssuerAndSignatureMethod=" + this.f2310b + ")";
+            return "CustomTrustRootIndex(trustManager=" + this.trustManager + ", findByIssuerAndSignatureMethod=" + this.findByIssuerAndSignatureMethod + ")";
         }
     }
 
@@ -133,7 +131,7 @@ public final class C0782R0 extends C0764Qi {
             Method declaredMethod = x509TrustManager.getClass().getDeclaredMethod("findTrustAnchorByIssuerAndSignature", X509Certificate.class);
             AbstractC0116Ce.m475d(declaredMethod, "method");
             declaredMethod.setAccessible(true);
-            return new b(x509TrustManager, declaredMethod);
+            return new CustomTrustRootIndex(x509TrustManager, declaredMethod);
         } catch (NoSuchMethodException unused) {
             return super.mo3676d(x509TrustManager);
         }

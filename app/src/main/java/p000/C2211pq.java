@@ -3,7 +3,6 @@ package p000;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C2211pq extends AbstractC0954Up implements InterfaceC2487vq {
     public C2211pq(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.common.internal.IGoogleCertificatesApi");

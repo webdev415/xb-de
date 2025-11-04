@@ -23,12 +23,11 @@ import java.util.TimeZone;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2623yo {
 
     public static final byte[] f8127a;
 
-    public static final C1079Xc f8128b = C1079Xc.f3227m.m4755g(new String[0]);
+    public static final Headers f8128b = Headers.f3227m.m4755g(new String[0]);
 
     public static final AbstractC0536Lk f8129c;
 
@@ -258,21 +257,21 @@ public abstract class AbstractC2623yo {
         return new b(str, z);
     }
 
-    public static final List m10914J(C1079Xc c1079Xc) {
-        AbstractC0116Ce.m476e(c1079Xc, "$this$toHeaderList");
-        C2659ze c2659zeM4987h = AbstractC1132Yj.m4987h(0, c1079Xc.size());
+    public static final List m10914J(Headers headers) {
+        AbstractC0116Ce.m476e(headers, "$this$toHeaderList");
+        C2659ze c2659zeM4987h = AbstractC1132Yj.m4987h(0, headers.size());
         ArrayList arrayList = new ArrayList<>(AbstractC1857i5.m7866n(c2659zeM4987h, 10));
         Iterator it = c2659zeM4987h.iterator();
         while (it.hasNext()) {
             int iMo10565b = ((AbstractC2521we) it).mo10565b();
-            arrayList.add(new C1033Wc(c1079Xc.m4738f(iMo10565b), c1079Xc.m4740h(iMo10565b)));
+            arrayList.add(new C1033Wc(headers.m4738f(iMo10565b), headers.m4740h(iMo10565b)));
         }
         return arrayList;
     }
 
-    public static final C1079Xc m10915K(List list) {
+    public static final Headers m10915K(List list) {
         AbstractC0116Ce.m476e(list, "$this$toHeaders");
-        C1079Xc.a aVar = new C1079Xc.a();
+        Headers.a aVar = new Headers.a();
         Iterator it = list.iterator();
         while (it.hasNext()) {
             C1033Wc c1033Wc = (C1033Wc) it.next();
@@ -546,9 +545,9 @@ public abstract class AbstractC2623yo {
         return false;
     }
 
-    public static final long m10944s(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "$this$headersContentLength");
-        String strM4737d = c0490Kk.m2401z().m4737d("Content-Length");
+    public static final long m10944s(Response response) {
+        AbstractC0116Ce.m476e(response, "$this$headersContentLength");
+        String strM4737d = response.getHeaders().m4737d("Content-Length");
         if (strM4737d != null) {
             return m10920P(strM4737d, -1L);
         }

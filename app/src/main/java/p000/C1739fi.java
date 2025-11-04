@@ -3,7 +3,6 @@ package p000;
 import java.util.List;
 import java.util.RandomAccess;
 
-/* loaded from: classes.dex */
 public final class C1739fi extends AbstractC0184E implements RandomAccess {
 
     public static final a f5506o = new a(null);

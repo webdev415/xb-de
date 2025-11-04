@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2480vj implements AbstractC2434uj.a {
 
     public static C2480vj instance;

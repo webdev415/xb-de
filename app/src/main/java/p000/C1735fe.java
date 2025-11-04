@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1735fe implements InterfaceC1876ie {
 
     public final C2202ph f5497l;

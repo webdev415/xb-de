@@ -2,7 +2,6 @@ package p000;
 
 import android.content.ComponentName;
 
-/* loaded from: classes.dex */
 public final class RunnableC2282rE implements Runnable {
 
     public final ServiceConnectionC1959kE f6911l;

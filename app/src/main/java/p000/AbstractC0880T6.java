@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0880T6 {
 
     public static final String[] f2711a = {"android.", "com.android.", "dalvik.", "java.", "javax."};

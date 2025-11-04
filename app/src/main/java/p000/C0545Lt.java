@@ -3,7 +3,6 @@ package p000;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C0545Lt extends AbstractC0908Tp implements InterfaceC0409Iv {
     public C0545Lt(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.ads.identifier.internal.IAdvertisingIdService");

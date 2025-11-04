@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1838hn {
     public abstract AbstractC1838hn mo4719a(Executor executor, InterfaceC0763Qh interfaceC0763Qh);
 

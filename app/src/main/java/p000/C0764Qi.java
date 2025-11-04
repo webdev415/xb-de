@@ -23,7 +23,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-/* loaded from: classes.dex */
 public class C0764Qi {
 
     public static volatile C0764Qi f2266a;

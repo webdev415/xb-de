@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentActivity;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0343Hb extends AbstractC0205Eb {
 
     public final Activity f1051a;

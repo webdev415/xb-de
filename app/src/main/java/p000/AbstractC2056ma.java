@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.locks.LockSupport;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2056ma extends AbstractC1964ka {
     public abstract Thread mo3473f0();
 

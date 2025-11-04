@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0970V4 extends AbstractC0946Uh {
 
     public static final int[][] f2934a;

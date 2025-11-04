@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0160Dc extends AbstractC0095C2 {
 
     public static final byte[] f392d = new byte[0];

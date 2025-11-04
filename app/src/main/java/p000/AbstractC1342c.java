@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1342c {
     public static final boolean m5684a(byte[] bArr, int i, byte[] bArr2, int i2, int i3) {
         AbstractC0116Ce.m476e(bArr, "a");

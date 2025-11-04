@@ -3,7 +3,6 @@ package p000;
 import java.util.Collection;
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public final class C2269r1 implements Collection {
 
     public final Object[] f6860l;

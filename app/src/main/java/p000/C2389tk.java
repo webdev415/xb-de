@@ -3,7 +3,6 @@ package p000;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
-/* loaded from: classes.dex */
 public final class C2389tk implements Serializable {
 
     public static final a f7236m = new a(null);

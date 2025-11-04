@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1844ht {
 
     public static final AbstractC1844ht f5771a;

@@ -9,7 +9,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* loaded from: classes.dex */
 public final class C0007A6 {
 
     public final String f15a;
@@ -82,10 +81,10 @@ public final class C0007A6 {
             throw new UnsupportedOperationException("Method not decompiled: p000.C0007A6.a.m31d(long, Bd, java.lang.String):A6");
         }
 
-        public final List m32e(C0069Bd c0069Bd, C1079Xc c1079Xc) {
+        public final List m32e(C0069Bd c0069Bd, Headers headers) {
             AbstractC0116Ce.m476e(c0069Bd, "url");
-            AbstractC0116Ce.m476e(c1079Xc, "headers");
-            List listM4741i = c1079Xc.m4741i("Set-Cookie");
+            AbstractC0116Ce.m476e(headers, "headers");
+            List listM4741i = headers.m4741i("Set-Cookie");
             int size = listM4741i.size();
             ArrayList arrayList = null;
             for (int i = 0; i < size; i++) {

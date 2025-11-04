@@ -3,7 +3,6 @@ package p000;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2433ui {
 
     public static final C1216aa f7558a = new C1216aa();

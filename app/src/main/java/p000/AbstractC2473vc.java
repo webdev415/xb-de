@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2473vc {
     public static void m10347a(InputStream inputStream, OutputStream outputStream) throws IOException {
         GZIPOutputStream gZIPOutputStream = new GZIPOutputStream(outputStream);

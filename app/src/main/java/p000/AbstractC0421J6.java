@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0421J6 {
     public static final void m1821a(InterfaceC0191E6 interfaceC0191E6, Throwable th) {
         Iterator it = AbstractC0375I6.m1675a().iterator();

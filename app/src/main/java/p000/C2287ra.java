@@ -2,14 +2,12 @@ package p000;
 
 import java.io.IOException;
 import java.net.ProtocolException;
-import p000.C0490Kk;
 
-/* loaded from: classes.dex */
 public final class C2287ra {
 
     public boolean f6915a;
 
-    public final C1741fk f6916b;
+    public final Connection f6916b;
 
     public final C1694ek f6917c;
 
@@ -217,14 +215,14 @@ public final class C2287ra {
         this.f6920f.cancel();
     }
 
-    public final InterfaceC1134Yl m9362c(C0122Ck c0122Ck, boolean z) {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+    public final InterfaceC1134Yl m9362c(Request request, boolean z) {
+        AbstractC0116Ce.m476e(request, "request");
         this.f6915a = z;
-        AbstractC0168Dk abstractC0168DkM490a = c0122Ck.m490a();
+        AbstractC0168Dk abstractC0168DkM490a = request.m490a();
         AbstractC0116Ce.m473b(abstractC0168DkM490a);
         long jMo720a = abstractC0168DkM490a.mo720a();
         this.f6918d.m8148q(this.f6917c);
-        return new a(this, this.f6920f.mo9535f(c0122Ck, jMo720a), jMo720a);
+        return new a(this, this.f6920f.mo9535f(request, jMo720a), jMo720a);
     }
 
     public final void m9363d() {
@@ -256,7 +254,7 @@ public final class C2287ra {
         return this.f6917c;
     }
 
-    public final C1741fk m9367h() {
+    public final Connection m9367h() {
         return this.f6916b;
     }
 
@@ -284,12 +282,12 @@ public final class C2287ra {
         this.f6917c.m7451x(this, true, false, null);
     }
 
-    public final AbstractC0536Lk m9374o(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "response");
+    public final AbstractC0536Lk m9374o(Response response) {
+        AbstractC0116Ce.m476e(response, "response");
         try {
-            String strM2383w = C0490Kk.m2383w(c0490Kk, "Content-Type", null, 2, null);
-            long jMo9536g = this.f6920f.mo9536g(c0490Kk);
-            return new C1928jk(strM2383w, jMo9536g, AbstractC0487Kh.m2376b(new b(this, this.f6920f.mo9531b(c0490Kk), jMo9536g)));
+            String strM2383w = Response.m2383w(response, "Content-Type", null, 2, null);
+            long jMo9536g = this.f6920f.mo9536g(response);
+            return new C1928jk(strM2383w, jMo9536g, AbstractC0487Kh.m2376b(new b(this, this.f6920f.mo9531b(response), jMo9536g)));
         } catch (IOException e) {
             this.f6918d.m8154w(this.f6917c, e);
             m9378s(e);
@@ -297,9 +295,9 @@ public final class C2287ra {
         }
     }
 
-    public final C0490Kk.a m9375p(boolean z) {
+    public final Response.a m9375p(boolean z) {
         try {
-            C0490Kk.a aVarMo9534e = this.f6920f.mo9534e(z);
+            Response.a aVarMo9534e = this.f6920f.mo9534e(z);
             if (aVarMo9534e != null) {
                 aVarMo9534e.m2413l(this);
             }
@@ -311,9 +309,9 @@ public final class C2287ra {
         }
     }
 
-    public final void m9376q(C0490Kk c0490Kk) {
-        AbstractC0116Ce.m476e(c0490Kk, "response");
-        this.f6918d.m8155x(this.f6917c, c0490Kk);
+    public final void m9376q(Response response) {
+        AbstractC0116Ce.m476e(response, "response");
+        this.f6918d.m8155x(this.f6917c, response);
     }
 
     public final void m9377r() {
@@ -325,12 +323,12 @@ public final class C2287ra {
         this.f6920f.mo9537h().m7612G(this.f6917c, iOException);
     }
 
-    public final void m9379t(C0122Ck c0122Ck) {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+    public final void m9379t(Request request) {
+        AbstractC0116Ce.m476e(request, "request");
         try {
             this.f6918d.m8151t(this.f6917c);
-            this.f6920f.mo9530a(c0122Ck);
-            this.f6918d.m8150s(this.f6917c, c0122Ck);
+            this.f6920f.mo9530a(request);
+            this.f6918d.m8150s(this.f6917c, request);
         } catch (IOException e) {
             this.f6918d.m8149r(this.f6917c, e);
             m9378s(e);

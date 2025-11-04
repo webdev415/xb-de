@@ -3,9 +3,7 @@ package p000;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
-import p000.InterfaceC1081Xe;
 
-/* loaded from: classes.dex */
 public class C1347c4 extends AbstractC1020W8 implements InterfaceC1301b4, InterfaceC0697P6 {
 
     public static final AtomicIntegerFieldUpdater f3914q = AtomicIntegerFieldUpdater.newUpdater(C1347c4.class, "_decisionAndIndex");
@@ -94,7 +92,7 @@ public class C1347c4 extends AbstractC1020W8 implements InterfaceC1301b4, Interf
     }
 
     public final Object m5711E(InterfaceC2294rh interfaceC2294rh, Object obj, int i, InterfaceC0986Vb interfaceC0986Vb, Object obj2) {
-        return obj instanceof C0098C5 ? obj : (AbstractC1066X8.m4660b(i) || obj2 != null) ? (interfaceC0986Vb == null && obj2 == null) ? obj : new C0006A5(obj, null, interfaceC0986Vb, obj2, null, 16, null) : obj;
+        return obj instanceof C0098C5 ? obj : (AbstractC1066X8.m4660b(i) || obj2 != null) ? (interfaceC0986Vb == null && obj2 == null) ? obj : new CompletedContinuation(obj, null, interfaceC0986Vb, obj2, null, 16, null) : obj;
     }
 
     public final boolean m5712F() {
@@ -140,16 +138,16 @@ public class C1347c4 extends AbstractC1020W8 implements InterfaceC1301b4, Interf
             if (obj2 instanceof C0098C5) {
                 return;
             }
-            if (obj2 instanceof C0006A5) {
-                C0006A5 c0006a5 = (C0006A5) obj2;
-                if (!(!c0006a5.m19c())) {
+            if (obj2 instanceof CompletedContinuation) {
+                CompletedContinuation completedContinuation = (CompletedContinuation) obj2;
+                if (!(!completedContinuation.m19c())) {
                     throw new IllegalStateException("Must be called at most once".toString());
                 }
-                if (AbstractC0506L.m2572a(f3915r, this, obj2, C0006A5.m17b(c0006a5, null, null, null, null, th, 15, null))) {
-                    c0006a5.m20d(this, th);
+                if (AbstractC0506L.m2572a(f3915r, this, obj2, CompletedContinuation.m17b(completedContinuation, null, null, null, null, th, 15, null))) {
+                    completedContinuation.m20d(this, th);
                     return;
                 }
-            } else if (AbstractC0506L.m2572a(f3915r, this, obj2, new C0006A5(obj2, null, null, null, th, 14, null))) {
+            } else if (AbstractC0506L.m2572a(f3915r, this, obj2, new CompletedContinuation(obj2, null, null, null, th, 14, null))) {
                 return;
             }
         }
@@ -180,7 +178,7 @@ public class C1347c4 extends AbstractC1020W8 implements InterfaceC1301b4, Interf
 
     @Override
     public Object mo4452e(Object obj) {
-        return obj instanceof C0006A5 ? ((C0006A5) obj).f6a : obj;
+        return obj instanceof CompletedContinuation ? ((CompletedContinuation) obj).result : obj;
     }
 
     @Override

@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 import p000.NetworkUtils;
 import p000.AndroidSystemUtils;
-import p000.AbstractC2274r6;
+import p000.ContentViewManager;
 import p000.AbstractC2524wh;
 import p000.C0768Qm;
 import p000.C0896Td;
@@ -140,7 +140,7 @@ public class SuggestionInputAdapter extends BaseAdapter implements Filterable, V
         if (TextUtils.isEmpty(strFilterConstraint)) {
             return;
         }
-        C2390tl.m9731f().m9744o(strFilterConstraint, new C2390tl.c() {
+        C2390tl.getInstance().m9744o(strFilterConstraint, new C2390tl.c() {
             @Override
             public void mo7157a(ArrayList arrayList) {
                 if (strFilterConstraint.equals(filterConstraint == null ? "" : filterConstraint.toString())) {
@@ -217,7 +217,7 @@ public class SuggestionInputAdapter extends BaseAdapter implements Filterable, V
                 view.post(new Runnable() {
                     @Override
                     public void run() {
-                        f5095a.url = C2390tl.m9731f().m9737h();
+                        f5095a.url = C2390tl.getInstance().m9737h();
                         notifyDataSetChanged();
                     }
                 });
@@ -628,8 +628,8 @@ public class SuggestionInputAdapter extends BaseAdapter implements Filterable, V
     public final k m7137L() {
         k kVar = new k();
         kVar.type = 11;
-        kVar.url = BrowserActivity.getActivity().f4242D;
-        kVar.title = BrowserActivity.getActivity().f4243E;
+        kVar.url = BrowserActivity.getActivity().lastNavigatedUrl;
+        kVar.title = BrowserActivity.getActivity().lastPageTitle;
         return kVar;
     }
 
@@ -867,22 +867,22 @@ public class SuggestionInputAdapter extends BaseAdapter implements Filterable, V
         if (!TextUtils.isEmpty(lowerCase)) {
             list.add(m7136K());
         }
-        ArrayList arrayListM9286J = BrowserActivity.getActivity().m6222J0().m9286J();
+        ArrayList arrayListM9286J = BrowserActivity.getActivity().getTabManager().getTabList();
         for (int i2 = 0; i2 < arrayListM9286J.size(); i2++) {
-            AbstractC2274r6.d dVar = (AbstractC2274r6.d) arrayListM9286J.get(i2);
-            String strM9339r = dVar.m9339r();
-            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) dVar.m9333l();
+            ContentViewManager.Tab tabVar = (ContentViewManager.Tab) arrayListM9286J.get(i2);
+            String strM9339r = tabVar.getTabId();
+            InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) tabVar.m9333l();
             if (interfaceC1300b3 != null) {
                 strM9337p = interfaceC1300b3.mo1574c();
-                strM9338q = interfaceC1300b3.mo1573b();
-                String strM9337p2 = dVar.m9337p();
-                String strM9338q2 = dVar.m9338q();
+                strM9338q = interfaceC1300b3.getUrlFromTitle();
+                String strM9337p2 = tabVar.m9337p();
+                String strM9338q2 = tabVar.m9338q();
                 if (TextUtils.isEmpty(strM9337p) || (!TextUtils.isEmpty(strM9337p2) && !TextUtils.isEmpty(strM9338q2) && strM9337p2.equals(strM9337p) && !strM9338q2.equals(strM9338q))) {
                     strM9337p = strM9338q;
                 }
-            } else if (dVar.m9344w()) {
-                strM9337p = dVar.m9337p();
-                strM9338q = dVar.m9338q();
+            } else if (tabVar.m9344w()) {
+                strM9337p = tabVar.m9337p();
+                strM9338q = tabVar.m9338q();
             }
             if (strM9337p == null) {
                 strM9337p = "";
@@ -972,17 +972,17 @@ public class SuggestionInputAdapter extends BaseAdapter implements Filterable, V
 
     public final void m7149a0(List list) {
         ArrayList arrayListM9736g;
-        String str = BrowserActivity.getActivity().f4242D;
+        String str = BrowserActivity.getActivity().lastNavigatedUrl;
         if (!TextUtils.isEmpty(str) && str.startsWith("http")) {
             list.add(m7137L());
         }
-        if (!SharedPreferencesHelper.getInstance().hideSearchHistory && (arrayListM9736g = C2390tl.m9731f().m9736g()) != null && arrayListM9736g.size() > 0) {
+        if (!SharedPreferencesHelper.getInstance().hideSearchHistory && (arrayListM9736g = C2390tl.getInstance().m9736g()) != null && arrayListM9736g.size() > 0) {
             list.add(m7138M(arrayListM9736g, 9));
         }
         if (!SharedPreferencesHelper.getInstance().hideClipboardContent && !TextUtils.isEmpty(firstUrl)) {
             list.add(m7135J());
         }
-        ArrayList arrayListM9737h = C2390tl.m9731f().m9737h();
+        ArrayList arrayListM9737h = C2390tl.getInstance().m9737h();
         if (arrayListM9737h != null && arrayListM9737h.size() > 0) {
             list.add(m7138M(arrayListM9737h, 3));
         }
@@ -1007,13 +1007,13 @@ public class SuggestionInputAdapter extends BaseAdapter implements Filterable, V
 
     public final void m7150b0(List list) {
         ArrayList arrayListM9736g;
-        if (!SharedPreferencesHelper.getInstance().hideSearchHistory && (arrayListM9736g = C2390tl.m9731f().m9736g()) != null && arrayListM9736g.size() > 0) {
+        if (!SharedPreferencesHelper.getInstance().hideSearchHistory && (arrayListM9736g = C2390tl.getInstance().m9736g()) != null && arrayListM9736g.size() > 0) {
             list.add(m7138M(arrayListM9736g, 9));
         }
         if (!SharedPreferencesHelper.getInstance().hideClipboardContent && !TextUtils.isEmpty(firstUrl)) {
             list.add(m7135J());
         }
-        ArrayList arrayListM9737h = C2390tl.m9731f().m9737h();
+        ArrayList arrayListM9737h = C2390tl.getInstance().m9737h();
         if (arrayListM9737h != null && arrayListM9737h.size() > 0) {
             list.add(m7138M(arrayListM9737h, 3));
         }
@@ -1174,18 +1174,18 @@ public class SuggestionInputAdapter extends BaseAdapter implements Filterable, V
 
     public final void m7154x(ArrayList arrayList) {
         if (TextUtils.isEmpty(this.filterConstraint)) {
-            String str = BrowserActivity.getActivity().f4242D;
+            String str = BrowserActivity.getActivity().lastNavigatedUrl;
             if (!TextUtils.isEmpty(str) && str.startsWith("http")) {
                 arrayList.add(0, m7137L());
             }
         } else {
             String lowerCase = this.filterConstraint.toString().toLowerCase();
-            int iM9280D = BrowserActivity.getActivity().m6222J0().m9280D();
+            int iM9280D = BrowserActivity.getActivity().getTabManager().getTabCount();
             for (int i2 = 0; i2 < iM9280D; i2++) {
-                String strM9283G = BrowserActivity.getActivity().m6222J0().m9283G(i2);
-                InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) BrowserActivity.getActivity().m6222J0().m9317z(i2);
+                String strM9283G = BrowserActivity.getActivity().getTabManager().getTabId(i2);
+                InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) BrowserActivity.getActivity().getTabManager().m9317z(i2);
                 String strMo1574c = interfaceC1300b3 != null ? interfaceC1300b3.mo1574c() : null;
-                String strMo1573b = interfaceC1300b3 != null ? interfaceC1300b3.mo1573b() : null;
+                String strMo1573b = interfaceC1300b3 != null ? interfaceC1300b3.getUrlFromTitle() : null;
                 if (strMo1573b != null) {
                     int i3 = strMo1573b.startsWith("http://") ? 7 : strMo1573b.startsWith("https://") ? 8 : 0;
                     String lowerCase2 = strMo1574c == null ? "" : strMo1574c.toLowerCase();

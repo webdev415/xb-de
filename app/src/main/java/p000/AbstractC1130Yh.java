@@ -3,7 +3,6 @@ package p000;
 import android.hardware.Camera;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1130Yh {
 
     public static final String f3357a = "Yh";

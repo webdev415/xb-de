@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0096C3;
 
-/* loaded from: classes.dex */
 public final class C1033Wc {
 
     public static final C0096C3 f3052d;

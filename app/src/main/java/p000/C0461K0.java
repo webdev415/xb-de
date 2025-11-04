@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class C0461K0 {
 
     public static C0461K0 f1497k;

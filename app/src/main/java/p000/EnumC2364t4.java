@@ -3,7 +3,6 @@ package p000;
 import java.util.HashMap;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public enum EnumC2364t4 {
     Cp437(new int[]{0, 2}, new String[0]),
     ISO8859_1(new int[]{1, 3}, "ISO-8859-1"),

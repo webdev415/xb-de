@@ -23,12 +23,14 @@ import java.util.concurrent.Executors;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import okhttp3.OkHttpClient;
 import p000.NetworkUtils;
 import p000.FileUtils;
 import p000.AndroidSystemUtils;
 import p000.AbstractCryptoUtils;
-import p000.AbstractDialogC1303b6;
-import p000.AbstractDialogC1814h9;
+import p000.ConfirmDialog;
+import p000.DownloadConfirmDialog;
 import p000.ResourceCacheManager;
 import p000.ApiEndpointsManager;
 import p000.C0712Pc;
@@ -36,7 +38,6 @@ import p000.C2406u0;
 import p000.C2518wb;
 import p000.InterfaceC1300b3;
 
-/* loaded from: classes.dex */
 public class VideoSniffingManager {
 
     public static VideoSniffingManager instance;
@@ -51,7 +52,7 @@ public class VideoSniffingManager {
 
     public Runnable videoCheckRunnable = new VideoSniffingTrigger();
 
-    public final ArrayList sniffedVideos = new ArrayList<>();
+    public final ArrayList<String> sniffedVideos = new ArrayList<>();
 
     public JSONArray videoConfigs = null;
 
@@ -65,11 +66,11 @@ public class VideoSniffingManager {
 
             @Override
             public boolean queueIdle() {
-                if (browserActivity.m6221J()) {
+                if (browserActivity.isNextTabValid()) {
                     return false;
                 }
                 Log.i("sniff-video", ">>>>>>>>>>>>>>>>>  start check media resource >>>>>>>>>>>>>>>>>>>2");
-                browserActivity.m6361u0("if(window._XJSAPI_ != undefined) _XJSAPI_.sniff_video()");
+                browserActivity.updateTitle("if(window._XJSAPI_ != undefined) _XJSAPI_.sniff_video()");
                 return false;
             }
         }
@@ -118,12 +119,12 @@ public class VideoSniffingManager {
 
         @Override
         public void run() throws Resources.NotFoundException {
-            C1571f c1571f = C1571f.this;
-            c1571f.videoParser.title = ((InterfaceC1300b3) c1571f.browserActivity.m6222J0().m9316y()).mo1574c();
+            VideoSniffingManager VideoSniffingManager = VideoSniffingManager.this;
+            VideoSniffingManager.videoParser.title = ((InterfaceC1300b3) VideoSniffingManager.browserActivity.m6222J0().m9316y()).mo1574c();
             if (TextUtils.isEmpty(videoParser.path)) {
                 return;
             }
-            browserActivity.m6218I0().m6394C().m1429l(2);
+            browserActivity.getActivityDelegate().m6394C().m1429l(2);
             C2518wb.m10534j(browserActivity.getBrowserFrameLayout());
             browserActivity.m6241O(5);
         }
@@ -155,17 +156,17 @@ public class VideoSniffingManager {
         }
     }
 
-    public class AddonDialog extends AbstractDialogC1303b6 {
+    public class AddonDialog extends ConfirmDialog {
         public AddonDialog(Context context) {
             super(context);
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() throws URISyntaxException {
+        public void onOK() throws URISyntaxException {
             browserActivity.openUrl("x:addon", true, 0);
         }
     }
@@ -188,7 +189,7 @@ public class VideoSniffingManager {
 
             public final long fileSize;
 
-            public class VideoDownloadDialog extends AbstractDialogC1814h9 {
+            public class VideoDownloadDialog extends DownloadConfirmDialog {
                 public VideoDownloadDialog(BrowserActivity browserActivity) {
                     super(browserActivity);
                 }
@@ -206,16 +207,12 @@ public class VideoSniffingManager {
                 @Override
                 public void mo6443g() {
                     String string = ((EditText) findViewById(R.id.file_name)).getText().toString();
-                    BrowserActivityDelegate browserActivityDelegateM6218I0 = browserActivity.m6218I0();
-                    DownloadDialogRunnable aVar = DownloadDialogRunnable.this;
-                    browserActivityDelegateM6218I0.m6399H(aVar.downloadUrl, VideoDownloadCallback.this.mimeType, null, string, aVar.fileExtension, aVar.fileSize);
+                    browserActivity.getActivityDelegate().m6399H(downloadUrl, VideoDownloadCallback.this.mimeType, null, string, fileExtension, fileSize);
                 }
 
                 @Override
                 public void mo6444h() {
-                    DownloadDialogRunnable aVar = DownloadDialogRunnable.this;
-                    VideoDownloadCallback gVar = VideoDownloadCallback.this;
-                    AndroidSystemUtils.m8690X(browserActivity, gVar.userAgent, aVar.downloadUrl, "", null, null, null);
+                    AndroidSystemUtils.share(browserActivity, userAgent, downloadUrl,  null, null, null);
                 }
             }
 
@@ -229,8 +226,8 @@ public class VideoSniffingManager {
             @Override
             public void run() {
                 String strM6871P = SharedPreferencesHelper.getInstance().getString("bind_default_downloader", "");
-                if (!TextUtils.isEmpty((strM6871P.equals("com.x.browser.downloader") || strM6871P.equals("com.android.providers.downloads") || C2406u0.m9882f().m9893l(strM6871P)) ? strM6871P : "")) {
-                    browserActivity.m6218I0().m6399H(this.downloadUrl, VideoDownloadCallback.this.mimeType, null, this.fileName, this.fileExtension, this.fileSize);
+                if (!TextUtils.isEmpty((strM6871P.equals("com.x.browser.downloader") || strM6871P.equals("com.android.providers.downloads") || C2406u0.getInstance().m9893l(strM6871P)) ? strM6871P : "")) {
+                    browserActivity.getActivityDelegate().m6399H(this.downloadUrl, VideoDownloadCallback.this.mimeType, null, this.fileName, this.fileExtension, this.fileSize);
                     return;
                 }
                 VideoDownloadDialog dialogC2712a = new VideoDownloadDialog(browserActivity);
@@ -265,16 +262,16 @@ public class VideoSniffingManager {
         }
     }
 
-    public static C1571f getInstance() {
+    public static VideoSniffingManager getInstance() {
         if (instance == null) {
-            instance = new C1571f();
+            instance = new VideoSniffingManager();
         }
         return instance;
     }
 
     public void m6989A() {
         this.videoConfigs = new JSONArray();
-        this.browserActivity.m6361u0("_XJSAPI_.extract_image_res()");
+        this.browserActivity.updateTitle("_XJSAPI_.extract_image_res()");
         this.browserActivity.openUrl(ApiEndpointsManager.getInstance().getViewPicListUrl(), true, 0);
     }
 
@@ -295,7 +292,7 @@ public class VideoSniffingManager {
         this.videoParser.m3553b();
         this.sniffedVideos.clear();
         this.currentUrl = str;
-        BrowserDownloadManager.m6674q().f4620a.clear();
+        BrowserDownloadManager.getInstance().f4620a.clear();
     }
 
     public final boolean m6993E(String str, String str2) {
@@ -303,21 +300,20 @@ public class VideoSniffingManager {
         return (TextUtils.isEmpty(str) || (lastPathSegment = Uri.parse(str).getLastPathSegment()) == null || lastPathSegment.indexOf(str2) <= 0) ? false : true;
     }
 
-    public void m6994d(String str, String str2) throws JSONException {
+    public void m6994d(String title, String src) {
         JSONObject jSONObject = new JSONObject();
         try {
-            jSONObject.put("title", str);
-            jSONObject.put("src", str2);
+            jSONObject.put("title", title);
+            jSONObject.put("src", src);
             this.videoConfigs.put(jSONObject);
-        } catch (Exception unused) {
+        } catch (Exception ignored) {
         }
     }
 
     public synchronized void m6995e(String str) {
-        if (this.sniffedVideos.contains(str)) {
-            return;
+        if (!this.sniffedVideos.contains(str)) {
+            this.sniffedVideos.add(str);
         }
-        this.sniffedVideos.add(str);
     }
 
     public synchronized void m6996f(String str, String str2) {
@@ -352,7 +348,7 @@ public class VideoSniffingManager {
             return;
         }
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        BrowserDownloadManager.m6674q().m6691g(str, this.currentUrl, new MediaCheckCallback(countDownLatch));
+        BrowserDownloadManager.getInstance().m6691g(str, this.currentUrl, new MediaCheckCallback(countDownLatch));
         try {
             countDownLatch.await();
         } catch (InterruptedException unused) {
@@ -360,7 +356,7 @@ public class VideoSniffingManager {
     }
 
     public final void m6998h(boolean z) {
-        this.browserActivity.m6361u0("if(window._XJSAPI_ != undefined) _XJSAPI_.sniff_video()");
+        this.browserActivity.updateTitle("if(window._XJSAPI_ != undefined) _XJSAPI_.sniff_video()");
         ArrayList arrayList = new ArrayList<>();
         for (int i = 0; i < this.sniffedVideos.size(); i++) {
             String str = (String) this.sniffedVideos.get(i);
@@ -432,28 +428,28 @@ public class VideoSniffingManager {
         if (TextUtils.isEmpty(this.videoParser.path)) {
             m6998h(z);
         } else if (!z) {
-            this.browserActivity.m6218I0().m6394C().m1429l(2);
+            this.browserActivity.getActivityDelegate().m6394C().m1429l(2);
         } else {
-            this.browserActivity.m6218I0().m6394C().m1429l(2);
+            this.browserActivity.getActivityDelegate().m6394C().m1429l(2);
             m6991C(this.videoParser.path);
         }
     }
 
     public void m7002l() {
-        String strMo1574c = ((InterfaceC1300b3) this.browserActivity.m6222J0().m9316y()).mo1574c();
+        String strMo1574c = ((InterfaceC1300b3) this.browserActivity.getTabManager().m9316y()).mo1574c();
         String strM6234M0 = this.browserActivity.m6234M0();
         if (this.videoParser.path.indexOf(".m3u8") <= 0) {
             C0712Pc c0712Pc = this.videoParser;
             c0712Pc.f2133e = NetworkUtils.getMimeType(c0712Pc.path);
-            String strM4215D = FileUtils.sanitizeFileName(((InterfaceC1300b3) this.browserActivity.m6222J0().m9316y()).mo1574c());
+            String strM4215D = FileUtils.sanitizeFileName(((InterfaceC1300b3) this.browserActivity.getTabManager().m9316y()).mo1574c());
             if (this.videoParser.path.startsWith("blob:")) {
                 return;
             }
             Toast.makeText(this.browserActivity, R.string.toast_getting_download_info, Toast.LENGTH_SHORT).show();
-            BrowserDownloadManager.m6674q().m6691g(m7000j().path, strM6234M0, new VideoDownloadCallback(strM4215D, strM6234M0, strMo1574c));
+            BrowserDownloadManager.getInstance().m6691g(m7000j().path, strM6234M0, new VideoDownloadCallback(strM4215D, strM6234M0, strMo1574c));
             return;
         }
-        if (C2406u0.m9882f().m9893l("idm.internet.download.manager.plus")) {
+        if (C2406u0.getInstance().m9893l("idm.internet.download.manager.plus")) {
             Intent intent = new Intent("android.intent.action.VIEW");
             intent.addCategory("android.intent.category.APP_BROWSER");
             intent.setData(Uri.parse(this.videoParser.path));
@@ -463,8 +459,8 @@ public class VideoSniffingManager {
             SharedPreferencesHelper.getInstance().putString("default_downloader", "idm.internet.download.manager.plus");
             return;
         }
-        if (!C2406u0.m9882f().m9893l("idm.internet.download.manager")) {
-            new AddonDialog(this.browserActivity).m5643d(this.browserActivity.getString(R.string.dlg_title_installation_addon), this.browserActivity.getString(R.string.dlg_text_m3u8_addon_required));
+        if (!C2406u0.getInstance().m9893l("idm.internet.download.manager")) {
+            new AddonDialog(this.browserActivity).show(this.browserActivity.getString(R.string.dlg_title_installation_addon), this.browserActivity.getString(R.string.dlg_text_m3u8_addon_required));
             return;
         }
         Intent intent2 = new Intent("android.intent.action.VIEW");
@@ -533,7 +529,7 @@ public class VideoSniffingManager {
         return false;
     }
 
-    public void m7006q(BrowserActivity browserActivity) {
+    public void init(BrowserActivity browserActivity) {
         this.browserActivity = browserActivity;
         this.httpClient = new OkHttpClient();
         this.videoParser = new C0712Pc();
@@ -584,7 +580,7 @@ public class VideoSniffingManager {
 
     public final void m7012w() throws JSONException {
         try {
-            String strM2046a = ResourceCacheManager.getInstance().m2046a("ad_sniffing_white_list", 1002);
+            String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath("ad_sniffing_white_list", 1002);
             if (strM2046a != null) {
                 JSONArray jSONArray = new JSONArray(strM2046a);
                 for (int i = 0; i < jSONArray.length(); i++) {

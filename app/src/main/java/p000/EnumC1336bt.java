@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC1336bt implements InterfaceC1209aD {
     UNSPECIFIED_TYPE(0),
     RAW_FILE_IO_TYPE(1),

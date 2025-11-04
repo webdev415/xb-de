@@ -4,7 +4,6 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import p000.C0632No;
 
-/* loaded from: classes.dex */
 public class C1036Wf extends AbstractC0990Vf {
 
     public final InterfaceC0623Nf f3065a;

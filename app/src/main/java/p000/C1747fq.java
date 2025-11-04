@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.os.Looper;
 
-/* loaded from: classes.dex */
 public final class C1747fq {
     public C1747fq(Context context) {
     }

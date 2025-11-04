@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.util.Log;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
 public class C0278G1 implements InterfaceC0094C1 {
 
     public Context f703a;
@@ -17,14 +16,14 @@ public class C0278G1 implements InterfaceC0094C1 {
 
         public final String f705m;
 
-        public final AbstractC2221q f706n;
+        public final DataSource f706n;
 
         public final InterfaceC2229q7 f707o;
 
-        public a(HashMap map, String str, AbstractC2221q abstractC2221q, InterfaceC2229q7 interfaceC2229q7) {
+        public a(HashMap map, String str, DataSource dataSource, InterfaceC2229q7 interfaceC2229q7) {
             this.f704l = map;
             this.f705m = str;
-            this.f706n = abstractC2221q;
+            this.f706n = dataSource;
             this.f707o = interfaceC2229q7;
         }
 
@@ -80,10 +79,10 @@ public class C0278G1 implements InterfaceC0094C1 {
 
     @Override
     public void mo364a(String str, boolean z, InterfaceC2229q7 interfaceC2229q7, HashMap map) {
-        AbstractC2221q abstractC2221q = (AbstractC2221q) C2275r7.m9348e().m9356i(str);
-        if (abstractC2221q == null) {
+        DataSource dataSource = (DataSource) C2275r7.m9348e().m9356i(str);
+        if (dataSource == null) {
             throw new IllegalStateException("the data source not register");
         }
-        AbstractC1807h2.m7778a(new a(map, str, abstractC2221q, interfaceC2229q7));
+        BackgroundTaskManager.submitBackgroundTask(new a(map, str, dataSource, interfaceC2229q7));
     }
 }

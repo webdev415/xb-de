@@ -8,8 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class C0010A9 extends AbstractC2221q {
+public class C0010A9 extends DataSource {
     @Override
     public String mo61f() {
         return "browser.resource_map";
@@ -36,7 +35,7 @@ public class C0010A9 extends AbstractC2221q {
 
     public final void m63m(String str) throws JSONException {
         if (!str.equals("proxy_node") && str.equals("url_icon_maps")) {
-            ResourceCacheManager.getInstance().m2057m();
+            ResourceCacheManager.getInstance().mapIconsFromJson();
         }
     }
 

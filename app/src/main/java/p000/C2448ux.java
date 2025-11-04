@@ -6,7 +6,6 @@ import android.os.IInterface;
 import android.os.Looper;
 import p000.AbstractC2454v2;
 
-/* loaded from: classes.dex */
 public final class C2448ux extends AbstractC2454v2 {
     public C2448ux(Context context, Looper looper, a aVar, b bVar) {
         super(context, looper, 93, aVar, bVar, null);

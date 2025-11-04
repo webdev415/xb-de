@@ -3,14 +3,13 @@ package p000;
 import android.content.res.Resources;
 import android.util.Log;
 import android.widget.Toast;
-import com.mmbox.widget.messagebox.C1418a;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
 public class C2363t3 {
 
     public static C2363t3 f7138c;
@@ -29,7 +28,7 @@ public class C2363t3 {
         }
     }
 
-    public static C2363t3 m9665a() {
+    public static C2363t3 getInstance() {
         if (f7138c == null) {
             f7138c = new C2363t3();
         }
@@ -45,7 +44,7 @@ public class C2363t3 {
         return strM6871P.indexOf(sb.toString()) >= 0;
     }
 
-    public void m9667c(BrowserActivity browserActivity) {
+    public void init(BrowserActivity browserActivity) {
         this.f7140b = browserActivity;
     }
 
@@ -59,17 +58,17 @@ public class C2363t3 {
     }
 
     public final void m9669e() {
-        C1418a.m6110b().m6115f(this.f7140b.getBrowserFrameLayout(), this.f7140b.getString(R.string.tips_ad_block), null, false);
+        MessageBoxManager.getInstance().m6115f(this.f7140b.getBrowserFrameLayout(), this.f7140b.getString(R.string.tips_ad_block), null, false);
         this.f7139a = true;
     }
 
     public final void m9670f() {
-        C1418a.m6110b().m6115f(this.f7140b.getBrowserFrameLayout(), this.f7140b.getString(R.string.tips_fullscreen_gesture), null, false);
+        MessageBoxManager.getInstance().m6115f(this.f7140b.getBrowserFrameLayout(), this.f7140b.getString(R.string.tips_fullscreen_gesture), null, false);
         this.f7139a = true;
     }
 
     public final void m9671g() {
-        C1418a.m6110b().m6115f(this.f7140b.getBrowserFrameLayout(), this.f7140b.getString(R.string.tips_multi_bm), null, false);
+        MessageBoxManager.getInstance().m6115f(this.f7140b.getBrowserFrameLayout(), this.f7140b.getString(R.string.tips_multi_bm), null, false);
         this.f7139a = true;
     }
 
@@ -124,7 +123,7 @@ public class C2363t3 {
 
         @Override
         public void run() throws Resources.NotFoundException {
-            C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_update_qr_scan_addon), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_install), new a(), false);
+            MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_update_qr_scan_addon), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_install), new a(), false);
         }
 
         public class a implements MessageBoxBase.MessageBoxListener {
@@ -152,7 +151,7 @@ public class C2363t3 {
 
         @Override
         public void run() {
-            C1418a.m6110b().m6115f(C2363t3.this.f7140b.getBrowserFrameLayout(), C2363t3.this.f7140b.getString(R.string.tips_open_link_in_bg), new a(), false);
+            MessageBoxManager.getInstance().m6115f(C2363t3.this.f7140b.getBrowserFrameLayout(), C2363t3.this.f7140b.getString(R.string.tips_open_link_in_bg), new a(), false);
         }
 
         public class a implements MessageBoxBase.MessageBoxListener {
@@ -179,7 +178,7 @@ public class C2363t3 {
 
         @Override
         public void run() {
-            C1418a.m6110b().m6115f(C2363t3.this.f7140b.getBrowserFrameLayout(), C2363t3.this.f7140b.getString(R.string.tips_long_press_to_delete), new a(), false);
+            MessageBoxManager.getInstance().m6115f(C2363t3.this.f7140b.getBrowserFrameLayout(), C2363t3.this.f7140b.getString(R.string.tips_long_press_to_delete), new a(), false);
         }
 
         public class a implements MessageBoxBase.MessageBoxListener {

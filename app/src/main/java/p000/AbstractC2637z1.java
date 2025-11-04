@@ -3,7 +3,6 @@ package p000;
 import java.util.Arrays;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2637z1 extends AbstractC2591y1 {
     public static List m10981c(Object[] objArr) {
         AbstractC0116Ce.m476e(objArr, "<this>");

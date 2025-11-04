@@ -3,7 +3,6 @@ package p000;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public final class C2026lq implements InterfaceC0483Kd {
 
     public final IBinder f6106c;

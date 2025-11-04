@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
 public final class C1670e6 {
 
     public final C1835hk f5392a;

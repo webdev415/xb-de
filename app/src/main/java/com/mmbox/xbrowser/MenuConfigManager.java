@@ -14,11 +14,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import p000.FileUtils;
-import p000.C1089Xm;
+import p000.SyncManager;
 import p000.C1199a3;
 import p000.PhoneUtils;
 
-/* loaded from: classes.dex */
 public class MenuConfigManager {
 
     public static MenuConfigManager instance;
@@ -250,7 +249,7 @@ public class MenuConfigManager {
         return this.isInitialized;
     }
 
-    public void m7032o(Context context) {
+    public void init(Context context) {
         this.context = context;
         loadMenus();
         m7034q();
@@ -354,7 +353,7 @@ public class MenuConfigManager {
         m7034q();
         m7035r();
         m7033p();
-        C1199a3.m5090f().m5093d("event_app_to_page", "reset_menu_config_done");
+        C1199a3.getInstance().m5093d("event_app_to_page", "reset_menu_config_done");
     }
 
     public final void loadMenus() {
@@ -391,9 +390,9 @@ public class MenuConfigManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        C1089Xm.getInstance().m4822j("syncable_menu").incrementVersion();
-        C1089Xm.getInstance().m4822j("syncable_tool_menu").incrementVersion();
-        C1089Xm.getInstance().m4822j("syncable_context_menu").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_menu").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_tool_menu").incrementVersion();
+        SyncManager.getInstance().getResourceManager("syncable_context_menu").incrementVersion();
         this.isInitialized = true;
     }
 

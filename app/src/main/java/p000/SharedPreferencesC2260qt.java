@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/* loaded from: classes.dex */
 public final class SharedPreferencesC2260qt implements SharedPreferences {
 
     public final Map f6815a = new HashMap<>();

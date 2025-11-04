@@ -6,7 +6,6 @@ import org.bouncycastle.jsse.BCSSLParameters;
 import org.bouncycastle.jsse.BCSSLSocket;
 import p000.C2045m8;
 
-/* loaded from: classes.dex */
 public final class C0922U2 implements InterfaceC1228am {
 
     public static final b f2814b = new b(null);

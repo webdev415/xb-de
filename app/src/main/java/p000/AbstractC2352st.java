@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2352st {
 
     public static final ThreadLocal f7081a = new C2628yt();

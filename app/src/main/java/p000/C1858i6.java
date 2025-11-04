@@ -12,7 +12,6 @@ import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSocket;
 
-/* loaded from: classes.dex */
 public final class C1858i6 {
 
     public int f5781a;
@@ -28,27 +27,27 @@ public final class C1858i6 {
         this.f5784d = list;
     }
 
-    public final C1811h6 m7867a(SSLSocket sSLSocket) throws UnknownServiceException, CloneNotSupportedException {
-        C1811h6 c1811h6;
+    public final ConnectionSpec m7867a(SSLSocket sSLSocket) throws UnknownServiceException, CloneNotSupportedException {
+        ConnectionSpec connectionSpec;
         AbstractC0116Ce.m476e(sSLSocket, "sslSocket");
         int i = this.f5781a;
         int size = this.f5784d.size();
         while (true) {
             if (i >= size) {
-                c1811h6 = null;
+                connectionSpec = null;
                 break;
             }
-            c1811h6 = (C1811h6) this.f5784d.get(i);
+            connectionSpec = (ConnectionSpec) this.f5784d.get(i);
             i++;
-            if (c1811h6.m7795e(sSLSocket)) {
+            if (connectionSpec.m7795e(sSLSocket)) {
                 this.f5781a = i;
                 break;
             }
         }
-        if (c1811h6 != null) {
+        if (connectionSpec != null) {
             this.f5782b = m7869c(sSLSocket);
-            c1811h6.m7793c(sSLSocket, this.f5783c);
-            return c1811h6;
+            connectionSpec.m7793c(sSLSocket, this.f5783c);
+            return connectionSpec;
         }
         StringBuilder sb = new StringBuilder();
         sb.append("Unable to find acceptable protocols. isFallback=");
@@ -75,7 +74,7 @@ public final class C1858i6 {
     public final boolean m7869c(SSLSocket sSLSocket) {
         int size = this.f5784d.size();
         for (int i = this.f5781a; i < size; i++) {
-            if (((C1811h6) this.f5784d.get(i)).m7795e(sSLSocket)) {
+            if (((ConnectionSpec) this.f5784d.get(i)).m7795e(sSLSocket)) {
                 return true;
             }
         }

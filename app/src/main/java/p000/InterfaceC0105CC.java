@@ -4,7 +4,6 @@ import android.os.Bundle;
 import java.util.List;
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0105CC {
     long mo417a();
 

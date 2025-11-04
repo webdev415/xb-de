@@ -9,7 +9,6 @@ import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0565MC {
 
     public static String f1763a = "com.google.protobuf.BlazeGeneratedExtensionRegistryLiteLoader";

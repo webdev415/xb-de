@@ -2,7 +2,6 @@ package p000;
 
 import java.io.File;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1187Zs {
     String mo4853a(File file, String str, AbstractC1844ht abstractC1844ht);
 

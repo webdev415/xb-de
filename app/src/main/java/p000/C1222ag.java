@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
-/* loaded from: classes.dex */
 public class C1222ag {
 
     public static final AtomicReferenceFieldUpdater f3541l = AtomicReferenceFieldUpdater.newUpdater(C1222ag.class, Object.class, "_next");

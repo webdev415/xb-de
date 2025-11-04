@@ -6,7 +6,6 @@ import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC2443us extends Binder implements IInterface {
     public AbstractBinderC2443us(String str) {
         attachInterface(this, str);

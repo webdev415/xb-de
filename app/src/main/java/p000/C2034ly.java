@@ -2,7 +2,6 @@ package p000;
 
 import android.content.SharedPreferences;
 
-/* loaded from: classes.dex */
 public final class C2034ly {
 
     public final String f6108a;

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0627Nj {
     public static final int accessibility_swipe_refresh = 2131558400;
     public static final int addon_adm_intro = 2131558401;

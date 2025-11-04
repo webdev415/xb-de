@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0436Jc extends Exception {
 
     public final int f1362l;

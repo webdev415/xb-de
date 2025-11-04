@@ -10,9 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import p000.C0687Ox;
 
-/* loaded from: classes.dex */
 public final class C0846SI extends AbstractC2513wF {
 
     public String f2617d;
@@ -34,15 +32,15 @@ public final class C0846SI extends AbstractC2513wF {
         if (list.isEmpty()) {
             return;
         }
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         Iterator it = list.iterator();
         while (it.hasNext()) {
             C0779Qx c0779Qx = (C0779Qx) it.next();
             String strM3731U = c0779Qx.m3731U();
-            Map mapM2496P0 = (Map) c2453v1.get(strM3731U);
+            Map mapM2496P0 = (Map) scriptMap.get(strM3731U);
             if (mapM2496P0 == null) {
                 mapM2496P0 = mo3246q().m2496P0(this.f2617d, strM3731U);
-                c2453v1.put(strM3731U, mapM2496P0);
+                scriptMap.put(strM3731U, mapM2496P0);
             }
             Iterator it2 = mapM2496P0.keySet().iterator();
             while (true) {
@@ -139,7 +137,7 @@ public final class C0846SI extends AbstractC2513wF {
         }
         String str = null;
         C1824hJ c1824hJ2 = new C1824hJ(this);
-        C2453v1 c2453v1 = new C2453v1();
+        ScriptMap scriptMap = new ScriptMap();
         Iterator it = list.iterator();
         while (it.hasNext()) {
             C0365Hx c0365Hx = (C0365Hx) it.next();
@@ -160,10 +158,10 @@ public final class C0846SI extends AbstractC2513wF {
                 if (!C0798RG.m3790a() || !mo347e().m10800J(str, AbstractC0818Rr.f2492d1) || !z) {
                     long j2 = c0267Fr2.f685c;
                     String strM1637U2 = c0365HxM7823a.m1637U();
-                    Map mapM2492N0 = (Map) c2453v1.get(strM1637U2);
+                    Map mapM2492N0 = (Map) scriptMap.get(strM1637U2);
                     if (mapM2492N0 == null) {
                         mapM2492N0 = mo3246q().m2492N0(this.f2617d, strM1637U2);
-                        c2453v1.put(strM1637U2, mapM2492N0);
+                        scriptMap.put(strM1637U2, mapM2492N0);
                     }
                     Map map2 = mapM2492N0;
                     for (Integer num2 : map2.keySet()) {
@@ -245,7 +243,7 @@ public final class C0846SI extends AbstractC2513wF {
         AbstractC1085Xi.m4801j(list2);
         this.f2617d = str;
         this.f2618e = new HashSet();
-        this.f2619f = new C2453v1();
+        this.f2619f = new ScriptMap();
         this.f2620g = l;
         this.f2621h = l2;
         Iterator it4 = list.iterator();
@@ -287,7 +285,7 @@ public final class C0846SI extends AbstractC2513wF {
                 Map mapM2515a1 = mo3246q().m2515a1(this.f2617d);
                 AbstractC1085Xi.m4795d(str3);
                 AbstractC1085Xi.m4801j(mapM2511Y0);
-                Map c2453v1 = new C2453v1();
+                Map c2453v1 = new ScriptMap();
                 if (!mapM2511Y0.isEmpty()) {
                     Iterator it5 = mapM2511Y0.keySet().iterator();
                     while (it5.hasNext()) {
@@ -343,7 +341,7 @@ public final class C0846SI extends AbstractC2513wF {
                 C0687Ox c0687Ox2 = (C0687Ox) map.get(num2);
                 BitSet bitSet = new BitSet();
                 BitSet bitSet2 = new BitSet();
-                C2453v1 c2453v12 = new C2453v1();
+                ScriptMap c2453v12 = new ScriptMap();
                 if (c0687Ox2 != null && c0687Ox2.m3464j() != 0) {
                     for (C0319Gx c0319Gx2 : c0687Ox2.m3460U()) {
                         if (c0319Gx2.m1457M()) {
@@ -351,7 +349,7 @@ public final class C0846SI extends AbstractC2513wF {
                         }
                     }
                 }
-                C2453v1 c2453v13 = new C2453v1();
+                ScriptMap c2453v13 = new ScriptMap();
                 if (c0687Ox2 != null && c0687Ox2.m3458L() != 0) {
                     Iterator it8 = c0687Ox2.m3462W().iterator();
                     while (it8.hasNext()) {

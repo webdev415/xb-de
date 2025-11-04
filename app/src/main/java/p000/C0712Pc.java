@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0712Pc {
 
     public boolean f2129a = true;

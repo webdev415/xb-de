@@ -13,7 +13,6 @@ import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0460K implements InterfaceFutureC0852Sf {
 
     public static final boolean f1472o = Boolean.parseBoolean(System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));

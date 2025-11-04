@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0196EB extends AbstractC2233qB {
     public AbstractC0196EB() {
     }

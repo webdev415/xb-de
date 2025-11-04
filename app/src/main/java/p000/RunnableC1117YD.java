@@ -2,7 +2,6 @@ package p000;
 
 import android.os.RemoteException;
 
-/* loaded from: classes.dex */
 public final class RunnableC1117YD implements Runnable {
 
     public final C0569MG f3319l;

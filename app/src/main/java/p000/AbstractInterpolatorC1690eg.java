@@ -2,7 +2,6 @@ package p000;
 
 import android.view.animation.Interpolator;
 
-/* loaded from: classes.dex */
 public abstract class AbstractInterpolatorC1690eg implements Interpolator {
 
     public final float[] f5424a;

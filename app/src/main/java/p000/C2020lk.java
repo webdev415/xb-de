@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2020lk {
 
     public final C2611yc f6094a;

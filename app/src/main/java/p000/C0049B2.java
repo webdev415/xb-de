@@ -10,7 +10,6 @@ import android.os.Vibrator;
 import android.util.Log;
 import java.io.IOException;
 
-/* loaded from: classes.dex */
 public final class C0049B2 {
 
     public static final String f113d = "B2";

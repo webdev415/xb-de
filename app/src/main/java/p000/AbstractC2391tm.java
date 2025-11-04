@@ -2,10 +2,9 @@ package p000;
 
 import android.os.SystemClock;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2391tm {
     public static AbstractC2391tm m9746a(long j, long j2, long j3) {
-        return new C0967V1(j, j2, j3);
+        return new StartupTime(j, j2, j3);
     }
 
     public static AbstractC2391tm m9747e() {

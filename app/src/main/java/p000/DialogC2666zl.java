@@ -10,8 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class DialogC2666zl extends AbstractDialogC2267r {
+public class DialogC2666zl extends BaseDialog {
 
     public JSONArray f8268b;
 
@@ -91,8 +90,8 @@ public class DialogC2666zl extends AbstractDialogC2267r {
 
         @Override
         public void onDismiss(DialogInterface dialogInterface) throws JSONException {
-            C1089Xm.getInstance().m4833u(DialogC2666zl.this.f8268b.toString());
-            C1199a3.m5090f().m5096h("sync_items");
+            SyncManager.getInstance().m4833u(DialogC2666zl.this.f8268b.toString());
+            C1199a3.getInstance().m5096h("sync_items");
         }
     }
 
@@ -102,10 +101,10 @@ public class DialogC2666zl extends AbstractDialogC2267r {
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_select_sync_item);
         try {
-            this.f8268b = new JSONArray(C1089Xm.getInstance().getSyncResourceConfig());
+            this.f8268b = new JSONArray(SyncManager.getInstance().getSyncResourceConfig());
             CheckBox checkBox = (CheckBox) findViewById(R.id.bookmark);
             checkBox.setChecked(m11040c("sync_tag_bookmark"));
             checkBox.setOnCheckedChangeListener(new a());

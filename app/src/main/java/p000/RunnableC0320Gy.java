@@ -2,7 +2,6 @@ package p000;
 
 import android.content.ServiceConnection;
 
-/* loaded from: classes.dex */
 public final class RunnableC0320Gy implements Runnable {
 
     public final InterfaceC2627ys f994l;

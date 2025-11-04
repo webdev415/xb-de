@@ -4,7 +4,7 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import android.util.Log;
 import android.widget.Toast;
-import com.mmbox.widget.messagebox.C1418a;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.MenuConfigManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
@@ -14,12 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import p000.FileUtils;
 import p000.AbstractC2313s;
-import p000.C1089Xm;
+import p000.SyncManager;
 import p000.PhoneUtils;
-import p000.C1825ha;
+import p000.EventQueueManager;
 import p000.C2439uo;
 
-/* loaded from: classes.dex */
 public class StdUserEventHandler extends AbstractC2313s {
 
     public class C1587a implements MessageQueue.IdleHandler {
@@ -43,7 +42,7 @@ public class StdUserEventHandler extends AbstractC2313s {
         @Override
         public boolean queueIdle() {
             Log.i("save-tabs", ">>>>>>>>>>> do  save tabs >>>>>>>>>>>>>>>");
-            BrowserActivity.getActivity().m6222J0().m9297U(SharedPreferencesHelper.getInstance().m6875R());
+            BrowserActivity.getActivity().getTabManager().m9297U(SharedPreferencesHelper.getInstance().getSharedPreferences());
             StdUserEventHandler.this.m7173j();
             return false;
         }
@@ -78,13 +77,13 @@ public class StdUserEventHandler extends AbstractC2313s {
                     SharedPreferencesHelper.getInstance().m6919s0("last_auto_backup_time", System.currentTimeMillis());
                 }
                 if (C2439uo.getInstance().m10206D()) {
-                    C1089Xm.getInstance().m4821h();
+                    SyncManager.getInstance().m4821h();
                 }
                 m7173j();
                 if (C2439uo.getInstance().m10206D()) {
                     boolean zM6873Q = SharedPreferencesHelper.getInstance().getBoolean("auto-sync-to-cloud", false);
                     if (System.currentTimeMillis() - SharedPreferencesHelper.getInstance().m6862K("last_auto_sync_time", 0L) > 3600000 && zM6873Q) {
-                        C1089Xm.getInstance().m4830r(false);
+                        SyncManager.getInstance().m4830r(false);
                         SharedPreferencesHelper.getInstance().m6919s0("last_auto_sync_time", System.currentTimeMillis());
                     }
                 }
@@ -106,16 +105,16 @@ public class StdUserEventHandler extends AbstractC2313s {
             C2439uo.getInstance().m10229p();
         }
         if (C2439uo.getInstance().m10206D()) {
-            C1089Xm.getInstance().m4825m();
+            SyncManager.getInstance().m4825m();
         }
         C2439uo.getInstance().m10210H();
         if (SharedPreferencesHelper.getInstance().appLaunchTimes >= 7) {
             C2439uo.getInstance().m10228o();
         }
-        if (SharedPreferencesHelper.getInstance().appLaunchTimes % 3 == 0 && !C1418a.m6110b().m6112c()) {
+        if (SharedPreferencesHelper.getInstance().appLaunchTimes % 3 == 0 && !MessageBoxManager.getInstance().m6112c()) {
             PhoneUtils.getInstance().isInChina();
         }
-        C1825ha.m7824d().m7825a();
+        EventQueueManager.getInstance().loadEvents();
         messageQueueMyQueue = Looper.myQueue();
         c1588b = new C1587a();
         messageQueueMyQueue.addIdleHandler(c1588b);
@@ -132,7 +131,7 @@ public class StdUserEventHandler extends AbstractC2313s {
             if (FileUtils.fileExists(str)) {
                 JSONArray jSONArray = new JSONArray(FileUtils.readFileToString(str));
                 for (int i = 0; i < jSONArray.length(); i++) {
-                    BrowserActivity.getActivity().m6262T0().add(jSONArray.getString(i));
+                    BrowserActivity.getActivity().getActiveControllers().add(jSONArray.getString(i));
                 }
             }
         } catch (Exception unused) {
@@ -140,7 +139,7 @@ public class StdUserEventHandler extends AbstractC2313s {
     }
 
     public final void m7173j() {
-        ArrayList arrayListM6262T0 = BrowserActivity.getActivity().m6262T0();
+        ArrayList arrayListM6262T0 = BrowserActivity.getActivity().getActiveControllers();
         JSONArray jSONArray = new JSONArray();
         for (int i = 0; i < arrayListM6262T0.size(); i++) {
             jSONArray.put(arrayListM6262T0.get(i));

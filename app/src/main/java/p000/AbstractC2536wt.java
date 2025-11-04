@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2536wt {
 
     public static final int f7911a;

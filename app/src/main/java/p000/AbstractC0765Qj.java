@@ -2,7 +2,6 @@ package p000;
 
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0765Qj {
 
     public static final int f2276h = 0;

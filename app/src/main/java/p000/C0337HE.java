@@ -4,7 +4,6 @@ import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.RandomAccess;
 
-/* loaded from: classes.dex */
 public final class C0337HE extends AbstractC1675eB implements RandomAccess {
 
     public static final C0337HE f1035o = new C0337HE(new Object[0], 0, false);

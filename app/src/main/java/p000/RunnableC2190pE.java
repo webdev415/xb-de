@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class RunnableC2190pE implements Runnable {
 
     public final InterfaceC1707ex f6638l;

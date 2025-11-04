@@ -23,11 +23,11 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
 
     public Drawable drawable = null;
 
-    public String f4688d = "";
+    public String title = "";
 
-    public String f4689e = "";
+    public String url = "";
 
-    public String f4690f = null;
+    public String mUrl = null;
 
     public String f4691g = null;
 
@@ -44,26 +44,26 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
         if (SharedPreferencesHelper.getInstance().enterPrivateMode || this.pageType == 8) {
             return ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_incognito, i);
         }
-        if (mo1573b().indexOf("file:///android_asset/histories/histories.html") >= 0 || mo1573b().equals("x:history")) {
+        if (getUrlFromTitle().indexOf("file:///android_asset/histories/histories.html") >= 0 || getUrlFromTitle().equals("x:history")) {
             return ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_history, i);
         }
-        if (mo1573b().indexOf("file:///android_asset/bookmarks/bookmarks.html") >= 0 || mo1573b().equals("x:bookmark")) {
+        if (getUrlFromTitle().indexOf("file:///android_asset/bookmarks/bookmarks.html") >= 0 || getUrlFromTitle().equals("x:bookmark")) {
             return ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_bookmark, i);
         }
-        if (mo1573b().indexOf("file:///android_asset/download-manager/download-manager.html") >= 0 || mo1573b().equals("x:dl")) {
+        if (getUrlFromTitle().indexOf("file:///android_asset/download-manager/download-manager.html") >= 0 || getUrlFromTitle().equals("x:dl")) {
             return ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_download, i);
         }
-        if (mo1573b().indexOf("file:///android_asset/settings/settings.html") >= 0 || mo1573b().equals("x:settings")) {
+        if (getUrlFromTitle().indexOf("file:///android_asset/settings/settings.html") >= 0 || getUrlFromTitle().equals("x:settings")) {
             return ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_setting, i);
         }
-        if (mo1573b().indexOf("offlines") >= 0) {
+        if (getUrlFromTitle().indexOf("offlines") >= 0) {
             return ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_offline_reading, i);
         }
-        if (mo1573b().indexOf("file:///android_asset/start-page/index.html") < 0 && !mo1573b().equals("x:home")) {
+        if (getUrlFromTitle().indexOf("file:///android_asset/start-page/index.html") < 0 && !getUrlFromTitle().equals("x:home")) {
             if (this.drawable == null) {
                 return this.pageType == 8 ? ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_incognito, i) : ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_default, i);
             }
-            if (this.f4691g != null && (strM471z = NetworkUtils.getHostFileExtension(mo1573b())) != null && !strM471z.equals(this.f4691g)) {
+            if (this.f4691g != null && (strM471z = NetworkUtils.getHostFileExtension(getUrlFromTitle())) != null && !strM471z.equals(this.f4691g)) {
                 this.drawable = this.pageType == 8 ? ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_incognito, i) : ThemeManager.getInstance().getDrawable(R.drawable.ic_fav_default, i);
             }
             return this.drawable;
@@ -78,7 +78,7 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
 
     @Override
     public void mo1572D(String str) {
-        this.f4690f = str;
+        this.mUrl = str;
     }
 
     @Override
@@ -86,9 +86,9 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
         if (TextUtils.isEmpty(str)) {
             return;
         }
-        this.f4688d = str;
+        this.title = str;
         if (str.startsWith("x:")) {
-            str = ResourceCacheManager.getInstance().m2046a(str, 2);
+            str = ResourceCacheManager.getInstance().getUrlOrFilePath(str, 2);
         }
         mo6728G(str);
     }
@@ -109,21 +109,21 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
 
     @Override
     public boolean mo5624a() {
-        return this.browserActivity.m6222J0().m9289M(this);
+        return this.browserActivity.getTabManager().m9289M(this);
     }
 
     @Override
-    public String mo1573b() {
-        return !TextUtils.isEmpty(this.f4688d) ? ResourceCacheManager.getInstance().m2046a(this.f4688d, 2) : "";
+    public String getUrlFromTitle() {
+        return !TextUtils.isEmpty(this.title) ? ResourceCacheManager.getInstance().getUrlOrFilePath(this.title, 2) : "";
     }
 
     @Override
     public String mo1574c() {
-        return this.f4689e;
+        return this.url;
     }
 
     @Override
-    public boolean mo1575e() {
+    public boolean hasNext() {
         return false;
     }
 
@@ -150,7 +150,7 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
     }
 
     @Override
-    public void mo1577k() {
+    public void onDestroy() {
     }
 
     @Override
@@ -159,7 +159,7 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
 
     @Override
     public void mo1579m(String str) {
-        this.f4688d = str;
+        this.title = str;
     }
 
     @Override
@@ -196,7 +196,7 @@ public abstract class AbsBrowserController implements InterfaceC1300b3 {
     }
 
     @Override
-    public boolean mo1586x() {
+    public boolean hasPrevious() {
         return false;
     }
 

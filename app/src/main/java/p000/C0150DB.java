@@ -2,7 +2,6 @@ package p000;
 
 import android.util.SparseArray;
 
-/* loaded from: classes.dex */
 public final class C0150DB implements InterfaceC2381tc {
 
     public final C1913jF f379a;

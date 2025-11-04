@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
-/* loaded from: classes.dex */
 public final class C1756fz {
 
     public final Resources f5576a;

@@ -3,7 +3,6 @@ package p000;
 import android.content.SharedPreferences;
 import android.util.Pair;
 
-/* loaded from: classes.dex */
 public final class C2126ny {
 
     public final String f6481a;

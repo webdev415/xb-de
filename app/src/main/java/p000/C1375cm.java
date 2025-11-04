@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C1375cm implements InterfaceC0353Hl {
 
     public int localPort;

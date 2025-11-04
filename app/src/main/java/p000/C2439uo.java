@@ -11,10 +11,10 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-import com.mmbox.widget.messagebox.C1418a;
+import com.mmbox.widget.messagebox.MessageBoxManager;
 import com.mmbox.widget.messagebox.MessageBoxBase;
 import com.mmbox.xbrowser.BrowserActivity;
-import com.mmbox.xbrowser.C1572g;
+import com.mmbox.xbrowser.MenuConfigManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.mmbox.xbrowser.user.BackgroundWebviewHandler;
 import com.mmbox.xbrowser.user.FetchResourceEventHandler;
@@ -32,18 +32,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
+import okhttp3.OkHttpClient;
+
 public class C2439uo {
 
     public static C2439uo instance;
 
-    public UserResourceManager f7574d;
+    public UserResourceManager userResourceManager;
 
-    public Context f7571a = null;
+    public Context context = null;
 
     public String f7572b = null;
 
-    public OkHttpClient f7573c = null;
+    public OkHttpClient okHttpClient = null;
 
     public boolean f7575e = true;
 
@@ -56,13 +57,10 @@ public class C2439uo {
     public int f7579i = 1;
 
     public class c implements InterfaceC0556M3 {
-        public c() {
-        }
-
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            String strM2399p = c0490Kk.m2399p("Content-Type");
-            if (c0490Kk.m2396j() != 200) {
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            String strM2399p = response.getContentType("Content-Type");
+            if (response.getStatus() != 200) {
                 if (f7579i > 0) {
                     C2439uo c2439uo = C2439uo.this;
                     c2439uo.m10234u(c2439uo.m10238y());
@@ -76,17 +74,17 @@ public class C2439uo {
             }
             try {
                 try {
-                    FileUtils.writeBytesToFile(c0490Kk.m2392a().m2709b(), ResourceCacheManager.getInstance().m2046a(getUser().getUserId(), 1));
+                    FileUtils.writeBytesToFile(response.body().m2709b(), ResourceCacheManager.getInstance().getUrlOrFilePath(getUser().getUserId(), 1));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } finally {
-                c0490Kk.m2392a().close();
+                response.body().close();
             }
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
             if (f7579i > 0) {
                 C2439uo c2439uo = C2439uo.this;
                 c2439uo.m10234u(c2439uo.m10238y());
@@ -95,51 +93,7 @@ public class C2439uo {
         }
     }
 
-    public class d implements Runnable {
-
-        public final boolean f7583l;
-
-        public class a implements Runnable {
-            public a() {
-            }
-
-            @Override
-            public void run() {
-                Toast.makeText(f7571a, R.string.toast_restore_finished, Toast.LENGTH_SHORT).show();
-                ((InterfaceC1300b3) BrowserActivity.getActivity().m6222J0().m9316y()).mo5625f();
-            }
-        }
-
-        public d(boolean z) {
-            this.f7583l = z;
-        }
-
-        @Override
-        public void run() throws Throwable {
-            try {
-                m10214L("quick_access.dat", "syncable_quick_access");
-                m10214L("bookmark.dat", "syncable_bookmark");
-                m10214L("ad_rule.dat", "syncable_ad_rule");
-                m10214L("ap_hosts.dat", "syncable_host");
-                m10214L("history.dat", "syncable_history");
-                m10214L("settings.dat", "syncable_setting");
-                m10214L("main_menu.dat", "syncable_menu");
-                m10214L("tool_menu.dat", "syncable_tool_menu");
-                m10214L("context_menu.dat", "syncable_context_menu");
-                m10214L("user_scripts.dat", "syncable_user_script");
-                m10214L("user_tabs.dat", "syncable_user_tabs");
-                m10214L("password_autofill.dat", "syncable_passwd_autofill");
-                m10214L("addr_autofill.dat", "syncable_addr_autofill");
-                m10214L("card_autofill.dat", "syncable_card_autofill");
-                C1572g.getInstance().m7036s();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (this.f7583l) {
-                BrowserActivity.getActivity().runOnUiThread(new a());
-            }
-        }
-    }
+    public class d implements
 
     public class e implements Runnable {
 
@@ -222,9 +176,9 @@ public class C2439uo {
             f7575e = true;
             String str = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + this.f7591n;
             if (Build.VERSION.SDK_INT >= 29) {
-                Uri uriM8704l = AndroidSystemUtils.m8704l(f7571a, this.f7591n, "application/octet-stream", "");
+                Uri uriM8704l = AndroidSystemUtils.m8704l(context, this.f7591n, "application/octet-stream", "");
                 if (uriM8704l != null) {
-                    AndroidSystemUtils.m8698f(f7571a, this.f7590m, uriM8704l);
+                    AndroidSystemUtils.m8698f(context, this.f7590m, uriM8704l);
                 }
             } else {
                 AndroidSystemUtils.m8699g(this.f7590m, str);
@@ -248,22 +202,22 @@ public class C2439uo {
 
             public final String f7600m;
 
-            public class DialogC2724a extends AbstractDialogC1303b6 {
+            public class DialogC2724a extends ConfirmDialog {
                 public DialogC2724a(Context context, int i) {
                     super(context, i);
                 }
 
                 @Override
-                public void mo315b() {
+                public void onCancel() {
                     FileUtils.deleteFile(g.this.f7596m);
                 }
 
                 @Override
-                public void mo316c() {
+                public void onOK() {
                     if (Build.VERSION.SDK_INT < 29) {
-                        AndroidSystemUtils.m8686T(BrowserActivity.getActivity(), a.this.f7600m);
-                    } else if (a.this.f7599l != null) {
-                        AndroidSystemUtils.shareFile(BrowserActivity.getActivity(), a.this.f7599l);
+                        AndroidSystemUtils.m8686T(BrowserActivity.getActivity(), f7600m);
+                    } else if (f7599l != null) {
+                        AndroidSystemUtils.shareFile(BrowserActivity.getActivity(), f7599l);
                     }
                 }
             }
@@ -275,7 +229,7 @@ public class C2439uo {
 
             @Override
             public void run() {
-                new DialogC2724a(BrowserActivity.getActivity(), 2).m5643d(f7571a.getString(R.string.dlg_title_backup_user_data), String.format(f7571a.getString(R.string.toast_backup_user_data), this.f7600m));
+                new DialogC2724a(BrowserActivity.getActivity(), 2).show(context.getString(R.string.dlg_title_backup_user_data), String.format(context.getString(R.string.toast_backup_user_data), this.f7600m));
             }
         }
 
@@ -307,7 +261,7 @@ public class C2439uo {
                 }
                 String strM6871P = SharedPreferencesHelper.getInstance().getString("last_auto_backup_uri", "");
                 if (TextUtils.isEmpty(strM6871P)) {
-                    Context context = f7571a;
+                    Context context = C2439uo.this.context;
                     uriM8704l = AndroidSystemUtils.m8704l(context, this.f7597n, "application/octet-stream", context.getPackageName());
                     if (uriM8704l != null) {
                         SharedPreferencesHelper.getInstance().putString("last_auto_backup_uri", uriM8704l.toString());
@@ -316,7 +270,7 @@ public class C2439uo {
                     uriM8704l = Uri.parse(strM6871P);
                 }
                 if (uriM8704l != null) {
-                    AndroidSystemUtils.m8698f(f7571a, this.f7596m, uriM8704l);
+                    AndroidSystemUtils.m8698f(context, this.f7596m, uriM8704l);
                     f7575e = true;
                     FileUtils.deleteFile(this.f7596m);
                     return;
@@ -324,12 +278,12 @@ public class C2439uo {
                 return;
             }
             if (Build.VERSION.SDK_INT >= 29) {
-                Context context2 = c2439uo.f7571a;
+                Context context2 = c2439uo.context;
                 uriM8704l2 = AndroidSystemUtils.m8704l(context2, this.f7597n, "application/octet-stream", context2.getPackageName());
                 if (uriM8704l2 != null) {
-                    AndroidSystemUtils.m8698f(f7571a, this.f7596m, uriM8704l2);
+                    AndroidSystemUtils.m8698f(context, this.f7596m, uriM8704l2);
                 }
-                str = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + f7571a.getPackageName() + "/" + this.f7597n;
+                str = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + context.getPackageName() + "/" + this.f7597n;
             } else {
                 str = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + this.f7597n;
                 AndroidSystemUtils.m8699g(this.f7596m, str);
@@ -359,14 +313,14 @@ public class C2439uo {
         }
 
         @Override
-        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, C0490Kk c0490Kk) {
-            String strM2399p = c0490Kk.m2399p("Content-Type");
+        public void mo1180a(InterfaceC0418J3 interfaceC0418J3, Response response) {
+            String strM2399p = response.getContentType("Content-Type");
             if (strM2399p == null || !strM2399p.equals("application/json")) {
                 return;
             }
             try {
                 try {
-                    JSONArray jSONArray = new JSONArray(c0490Kk.m2392a().m2714l());
+                    JSONArray jSONArray = new JSONArray(response.body().m2714l());
                     for (int i = 0; i < jSONArray.length(); i++) {
                         JSONObject jSONObject = jSONArray.getJSONObject(i);
                         String string = jSONObject.getString("event_id");
@@ -377,20 +331,20 @@ public class C2439uo {
                     e.printStackTrace();
                 }
             } finally {
-                c0490Kk.m2392a().close();
+                response.body().close();
             }
         }
 
         @Override
-        public void mo1181b(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
+        public void onError(InterfaceC0418J3 interfaceC0418J3, IOException iOException) {
             iOException.printStackTrace();
         }
     }
 
     public C2439uo() {
-        this.f7574d = null;
-        UserResourceManager userResourceManager = (UserResourceManager) C1089Xm.getInstance().m4822j("syncable_user_info");
-        this.f7574d = userResourceManager;
+        this.userResourceManager = null;
+        UserResourceManager userResourceManager = (UserResourceManager) SyncManager.getInstance().getResourceManager("syncable_user_info");
+        this.userResourceManager = userResourceManager;
         if (userResourceManager == null) {
             throw new IllegalStateException("you must register user info first");
         }
@@ -410,7 +364,7 @@ public class C2439uo {
     }
 
     public UserResourceManager getUser() {
-        return this.f7574d;
+        return this.userResourceManager;
     }
 
     public final String m10204B() {
@@ -419,46 +373,46 @@ public class C2439uo {
 
     public final void m10205C(String str, String str2, String str3) {
         if (str.equals("event_share_link_visited")) {
-            C1825ha.m7824d().m7829f(12, str3);
+            EventQueueManager.getInstance().processEvent(12, str3);
         } else if (str.equals("event_exchange_code_costed")) {
-            C1825ha.m7824d().m7829f(14, str2);
+            EventQueueManager.getInstance().processEvent(14, str2);
         }
     }
 
     public boolean m10206D() {
-        String strM9755H = this.f7574d.getUserId();
+        String strM9755H = this.userResourceManager.getUserId();
         return !TextUtils.isEmpty(strM9755H) && strM9755H.indexOf(64) > 0;
     }
 
     public boolean m10207E() {
-        return FileUtils.fileExists(ResourceCacheManager.getInstance().m2046a("start-page.bg", 9));
+        return FileUtils.fileExists(ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.bg", 9));
     }
 
     public boolean m10208F() {
-        return FileUtils.fileExists(ResourceCacheManager.getInstance().m2046a("start-page.logo", 9));
+        return FileUtils.fileExists(ResourceCacheManager.getInstance().getUrlOrFilePath("start-page.logo", 9));
     }
 
     public void m10209G(Context context) {
-        this.f7571a = context;
+        this.context = context;
         this.f7572b = PhoneUtils.getInstance().getBackupDirPath();
-        this.f7573c = new OkHttpClient();
+        this.okHttpClient = new OkHttpClient();
         File file = new File(this.f7572b);
         if (!file.exists()) {
             file.mkdirs();
         }
-        C1825ha.m7824d().m7832i(0, StdUserEventHandler.class);
-        C1825ha.m7824d().m7832i(1, StdUserEventHandler.class);
-        C1825ha.m7824d().m7832i(2, StdUserEventHandler.class);
-        C1825ha.m7824d().m7832i(54, StdUserEventHandler.class);
-        C1825ha.m7824d().m7832i(18, StdUserEventHandler.class);
-        C1825ha.m7824d().m7832i(19, BackgroundWebviewHandler.class);
-        C1825ha.m7824d().m7832i(20, BackgroundWebviewHandler.class);
-        C1825ha.m7824d().m7832i(21, BackgroundWebviewHandler.class);
-        C1825ha.m7824d().m7832i(22, BackgroundWebviewHandler.class);
-        C1825ha.m7824d().m7832i(52, BackgroundWebviewHandler.class);
-        C1825ha.m7824d().m7832i(50, FetchResourceEventHandler.class);
-        C1825ha.m7824d().m7832i(51, FetchResourceEventHandler.class);
-        C1825ha.m7824d().m7832i(53, StdUserEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(0, StdUserEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(1, StdUserEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(2, StdUserEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(54, StdUserEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(18, StdUserEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(19, BackgroundWebviewHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(20, BackgroundWebviewHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(21, BackgroundWebviewHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(22, BackgroundWebviewHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(52, BackgroundWebviewHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(50, FetchResourceEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(51, FetchResourceEventHandler.class);
+        EventQueueManager.getInstance().registerEventHandler(53, StdUserEventHandler.class);
         m10227n();
     }
 
@@ -466,7 +420,7 @@ public class C2439uo {
         this.f7577g.put("chengkai.me@gmail.com", "chengkai.me@gmail.com");
         this.f7577g.put("1985980570@qq.com", "1985980570@qq.com");
         try {
-            String strM2046a = ResourceCacheManager.getInstance().m2046a("privilege_user", 1002);
+            String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath("privilege_user", 1002);
             if (strM2046a != null) {
                 JSONArray jSONArray = new JSONArray(strM2046a);
                 for (int i2 = 0; i2 < jSONArray.length(); i2++) {
@@ -480,7 +434,19 @@ public class C2439uo {
     }
 
     public void m10211I() {
-        C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_recovery_failed), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok), new j(), true);
+        MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.message_recovery_failed), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ok), new MessageBoxBase.MessageBoxListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismissed() {
+            }
+
+            @Override
+            public void onDismiss() {
+            }
+        }, true);
     }
 
     public String readFile(String path) throws IOException {
@@ -501,29 +467,68 @@ public class C2439uo {
         return new String(fileBytes, StandardCharsets.UTF_8);
     }
 
-    public void m10213K(String str) {
-        if (!FileUtils.fileExists(str)) {
-            Toast.makeText(this.f7571a, "Not found any recovery file", Toast.LENGTH_SHORT).show();
-        } else if (ZipHelper.unzip(PhoneUtils.getInstance().getExternalDirPath(), str)) {
-            m10215M(true);
+    public void recover(String path) {
+        if (!FileUtils.fileExists(path)) {
+            Toast.makeText(this.context, "Not found any recovery file", Toast.LENGTH_SHORT).show();
+        } else if (ZipHelper.unzip(PhoneUtils.getInstance().getExternalDirPath(), path)) {
+            loadResources(true);
         }
     }
 
-    public final void m10214L(String str, String str2) throws Throwable {
-        String strM10212J = readFile(PhoneUtils.getInstance().getBackupDirPath() + "/" + str);
-        AbstractResourceManager abstractResourceManagerM4822J = C1089Xm.getInstance().m4822j(str2);
-        if (abstractResourceManagerM4822J != null) {
-            abstractResourceManagerM4822J.applyResource(strM10212J, true);
-            abstractResourceManagerM4822J.incrementVersion();
+    public final void applyResource(String fileName, String resourceName) throws Throwable {
+        String fileContent = readFile(PhoneUtils.getInstance().getBackupDirPath() + "/" + fileName);
+        AbstractResourceManager resourceManager = SyncManager.getInstance().getResourceManager(resourceName);
+        if (resourceManager != null) {
+            resourceManager.applyResource(fileContent, true);
+            resourceManager.incrementVersion();
         }
     }
 
-    public void m10215M(boolean z) {
-        AbstractC1807h2.m7778a(new d(z));
+    public void loadResources(boolean callback) {
+        BackgroundTaskManager.submitBackgroundTask(() -> {
+            try {
+                applyResource("quick_access.dat", "syncable_quick_access");
+                applyResource("bookmark.dat", "syncable_bookmark");
+                applyResource("ad_rule.dat", "syncable_ad_rule");
+                applyResource("ap_hosts.dat", "syncable_host");
+                applyResource("history.dat", "syncable_history");
+                applyResource("settings.dat", "syncable_setting");
+                applyResource("main_menu.dat", "syncable_menu");
+                applyResource("tool_menu.dat", "syncable_tool_menu");
+                applyResource("context_menu.dat", "syncable_context_menu");
+                applyResource("user_scripts.dat", "syncable_user_script");
+                applyResource("user_tabs.dat", "syncable_user_tabs");
+                applyResource("password_autofill.dat", "syncable_passwd_autofill");
+                applyResource("addr_autofill.dat", "syncable_addr_autofill");
+                applyResource("card_autofill.dat", "syncable_card_autofill");
+                MenuConfigManager.getInstance().m7036s();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (callback) {
+                BrowserActivity.getActivity().runOnUiThread(() -> {
+                    Toast.makeText(context, R.string.toast_restore_finished, Toast.LENGTH_SHORT).show();
+                    ((InterfaceC1300b3) BrowserActivity.getActivity().getTabManager().m9316y()).mo5625f();
+                });
+            }
+        });
     }
 
     public void m10216N(String str) throws Resources.NotFoundException {
-        C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.toast_export_to) + str, BrowserActivity.getActivity().getResources().getString(R.string.btn_text_check), new a(), true);
+        MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), BrowserActivity.getActivity().getResources().getString(R.string.toast_export_to) + str, BrowserActivity.getActivity().getResources().getString(R.string.btn_text_check), new MessageBoxBase.MessageBoxListener() {
+            @Override
+            public void onShown() {
+                BrowserActivity.getActivity().openDownloads();
+            }
+
+            @Override
+            public void onDismissed() {
+            }
+
+            @Override
+            public void onDismiss() {
+            }
+        }, true);
     }
 
     public void m10217O() throws Resources.NotFoundException {
@@ -531,11 +536,30 @@ public class C2439uo {
         if (TextUtils.isEmpty(strM6871P)) {
             strM6871P = BrowserActivity.getActivity().getResources().getString(R.string.message_please_review);
         }
-        C1418a.m6110b().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), strM6871P, BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ranking), new b(), true);
+        MessageBoxManager.getInstance().m6118i(BrowserActivity.getActivity().getBrowserFrameLayout(), strM6871P, BrowserActivity.getActivity().getResources().getString(R.string.btn_text_ranking), new MessageBoxBase.MessageBoxListener() {
+            @Override
+            public void onShown() throws URISyntaxException {
+                EventQueueManager.getInstance().processEvent(5);
+                BrowserActivity.getActivity().m6283Y1();
+                SharedPreferencesHelper.getInstance().putBoolean("open-review-btn", true);
+                C1344c1.getInstance().m5698h("Go to review", "review_go_times");
+            }
+
+            @Override
+            public void onDismiss() {
+                C2439uo.getInstance().getUser().markRankingMessageBarShown();
+                C1344c1.getInstance().m5698h("Open mark for review", "review_go_times");
+                C1344c1.getInstance().m5698h("Show review", "review_showed");
+            }
+
+            @Override
+            public void onDismissed() {
+            }
+        }, true);
     }
 
     public void m10218P() {
-        this.f7574d.clearUser();
+        this.userResourceManager.clearUser();
         this.f7578h = true;
     }
 
@@ -609,7 +633,7 @@ public class C2439uo {
 
     public final void m10221h(String str, String str2) throws IOException {
         String str3 = PhoneUtils.getInstance().getBackupDirPath() + "/" + str;
-        AbstractResourceManager abstractResourceManagerM4822J = C1089Xm.getInstance().m4822j(str2);
+        AbstractResourceManager abstractResourceManagerM4822J = SyncManager.getInstance().getResourceManager(str2);
         if (abstractResourceManagerM4822J != null) {
             m10220R(str3, abstractResourceManagerM4822J.getResourceValue());
         }
@@ -622,14 +646,14 @@ public class C2439uo {
             file.mkdirs();
         }
         String str2 = strM5611r + "/" + (PhoneUtils.getInstance().getString("alias", "xbrowser") + "_" + str + ".xb");
-        AbstractC1807h2.m7778a(new g(z, str2, FileUtils.getFileName(str2)));
+        BackgroundTaskManager.submitBackgroundTask(new g(z, str2, FileUtils.getFileName(str2)));
     }
 
     public void m10223j(boolean z, String str) {
         this.f7575e = true;
         if (SharedPreferencesHelper.getInstance().acceptEula) {
             if (!z || Build.VERSION.SDK_INT >= 29 || BrowserActivity.getActivity().m6285Z("android.permission.WRITE_EXTERNAL_STORAGE")) {
-                AbstractC1807h2.m7778a(new e(str, z));
+                BackgroundTaskManager.submitBackgroundTask(new e(str, z));
             } else {
                 BrowserActivity.getActivity().m6290a0();
             }
@@ -641,15 +665,15 @@ public class C2439uo {
             return;
         }
         try {
-            if (!this.f7574d.getUserId().equals(str)) {
-                this.f7574d.setUserId(str);
-                this.f7574d.applyResource(str2, false);
-                C1089Xm.getInstance().m4827o();
-                this.f7574d.setVersionCodes(i2);
-                this.f7574d.sync();
+            if (!this.userResourceManager.getUserId().equals(str)) {
+                this.userResourceManager.setUserId(str);
+                this.userResourceManager.applyResource(str2, false);
+                SyncManager.getInstance().m4827o();
+                this.userResourceManager.setVersionCodes(i2);
+                this.userResourceManager.sync();
             }
             if (!TextUtils.isEmpty(str3)) {
-                this.f7574d.setUserToken(str3);
+                this.userResourceManager.setUserToken(str3);
             }
             m10227n();
         } catch (JSONException e2) {
@@ -666,16 +690,16 @@ public class C2439uo {
             return;
         }
         try {
-            if (!this.f7574d.getUserId().equals(str)) {
-                this.f7574d.setUserId(str);
-                C1089Xm.getInstance().m4827o();
-                this.f7574d.sync();
+            if (!this.userResourceManager.getUserId().equals(str)) {
+                this.userResourceManager.setUserId(str);
+                SyncManager.getInstance().m4827o();
+                this.userResourceManager.sync();
             }
             if (!TextUtils.isEmpty(str3)) {
-                this.f7574d.setUserToken(str3);
+                this.userResourceManager.setUserToken(str3);
             }
             if (!TextUtils.isEmpty(str2)) {
-                this.f7574d.setUserNick(str2);
+                this.userResourceManager.setUserNick(str2);
             }
             m10227n();
         } catch (Exception e2) {
@@ -684,7 +708,7 @@ public class C2439uo {
     }
 
     public final void m10227n() {
-        ResourceCacheManager.getInstance().m2046a(getUser().getUserId(), 1);
+        ResourceCacheManager.getInstance().getUrlOrFilePath(getUser().getUserId(), 1);
         m10234u(m10204B());
     }
 
@@ -694,7 +718,7 @@ public class C2439uo {
 
     public void m10229p() {
         try {
-            this.f7573c.m2004y(new C0122Ck.a().m507i(ApiEndpointsManager.getInstance().getUserEventQueryUrl() + "?user_id=" + this.f7574d.getUserId()).m500b()).mo1791i(new i());
+            this.okHttpClient.newCall(new Request.Builder().url(ApiEndpointsManager.getInstance().getUserEventQueryUrl() + "?user_id=" + this.userResourceManager.getUserId()).m500b()).mo1791i(new i());
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -704,7 +728,7 @@ public class C2439uo {
         int i2 = Calendar.getInstance().get(6);
         UserResourceManager userResourceManagerM10203A = getInstance().getUser();
         if (userResourceManagerM10203A.getLastDay() > 0 && i2 - userResourceManagerM10203A.getLastDay() == 1) {
-            C1825ha.m7824d().m7828e(3);
+            EventQueueManager.getInstance().processEvent(3);
         }
         if (i2 - userResourceManagerM10203A.getLastDay() >= 1) {
             userResourceManagerM10203A.resetDailySearchCount();
@@ -715,10 +739,10 @@ public class C2439uo {
     public void m10231r() {
         boolean zM6873Q = SharedPreferencesHelper.getInstance().getBoolean("wait_for_try_app", false);
         String strM6871P = SharedPreferencesHelper.getInstance().getString("try_app_package", null);
-        if (getInstance().getUser().hasTriedAppRequest() || !zM6873Q || strM6871P == null || !AndroidSystemUtils.isAppInstalled(this.f7571a, strM6871P)) {
+        if (getInstance().getUser().hasTriedAppRequest() || !zM6873Q || strM6871P == null || !AndroidSystemUtils.isAppInstalled(this.context, strM6871P)) {
             return;
         }
-        C1825ha.m7824d().m7828e(17);
+        EventQueueManager.getInstance().processEvent(17);
     }
 
     public void m10232s() {
@@ -743,15 +767,15 @@ public class C2439uo {
             String strM4227k = FileUtils.getFileName(str);
             String str2 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + strM4227k;
             if (i2 >= 29) {
-                Uri uriM8704l = AndroidSystemUtils.m8704l(this.f7571a, strM4227k, "text/html", "");
+                Uri uriM8704l = AndroidSystemUtils.m8704l(this.context, strM4227k, "text/html", "");
                 if (uriM8704l != null) {
-                    AndroidSystemUtils.m8698f(this.f7571a, str, uriM8704l);
+                    AndroidSystemUtils.m8698f(this.context, str, uriM8704l);
                     this.f7575e = true;
                 }
             } else {
                 AndroidSystemUtils.m8699g(str, str2);
             }
-            Toast.makeText(this.f7571a, this.f7571a.getResources().getString(R.string.toast_export_bookmark) + str2, Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, this.context.getResources().getString(R.string.toast_export_bookmark) + str2, Toast.LENGTH_LONG).show();
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -759,12 +783,12 @@ public class C2439uo {
 
     public void m10233t(String str) {
         String str2 = PhoneUtils.getInstance().getCacheDirPath() + "/" + FileUtils.getFileName(str) + ".zip";
-        AbstractC1807h2.m7778a(new f(str, str2, FileUtils.getFileName(str2)));
+        BackgroundTaskManager.submitBackgroundTask(new f(str, str2, FileUtils.getFileName(str2)));
     }
 
     public final void m10234u(String str) {
         try {
-            this.f7573c.m2004y(new C0122Ck.a().m507i(str).m500b()).mo1791i(new c());
+            this.okHttpClient.newCall(new Request.Builder().url(str).m500b()).mo1791i(new c());
         } catch (Exception e2) {
             e2.printStackTrace();
         }
@@ -773,10 +797,10 @@ public class C2439uo {
     public String m10235v() {
         String str = PhoneUtils.getInstance().isInChina() ? "zh" : "en";
         if (m10206D()) {
-            return ApiEndpointsManager.getInstance().getUserEndpoint() + "/profile?token=" + this.f7574d.getUserToken();
+            return ApiEndpointsManager.getInstance().getUserEndpoint() + "/profile?token=" + this.userResourceManager.getUserToken();
         }
         this.f7578h = false;
-        return ApiEndpointsManager.getInstance().getUserEndpoint() + "/login?locale=" + str + "&device_id=" + PhoneUtils.getInstance().getDeviceId() + "&token=" + this.f7574d.getUserToken();
+        return ApiEndpointsManager.getInstance().getUserEndpoint() + "/login?locale=" + str + "&device_id=" + PhoneUtils.getInstance().getDeviceId() + "&token=" + this.userResourceManager.getUserToken();
     }
 
     public Drawable m10236w() {
@@ -784,73 +808,14 @@ public class C2439uo {
     }
 
     public String m10237x() throws NoSuchAlgorithmException {
-        String strM2046a = ResourceCacheManager.getInstance().m2046a(getUser().getUserId(), 1);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(getUser().getUserId(), 1);
         if (FileUtils.fileExists(strM2046a)) {
-            return AndroidSystemUtils.m8694b(C0988Vd.m4391d().m4396f(strM2046a));
+            return AndroidSystemUtils.m8694b(C0988Vd.getInstance().m4396f(strM2046a));
         }
         return "https://api.multiavatar.com/" + AbstractCryptoUtils.toMd5(getUser().getUserId().toLowerCase()) + ".svg";
     }
 
     public final String m10238y() {
         return "https://secure.gravatar.com/avatar/" + (AbstractCryptoUtils.toMd5(getUser().getUserId().toLowerCase()) + ".png");
-    }
-
-    public class a implements MessageBoxBase.MessageBoxListener {
-        public a() {
-        }
-
-        @Override
-        public void onShown() {
-            BrowserActivity.getActivity().m6374x1();
-        }
-
-        @Override
-        public void onDismissed() {
-        }
-
-        @Override
-        public void onDismiss() {
-        }
-    }
-
-    public class b implements MessageBoxBase.MessageBoxListener {
-        public b() {
-        }
-
-        @Override
-        public void onShown() throws URISyntaxException {
-            C1825ha.m7824d().m7828e(5);
-            BrowserActivity.getActivity().m6283Y1();
-            SharedPreferencesHelper.getInstance().putBoolean("open-review-btn", true);
-            C1344c1.m5691d().m5698h("Go to review", "review_go_times");
-        }
-
-        @Override
-        public void onDismiss() {
-            C2439uo.getInstance().getUser().markRankingMessageBarShown();
-            C1344c1.m5691d().m5698h("Open mark for review", "review_go_times");
-            C1344c1.m5691d().m5698h("Show review", "review_showed");
-        }
-
-        @Override
-        public void onDismissed() {
-        }
-    }
-
-    public class j implements MessageBoxBase.MessageBoxListener {
-        public j() {
-        }
-
-        @Override
-        public void onShown() {
-        }
-
-        @Override
-        public void onDismissed() {
-        }
-
-        @Override
-        public void onDismiss() {
-        }
     }
 }

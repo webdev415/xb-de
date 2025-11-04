@@ -15,7 +15,6 @@ import p000.AbstractC0263Fn;
 import p000.AbstractC2383te;
 import p000.C2242qb;
 
-/* loaded from: classes.dex */
 public class C2149ob implements InterfaceC2196pb {
 
     public static final Object f6560m = new Object();

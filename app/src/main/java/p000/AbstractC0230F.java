@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0230F implements Map.Entry {
     @Override
     public boolean equals(Object obj) {

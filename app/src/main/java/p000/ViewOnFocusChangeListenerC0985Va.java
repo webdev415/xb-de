@@ -14,7 +14,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.mmbox.xbrowser.controllers.WebViewBrowserController;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class ViewOnFocusChangeListenerC0985Va implements View.OnFocusChangeListener, View.OnClickListener, TextWatcher {
 
     public BrowserActivity f2959a;
@@ -76,7 +75,7 @@ public class ViewOnFocusChangeListenerC0985Va implements View.OnFocusChangeListe
 
     public void m4387c() {
         m4385a();
-        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f2959a.m6222J0().m9316y();
+        InterfaceC1300b3 interfaceC1300b3 = (InterfaceC1300b3) this.f2959a.getTabManager().m9316y();
         if (!(interfaceC1300b3 instanceof WebViewBrowserController)) {
             Toast.makeText(this.f2959a, "Not support find on this page", Toast.LENGTH_SHORT).show();
             return;

@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-/* loaded from: classes.dex */
 public final class C0034Ao {
 
     public static final long f82b = TimeUnit.HOURS.toSeconds(1);

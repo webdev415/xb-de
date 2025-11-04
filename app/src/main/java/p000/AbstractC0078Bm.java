@@ -3,7 +3,6 @@ package p000;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0078Bm {
     public static String m323a(String str, Object... objArr) {
         int iIndexOf;

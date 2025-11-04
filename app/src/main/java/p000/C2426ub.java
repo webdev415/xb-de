@@ -3,7 +3,6 @@ package p000;
 import android.graphics.Rect;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public class C2426ub extends AbstractC1647dj {
 
     public static final String f7400b = "ub";

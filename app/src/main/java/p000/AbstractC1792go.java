@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1792go {
     public static boolean m7752a(Context context, int i) throws PackageManager.NameNotFoundException {
         if (!m7753b(context, i, "com.google.android.gms")) {

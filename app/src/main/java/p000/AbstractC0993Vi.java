@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Build;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0993Vi {
     public static boolean m4412a() {
         return true;

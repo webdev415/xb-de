@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.CancellationException;
 import p000.InterfaceC0191E6;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1081Xe extends InterfaceC0191E6.b {
 
     public static final b f3236c = b.f3237l;

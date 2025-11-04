@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1066X8 {
     public static final void m4659a(AbstractC1020W8 abstractC1020W8, int i) {
         InterfaceC2458v6 interfaceC2458v6Mo4192b = abstractC1020W8.mo4192b();

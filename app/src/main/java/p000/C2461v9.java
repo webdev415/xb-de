@@ -6,8 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class C2461v9 extends AbstractC2221q {
+public class C2461v9 extends DataSource {
     @Override
     public String mo61f() {
         return "browser.conf";
@@ -31,7 +30,7 @@ public class C2461v9 extends AbstractC2221q {
             SharedPreferencesHelper.getInstance().putString(c1202a62.f3489a, c1202a62.f3490b);
         }
         m10327m();
-        SharedPreferencesHelper.getInstance().m6876R0();
+        SharedPreferencesHelper.getInstance().initFeecodes();
         return arrayList;
     }
 

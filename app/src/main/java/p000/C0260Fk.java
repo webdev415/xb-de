@@ -2,20 +2,19 @@ package p000;
 
 import java.net.Proxy;
 
-/* loaded from: classes.dex */
 public final class C0260Fk {
 
     public static final C0260Fk f676a = new C0260Fk();
 
-    public final String m1270a(C0122Ck c0122Ck, Proxy.Type type) {
-        AbstractC0116Ce.m476e(c0122Ck, "request");
+    public final String m1270a(Request request, Proxy.Type type) {
+        AbstractC0116Ce.m476e(request, "request");
         AbstractC0116Ce.m476e(type, "proxyType");
         StringBuilder sb = new StringBuilder();
-        sb.append(c0122Ck.m496g());
+        sb.append(request.m496g());
         sb.append(' ');
         C0260Fk c0260Fk = f676a;
-        boolean zM1271b = c0260Fk.m1271b(c0122Ck, type);
-        C0069Bd c0069BdM498i = c0122Ck.m498i();
+        boolean zM1271b = c0260Fk.m1271b(request, type);
+        C0069Bd c0069BdM498i = request.getUrl();
         if (zM1271b) {
             sb.append(c0069BdM498i);
         } else {
@@ -27,8 +26,8 @@ public final class C0260Fk {
         return string;
     }
 
-    public final boolean m1271b(C0122Ck c0122Ck, Proxy.Type type) {
-        return !c0122Ck.m495f() && type == Proxy.Type.HTTP;
+    public final boolean m1271b(Request request, Proxy.Type type) {
+        return !request.m495f() && type == Proxy.Type.HTTP;
     }
 
     public final String m1272c(C0069Bd c0069Bd) {

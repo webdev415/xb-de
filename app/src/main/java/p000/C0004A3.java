@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public final class C0004A3 extends AbstractC1786gi implements Serializable {
 
     public final InterfaceC2289rc f3l;

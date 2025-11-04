@@ -3,7 +3,6 @@ package p000;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
 public final class C0221Er extends AbstractC1935jr {
     public C0221Er() {
         this.f5966a.add(EnumC2259qs.APPLY);

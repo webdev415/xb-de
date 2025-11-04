@@ -12,7 +12,6 @@ import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 import java.io.ByteArrayOutputStream;
 
-/* loaded from: classes.dex */
 public class C0896Td {
 
     public static C0896Td f2754b;
@@ -37,7 +36,7 @@ public class C0896Td {
         return f2754b;
     }
 
-    public String m4138a(String str) {
+    public String getIconUri(String str) {
         Bitmap bitmapM4141e = m4141e(NetworkUtils.getFaviconUrl(str));
         if (bitmapM4141e == null) {
             bitmapM4141e = BitmapFactory.decodeResource(BrowserActivity.getActivity().getResources(), R.drawable.ic_earth);
@@ -56,13 +55,13 @@ public class C0896Td {
     }
 
     public boolean m4140d(String str) {
-        String strM2046a = ResourceCacheManager.getInstance().m2046a(str, 10);
+        String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(str, 10);
         if (strM2046a == null) {
             String host = Uri.parse(str).getHost();
-            if (!TextUtils.isEmpty(host) && (strM2046a = ResourceCacheManager.getInstance().m2046a(host, 10)) == null) {
-                String strM458m = NetworkUtils.getFileExtension(host);
+            if (!TextUtils.isEmpty(host) && (strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(host, 10)) == null) {
+                String strM458m = NetworkUtils.getDomain(host);
                 if (!TextUtils.isEmpty(strM458m)) {
-                    strM2046a = ResourceCacheManager.getInstance().m2046a(strM458m, 10);
+                    strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath(strM458m, 10);
                 }
             }
         }
@@ -70,7 +69,7 @@ public class C0896Td {
     }
 
     public Bitmap m4141e(String str) {
-        return C0988Vd.m4391d().m4396f(ResourceCacheManager.getInstance().m2046a(str, 1));
+        return C0988Vd.getInstance().m4396f(ResourceCacheManager.getInstance().getUrlOrFilePath(str, 1));
     }
 
     public Drawable m4142f(String str, String str2, int i) {
@@ -87,7 +86,7 @@ public class C0896Td {
         if (drawableM4139b != null) {
             return drawableM4139b;
         }
-        Drawable drawableM4398h = C0988Vd.m4391d().m4398h(ResourceCacheManager.getInstance().m2046a(str, 1), f, i);
+        Drawable drawableM4398h = C0988Vd.getInstance().m4398h(ResourceCacheManager.getInstance().getUrlOrFilePath(str, 1), f, i);
         if (drawableM4398h != null) {
             m4148l(strM4147k, drawableM4398h);
         }
@@ -104,7 +103,7 @@ public class C0896Td {
         if (drawableM4139b != null) {
             return drawableM4139b;
         }
-        Drawable drawableM4398h = C0988Vd.m4391d().m4398h(ResourceCacheManager.getInstance().m2046a(str, 9), 1.0f, i);
+        Drawable drawableM4398h = C0988Vd.getInstance().m4398h(ResourceCacheManager.getInstance().getUrlOrFilePath(str, 9), 1.0f, i);
         if (drawableM4398h != null) {
             m4148l(strM4147k, drawableM4398h);
         }

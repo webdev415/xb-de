@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-/* loaded from: classes.dex */
 public class SearchInBrowserActivity extends Activity {
     @Override
     public void onCreate(Bundle bundle) {

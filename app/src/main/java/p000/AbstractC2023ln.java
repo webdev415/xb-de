@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2023ln {
     public abstract void mo7697a(Runnable runnable);
 

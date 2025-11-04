@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public final class ExecutorC1626d8 extends AbstractC2425ua implements Executor {
 
     public static final ExecutorC1626d8 f5272o = new ExecutorC1626d8();
@@ -21,7 +20,7 @@ public final class ExecutorC1626d8 extends AbstractC2425ua implements Executor {
 
     @Override
     public void execute(Runnable runnable) {
-        mo1351T(C0608N9.f1911l, runnable);
+        mo1351T(EmptyCoroutineContext.f1911l, runnable);
     }
 
     @Override

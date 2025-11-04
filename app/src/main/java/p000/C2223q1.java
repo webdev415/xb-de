@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public class C2223q1 extends AbstractC2023ln {
 
     public static volatile C2223q1 f6669c;

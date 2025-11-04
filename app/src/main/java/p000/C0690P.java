@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-/* loaded from: classes.dex */
 public final class C0690P extends ClickableSpan {
 
     public final int f2068l;

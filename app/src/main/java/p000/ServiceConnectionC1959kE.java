@@ -12,7 +12,6 @@ import android.os.Looper;
 import android.os.RemoteException;
 import p000.AbstractC2454v2;
 
-/* loaded from: classes.dex */
 public final class ServiceConnectionC1959kE implements ServiceConnection, AbstractC2454v2.a, AbstractC2454v2.b {
 
     public volatile boolean f5993a;

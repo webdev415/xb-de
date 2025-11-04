@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1083Xg {
 
     public static final C1083Xg f3249f = new C1083Xg(929, 3);

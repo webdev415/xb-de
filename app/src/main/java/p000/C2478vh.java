@@ -8,7 +8,6 @@ import android.widget.RemoteViews;
 import androidx.core.graphics.drawable.IconCompat;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public class C2478vh {
 
     public boolean f7681A;

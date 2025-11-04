@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2201pg {
 
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */

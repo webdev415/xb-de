@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.misc.Unsafe;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0476KF {
 
     public static final Unsafe f1556a;

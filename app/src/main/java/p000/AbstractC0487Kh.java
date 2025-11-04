@@ -3,7 +3,6 @@ package p000;
 import java.io.InputStream;
 import java.net.Socket;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0487Kh {
     public static final InterfaceC2501w3 m2375a(InterfaceC1134Yl interfaceC1134Yl) {
         return AbstractC0579Mh.m2883a(interfaceC1134Yl);

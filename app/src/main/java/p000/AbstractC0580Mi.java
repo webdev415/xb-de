@@ -1,9 +1,5 @@
 package p000;
 
-import p000.C0534Li;
-import p000.C0921U1;
-
-/* loaded from: classes.dex */
 public abstract class AbstractC0580Mi {
 
     public static AbstractC0580Mi f1839a = m2885a().mo2905a();
@@ -27,7 +23,7 @@ public abstract class AbstractC0580Mi {
     }
 
     public static a m2885a() {
-        return new C0921U1.b().mo2912h(0L).mo2911g(C0534Li.a.ATTEMPT_MIGRATION).mo2907c(0L);
+        return new PersistedInstallationEntry.b().mo2912h(0L).mo2911g(C0534Li.a.ATTEMPT_MIGRATION).mo2907c(0L);
     }
 
     public abstract String mo2886b();

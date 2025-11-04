@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Objects;
 
-/* loaded from: classes.dex */
 public class C2435uk extends AbstractC1080Xd {
 
     public static final AbstractC1080Xd f7562p = new C2435uk(new Object[0], 0);

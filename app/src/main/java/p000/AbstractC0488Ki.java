@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.os.Process;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0488Ki {
     public static int m2381a(Context context, String str, int i, int i2, String str2) {
         if (context.checkPermission(str, i, i2) == -1) {

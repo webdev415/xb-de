@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class RunnableC1849hy implements Runnable {
 
     public final boolean f5776l;

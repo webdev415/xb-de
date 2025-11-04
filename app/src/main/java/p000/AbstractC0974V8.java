@@ -3,7 +3,6 @@ package p000;
 import java.util.concurrent.CancellationException;
 import p000.AbstractC0674Ok;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0974V8 {
 
     public static final C0951Um f2940a = new C0951Um("UNDEFINED");

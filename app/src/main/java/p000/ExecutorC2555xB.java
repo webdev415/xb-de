@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Executor;
 
-/* loaded from: classes.dex */
 public final class ExecutorC2555xB implements Executor {
 
     public final C1207aB f7945l;

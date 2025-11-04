@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public class C1905j7 {
 
     public final Context f5903a;

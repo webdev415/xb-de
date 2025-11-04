@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0886TC {
     public static String m4119a(String str, String[] strArr, String[] strArr2) {
         AbstractC1085Xi.m4801j(strArr);

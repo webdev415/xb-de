@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0299Gd {
     Drawable getDrawable(int i, int i2);
 

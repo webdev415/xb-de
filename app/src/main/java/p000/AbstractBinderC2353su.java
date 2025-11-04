@@ -3,7 +3,6 @@ package p000;
 import android.os.Bundle;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC2353su extends AbstractBinderC2443us implements InterfaceC2076mu {
     public AbstractBinderC2353su() {
         super("com.google.android.gms.measurement.api.internal.IBundleReceiver");

@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import java.util.ArrayList;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2183p7 {
     void mo9036a(String str);
 

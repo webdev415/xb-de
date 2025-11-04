@@ -12,7 +12,6 @@ import java.util.zip.GZIPOutputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1351c8 implements InterfaceC1320bd, InterfaceC1366cd {
 
     public final InterfaceC2388tj f3925a;
@@ -33,9 +32,9 @@ public class C1351c8 implements InterfaceC1320bd, InterfaceC1366cd {
         this.f3926b = context;
     }
 
-    public static C0420J5 m5748f() {
+    public static Component m5748f() {
         final C0167Dj c0167DjM715a = C0167Dj.m715a(InterfaceC1713f2.class, Executor.class);
-        return C0420J5.m1797f(C1351c8.class, InterfaceC1320bd.class, InterfaceC1366cd.class).m1813b(C0193E8.m874i(Context.class)).m1813b(C0193E8.m874i(C1364cb.class)).m1813b(C0193E8.m876k(InterfaceC1171Zc.class)).m1813b(C0193E8.m875j(InterfaceC2347so.class)).m1813b(C0193E8.m873h(c0167DjM715a)).m1816e(new InterfaceC0604N5() {
+        return Component.m1797f(C1351c8.class, InterfaceC1320bd.class, InterfaceC1366cd.class).m1813b(Dependency.m874i(Context.class)).m1813b(Dependency.m874i(C1364cb.class)).m1813b(Dependency.m876k(InterfaceC1171Zc.class)).m1813b(Dependency.m875j(InterfaceC2347so.class)).m1813b(Dependency.m873h(c0167DjM715a)).m1816e(new InterfaceC0604N5() {
             @Override
             public final Object mo432a(InterfaceC0466K5 interfaceC0466K5) {
                 return C1351c8.m5749g(c0167DjM715a, interfaceC0466K5);

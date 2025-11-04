@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0898Tf {
     public static boolean m4153a(List list, Object obj) {
         if (obj == AbstractC1131Yi.m4973i(list)) {

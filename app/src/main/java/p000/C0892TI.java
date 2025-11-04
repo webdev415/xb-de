@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.Callable;
 
-/* loaded from: classes.dex */
 public final class C0892TI extends C1316bJ {
 
     public final Callable f2745f;

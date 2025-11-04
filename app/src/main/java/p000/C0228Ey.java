@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.content.Intent;
 
-/* loaded from: classes.dex */
 public final class C0228Ey {
 
     public final a f606a;

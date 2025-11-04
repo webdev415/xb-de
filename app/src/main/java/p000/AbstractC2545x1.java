@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.Array;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2545x1 {
     public static final Object[] m10624a(Object[] objArr, int i) throws NegativeArraySizeException {
         AbstractC0116Ce.m476e(objArr, "reference");

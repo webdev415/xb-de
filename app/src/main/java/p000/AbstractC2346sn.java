@@ -7,7 +7,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2346sn {
     public static Object m9590a(AbstractC1838hn abstractC1838hn) throws InterruptedException {
         AbstractC1085Xi.m4799h();

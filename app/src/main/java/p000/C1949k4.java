@@ -4,7 +4,6 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1949k4 extends AbstractResourceManager {
     public C1949k4(String str) {
         super(str, false);
@@ -12,7 +11,7 @@ public class C1949k4 extends AbstractResourceManager {
 
     @Override
     public String getResourceValue() {
-        return C0600N1.m3257k().m3266o("auto_fill_card");
+        return C0600N1.getInstance().m3266o("auto_fill_card");
     }
 
     @Override
@@ -22,7 +21,7 @@ public class C1949k4 extends AbstractResourceManager {
 
     @Override
     public void saveToLocal(String str) throws Throwable {
-        String strM3266o = C0600N1.m3257k().m3266o("auto_fill_card");
+        String strM3266o = C0600N1.getInstance().m3266o("auto_fill_card");
         JSONArray jSONArray = new JSONArray(strM3266o);
         JSONArray jSONArray2 = new JSONArray(str);
         HashMap map = new HashMap<>();
@@ -52,6 +51,6 @@ public class C1949k4 extends AbstractResourceManager {
 
     @Override
     public void loadFromRemote(String str) throws Throwable {
-        FileUtils.writeStringToFile(C0600N1.m3257k().m3262j("auto_fill_card"), str);
+        FileUtils.writeStringToFile(C0600N1.getInstance().m3262j("auto_fill_card"), str);
     }
 }

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C0469K8 {
 
     public static final int[] f1540g = {3808, 476, 2107, 1799};

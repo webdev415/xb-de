@@ -2,7 +2,6 @@ package p000;
 
 import p000.C0224Eu;
 
-/* loaded from: classes.dex */
 public final class C2630yv extends C0224Eu.a {
 
     public final String f8152p;

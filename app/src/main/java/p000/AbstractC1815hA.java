@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1815hA {
 
     public static volatile AbstractC1325bi f5722a = AbstractC1325bi.m5671a();

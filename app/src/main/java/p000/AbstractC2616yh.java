@@ -2,7 +2,6 @@ package p000;
 
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2616yh {
 
     public static final Object f8108a = new Object();

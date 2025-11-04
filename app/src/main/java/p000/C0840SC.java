@@ -2,7 +2,6 @@ package p000;
 
 import p000.AbstractC0703PC;
 
-/* loaded from: classes.dex */
 public final class C0840SC implements InterfaceC1632dE {
 
     public static final C0840SC f2607a = new C0840SC();

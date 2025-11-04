@@ -1,6 +1,5 @@
 package com.mmbox.xbrowser.controllers;
 
-import android.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -71,6 +70,7 @@ import com.mmbox.xbrowser.SiteSettingsManager;
 import com.mmbox.xbrowser.VideoSniffingManager;
 import com.mmbox.xbrowser.MenuConfigManager;
 import com.mmbox.xbrowser.SharedPreferencesHelper;
+import com.xbrowser.play.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,8 +95,8 @@ import p000.AbstractC1761g3;
 import p000.AndroidSystemUtils;
 import p000.AbstractC2129o0;
 import p000.AbstractC2320s6;
-import p000.AbstractDialogC0814Rn;
-import p000.AbstractDialogC1303b6;
+import p000.TwoOptionsDialog;
+import p000.ConfirmDialog;
 import p000.C0219Ep;
 import p000.C0232F1;
 import p000.C0310Go;
@@ -107,13 +107,12 @@ import p000.C0896Td;
 import p000.C1039Wi;
 import p000.PhoneUtils;
 import p000.C1344c1;
-import p000.C1825ha;
-import p000.C2061mf;
+import p000.EventQueueManager;
+import p000.JSManager;
 import p000.ThemeManager;
 import p000.C2480vj;
 import p000.C2564xb;
 
-/* loaded from: classes.dex */
 public class WebViewBrowserController extends AbsBrowserController implements AbstractScrollableListController.b, View.OnClickListener {
 
     public static final FrameLayout.LayoutParams f4693I = new FrameLayout.LayoutParams(-1, -1);
@@ -126,7 +125,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     public static String f4697M = null;
 
-    public static final ByteArrayInputStream f4698N = new ByteArrayInputStream("".getBytes());
+    public static final ByteArrayInputStream EMPTY_INPUT_STREAM = new ByteArrayInputStream("".getBytes());
 
     public static ArrayList f4699O = new ArrayList<>(3);
 
@@ -138,15 +137,15 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     public C1542A f4703C;
 
-    public ViewGroup f4704D;
+    public ViewGroup layoutBrowserSubwindow;
 
     public WebChromeClient.CustomViewCallback f4705E;
 
     public boolean f4706F;
 
-    public final WebChromeClient f4707G;
+    public final WebChromeClient webChromeClient;
 
-    public final WebViewClient f4708H;
+    public final WebViewClient webViewClient;
 
     public int f4709i;
 
@@ -154,17 +153,17 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     public int f4711k;
 
-    public int f4712l;
+    public int mScrollY;
 
-    public int[] f4713m;
+    public int[] colors;
 
     public final int f4714n;
 
     public final int f4715o;
 
-    public WebView f4716p;
+    public WebView webView;
 
-    public WebView f4717q;
+    public WebView webView1;
 
     public boolean f4718r;
 
@@ -178,7 +177,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     public boolean f4723w;
 
-    public String f4724x;
+    public String tabId;
 
     public String f4725y;
 
@@ -224,7 +223,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
             @Override
             public boolean onDoubleTap(MotionEvent motionEvent) {
-                C2061mf.m8471f0().m8483C(f4716p, "_XJSAPI_.play_or_pause_video()");
+                JSManager.getInstance().evaluateJavascript(webView, "_XJSAPI_.play_or_pause_video()");
                 return true;
             }
         }
@@ -236,7 +235,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             @Override
             public void run() {
                 if (C1542A.this.f4738l == -1 && VideoSniffingManager.getInstance().m7000j().m3552a()) {
-                    C0310Go.m1445b().m1448e(C1542A.this);
+                    C0310Go.getInstance().m1448e(C1542A.this);
                     C1542A.this.f4738l = 4;
                 }
             }
@@ -254,13 +253,13 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             this.f4738l = -1;
             this.f4739m = new GestureDetector(browserActivity, new a());
             this.f4740n = new b();
-            setBackgroundColor(context.getResources().getColor(R.color.black));
-            this.f4728b = context.getResources().getDrawable(com.xbrowser.play.R.drawable.ic_volume);
-            this.f4729c = context.getResources().getDrawable(com.xbrowser.play.R.drawable.ic_brighness);
-            this.f4730d = context.getResources().getDrawable(com.xbrowser.play.R.drawable.ic_fast_ff);
-            this.f4731e = context.getResources().getDrawable(com.xbrowser.play.R.drawable.ic_fast_back);
+            setBackgroundColor(context.getResources().getColor(android.R.color.black));
+            this.f4728b = context.getResources().getDrawable(R.drawable.ic_volume);
+            this.f4729c = context.getResources().getDrawable(R.drawable.ic_brighness);
+            this.f4730d = context.getResources().getDrawable(R.drawable.ic_fast_ff);
+            this.f4731e = context.getResources().getDrawable(R.drawable.ic_fast_back);
             this.f4734h = ViewConfiguration.get(context).getScaledTouchSlop();
-            this.f4735i = (int) getResources().getDimension(com.xbrowser.play.R.dimen.fcb_gravity_y);
+            this.f4735i = (int) getResources().getDimension(R.dimen.fcb_gravity_y);
             try {
                 f = Settings.System.getInt(browserActivity.getContentResolver(), "screen_brightness");
             } catch (Settings.SettingNotFoundException unused) {
@@ -394,12 +393,12 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
             if (mo5626h() == 0 || mo5626h() == 8 || mo5626h() == 256) {
                 if (action == 0) {
-                    this.f4736j = C0462K1.m2249b().m2250a();
+                    this.f4736j = C0462K1.getInstance().m2250a();
                     this.f4737k = -1;
                     if (this.f4732f < getWidth() - (this.f4734h * 2)) {
                         browserActivity.m6322h1();
                     }
-                    C0356Ho.m1604i().m1610m(this);
+                    C0356Ho.getInstance().m1610m(this);
                 } else if (action == 2) {
                     int y = (int) motionEvent.getY();
                     int x = (int) motionEvent.getX();
@@ -420,7 +419,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                                     if (measuredHeight < 0) {
                                         this.f4741o = 0;
                                     }
-                                    c2564xbM10653b = C2564xb.m10653b();
+                                    c2564xbM10653b = C2564xb.getInstance();
                                     drawable = this.f4729c;
                                     sb = new StringBuilder();
                                 } else if (i2 < 0) {
@@ -429,26 +428,26 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                                     if (measuredHeight2 > 100) {
                                         this.f4741o = 100;
                                     }
-                                    c2564xbM10653b = C2564xb.m10653b();
+                                    c2564xbM10653b = C2564xb.getInstance();
                                     drawable = this.f4729c;
                                     sb = new StringBuilder();
                                 }
                                 sb.append(this.f4741o);
                                 sb.append("%");
                                 c2564xbM10653b.m10657e(drawable, sb.toString());
-                                BrowserActivity.getActivity().m6245P((int) ((this.f4741o / 100.0f) * 255.0f));
+                                BrowserActivity.getActivity().setScreenBrightness((int) ((this.f4741o / 100.0f) * 255.0f));
                             }
                         } else if (i4 == 2) {
                             if (i2 > 0) {
                                 int measuredHeight3 = this.f4736j - ((int) ((fAbs2 * 100.0f) / getMeasuredHeight()));
                                 int i5 = measuredHeight3 >= 0 ? measuredHeight3 : 0;
-                                C2564xb.m10653b().m10657e(this.f4728b, i5 + "%");
-                                C0462K1.m2249b().m2254f(i5);
+                                C2564xb.getInstance().m10657e(this.f4728b, i5 + "%");
+                                C0462K1.getInstance().m2254f(i5);
                             } else if (i2 < 0) {
                                 int measuredHeight4 = this.f4736j + ((int) ((fAbs2 * 100.0f) / getMeasuredHeight()));
                                 int i6 = measuredHeight4 <= 100 ? measuredHeight4 : 100;
-                                C2564xb.m10653b().m10657e(this.f4728b, i6 + "%");
-                                C0462K1.m2249b().m2254f(i6);
+                                C2564xb.getInstance().m10657e(this.f4728b, i6 + "%");
+                                C0462K1.getInstance().m2254f(i6);
                             }
                         }
                     } else if (Math.abs(i3) >= this.f4734h) {
@@ -463,7 +462,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             i = (int) measuredWidth;
                             strM8710r = AndroidSystemUtils.m8710r(i * 1000);
                             strM8710r2 = AndroidSystemUtils.m8710r(i7 * 1000);
-                            c2564xbM10653b2 = C2564xb.m10653b();
+                            c2564xbM10653b2 = C2564xb.getInstance();
                             drawable2 = this.f4730d;
                             sb2 = new StringBuilder();
                         } else if (i3 < 0) {
@@ -474,7 +473,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             i = (int) fAbs3;
                             strM8710r = AndroidSystemUtils.m8710r(i * 1000);
                             strM8710r2 = AndroidSystemUtils.m8710r(i7 * 1000);
-                            c2564xbM10653b2 = C2564xb.m10653b();
+                            c2564xbM10653b2 = C2564xb.getInstance();
                             drawable2 = this.f4731e;
                             sb2 = new StringBuilder();
                         }
@@ -485,19 +484,19 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                         this.f4737k = i;
                     }
                 } else if (action == 3 || action == 1) {
-                    C2564xb.m10653b().m10654a();
+                    C2564xb.getInstance().m10654a();
                     this.f4742p = this.f4741o;
                     if (this.f4737k >= 0) {
                         Log.i("video-seek", "seek " + this.f4737k);
-                        C2061mf.m8471f0().m8483C(f4716p, "_XJSAPI_.change_video_seek(" + this.f4737k + ")");
+                        JSManager.getInstance().evaluateJavascript(webView, "_XJSAPI_.change_video_seek(" + this.f4737k + ")");
                     }
                     removeCallbacks(this.f4740n);
                     if (this.f4738l == 4) {
-                        C0310Go.m1445b().m1447d(this);
+                        C0310Go.getInstance().m1447d(this);
                     }
                     this.f4738l = -1;
                 }
-            } else if (action == 0 && (abstractC1540bMo6393A = browserActivity.m6218I0().mo6393A()) != null && abstractC1540bMo6393A.m9656x() && !abstractC1540bMo6393A.m9652q().contains(this.f4732f, this.f4733g)) {
+            } else if (action == 0 && (abstractC1540bMo6393A = browserActivity.getActivityDelegate().mo6393A()) != null && abstractC1540bMo6393A.m9656x() && !abstractC1540bMo6393A.m9652q().contains(this.f4732f, this.f4733g)) {
                 abstractC1540bMo6393A.m9655v();
             }
             if (this.f4739m.onTouchEvent(motionEvent)) {
@@ -522,12 +521,12 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
             @Override
             public boolean queueIdle() {
-                C1825ha.m7824d().m7830g(50, this.f4747a, this.f4748b.getUrl());
+                EventQueueManager.getInstance().processEvent(50, this.f4747a, this.f4748b.getUrl());
                 return false;
             }
         }
 
-        public class b extends AbstractDialogC0814Rn {
+        public class b extends TwoOptionsDialog {
 
             public final FileChooserParams f4750f;
 
@@ -541,13 +540,13 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
 
             @Override
-            public void mo3829b() {
-                browserActivity.f4247I.onReceiveValue(new Uri[0]);
-                browserActivity.f4247I = null;
+            public void onDismissClicked() {
+                browserActivity.fileUploadCallback.onReceiveValue(new Uri[0]);
+                browserActivity.fileUploadCallback = null;
             }
 
             @Override
-            public void mo3830c() {
+            public void onButton1Clicked() {
                 if (Build.VERSION.SDK_INT >= 33) {
                     browserActivity.startActivityForResult(this.f4750f.createIntent(), 16);
                 } else {
@@ -557,7 +556,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
 
             @Override
-            public void mo3831d() {
+            public void onButton2Clicked() {
                 browserActivity.m6323h2();
             }
         }
@@ -575,7 +574,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
             @Override
             public void onShown() {
-                CheckBox checkBox = (CheckBox) browserActivity.findViewById(com.xbrowser.play.R.id.check_do_not_show);
+                CheckBox checkBox = (CheckBox) browserActivity.findViewById(R.id.check_do_not_show);
                 if (checkBox != null) {
                     if (checkBox.isChecked()) {
                         SiteSettingsManager.getInstance().m6965g(f4726z, this.f4753a, false);
@@ -589,7 +588,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
             @Override
             public void onDismissed() {
-                CheckBox checkBox = (CheckBox) browserActivity.findViewById(com.xbrowser.play.R.id.check_do_not_show);
+                CheckBox checkBox = (CheckBox) browserActivity.findViewById(R.id.check_do_not_show);
                 if (checkBox == null || !checkBox.isChecked()) {
                     return;
                 }
@@ -655,7 +654,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         public final Intent m6820d(Intent... intentArr) {
             Intent intent = new Intent("android.intent.action.CHOOSER");
             intent.putExtra("android.intent.extra.INITIAL_INTENTS", intentArr);
-            intent.putExtra("android.intent.extra.TITLE", browserActivity.getString(com.xbrowser.play.R.string.choose_upload));
+            intent.putExtra("android.intent.extra.TITLE", browserActivity.getString(R.string.choose_upload));
             return intent;
         }
 
@@ -672,7 +671,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         }
 
         public final void m6823g(String str, PermissionRequest permissionRequest, String str2) throws Resources.NotFoundException {
-            MessageBoxManager.getInstance().showMessageFull(browserActivity.getBrowserFrameLayout(), null, str, BrowserActivity.getActivity().getResources().getString(com.xbrowser.play.R.string.btn_text_allow), BrowserActivity.getActivity().getResources().getString(com.xbrowser.play.R.string.btn_text_deny), new c(str2, permissionRequest), false, true);
+            MessageBoxManager.getInstance().showMessageFull(browserActivity.getBrowserFrameLayout(), null, str, BrowserActivity.getActivity().getResources().getString(R.string.btn_text_allow), BrowserActivity.getActivity().getResources().getString(R.string.btn_text_deny), new c(str2, permissionRequest), false, true);
         }
 
         public final String m6824h(String[] strArr) {
@@ -697,7 +696,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         @Override
         public void onCloseWindow(WebView webView) {
             WebViewBrowserController webViewBrowserController = WebViewBrowserController.this;
-            if (webView == webViewBrowserController.f4717q) {
+            if (webView == webViewBrowserController.webView1) {
                 webViewBrowserController.m6765A0();
             } else {
                 webViewBrowserController.browserControllerListener.mo6431k();
@@ -730,7 +729,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
             if (z) {
                 WebViewBrowserController webViewBrowserController = WebViewBrowserController.this;
-                if (webViewBrowserController.f4717q != null) {
+                if (webViewBrowserController.webView1 != null) {
                     Toast.makeText(webViewBrowserController.browserActivity, "You create too many sub windows !", Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -738,7 +737,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             WebView.WebViewTransport webViewTransport = (WebView.WebViewTransport) message.obj;
             if (z && z2) {
                 m6814y0();
-                webViewTransport.setWebView(f4717q);
+                webViewTransport.setWebView(webView1);
                 f4710j = true;
                 message.sendToTarget();
                 return true;
@@ -750,7 +749,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             WebViewBrowserController webViewBrowserController2 = WebViewBrowserController.this;
             WebViewBrowserController webViewBrowserController3 = new WebViewBrowserController(webViewBrowserController2.browserActivity, webViewBrowserController2.browserControllerListener, true);
             webViewBrowserController3.f4726z = f4726z;
-            webViewBrowserController3.f4688d = f4688d;
+            webViewBrowserController3.title = title;
             webViewTransport.setWebView(webViewBrowserController3.m6770F0());
             message.sendToTarget();
             Log.i("newtab", ">>>>>>>>> on create new window>>>>>>");
@@ -770,13 +769,13 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
         @Override
         public void onGeolocationPermissionsShowPrompt(String str, GeolocationPermissions.Callback callback) throws Resources.NotFoundException {
-            if (!SharedPreferencesHelper.getInstance().m6916r()) {
+            if (!SharedPreferencesHelper.getInstance().isEnableGeolocation()) {
                 callback.invoke(str, false, false);
                 return;
             }
             if (TextUtils.isEmpty(f4726z) || SiteSettingsManager.getInstance().m6940I(f4726z)) {
-                String string = browserActivity.getString(com.xbrowser.play.R.string.message_allow_access_location);
-                String string2 = BrowserActivity.getActivity().getResources().getString(com.xbrowser.play.R.string.btn_text_allow);
+                String string = browserActivity.getString(R.string.message_allow_access_location);
+                String string2 = BrowserActivity.getActivity().getResources().getString(R.string.btn_text_allow);
                 SiteSettingsManager.Host hostVarM6982X = SiteSettingsManager.getInstance().getHost(13, f4726z);
                 if (hostVarM6982X == null) {
                     MessageBoxManager.getInstance().showToast(BrowserActivity.getActivity().getBrowserFrameLayout(), string, string2, new d(callback, str));
@@ -795,7 +794,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             if (i == 0 || i == 8 || i == 256) {
                 webViewBrowserController.browserActivity.m6264T2();
             }
-            C0356Ho.m1604i().m1609l();
+            C0356Ho.getInstance().m1609l();
             browserActivity.m6276W2();
             int i2 = pageType;
         }
@@ -808,7 +807,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 String str2 = "android.webkit.resource.AUDIO_CAPTURE";
                 if (str.equals("android.webkit.resource.AUDIO_CAPTURE")) {
                     if (browserActivity.checkSelfPermission("android.permission.RECORD_AUDIO") != 0) {
-                        browserActivity.f4249K = permissionRequest;
+                        browserActivity.webPermissionRequest = permissionRequest;
                         browserActivity.requestPermissions(new String[]{"android.permission.RECORD_AUDIO"}, 262);
                         return;
                     } else {
@@ -817,11 +816,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             return;
                         }
                         if (SiteSettingsManager.getInstance().m6944M(f4726z, "android.webkit.resource.AUDIO_CAPTURE")) {
-                            toastMakeText = Toast.makeText(browserActivity, browserActivity.getString(com.xbrowser.play.R.string.message_permission_deny), 1);
+                            toastMakeText = Toast.makeText(browserActivity, browserActivity.getString(R.string.message_permission_deny), 1);
                             toastMakeText.show();
                             return;
                         } else {
-                            i = com.xbrowser.play.R.string.message_allow_access_microphone;
+                            i = R.string.message_allow_access_microphone;
                             m6823g(browserActivity.getString(i), permissionRequest, str2);
                             return;
                         }
@@ -830,7 +829,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 str2 = "android.webkit.resource.VIDEO_CAPTURE";
                 if (str.equals("android.webkit.resource.VIDEO_CAPTURE")) {
                     if (browserActivity.checkSelfPermission("android.permission.CAMERA") != 0) {
-                        browserActivity.f4249K = permissionRequest;
+                        browserActivity.webPermissionRequest = permissionRequest;
                         browserActivity.requestPermissions(new String[]{"android.permission.CAMERA"}, 263);
                         return;
                     } else {
@@ -839,11 +838,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             return;
                         }
                         if (SiteSettingsManager.getInstance().m6944M(f4726z, "android.webkit.resource.VIDEO_CAPTURE")) {
-                            toastMakeText = Toast.makeText(browserActivity, browserActivity.getString(com.xbrowser.play.R.string.message_permission_deny), 0);
+                            toastMakeText = Toast.makeText(browserActivity, browserActivity.getString(R.string.message_permission_deny), 0);
                             toastMakeText.show();
                             return;
                         } else {
-                            i = com.xbrowser.play.R.string.message_allow_access_camera;
+                            i = R.string.message_allow_access_camera;
                             m6823g(browserActivity.getString(i), permissionRequest, str2);
                             return;
                         }
@@ -854,7 +853,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
         @Override
         public void onProgressChanged(WebView webView, int i) {
-            if (f4709i == 3 || f4688d.startsWith("file:///") || f4688d.startsWith("x:")) {
+            if (f4709i == 3 || title.startsWith("file:///") || title.startsWith("x:")) {
                 return;
             }
             getBrowserControllerListener().mo6427g(WebViewBrowserController.this, i, !r0.mo5624a());
@@ -870,10 +869,10 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             BrowserControllerListener browserControllerListenerM6730I = getBrowserControllerListener();
             WebViewBrowserController webViewBrowserController = WebViewBrowserController.this;
             browserControllerListenerM6730I.mo6449l(webViewBrowserController, str, webViewBrowserController.mo5624a());
-            f4689e = str;
+            url = str;
             Log.i("js-console", ">>>>>>> start on receive title");
             if (mo5624a()) {
-                BrowserActivity.getActivity().f4243E = str;
+                BrowserActivity.getActivity().lastPageTitle = str;
             }
         }
 
@@ -892,9 +891,9 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         public boolean onShowFileChooser(WebView webView, ValueCallback valueCallback, FileChooserParams fileChooserParams) {
             fileChooserParams.createIntent();
             String strM6824h = m6824h(fileChooserParams.getAcceptTypes());
-            browserActivity.f4247I = valueCallback;
+            browserActivity.fileUploadCallback = valueCallback;
             if (fileChooserParams.isCaptureEnabled()) {
-                new b(browserActivity, fileChooserParams, strM6824h).m3832e(browserActivity.getString(com.xbrowser.play.R.string.choose_upload), browserActivity.getString(com.xbrowser.play.R.string.btn_text_gallery), browserActivity.getString(com.xbrowser.play.R.string.btn_text_camera));
+                new b(browserActivity, fileChooserParams, strM6824h).show(browserActivity.getString(R.string.choose_upload), browserActivity.getString(R.string.btn_text_gallery), browserActivity.getString(R.string.btn_text_camera));
                 return true;
             }
             if (Build.VERSION.SDK_INT >= 33) {
@@ -930,7 +929,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             str = "*/*";
                         }
                         intent.setType(str);
-                        browserActivity.startActivityForResult(Intent.createChooser(intent, browserActivity.getString(com.xbrowser.play.R.string.choose_upload)), 16);
+                        browserActivity.startActivityForResult(Intent.createChooser(intent, browserActivity.getString(R.string.choose_upload)), 16);
                         return;
                     }
                     if (str4.equals("microphone")) {
@@ -994,7 +993,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 f4701A = view;
                 m6796f1(true);
                 f4705E = customViewCallback;
-                browserActivity.f4265l = true;
+                browserActivity.isLoadingUrl = true;
             }
         }
     }
@@ -1011,37 +1010,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         }
     }
 
-    public class C1545c implements DownloadListener {
-        public C1545c() {
-        }
-
-        @Override
-        public void onDownloadStart(String str, String str2, String str3, String str4, long j) {
-            getBrowserControllerListener().mo6424e(str, f4690f, str2, str3, str4, j);
-            if (f4717q.copyBackForwardList().getSize() == 0) {
-                m6765A0();
-            }
-        }
-    }
-
-    public class ViewOnClickListenerC1546d implements View.OnClickListener {
-        public ViewOnClickListenerC1546d() {
-        }
-
-        @Override
-        public void onClick(View view) {
-            f4707G.onCloseWindow(f4717q);
-        }
-    }
-
     public class RunnableC1547e implements Runnable {
-        public RunnableC1547e() {
-        }
-
         @Override
         public void run() {
             WebViewBrowserController webViewBrowserController = WebViewBrowserController.this;
-            webViewBrowserController.m6801k1(webViewBrowserController.f4716p.getUrl());
+            webViewBrowserController.m6801k1(webViewBrowserController.webView.getUrl());
         }
     }
 
@@ -1097,7 +1070,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
             @Override
             public void run() {
-                Toast.makeText(browserActivity, com.xbrowser.play.R.string.toast_download_image_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(browserActivity, R.string.toast_download_image_fail, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -1178,8 +1151,8 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
         @Override
         public void handleMessage(Message message) {
-            C1825ha.m7824d().m7829f(19, (String) message.getData().get("url"));
-            Toast.makeText(browserActivity, com.xbrowser.play.R.string.toast_add_to_rl, Toast.LENGTH_SHORT).show();
+            EventQueueManager.getInstance().processEvent(19, (String) message.getData().get("url"));
+            Toast.makeText(browserActivity, R.string.toast_add_to_rl, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1203,7 +1176,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                     Toast.makeText(browserActivity, "not download from this url", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    browserActivity.m6361u0(browserActivity.m6214H0(string, null));
+                    browserActivity.updateTitle(browserActivity.createBlobRequestUrl(string, null));
                     return;
                 }
             }
@@ -1225,7 +1198,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                     return;
                 }
                 FileUtils.writeBytesToFile(Base64.decode(str3, 0), str4);
-                Uri uriM8703k = AndroidSystemUtils.m8703k(browserActivity, System.currentTimeMillis() + "_" + strM468w, str, browserActivity.getString(com.xbrowser.play.R.string.app_name));
+                Uri uriM8703k = AndroidSystemUtils.m8703k(browserActivity, System.currentTimeMillis() + "_" + strM468w, str, browserActivity.getString(R.string.app_name));
                 if (uriM8703k != null) {
                     AndroidSystemUtils.m8698f(browserActivity, str4, uriM8703k);
                 }
@@ -1241,7 +1214,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         @Override
         public void handleMessage(Message message) {
             AndroidSystemUtils.m8701i(browserActivity, message.getData().getString("url"));
-            Toast.makeText(browserActivity, com.xbrowser.play.R.string.toast_copy_to_clip_board, Toast.LENGTH_SHORT).show();
+            Toast.makeText(browserActivity, R.string.toast_copy_to_clip_board, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1294,7 +1267,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             public void onClick(DialogInterface dialogInterface, int i) {
                 String string = this.f4790a.getText().toString();
                 String string2 = this.f4791b.getText().toString();
-                WebView webView = f4716p;
+                WebView webView = WebViewBrowserController.this.webView;
                 if (webView != null) {
                     webView.setHttpAuthUsernamePassword(this.f4792c, this.f4793d, string, string2);
                 }
@@ -1326,12 +1299,12 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
             @Override
             public void run() {
-                if (mo5624a() && !mo1575e() && VideoSniffingManager.getInstance().m7000j().path == null && !VideoSniffingManager.getInstance().m7005p(f4726z)) {
-                    browserActivity.m6361u0("if(window._XJSAPI_ != undefined) _XJSAPI_.sniff_media_res(false)");
+                if (mo5624a() && !WebViewBrowserController.this.hasNext() && VideoSniffingManager.getInstance().m7000j().path == null && !VideoSniffingManager.getInstance().m7005p(f4726z)) {
+                    browserActivity.updateTitle("if(window._XJSAPI_ != undefined) _XJSAPI_.sniff_media_res(false)");
                 } else if (mo5624a()) {
                     String str = VideoSniffingManager.getInstance().m7000j().path;
                 }
-                browserActivity.m6361u0("if(window._XJSAPI_ != undefined) _XJSAPI_.check_user_script()");
+                browserActivity.updateTitle("if(window._XJSAPI_ != undefined) _XJSAPI_.check_user_script()");
             }
         }
 
@@ -1351,7 +1324,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
         }
 
-        public class f extends AbstractDialogC1303b6 {
+        public class f extends ConfirmDialog {
 
             public final Message f4801f;
 
@@ -1362,11 +1335,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
 
             @Override
-            public void mo315b() {
+            public void onCancel() {
             }
 
             @Override
-            public void mo316c() {
+            public void onOK() {
                 this.f4801f.sendToTarget();
             }
         }
@@ -1459,7 +1432,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                f4708H.onReceivedSslError(this.f4814a, this.f4815b, this.f4816c);
+                webViewClient.onReceivedSslError(this.f4814a, this.f4815b, this.f4816c);
             }
         }
 
@@ -1490,28 +1463,28 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 m6776L0();
                 browserActivity.getHandler().postDelayed(new e(str), 50L);
             }
-            getBrowserControllerListener().mo6433p(WebViewBrowserController.this, ResourceCacheManager.getInstance().m2046a(str, 2), z);
+            getBrowserControllerListener().mo6433p(WebViewBrowserController.this, ResourceCacheManager.getInstance().getUrlOrFilePath(str, 2), z);
         }
 
         public final View m6829e(SslCertificate sslCertificate) throws ParseException {
             if (sslCertificate == null) {
                 return null;
             }
-            View viewInflate = LayoutInflater.from(browserActivity).inflate(com.xbrowser.play.R.layout.ssl_certificate, (ViewGroup) null);
+            View viewInflate = LayoutInflater.from(browserActivity).inflate(R.layout.ssl_certificate, (ViewGroup) null);
             SslCertificate.DName issuedTo = sslCertificate.getIssuedTo();
             if (issuedTo != null) {
-                ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.to_common)).setText(issuedTo.getCName());
-                ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.to_org)).setText(issuedTo.getOName());
-                ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.to_org_unit)).setText(issuedTo.getUName());
+                ((TextView) viewInflate.findViewById(R.id.to_common)).setText(issuedTo.getCName());
+                ((TextView) viewInflate.findViewById(R.id.to_org)).setText(issuedTo.getOName());
+                ((TextView) viewInflate.findViewById(R.id.to_org_unit)).setText(issuedTo.getUName());
             }
             SslCertificate.DName issuedBy = sslCertificate.getIssuedBy();
             if (issuedBy != null) {
-                ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.by_common)).setText(issuedBy.getCName());
-                ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.by_org)).setText(issuedBy.getOName());
-                ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.by_org_unit)).setText(issuedBy.getUName());
+                ((TextView) viewInflate.findViewById(R.id.by_common)).setText(issuedBy.getCName());
+                ((TextView) viewInflate.findViewById(R.id.by_org)).setText(issuedBy.getOName());
+                ((TextView) viewInflate.findViewById(R.id.by_org_unit)).setText(issuedBy.getUName());
             }
-            ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.issued_on)).setText(m6830f(sslCertificate.getValidNotBefore()));
-            ((TextView) viewInflate.findViewById(com.xbrowser.play.R.id.expires_on)).setText(m6830f(sslCertificate.getValidNotAfter()));
+            ((TextView) viewInflate.findViewById(R.id.issued_on)).setText(m6830f(sslCertificate.getValidNotBefore()));
+            ((TextView) viewInflate.findViewById(R.id.expires_on)).setText(m6830f(sslCertificate.getValidNotAfter()));
             return viewInflate;
         }
 
@@ -1533,9 +1506,9 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
         public final void m6831g(HttpAuthHandler httpAuthHandler, String str, String str2, String str3, String str4, String str5, int i2) {
             String str6;
-            View viewInflate = View.inflate(browserActivity, com.xbrowser.play.R.layout.http_authentication, null);
-            EditText editText = (EditText) viewInflate.findViewById(com.xbrowser.play.R.id.username_edit);
-            EditText editText2 = (EditText) viewInflate.findViewById(com.xbrowser.play.R.id.password_edit);
+            View viewInflate = View.inflate(browserActivity, R.layout.http_authentication, null);
+            EditText editText = (EditText) viewInflate.findViewById(R.id.username_edit);
+            EditText editText2 = (EditText) viewInflate.findViewById(R.id.password_edit);
             if (str4 != null) {
                 editText.setText(str4);
             }
@@ -1549,7 +1522,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
             this.f4786c = str6;
             this.f4784a = httpAuthHandler;
-            AlertDialog alertDialogCreate = new AlertDialog.Builder(browserActivity).setTitle(str6).setIcon(R.drawable.ic_dialog_alert).setView(viewInflate).setPositiveButton(com.xbrowser.play.R.string.btn_text_ok, new b(editText, editText2, str, str2, httpAuthHandler)).setNegativeButton(com.xbrowser.play.R.string.btn_text_cancel, new a(httpAuthHandler)).setOnCancelListener(new m(httpAuthHandler)).create();
+            AlertDialog alertDialogCreate = new AlertDialog.Builder(browserActivity).setTitle(str6).setIcon(android.R.drawable.ic_dialog_alert).setView(viewInflate).setPositiveButton(R.string.btn_text_ok, new b(editText, editText2, str, str2, httpAuthHandler)).setNegativeButton(R.string.btn_text_cancel, new a(httpAuthHandler)).setOnCancelListener(new m(httpAuthHandler)).create();
             alertDialogCreate.getWindow().setSoftInputMode(4);
             alertDialogCreate.show();
             if (i2 != 0) {
@@ -1566,25 +1539,25 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 return;
             }
             LayoutInflater layoutInflaterFrom = LayoutInflater.from(browserActivity);
-            LinearLayout linearLayout = (LinearLayout) viewM6829e.findViewById(com.xbrowser.play.R.id.placeholder);
+            LinearLayout linearLayout = (LinearLayout) viewM6829e.findViewById(R.id.placeholder);
             if (sslError.hasError(3)) {
-                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, linearLayout)).findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_untrusted);
+                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, linearLayout)).findViewById(R.id.warning)).setText(R.string.ssl_untrusted);
             }
             if (sslError.hasError(2)) {
-                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, linearLayout)).findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_mismatch);
+                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, linearLayout)).findViewById(R.id.warning)).setText(R.string.ssl_mismatch);
             }
             if (sslError.hasError(1)) {
-                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, linearLayout)).findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_expired);
+                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, linearLayout)).findViewById(R.id.warning)).setText(R.string.ssl_expired);
             }
             if (sslError.hasError(0)) {
-                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, linearLayout)).findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_not_yet_valid);
+                ((TextView) ((LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, linearLayout)).findViewById(R.id.warning)).setText(R.string.ssl_not_yet_valid);
             }
-            new AlertDialog.Builder(browserActivity).setTitle(com.xbrowser.play.R.string.ssl_certificate).setView(viewM6829e).setPositiveButton(com.xbrowser.play.R.string.btn_text_ok, new l(webView, sslErrorHandler, sslError)).setOnCancelListener(new k()).show();
+            new AlertDialog.Builder(browserActivity).setTitle(R.string.ssl_certificate).setView(viewM6829e).setPositiveButton(R.string.btn_text_ok, new l(webView, sslErrorHandler, sslError)).setOnCancelListener(new k()).show();
         }
 
         @Override
         public void onFormResubmission(WebView webView, Message message, Message message2) {
-            new f(browserActivity, message2).m5643d(browserActivity.getString(com.xbrowser.play.R.string.dlg_resubmit_form), browserActivity.getString(com.xbrowser.play.R.string.dlg_resubmit_form_confirm));
+            new f(browserActivity, message2).show(browserActivity.getString(R.string.dlg_resubmit_form), browserActivity.getString(R.string.dlg_resubmit_form_confirm));
         }
 
         /* JADX WARN: Removed duplicated region for block: B:19:0x0086  */
@@ -1653,7 +1626,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             L79:
                 com.mmbox.xbrowser.controllers.WebViewBrowserController r5 = com.mmbox.xbrowser.controllers.WebViewBrowserController.this
                 r5.m6798h1(r6)
-                com.mmbox.xbrowser.d r5 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+                com.mmbox.xbrowser.d r5 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
                 boolean r5 = r5.f4928s
                 if (r5 == 0) goto L8d
                 com.mmbox.xbrowser.controllers.WebViewBrowserController r5 = com.mmbox.xbrowser.controllers.WebViewBrowserController.this
@@ -1670,15 +1643,15 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 r1 = 20
                 r0.m9672h(r1)
                 com.mmbox.xbrowser.controllers.WebViewBrowserController r0 = com.mmbox.xbrowser.controllers.WebViewBrowserController.this
-                java.lang.String r1 = p000.AbstractC0115Cd.m471z(r6)
+                java.lang.String r1 = p000.NetworkUtils.m471z(r6)
                 r0.f4691g = r1
             Laf:
                 com.mmbox.xbrowser.a r0 = com.mmbox.xbrowser.ContentDataManager.m6540c0()
                 r0.m6627l1()
-                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
                 boolean r0 = r0.f4906h
                 if (r0 == 0) goto Lcf
-                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+                com.mmbox.xbrowser.d r0 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
                 boolean r0 = r0.f4926r
                 if (r0 == 0) goto Lcf
                 com.mmbox.xbrowser.controllers.WebViewBrowserController r0 = com.mmbox.xbrowser.controllers.WebViewBrowserController.this
@@ -1713,19 +1686,19 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         public void onPageStarted(WebView webView, String url, Bitmap favicon) {
             browserActivity.getHandler().postDelayed(new c(webView), 1500L);
             if (mo5624a()) {
-                browserActivity.f4242D = url;
+                browserActivity.lastNavigatedUrl = url;
             }
             m6790Z0(url);
-            String str2 = f4688d;
+            String str2 = title;
             if (str2 == null || !str2.startsWith("http")) {
-                String str3 = f4688d;
+                String str3 = title;
                 if (str3 != null) {
                     str3.startsWith("view-source:");
                 }
             } else {
-                getBrowserControllerListener().mo6429h(WebViewBrowserController.this, ResourceCacheManager.getInstance().m2046a(url, 2), favicon);
+                getBrowserControllerListener().mo6429h(WebViewBrowserController.this, ResourceCacheManager.getInstance().getUrlOrFilePath(url, 2), favicon);
             }
-            f4688d = url;
+            title = url;
             if (url.startsWith("http") && mo5626h() != 32) {
                 m6801k1(url);
                 Log.i("ad-block", "get main domain onPageStarted");
@@ -1747,7 +1720,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             if (!SharedPreferencesHelper.getInstance().enterNightMode || Build.VERSION.SDK_INT >= 29) {
                 return;
             }
-            f4716p.setVisibility(View.INVISIBLE);
+            WebViewBrowserController.this.webView.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -1793,29 +1766,29 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 return;
             }
             LayoutInflater layoutInflaterFrom = LayoutInflater.from(browserActivity);
-            View viewInflate = layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warnings, (ViewGroup) null);
-            LinearLayout linearLayout = (LinearLayout) viewInflate.findViewById(com.xbrowser.play.R.id.placeholder);
+            View viewInflate = layoutInflaterFrom.inflate(R.layout.ssl_warnings, (ViewGroup) null);
+            LinearLayout linearLayout = (LinearLayout) viewInflate.findViewById(R.id.placeholder);
             if (sslError.hasError(3)) {
-                LinearLayout linearLayout2 = (LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, (ViewGroup) null);
-                ((TextView) linearLayout2.findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_untrusted);
+                LinearLayout linearLayout2 = (LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, (ViewGroup) null);
+                ((TextView) linearLayout2.findViewById(R.id.warning)).setText(R.string.ssl_untrusted);
                 linearLayout.addView(linearLayout2);
             }
             if (sslError.hasError(2)) {
-                LinearLayout linearLayout3 = (LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, (ViewGroup) null);
-                ((TextView) linearLayout3.findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_mismatch);
+                LinearLayout linearLayout3 = (LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, (ViewGroup) null);
+                ((TextView) linearLayout3.findViewById(R.id.warning)).setText(R.string.ssl_mismatch);
                 linearLayout.addView(linearLayout3);
             }
             if (sslError.hasError(1)) {
-                LinearLayout linearLayout4 = (LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, (ViewGroup) null);
-                ((TextView) linearLayout4.findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_expired);
+                LinearLayout linearLayout4 = (LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, (ViewGroup) null);
+                ((TextView) linearLayout4.findViewById(R.id.warning)).setText(R.string.ssl_expired);
                 linearLayout.addView(linearLayout4);
             }
             if (sslError.hasError(0)) {
-                LinearLayout linearLayout5 = (LinearLayout) layoutInflaterFrom.inflate(com.xbrowser.play.R.layout.ssl_warning, (ViewGroup) null);
-                ((TextView) linearLayout5.findViewById(com.xbrowser.play.R.id.warning)).setText(com.xbrowser.play.R.string.ssl_not_yet_valid);
+                LinearLayout linearLayout5 = (LinearLayout) layoutInflaterFrom.inflate(R.layout.ssl_warning, (ViewGroup) null);
+                ((TextView) linearLayout5.findViewById(R.id.warning)).setText(R.string.ssl_not_yet_valid);
                 linearLayout.addView(linearLayout5);
             }
-            new AlertDialog.Builder(browserActivity).setTitle(com.xbrowser.play.R.string.security_warning).setIcon(R.drawable.ic_dialog_alert).setView(viewInflate).setPositiveButton(com.xbrowser.play.R.string.ssl_continue, new j(sslErrorHandler)).setNeutralButton(com.xbrowser.play.R.string.view_certificate, new i(webView, sslErrorHandler, sslError)).setNegativeButton(com.xbrowser.play.R.string.btn_text_cancel, new h(sslErrorHandler)).setOnCancelListener(new g(sslErrorHandler)).show();
+            new AlertDialog.Builder(browserActivity).setTitle(R.string.security_warning).setIcon(android.R.drawable.ic_dialog_alert).setView(viewInflate).setPositiveButton(R.string.ssl_continue, new j(sslErrorHandler)).setNeutralButton(R.string.view_certificate, new i(webView, sslErrorHandler, sslError)).setNegativeButton(R.string.btn_text_cancel, new h(sslErrorHandler)).setOnCancelListener(new g(sslErrorHandler)).show();
         }
 
         @Override
@@ -1827,11 +1800,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         @Override
         public void onScaleChanged(WebView webView, float f2, float f3) {
             if (SharedPreferencesHelper.getInstance().autoWrapWhenScaled) {
-                browserActivity.f4245G = (int) (webView.getWidth() / f3);
-                if (browserActivity.f4246H == -1) {
-                    browserActivity.f4246H = (int) (webView.getWidth() / f3);
+                browserActivity.textFitWidth = (int) (webView.getWidth() / f3);
+                if (browserActivity.textFitHeight == -1) {
+                    browserActivity.textFitHeight = (int) (webView.getWidth() / f3);
                 }
-                Log.i("page-scale", " width:" + webView.getWidth() + " old-scale:" + f2 + " new-scale:" + f3 + " new-width:" + browserActivity.f4245G + " old-width:" + browserActivity.f4246H);
+                Log.i("page-scale", " width:" + webView.getWidth() + " old-scale:" + f2 + " new-scale:" + f3 + " new-width:" + browserActivity.textFitWidth + " old-width:" + browserActivity.textFitHeight);
                 browserActivity.m6284Y2();
             }
         }
@@ -1845,16 +1818,16 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 String str2 = AbstractC1761g3.HEADER_USER_SCRIPT;
                 int iIndexOf = str.indexOf(str2);
                 if (iIndexOf >= 0) {
-                    return new WebResourceResponse("text/javascript", "UTF8", new ByteArrayInputStream(C2061mf.m8471f0().m8525b0(str.substring(iIndexOf + str2.length() + 1)).getBytes(StandardCharsets.UTF_8)));
+                    return new WebResourceResponse("text/javascript", "UTF8", new ByteArrayInputStream(JSManager.getInstance().m8525b0(str.substring(iIndexOf + str2.length() + 1)).getBytes(StandardCharsets.UTF_8)));
                 }
                 String str3 = AbstractC1761g3.HEADER_LIB_SCRIPT;
                 int iIndexOf2 = str.indexOf(str3);
                 if (iIndexOf2 >= 0) {
-                    return new WebResourceResponse("text/javascript", "UTF8", new ByteArrayInputStream(C2061mf.m8471f0().readAppFileOrToast(str.substring(iIndexOf2 + str3.length() + 1)).getBytes(StandardCharsets.UTF_8)));
+                    return new WebResourceResponse("text/javascript", "UTF8", new ByteArrayInputStream(JSManager.getInstance().readAppFileOrToast(str.substring(iIndexOf2 + str3.length() + 1)).getBytes(StandardCharsets.UTF_8)));
                 }
                 int iIndexOf3 = str.indexOf(str2);
                 if (iIndexOf3 >= 0) {
-                    return new WebResourceResponse("text/javascript", "UTF8", new ByteArrayInputStream(C2061mf.m8471f0().m8525b0(str.substring(iIndexOf3 + str2.length() + 1)).getBytes(StandardCharsets.UTF_8)));
+                    return new WebResourceResponse("text/javascript", "UTF8", new ByteArrayInputStream(JSManager.getInstance().m8525b0(str.substring(iIndexOf3 + str2.length() + 1)).getBytes(StandardCharsets.UTF_8)));
                 }
                 if (f4709i == 5 && mo5624a()) {
                     VideoSniffingManager.getInstance().m6997g(str);
@@ -1865,10 +1838,10 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 if (!SharedPreferencesHelper.getInstance().activeAdBlock || TextUtils.isEmpty(f4726z) || ContentDataManager.getInstance().m6637q0(f4726z)) {
                     return null;
                 }
-                C1539a c1539aM6540c0 = ContentDataManager.getInstance();
+                ContentDataManager c1539aM6540c0 = ContentDataManager.getInstance();
                 WebViewBrowserController webViewBrowserController = WebViewBrowserController.this;
-                if (c1539aM6540c0.m6647u0(webViewBrowserController.f4688d, webViewBrowserController.f4726z, str, f4709i, SharedPreferencesHelper.getInstance().enableSmartADB)) {
-                    return new WebResourceResponse("text/plain", "utf-8", WebViewBrowserController.f4698N);
+                if (c1539aM6540c0.m6647u0(webViewBrowserController.title, webViewBrowserController.f4726z, str, f4709i, SharedPreferencesHelper.getInstance().enableSmartADB)) {
+                    return new WebResourceResponse("text/plain", "utf-8", WebViewBrowserController.EMPTY_INPUT_STREAM);
                 }
                 return null;
             } catch (Exception e2) {
@@ -1882,29 +1855,29 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             SiteSettingsManager.Host hostVarM6982X;
             String string = webResourceRequest.getUrl().toString();
             if (string.startsWith("http")) {
-                f4688d = string;
+                title = string;
             }
             if (SharedPreferencesHelper.getInstance().f4858H0) {
                 C2480vj.getInstance().m10377l();
                 SharedPreferencesHelper.getInstance().f4858H0 = false;
             }
-            if (browserActivity.f4264k != 0) {
+            if (browserActivity.uiLayoutMode != 0) {
                 return true;
             }
             if (string.startsWith("http")) {
-                if (SharedPreferencesHelper.getInstance().blockPopWindow && SharedPreferencesHelper.getInstance().activeAdBlock && !TextUtils.isEmpty(f4688d) && !TextUtils.isEmpty(f4726z) && !ContentDataManager.getInstance().m6637q0(f4726z)) {
-                    C1539a c1539aM6540c0 = ContentDataManager.getInstance();
+                if (SharedPreferencesHelper.getInstance().blockPopWindow && SharedPreferencesHelper.getInstance().activeAdBlock && !TextUtils.isEmpty(title) && !TextUtils.isEmpty(f4726z) && !ContentDataManager.getInstance().m6637q0(f4726z)) {
+                    ContentDataManager c1539aM6540c0 = ContentDataManager.getInstance();
                     WebViewBrowserController webViewBrowserController = WebViewBrowserController.this;
-                    if (c1539aM6540c0.m6647u0(webViewBrowserController.f4688d, webViewBrowserController.f4726z, string, f4709i, false)) {
+                    if (c1539aM6540c0.m6647u0(webViewBrowserController.title, webViewBrowserController.f4726z, string, f4709i, false)) {
                         if (SharedPreferencesHelper.getInstance().showAdBlockToast) {
-                            Toast.makeText(browserActivity, com.xbrowser.play.R.string.toast_total_block_ad_jump, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(browserActivity, R.string.toast_total_block_ad_jump, Toast.LENGTH_SHORT).show();
                         }
                         return true;
                     }
                 }
                 if (!TextUtils.isEmpty(f4691g) && (hostVarM6982X = SiteSettingsManager.getInstance().getHost(17, f4726z)) != null && hostVarM6982X.extra.equals("true") && string.indexOf(f4691g) < 0) {
                     if (SharedPreferencesHelper.getInstance().showAdBlockToast) {
-                        Toast.makeText(browserActivity, com.xbrowser.play.R.string.toast_block_jumping_thirdpart, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(browserActivity, R.string.toast_block_jumping_thirdpart, Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 }
@@ -1916,7 +1889,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 }
                 if (!string.startsWith("x:")) {
                     if (mo5624a()) {
-                        browserActivity.m6218I0().m6404M(string);
+                        browserActivity.getActivityDelegate().m6404M(string);
                     }
                     return super.shouldOverrideUrlLoading(webView, webResourceRequest);
                 }
@@ -1926,12 +1899,12 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 }
                 if (!string.startsWith("x:")) {
                     if (mo5624a()) {
-                        browserActivity.m6218I0().m6404M(string);
+                        browserActivity.getActivityDelegate().m6404M(string);
                     }
                     return super.shouldOverrideUrlLoading(webView, webResourceRequest);
                 }
             }
-            f4716p.loadUrl(ResourceCacheManager.getInstance().m2046a(string, 2));
+            WebViewBrowserController.this.webView.loadUrl(ResourceCacheManager.getInstance().getUrlOrFilePath(string, 2));
             return true;
         }
     }
@@ -1953,11 +1926,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         @Override
         public void handleMessage(Message message) {
             AndroidSystemUtils.m8701i(browserActivity, message.getData().getString("title"));
-            Toast.makeText(browserActivity, com.xbrowser.play.R.string.toast_copy_to_clip_board, Toast.LENGTH_SHORT).show();
+            Toast.makeText(browserActivity, R.string.toast_copy_to_clip_board, Toast.LENGTH_SHORT).show();
         }
     }
 
-    public class DialogC1557o extends AbstractDialogC1303b6 {
+    public class DialogC1557o extends ConfirmDialog {
 
         public final String f4822f;
 
@@ -1968,11 +1941,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         }
 
         @Override
-        public void mo315b() {
+        public void onCancel() {
         }
 
         @Override
-        public void mo316c() {
+        public void onOK() {
             browserActivity.m6325i0(this.f4822f);
         }
     }
@@ -2001,22 +1974,10 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
         @Override
         public void run() {
-            if (f4709i == 3 || browserActivity.m6218I0().m6394C().m1431n() == 3 || browserActivity.m6218I0().m6394C().m1431n() == 2) {
+            if (f4709i == 3 || browserActivity.getActivityDelegate().m6394C().m1431n() == 3 || browserActivity.getActivityDelegate().m6394C().m1431n() == 2) {
                 return;
             }
             m6787W0(this.f4826l);
-        }
-    }
-
-    public class RunnableC1560r implements Runnable {
-        public RunnableC1560r() {
-        }
-
-        @Override
-        public void run() {
-            if (SharedPreferencesHelper.getInstance().enableAutoFill && SiteSettingsManager.getInstance().m6935D(f4726z)) {
-                C2061mf.m8471f0().m8542n0(f4716p, "auto_fill");
-            }
         }
     }
 
@@ -2050,57 +2011,6 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         }
     }
 
-    public class ViewOnScrollChangeListenerC1562t implements View.OnScrollChangeListener {
-        public ViewOnScrollChangeListenerC1562t() {
-        }
-
-        @Override
-        public void onScrollChange(View view, int i, int i2, int i3, int i4) {
-            f4712l = i2;
-        }
-    }
-
-    public class ViewOnLongClickListenerC1563u implements View.OnLongClickListener {
-        public ViewOnLongClickListenerC1563u() {
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            Log.i("web-touch", "start post long press ====================");
-            int i = pageType;
-            return (i == 32 || i == 0 || i == 8 || i == 64 || i == 512) ? false : true;
-        }
-    }
-
-    public class C1564v implements DownloadListener {
-        public C1564v() {
-        }
-
-        @Override
-        public void onDownloadStart(String str, String str2, String str3, String str4, long j) {
-            if (TextUtils.isEmpty(f4690f) || !f4690f.startsWith("http")) {
-                WebViewBrowserController webViewBrowserController = WebViewBrowserController.this;
-                webViewBrowserController.f4690f = webViewBrowserController.f4716p.getUrl();
-            }
-            getBrowserControllerListener().mo6424e(str, f4690f, str2, str3, str4, j);
-        }
-    }
-
-    public class RunnableC1565w implements Runnable {
-        public RunnableC1565w() {
-        }
-
-        @Override
-        public void run() {
-            String url;
-            if (C1039Wi.m4517p().m4520l() || (url = f4716p.getUrl()) == null || C1039Wi.m4517p().m4524q(url) || url.indexOf("xbext.com") >= 0 || url.indexOf("taobao.com") >= 0) {
-                return;
-            }
-            Log.i("jslog", "=========  do try test support preload ============" + url);
-            C2061mf.m8471f0().m8542n0(f4716p, "preload");
-        }
-    }
-
     public class RunnableC1566x implements Runnable {
 
         public final String f4834l;
@@ -2117,12 +2027,12 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             try {
                 String host = Uri.parse(this.f4834l).getHost();
                 if (SharedPreferencesHelper.getInstance().getBoolean("log_host_access", false) && !TextUtils.isEmpty(host)) {
-                    C1344c1.m5691d().m5698h("Host Access", "host_access/" + host);
+                    C1344c1.getInstance().m5698h("Host Access", "host_access/" + host);
                 }
                 if (this.f4834l.indexOf("baidu.com") > 0 && this.f4834l.indexOf("from=") > 0) {
                     String strM448c2 = NetworkUtils.extractFirstGroup(this.f4834l, NetworkUtils.FROM_PARAM_PATTERN);
                     if (strM448c2 != null) {
-                        C1344c1.m5691d().m5698h("Search FeeCode", "search_baidu_feecode/" + strM448c2);
+                        C1344c1.getInstance().m5698h("Search FeeCode", "search_baidu_feecode/" + strM448c2);
                     }
                     if (WebViewBrowserController.f4695K >= SharedPreferencesHelper.getInstance().f4913k0) {
                         boolean unused = WebViewBrowserController.f4696L = true;
@@ -2134,7 +2044,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             if (strM448c3 == null) {
                                 return;
                             }
-                            c1344c1M5691d = C1344c1.m5691d();
+                            c1344c1M5691d = C1344c1.getInstance();
                             sb = new StringBuilder();
                             sb.append("search_sm_feecode/");
                             sb.append(strM448c3);
@@ -2143,7 +2053,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             if (strM448c4 == null) {
                                 return;
                             }
-                            c1344c1M5691d = C1344c1.m5691d();
+                            c1344c1M5691d = C1344c1.getInstance();
                             sb = new StringBuilder();
                             sb.append("search_toutiao_feecode/");
                             sb.append(strM448c4);
@@ -2151,7 +2061,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                             if (this.f4834l.indexOf("m.so.com") <= 0 || (strM448c = NetworkUtils.extractFirstGroup(this.f4834l, NetworkUtils.SRC_PARAM_PATTERN)) == null) {
                                 return;
                             }
-                            c1344c1M5691d = C1344c1.m5691d();
+                            c1344c1M5691d = C1344c1.getInstance();
                             sb = new StringBuilder();
                             sb.append("search_360_feecode/");
                             sb.append(strM448c);
@@ -2161,7 +2071,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                     }
                     String strM448c5 = NetworkUtils.extractFirstGroup(this.f4834l, NetworkUtils.SOGOU_MOBB_PATTERN);
                     if (strM448c5 != null) {
-                        C1344c1.m5691d().m5698h("Search FeeCode", "search_sogou_feecode/" + strM448c5);
+                        C1344c1.getInstance().m5698h("Search FeeCode", "search_sogou_feecode/" + strM448c5);
                     }
                     if (WebViewBrowserController.f4695K >= 100) {
                         boolean unused2 = WebViewBrowserController.f4696L = true;
@@ -2184,7 +2094,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         @Override
         public void run() {
             if (mo5624a()) {
-                C2061mf.m8471f0().m8550r0(this.f4836l, 2);
+                JSManager.getInstance().m8550r0(this.f4836l, 2);
             }
         }
     }
@@ -2195,7 +2105,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
         @Override
         public void run() {
-            browserActivity.m6361u0("if(window._XJSAPI_) _XJSAPI_.loadHideElementRule()");
+            browserActivity.updateTitle("if(window._XJSAPI_) _XJSAPI_.loadHideElementRule()");
         }
     }
 
@@ -2203,21 +2113,20 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         this(browserActivity, browserControllerListener, false);
     }
 
-    public static int[] m6731J() {
-        int i = SharedPreferencesHelper.getInstance().enterNightMode ? 0xFF000000 : -1;
-        return new int[]{i, i};
+    public static int[] getColorsByTheme() {
+        int color = SharedPreferencesHelper.getInstance().enterNightMode ? 0xFF000000 : 0xFFFFFFFF;
+        return new int[]{color, color};
     }
 
     public void m6765A0() {
-        if (this.f4717q != null) {
-            if (this.f4704D != null) {
-                this.browserActivity.m6250Q0().removeView(this.f4704D);
-                this.f4704D = null;
+        if (webView1 != null) {
+            if (layoutBrowserSubwindow != null) {
+                browserActivity.m6250Q0().removeView(layoutBrowserSubwindow);
+                layoutBrowserSubwindow = null;
             }
-            this.f4717q.destroy();
-            this.f4717q = null;
+            webView1.destroy();
+            webView1 = null;
         }
-        WebView webView = this.f4716p;
         if (webView != null) {
             webView.requestFocus();
         }
@@ -2242,7 +2151,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         if (Build.VERSION.SDK_INT < 29) {
             strM5596c = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
         }
-        C0232F1.m1169l().m1172g(strM5596c, this.f4716p.getUrl(), this.f4716p.getSettings().getUserAgentString(), str, null, new C1550h(str, i));
+        C0232F1.m1169l().m1172g(strM5596c, this.webView.getUrl(), this.webView.getSettings().getUserAgentString(), str, null, new C1550h(str, i));
     }
 
     public String m6767C0() {
@@ -2253,36 +2162,36 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         return this.f4709i;
     }
 
-    public int[] m6769E0() {
-        return this.f4713m;
+    public int[] getColors() {
+        return this.colors;
     }
 
     public WebView m6770F0() {
-        return this.f4716p;
+        return this.webView;
     }
 
     @Override
     public void mo6728G(String str) {
         m6813x0();
         if (mo5624a()) {
-            this.browserActivity.m6218I0().m6403L(str);
+            this.browserActivity.getActivityDelegate().m6403L(str);
         }
-        this.browserActivity.f4241C = str;
+        this.browserActivity.currentUserAgent = str;
         m6801k1(str);
-        SiteSettingsManager.getInstance().m6975q(this.f4716p, str, true);
+        SiteSettingsManager.getInstance().m6975q(this.webView, str, true);
         this.f4709i = 0;
-        this.browserActivity.f4264k = 0;
-        this.f4688d = str;
+        this.browserActivity.uiLayoutMode = 0;
+        this.title = str;
         if (str.indexOf("baidu.com") > 0) {
             if (SharedPreferencesHelper.getInstance().containsSpecialCode(str)) {
-                str = str.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().f4895b0);
+                str = str.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().defaultBaiduFeecode);
             }
             str = SharedPreferencesHelper.getInstance().replaceFromPrefs(str, "baidu_old_qa_feecode", "baidu_new_qa_feecode");
         }
         HashMap map = new HashMap<>(2);
         map.put("X-Requested-With", "XBrowser");
-        if (!TextUtils.isEmpty(this.f4690f)) {
-            map.put("Referer", this.f4690f);
+        if (!TextUtils.isEmpty(this.mUrl)) {
+            map.put("Referer", this.mUrl);
         }
         if (SharedPreferencesHelper.getInstance().enableDNT) {
             map.put("DNT", "1");
@@ -2291,7 +2200,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             str = m6785U0(str);
         }
         m6780P0(str);
-        this.f4716p.loadUrl(str, map);
+        this.webView.loadUrl(str, map);
         this.f4718r = true;
         this.f4723w = false;
     }
@@ -2316,7 +2225,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             return;
         }
         BrowserActivity browserActivity = this.browserActivity;
-        Uri uriM8703k = AndroidSystemUtils.m8703k(browserActivity, strM4227k, str4, browserActivity.getString(com.xbrowser.play.R.string.app_name));
+        Uri uriM8703k = AndroidSystemUtils.m8703k(browserActivity, strM4227k, str4, browserActivity.getString(R.string.app_name));
         if (uriM8703k != null) {
             AndroidSystemUtils.m8698f(this.browserActivity, str, uriM8703k);
             m6773I0(i, str, str2, uriM8703k);
@@ -2329,33 +2238,33 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             BrowserActivity.getActivity().m6290a0();
             return;
         }
-        Toast.makeText(this.browserActivity, com.xbrowser.play.R.string.toast_prepare_image, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.browserActivity, R.string.toast_prepare_image, Toast.LENGTH_SHORT).show();
         if (this.f4720t.getType() != 8 && this.f4720t.getType() != 5) {
             m6766B0(str, i);
             return;
         }
         Message message = new Message();
         message.setTarget(new HandlerC1552j(i));
-        this.f4716p.requestImageRef(message);
+        this.webView.requestImageRef(message);
     }
 
     public final void m6773I0(int i, String str, String str2, Uri uri) throws Resources.NotFoundException {
         Toast toastMakeText;
-        if (i == com.xbrowser.play.R.string.context_menu_share_image) {
-            String string = this.browserActivity.getResources().getString(com.xbrowser.play.R.string.choose_app);
-            String string2 = this.browserActivity.getResources().getString(com.xbrowser.play.R.string.share_sign);
-            String string3 = this.browserActivity.getString(com.xbrowser.play.R.string.origin_url);
+        if (i == R.string.context_menu_share_image) {
+            String string = this.browserActivity.getResources().getString(R.string.choose_app);
+            String string2 = this.browserActivity.getResources().getString(R.string.share_sign);
+            String string3 = this.browserActivity.getString(R.string.origin_url);
             if (uri != null) {
                 AndroidSystemUtils.m8688V(this.browserActivity, uri, str2);
                 return;
             }
-            AndroidSystemUtils.m8690X(this.browserActivity, mo1574c(), string3 + mo1573b(), string2, string, str, str2);
+            AndroidSystemUtils.share(this.browserActivity, mo1574c(), string3 + getUrlFromTitle(), string, str, str2);
             return;
         }
-        if (i == com.xbrowser.play.R.string.context_menu_save_image) {
-            toastMakeText = Toast.makeText(this.browserActivity, com.xbrowser.play.R.string.toast_image_had_saved_to_pictures, 1);
+        if (i == R.string.context_menu_save_image) {
+            toastMakeText = Toast.makeText(this.browserActivity, R.string.toast_image_had_saved_to_pictures, 1);
         } else {
-            if (i != com.xbrowser.play.R.string.context_menu_recognize_qrcode) {
+            if (i != R.string.context_menu_recognize_qrcode) {
                 return;
             }
             try {
@@ -2365,13 +2274,13 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 bitmapDecodeFile.getPixels(iArr, 0, bitmapDecodeFile.getWidth(), 0, 0, bitmapDecodeFile.getWidth(), bitmapDecodeFile.getHeight());
                 String strM3580f = QRCodeReader.decode(new BinaryBitmap(new HybridBinarizer(new RGBLuminanceSource(bitmapDecodeFile.getWidth(), bitmapDecodeFile.getHeight(), iArr)))).m3580f();
                 if (TextUtils.isEmpty(strM3580f)) {
-                    Toast.makeText(this.browserActivity, com.xbrowser.play.R.string.toast_unrecognised_qrcode, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.browserActivity, R.string.toast_unrecognised_qrcode, Toast.LENGTH_SHORT).show();
                 } else {
                     this.browserActivity.m6297b2(strM3580f);
                 }
                 return;
             } catch (Exception unused) {
-                toastMakeText = Toast.makeText(this.browserActivity, com.xbrowser.play.R.string.toast_unrecognised_qrcode, 0);
+                toastMakeText = Toast.makeText(this.browserActivity, R.string.toast_unrecognised_qrcode, 0);
             }
         }
         toastMakeText.show();
@@ -2402,24 +2311,35 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             }
             this.browserActivity.setRequestedOrientation(this.f4721u);
             SharedPreferencesHelper.getInstance().m6863K0(this.f4722v);
-            this.browserActivity.f4265l = false;
+            this.browserActivity.isLoadingUrl = false;
         }
     }
 
     public final void m6775K0() {
-        WebView webViewM9499t = ThemeManager.getInstance().m9499t();
-        this.f4716p = webViewM9499t;
-        webViewM9499t.setWebViewClient(this.f4708H);
-        this.f4716p.setWebChromeClient(this.f4707G);
-        this.f4716p.setTag(this);
-        this.f4716p.setOnScrollChangeListener(new ViewOnScrollChangeListenerC1562t());
-        this.f4716p.setLongClickable(true);
-        this.f4716p.setOnLongClickListener(new ViewOnLongClickListenerC1563u());
-        this.f4716p.setDownloadListener(new C1564v());
+        webView = ThemeManager.getInstance().m9499t();
+        webView.setWebViewClient(webViewClient);
+        webView.setWebChromeClient(webChromeClient);
+        webView.setTag(this);
+        webView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> mScrollY = scrollY);
+        webView.setLongClickable(true);
+        webView.setOnLongClickListener(view -> {
+            Log.i("web-touch", "start post long press ====================");
+            return pageType != 32 && pageType != 0 && pageType != 8 && pageType != 64 && pageType != 512;
+        });
+        webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
+            if (TextUtils.isEmpty(mUrl) || !mUrl.startsWith("http")) {
+                mUrl = webView.getUrl();
+            }
+            getBrowserControllerListener().mo6424e(url, mUrl, userAgent, contentDisposition, mimetype, contentLength);
+        });
     }
 
     public final void m6776L0() {
-        this.browserActivity.getHandler().postDelayed(new RunnableC1560r(), 700L);
+        this.browserActivity.getHandler().postDelayed(() -> {
+            if (SharedPreferencesHelper.getInstance().enableAutoFill && SiteSettingsManager.getInstance().m6935D(f4726z)) {
+                JSManager.getInstance().injectJavascript(webView, "auto_fill");
+            }
+        }, 700L);
     }
 
     public final boolean m6777M0() {
@@ -2443,21 +2363,21 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         Bitmap drawingCache = null;
         try {
             try {
-                this.f4716p.setDrawingCacheEnabled(true);
-                drawingCache = this.f4716p.getDrawingCache();
+                this.webView.setDrawingCacheEnabled(true);
+                drawingCache = this.webView.getDrawingCache();
                 if (drawingCache != null) {
                     try {
-                        this.f4713m[0] = drawingCache.getPixel(10, 10);
-                        this.f4713m[1] = drawingCache.getPixel(10, this.f4716p.getHeight() - 10);
-                        Log.i("try-auto", ">>>>>try auto pick color0:" + this.f4713m[0]);
+                        this.colors[0] = drawingCache.getPixel(10, 10);
+                        this.colors[1] = drawingCache.getPixel(10, this.webView.getHeight() - 10);
+                        Log.i("try-auto", ">>>>>try auto pick color0:" + this.colors[0]);
                         if (mo5624a()) {
-                            ThemeManager.getInstance().m9474B(this.f4713m);
+                            ThemeManager.getInstance().m9474B(this.colors);
                         }
                         drawingCache.recycle();
-                        this.f4716p.setDrawingCacheEnabled(false);
+                        this.webView.setDrawingCacheEnabled(false);
                     } catch (Throwable th) {
                         drawingCache.recycle();
-                        this.f4716p.setDrawingCacheEnabled(false);
+                        this.webView.setDrawingCacheEnabled(false);
                         throw th;
                     }
                 }
@@ -2480,7 +2400,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     }
 
     public void m6782R0(boolean z) {
-        WebView webView = this.f4716p;
+        WebView webView = this.webView;
         if (webView instanceof C0219Ep) {
             ((C0219Ep) webView).m1087h(z);
             this.f4706F = z;
@@ -2488,14 +2408,14 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     }
 
     public final void m6783S0() {
-        this.f4716p.requestFocusNodeHref(new HandlerC1551i().obtainMessage());
+        this.webView.requestFocusNodeHref(new HandlerC1551i().obtainMessage());
     }
 
     public final void m6784T0(boolean z, int i) throws URISyntaxException {
         WebView.HitTestResult hitTestResult = this.f4720t;
         if (hitTestResult != null) {
             if (hitTestResult.getType() == 8) {
-                this.f4716p.requestFocusNodeHref(new HandlerC1548f(z, i).obtainMessage());
+                this.webView.requestFocusNodeHref(new HandlerC1548f(z, i).obtainMessage());
             } else {
                 this.browserActivity.openUrl(this.f4720t.getExtra(), z, i);
             }
@@ -2508,13 +2428,13 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     public void m6786V0() {
         this.f4709i = 4;
-        String url = this.f4716p.getUrl();
+        String url = this.webView.getUrl();
         if (url != null) {
             getBrowserControllerListener().mo6427g(this, 100, mo5624a());
             m6798h1(url);
         }
         if (m6777M0() && mo5624a()) {
-            C2061mf.m8471f0().m8550r0(url, 1);
+            JSManager.getInstance().m8550r0(url, 1);
         }
         m6809t0(url);
         this.browserActivity.getHandler().postDelayed(new RunnableC1559q(url), 500L);
@@ -2525,11 +2445,11 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             return;
         }
         this.f4709i = 3;
-        getBrowserControllerListener().mo6432n(this, ResourceCacheManager.getInstance().m2046a(str, 2));
+        getBrowserControllerListener().mo6432n(this, ResourceCacheManager.getInstance().getUrlOrFilePath(str, 2));
     }
 
     public void m6788X0() {
-        WebView webView = this.f4716p;
+        WebView webView = this.webView;
         if (webView != null) {
             webView.setVisibility(View.VISIBLE);
         }
@@ -2537,7 +2457,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     public final String m6789Y0(AbstractScrollableListController abstractC1540b) throws JSONException {
         String str = "img";
-        C0219Ep c0219Ep = (C0219Ep) this.f4716p;
+        C0219Ep c0219Ep = (C0219Ep) this.webView;
         String str2 = "unknown";
         if (c0219Ep.getHitTestData() == null) {
             return "unknown";
@@ -2599,10 +2519,10 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         this.f4723w = false;
         this.pageType = this.pageType != 8 ? 0 : 8;
         m6805o1(str);
-        C2061mf.m8471f0().m8490F0();
+        JSManager.getInstance().m8490F0();
         BrowserActivity browserActivity = this.browserActivity;
-        browserActivity.f4264k = 0;
-        browserActivity.f4246H = -1;
+        browserActivity.uiLayoutMode = 0;
+        browserActivity.textFitHeight = -1;
         this.f4725y = null;
         BrowserActivityDelegate.f4376j = "";
         m6791a1();
@@ -2610,56 +2530,120 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     public void m6791a1() {
         if (this.pageType == 8) {
-            this.f4713m = ThemeManager.f6998j;
+            this.colors = ThemeManager.f6998j;
         } else {
-            this.f4713m = m6731J();
+            this.colors = getColorsByTheme();
         }
     }
 
     @Override
-    public String mo1573b() {
-        String url = this.f4716p.getUrl();
+    public String getUrlFromTitle() {
+        // Retrieve the URL
+        String url = this.webView.getUrl();
+
+        // If URL is empty, fallback to a default value
         if (TextUtils.isEmpty(url)) {
-            url = this.f4688d;
+            url = this.title;
         }
+
+        // If URL starts with "x:" or "file://", process it using the ResourceCacheManager
         if (!TextUtils.isEmpty(url) && (url.startsWith("x:") || url.startsWith("file:///"))) {
-            return ResourceCacheManager.getInstance().m2046a(url, 2);
+            return ResourceCacheManager.getInstance().getUrlOrFilePath(url, 2);
         }
-        if (TextUtils.isEmpty(url) || url.indexOf("baidu.com") <= 0 || url.indexOf("from=") <= 0) {
-            return url == null ? "" : url;
+
+        // If the URL contains "baidu.com" and "from=", replace the "from=" parameter with a value from SharedPreferences
+        if (!TextUtils.isEmpty(url) && url.contains("baidu.com") && url.contains("from=")) {
+            return url.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().baiduFakeFeecode);
         }
-        return url.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().f4897c0);
+
+        // Return the original URL or an empty string if it's null
+        return url == null ? "" : url;
     }
 
-    public void m6792b1(String str, String str2, String str3) {
-        this.f4724x = str;
-        this.f4688d = str3;
-        this.f4689e = str2;
+
+    public void m6792b1(String tabId, String title, String url) {
+        this.tabId = tabId;
+        this.title = url;
+        this.url = title;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x004f  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0018  */
     @Override
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-        To view partially-correct code enable 'Show inconsistent code' option in preferences
-    */
-    public String mo1574c() throws Resources.NotFoundException {
-        /*
-            Method dump skipped, instructions count: 417
-            To view this dump change 'Code comments level' option to 'DEBUG'
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.mmbox.xbrowser.controllers.WebViewBrowserController.mo1574c():java.lang.String");
+    public String mo1574c() {
+        String r0 = getUrlFromTitle(); // Assume this method gets some URL or identifier string
+        if (TextUtils.isEmpty(r0)) {
+            return "";
+        }
+
+        // Handle "x:history" case
+        if (r0.equals("x:history")) {
+            return getStringResource(R.string.web_str_title_history);
+        }
+
+        // Handle "x:home" case
+        if (r0.startsWith("x:home")) {
+            return getStringResource(R.string.home_controller_title);
+        }
+
+        // Handle "x:bookmark" or similar cases
+        if (r0.startsWith("x:bookmark") || r0.startsWith("x:bm")) {
+            String path = NetworkUtils.getQueryParam("path", r0);
+            if (path != null && !path.equals("/")) {
+                return path.substring(path.lastIndexOf('/') + 1);
+            }
+            return getStringResource(R.string.web_str_title_bookmark);
+        }
+
+        // Handle "x:settings" case
+        if (r0.equals("x:settings")) {
+            return getStringResource(R.string.web_str_title_setting);
+        }
+
+        // Handle "x:add-qa" case
+        if (r0.equals("x:add-qa")) {
+            return getStringResource(R.string.web_str_title_add_quick_access);
+        }
+
+        // Handle "x:sd" case
+        if (r0.startsWith("x:sd")) {
+            String path = NetworkUtils.getQueryParam("path", r0);
+            if (TextUtils.isEmpty(path)) {
+                return getStringResource(R.string.web_str_title_sd);
+            }
+            if (path.equals("/")) {
+                return getStringResource(R.string.web_str_title_sd);
+            }
+            return path.replace("//", "/sdcard/");
+        }
+
+        // Handle other cases
+        if (r0.equals("x:as")) {
+            return getStringResource(R.string.web_str_title_adv_setting);
+        }
+
+        if (r0.equals("x:adb")) {
+            return getStringResource(R.string.web_str_setting_adb);
+        }
+
+        if (r0.equals("x:dl")) {
+            return getStringResource(R.string.web_str_title_dl);
+        }
+
+        // Handle default case
+        return !TextUtils.isEmpty(this.url) ? this.url : this.title;
+    }
+
+    // Helper method to get string resource by ID
+    private String getStringResource(int resourceId) {
+        return this.f4685a.getResources().getString(resourceId);
     }
 
     public final void m6793c1() {
-        if (this.f4719s || TextUtils.isEmpty(this.f4724x)) {
+        if (this.f4719s || TextUtils.isEmpty(this.tabId)) {
             return;
         }
         try {
             try {
-                File file = new File(this.browserActivity.getFilesDir(), "webstack-" + this.f4724x);
+                File file = new File(this.browserActivity.getFilesDir(), "webstack-" + this.tabId);
                 if (file.exists()) {
                     FileInputStream fileInputStream = new FileInputStream(file);
                     Parcel parcelObtain = Parcel.obtain();
@@ -2671,14 +2655,14 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                     Bundle bundle = new Bundle();
                     bundle.readFromParcel(parcelObtain);
                     parcelObtain.recycle();
-                    this.f4716p.restoreState(bundle);
+                    this.webView.restoreState(bundle);
                     fileInputStream.close();
-                } else if (!this.f4718r && !TextUtils.isEmpty(this.f4688d)) {
+                } else if (!this.f4718r && !TextUtils.isEmpty(this.title)) {
                     Log.i("web-state", ">>>>> restore from url >>>>>>>>>");
-                    if (this.f4688d.startsWith("file:///")) {
-                        this.f4716p.loadUrl(this.f4688d);
+                    if (this.title.startsWith("file:///")) {
+                        this.webView.loadUrl(this.title);
                     } else {
-                        mo5623E(this.f4688d);
+                        mo5623E(this.title);
                     }
                 }
             } catch (Exception e) {
@@ -2697,37 +2681,37 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         int color;
         int i;
         if (SharedPreferencesHelper.getInstance().enterNightMode || this.pageType == 256) {
-            webView = this.f4716p;
+            webView = this.webView;
             color = Color.parseColor("#000000");
         } else if (SharedPreferencesHelper.getInstance().m6893f0()) {
-            webView = this.f4716p;
+            webView = this.webView;
             color = SharedPreferencesHelper.getInstance().goodForEyeColor;
         } else {
-            String url = this.f4688d;
+            String url = this.title;
             if (TextUtils.isEmpty(url)) {
-                url = this.f4716p.getUrl();
+                url = this.webView.getUrl();
             }
             if (!TextUtils.isEmpty(url) && ((SharedPreferencesHelper.getInstance().m6857H().equals(url) || url.equals("file:///android_asset/start-page/index.html")) && this.browserActivity.m6314f1())) {
-                int[] iArr = this.browserActivity.f4244F;
+                int[] iArr = this.browserActivity.screenDimensions;
                 if (iArr != null) {
-                    this.f4716p.setBackgroundColor(iArr[0]);
+                    this.webView.setBackgroundColor(iArr[0]);
                 } else {
-                    String strM2046a = ResourceCacheManager.getInstance().m2046a("page.immerse.colors", 1);
+                    String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath("page.immerse.colors", 1);
                     if (FileUtils.fileExists(strM2046a)) {
                         int[] iArrM4242z = FileUtils.readIntArrayFromFile(strM2046a);
-                        this.f4713m = iArrM4242z;
+                        this.colors = iArrM4242z;
                         if (iArrM4242z.length == 2 && (i = iArrM4242z[0]) != -1) {
-                            this.f4716p.setBackgroundColor(i);
+                            this.webView.setBackgroundColor(i);
                         }
                     }
                 }
-                return this.f4716p;
+                return this.webView;
             }
-            webView = this.f4716p;
+            webView = this.webView;
             color = Color.parseColor("#ffffff");
         }
         webView.setBackgroundColor(color);
-        return this.f4716p;
+        return this.webView;
     }
 
     public final WebResourceResponse m6794d1(String str) {
@@ -2735,24 +2719,24 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     }
 
     @Override
-    public boolean mo1575e() {
-        return this.f4716p.canGoForward();
+    public boolean hasNext() {
+        return this.webView.canGoForward();
     }
 
     public final void m6795e1() {
         this.f4706F = true;
-        ((C0219Ep) this.f4716p).m1090k();
+        ((C0219Ep) this.webView).m1090k();
     }
 
     @Override
     public void mo5625f() {
-        if (this.f4716p.getUrl() == null) {
-            this.f4716p.loadUrl(this.f4688d);
+        if (this.webView.getUrl() == null) {
+            this.webView.loadUrl(this.title);
         } else {
             SiteSettingsManager c1570eM6932A = SiteSettingsManager.getInstance();
-            WebView webView = this.f4716p;
+            WebView webView = this.webView;
             c1570eM6932A.m6974p(webView, webView.getUrl());
-            WebView webView2 = this.f4716p;
+            WebView webView2 = this.webView;
             ((C0219Ep) webView2).f572w = false;
             webView2.reload();
         }
@@ -2797,8 +2781,8 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     public void mo1576g() {
         super.mo1576g();
         if (TextUtils.isEmpty(this.f4726z) || !SiteSettingsManager.getInstance().m6961c(this.f4726z)) {
-            this.f4716p.onPause();
-            this.f4716p.pauseTimers();
+            this.webView.onPause();
+            this.webView.pauseTimers();
         }
         if (this.f4701A != null) {
             m6774J0();
@@ -2809,7 +2793,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         if (str.indexOf("article_list_for_xb_readmode") > 0) {
             return;
         }
-        C2061mf.m8471f0().m8544o0(webView);
+        JSManager.getInstance().m8544o0(webView);
         this.browserActivity.getHandler().postDelayed(new RunnableC1567y(str), 50L);
         m6779O0(80L);
     }
@@ -2825,7 +2809,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         if (str.startsWith("http") || str.equals("file:///android_asset/start-page/index.html") || str.equals("x:home") || SharedPreferencesHelper.getInstance().m6893f0()) {
             this.browserActivity.getHandler().postDelayed(new RunnableC1558p(str), 100L);
         } else {
-            ThemeManager.getInstance().m9474B(this.f4713m);
+            ThemeManager.getInstance().m9474B(this.colors);
         }
     }
 
@@ -2852,26 +2836,36 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     @Override
     public void mo5628j() {
-        this.f4716p.stopLoading();
+        this.webView.stopLoading();
     }
 
     public void m6800j1() {
         if (SharedPreferencesHelper.getInstance().disableReadMode) {
             return;
         }
-        this.browserActivity.getHandler().postDelayed(new RunnableC1565w(), 50L);
+        this.browserActivity.getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String url;
+                if (C1039Wi.m4517p().m4520l() || (url = webView.getUrl()) == null || C1039Wi.m4517p().m4524q(url) || url.indexOf("xbext.com") >= 0 || url.indexOf("taobao.com") >= 0) {
+                    return;
+                }
+                Log.i("jslog", "=========  do try test support preload ============" + url);
+                JSManager.getInstance().injectJavascript(webView, "preload");
+            }
+        }, 50L);
     }
 
     @Override
-    public void mo1577k() {
+    public void onDestroy() {
         Log.i("webview_controller", "call webview controller destroy .......");
-        super.mo1577k();
-        SharedPreferencesHelper.getInstance().removeWebSettings(this.f4716p.getSettings());
+        super.onDestroy();
+        SharedPreferencesHelper.getInstance().removeWebSettings(webView.getSettings());
         m6765A0();
-        this.f4716p.destroy();
+        webView.destroy();
         f4700P = null;
-        this.f4688d = null;
-        m6815z0();
+        title = null;
+        deleteTab();
     }
 
     public void m6801k1(String str) {
@@ -2885,7 +2879,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     @Override
     public void mo1578l() {
         m6813x0();
-        this.f4716p.goForward();
+        this.webView.goForward();
         m6727F();
         this.f4726z = null;
     }
@@ -2895,26 +2889,26 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     }
 
     public final void m6803m1() {
-        String strMo1573b = mo1573b();
+        String strMo1573b = getUrlFromTitle();
         if (this.pageType == 8) {
             ThemeManager.getInstance().m9474B(ThemeManager.f6998j);
             return;
         }
         if (!strMo1573b.startsWith("x:home") && !strMo1573b.startsWith("file:///android_asset/start-page/index.html")) {
-            ThemeManager.getInstance().m9474B(this.f4713m);
-        } else if (this.browserActivity.f4244F != null) {
-            ThemeManager.getInstance().m9474B(this.browserActivity.f4244F);
+            ThemeManager.getInstance().m9474B(this.colors);
+        } else if (this.browserActivity.screenDimensions != null) {
+            ThemeManager.getInstance().m9474B(this.browserActivity.screenDimensions);
         } else {
-            ThemeManager.getInstance().m9474B(this.f4713m);
+            ThemeManager.getInstance().m9474B(this.colors);
         }
     }
 
     @Override
     public void mo1580n() {
         m6813x0();
-        this.browserActivity.m6218I0().m6396E();
+        this.browserActivity.getActivityDelegate().m6396E();
         this.f4726z = null;
-        this.f4716p.goBack();
+        this.webView.goBack();
         m6727F();
         this.browserActivity.getHandler().postDelayed(new RunnableC1547e(), 100L);
     }
@@ -2978,14 +2972,14 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     public boolean onKeyDown(int i, KeyEvent keyEvent) throws Resources.NotFoundException {
         if (i == 4 && this.f4701A != null) {
             if (this.pageType == 256) {
-                this.browserActivity.m6361u0("native_call_exit_fullscreen()");
+                this.browserActivity.updateTitle("native_call_exit_fullscreen()");
                 return true;
             }
             m6774J0();
             return true;
         }
         BrowserActivity browserActivity = this.browserActivity;
-        int i2 = browserActivity.f4264k;
+        int i2 = browserActivity.uiLayoutMode;
         if (i2 == 3 && i == 4) {
             browserActivity.m6225K();
             return true;
@@ -3058,7 +3052,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             goto L5e
         L3b:
             java.lang.String r1 = r6.mo1573b()
-            com.mmbox.xbrowser.d r4 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r4 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             java.lang.String r4 = r4.m6857H()
             boolean r1 = r1.equals(r4)
             if (r1 != 0) goto L1c
@@ -3075,7 +3069,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             android.content.res.Resources r1 = r1.getResources()
             android.content.res.Configuration r1 = r1.getConfiguration()
             int r1 = r1.orientation
-            com.mmbox.xbrowser.d r4 = com.mmbox.xbrowser.SharedPreferencesOnSharedPreferenceChangeListenerC1569d.m6833I()
+            com.mmbox.xbrowser.d r4 = com.mmbox.xbrowser.SharedPreferencesHelper.getInstance()
             java.lang.String r5 = "qa-fill-the-whole-screen"
             boolean r4 = r4.m6873Q(r5, r2)
             r5 = 2
@@ -3090,7 +3084,7 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
 
     @Override
     public boolean mo1581q() {
-        WebView webView = this.f4716p;
+        WebView webView = this.webView;
         if (webView == null) {
             return true;
         }
@@ -3101,21 +3095,21 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     @Override
     public boolean mo1582r(String str, SharedPreferences sharedPreferences) {
         Log.i("web-state", "restore tab id:" + str);
-        this.f4724x = str;
+        this.tabId = str;
         String string = sharedPreferences.getString(str + ".last_url", "");
-        this.f4688d = string;
-        if (string.indexOf("xbext.com") > 0 && this.f4688d.indexOf("open=true") > 0) {
+        this.title = string;
+        if (string.indexOf("xbext.com") > 0 && this.title.indexOf("open=true") > 0) {
             return false;
         }
-        this.f4689e = sharedPreferences.getString(str + ".last_title", "");
-        TextUtils.isEmpty(this.f4688d);
+        this.url = sharedPreferences.getString(str + ".last_title", "");
+        TextUtils.isEmpty(this.title);
         return true;
     }
 
     public final void m6807r0(AbstractScrollableListController abstractC1540b) {
-        MenuConfigManager.getInstance().m7021c(abstractC1540b, this.browserActivity.getResources().getString(com.xbrowser.play.R.string.page_info_view), com.xbrowser.play.R.string.page_info_view);
-        MenuConfigManager.getInstance().m7021c(abstractC1540b, this.browserActivity.getResources().getString(com.xbrowser.play.R.string.inspect_element), com.xbrowser.play.R.string.inspect_element);
-        C2061mf.m8471f0().m8538j0(abstractC1540b, "ep.menu.context");
+        MenuConfigManager.getInstance().m7021c(abstractC1540b, this.browserActivity.getResources().getString(R.string.page_info_view), R.string.page_info_view);
+        MenuConfigManager.getInstance().m7021c(abstractC1540b, this.browserActivity.getResources().getString(R.string.inspect_element), R.string.inspect_element);
+        JSManager.getInstance().m8538j0(abstractC1540b, "ep.menu.context");
         if (abstractC1540b.mo9012r() == 0) {
             Log.v("showContext", "no menu for this item ......");
         }
@@ -3134,12 +3128,12 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         } else {
             Log.i("domain-set", ">>>>applyDestopMode");
         }
-        C2061mf.m8471f0().m8542n0(this.f4716p, "desktop_mode");
+        JSManager.getInstance().injectJavascript(this.webView, "desktop_mode");
     }
 
     @Override
     public void mo5631t() {
-        C2061mf.m8471f0().m8543o(this.f4716p);
+        JSManager.getInstance().m8543o(this.webView);
     }
 
     public void m6809t0(String str) {
@@ -3148,13 +3142,13 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 return;
             }
             if (SharedPreferencesHelper.getInstance().disableWriteClipboard || (!TextUtils.isEmpty(this.f4726z) && SiteSettingsManager.getInstance().m6945N(this.f4726z))) {
-                this.browserActivity.m6361u0("document.execCommand = () => {};navigator.clipboard.write = () => {};navigator.clipboard.writeText = () => {};");
+                this.browserActivity.updateTitle("document.execCommand = () => {};navigator.clipboard.write = () => {};navigator.clipboard.writeText = () => {};");
             }
         }
         if (!SharedPreferencesHelper.getInstance().forceUserScalable || SharedPreferencesHelper.getInstance().enterDesktopMode) {
             return;
         }
-        this.browserActivity.m6361u0("if( window.innerWidth <= window.screen.width) { document.querySelector('meta[name=viewport]').setAttribute('content','width=device-width,initial-scale=1.0,maximum-scale=3.0,user-scalable=1');}");
+        this.browserActivity.updateTitle("if( window.innerWidth <= window.screen.width) { document.querySelector('meta[name=viewport]').setAttribute('content','width=device-width,initial-scale=1.0,maximum-scale=3.0,user-scalable=1');}");
     }
 
     @Override
@@ -3164,26 +3158,26 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         m6806p1();
         try {
             m6793c1();
-            this.f4716p.onResume();
-            this.f4716p.resumeTimers();
+            this.webView.onResume();
+            this.webView.resumeTimers();
             String strMo1574c = mo1574c();
             if (!TextUtils.isEmpty(strMo1574c)) {
                 getBrowserControllerListener().mo6449l(this, strMo1574c, true);
             }
-            if (!TextUtils.isEmpty(this.f4688d)) {
-                String strM445C = NetworkUtils.getFaviconUrl(this.f4716p.getUrl());
+            if (!TextUtils.isEmpty(this.title)) {
+                String strM445C = NetworkUtils.getFaviconUrl(this.webView.getUrl());
                 if (!TextUtils.isEmpty(strM445C)) {
                     Drawable drawableM4146j = C0896Td.m4137c().m4146j(this.browserActivity, strM445C);
                     if (drawableM4146j == null || this.pageType != 0) {
-                        this.browserActivity.m6218I0().m6394C().m1438u(mo5621A(0));
+                        this.browserActivity.getActivityDelegate().m6394C().m1438u(mo5621A(0));
                     } else {
-                        this.browserActivity.m6218I0().m6394C().m1438u(drawableM4146j);
+                        this.browserActivity.getActivityDelegate().m6394C().m1438u(drawableM4146j);
                     }
                 }
             }
-            this.browserActivity.f4262i = false;
+            this.browserActivity.isPaused = false;
             if (!TextUtils.isEmpty(this.f4726z)) {
-                C2061mf.m8471f0().m8497J(this.f4726z);
+                JSManager.getInstance().m8497J(this.f4726z);
             }
             if (pageType == 16 || pageType == 64 || pageType == 4 || pageType == 256 || pageType == 2 || pageType == 1) {
                 this.browserActivity.m6346p0(pageType);
@@ -3191,13 +3185,13 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
                 this.browserActivity.m6205F();
             }
             if (this.f4711k != 1) {
-                this.browserActivity.m6218I0().m6394C().m1429l(this.f4711k);
+                this.browserActivity.getActivityDelegate().m6394C().m1429l(this.f4711k);
             }
-            this.browserActivity.m6218I0().m6394C().m1440w(this.f4688d);
-            String url = this.f4716p.getUrl();
+            this.browserActivity.getActivityDelegate().m6394C().m1440w(this.title);
+            String url = this.webView.getUrl();
             BrowserActivity browserActivity = this.browserActivity;
-            browserActivity.f4242D = url;
-            browserActivity.f4243E = this.f4716p.getTitle();
+            browserActivity.lastNavigatedUrl = url;
+            browserActivity.lastPageTitle = this.webView.getTitle();
             m6801k1(url);
             m6803m1();
             m6802l1(10L);
@@ -3212,28 +3206,28 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             if (this.f4709i != 1 && ((i = this.pageType) == 0 || i == 512)) {
                 m6781Q0();
             }
-            int i2 = this.f4713m[0];
+            int i2 = this.colors[0];
             if (i2 != -1 || i2 == 0xFF000000) {
                 if ((SharedPreferencesHelper.getInstance().m6857H().equals(str) || str.equals("file:///android_asset/start-page/index.html")) && this.f4709i == 3) {
-                    FileUtils.writeIntArrayToFile(this.f4713m, ResourceCacheManager.getInstance().m2046a("page.immerse.colors", 1));
+                    FileUtils.writeIntArrayToFile(this.colors, ResourceCacheManager.getInstance().getUrlOrFilePath("page.immerse.colors", 1));
                     return;
                 }
                 return;
             }
             if ((SharedPreferencesHelper.getInstance().m6857H().equals(str) || str.equals("file:///android_asset/start-page/index.html")) && this.browserActivity.m6314f1()) {
-                if (this.browserActivity.f4244F != null) {
-                    ThemeManager.getInstance().m9474B(this.browserActivity.f4244F);
+                if (this.browserActivity.screenDimensions != null) {
+                    ThemeManager.getInstance().m9474B(this.browserActivity.screenDimensions);
                     return;
                 }
-                String strM2046a = ResourceCacheManager.getInstance().m2046a("page.immerse.colors", 1);
+                String strM2046a = ResourceCacheManager.getInstance().getUrlOrFilePath("page.immerse.colors", 1);
                 if (FileUtils.fileExists(strM2046a)) {
                     int[] iArrM4242z = FileUtils.readIntArrayFromFile(strM2046a);
-                    this.f4713m = iArrM4242z;
+                    this.colors = iArrM4242z;
                     if (iArrM4242z.length != 2 || iArrM4242z[0] == -1) {
                         return;
                     }
-                    this.browserActivity.f4244F = iArrM4242z;
-                    ThemeManager.getInstance().m9474B(this.f4713m);
+                    this.browserActivity.screenDimensions = iArrM4242z;
+                    ThemeManager.getInstance().m9474B(this.colors);
                 }
             }
         }
@@ -3242,17 +3236,17 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     @Override
     public void mo1585v(String str, SharedPreferences.Editor editor) {
         StringBuilder sb;
-        String strMo1573b = mo1573b();
+        String strMo1573b = getUrlFromTitle();
         if (TextUtils.isEmpty(strMo1573b)) {
             return;
         }
-        String string = SharedPreferencesHelper.getInstance().m6875R().getString(str + ".last_url", "");
+        String string = SharedPreferencesHelper.getInstance().getSharedPreferences().getString(str + ".last_url", "");
         try {
             File file = new File(this.browserActivity.getFilesDir(), "webstack-" + str);
             if (!file.exists() || (strMo1573b.startsWith("http") && !strMo1573b.equals(string))) {
                 Log.i("web-state", "do  keep current tab webstack-" + str);
                 Bundle bundle = new Bundle();
-                WebBackForwardList webBackForwardListSaveState = this.f4716p.saveState(bundle);
+                WebBackForwardList webBackForwardListSaveState = this.webView.saveState(bundle);
                 if (webBackForwardListSaveState != null && webBackForwardListSaveState.getSize() > 0) {
                     Parcel parcelObtain = Parcel.obtain();
                     parcelObtain.setDataPosition(0);
@@ -3271,16 +3265,16 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
             sb = new StringBuilder();
         } catch (Throwable th) {
             editor.putString(str + ".last_url", strMo1573b);
-            editor.putString(str + ".last_title", this.f4689e);
+            editor.putString(str + ".last_title", this.url);
             throw th;
         }
         sb.append(str);
         sb.append(".last_title");
-        editor.putString(sb.toString(), this.f4689e);
+        editor.putString(sb.toString(), this.url);
     }
 
     public final boolean m6811v0() {
-        return this.f4716p.getUrl().indexOf("file://") < 0;
+        return this.webView.getUrl().indexOf("file://") < 0;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:10:0x006f A[PHI: r15
@@ -3303,8 +3297,8 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     }
 
     @Override
-    public boolean mo1586x() {
-        return this.f4716p.canGoBack();
+    public boolean hasPrevious() {
+        return this.webView.canGoBack();
     }
 
     public final void m6813x0() {
@@ -3315,36 +3309,46 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
     }
 
     public final void m6814y0() {
-        ViewGroup viewGroup = (ViewGroup) this.browserActivity.getLayoutInflater().inflate(com.xbrowser.play.R.layout.browser_subwindow, (ViewGroup) null);
-        this.f4704D = viewGroup;
-        ViewGroup viewGroup2 = (ViewGroup) viewGroup.findViewById(com.xbrowser.play.R.id.inner_container);
-        WebView webViewM9499t = ThemeManager.getInstance().m9499t();
-        this.f4717q = webViewM9499t;
-        webViewM9499t.setWebViewClient(this.f4708H);
-        this.f4717q.setWebChromeClient(this.f4707G);
-        this.f4717q.setTag(this);
-        this.f4717q.setLongClickable(true);
-        this.f4717q.setDownloadListener(new C1545c());
-        viewGroup2.addView(this.f4717q, new ViewGroup.LayoutParams(-1, -1));
-        ((ImageView) this.f4704D.findViewById(com.xbrowser.play.R.id.subwindow_close)).setOnClickListener(new ViewOnClickListenerC1546d());
-        this.browserActivity.m6250Q0().addView(this.f4704D, new FrameLayout.LayoutParams(-1, -1));
+        layoutBrowserSubwindow = (ViewGroup) this.browserActivity.getLayoutInflater().inflate(R.layout.browser_subwindow, null);
+        ViewGroup innerContainer = (ViewGroup) layoutBrowserSubwindow.findViewById(R.id.inner_container);
+        webView1 = ThemeManager.getInstance().m9499t();
+        webView1.setWebViewClient(this.webViewClient);
+        webView1.setWebChromeClient(this.webChromeClient);
+        webView1.setTag(this);
+        webView1.setLongClickable(true);
+        webView1.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String str, String str2, String str3, String str4, long j) {
+                getBrowserControllerListener().mo6424e(str, mUrl, str2, str3, str4, j);
+                if (webView1.copyBackForwardList().getSize() == 0) {
+                    m6765A0();
+                }
+            }
+        });
+        innerContainer.addView(webView1, new ViewGroup.LayoutParams(-1, -1));
+        ((ImageView) this.layoutBrowserSubwindow.findViewById(R.id.subwindow_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webChromeClient.onCloseWindow(webView1);
+            }
+        });
+        this.browserActivity.m6250Q0().addView(this.layoutBrowserSubwindow, new FrameLayout.LayoutParams(-1, -1));
     }
 
     @Override
     public boolean mo1587z() {
-        WebView webView = this.f4716p;
         if (webView != null) {
             return ((C0219Ep) webView).f560k;
         }
         return false;
     }
 
-    public final void m6815z0() {
-        if (TextUtils.isEmpty(this.f4724x)) {
+    public final void deleteTab() {
+        if (TextUtils.isEmpty(tabId)) {
             return;
         }
-        Log.i("web-state", "delete tab id:" + this.f4724x);
-        new File(this.browserActivity.getFilesDir(), "webstack-" + this.f4724x).delete();
+        Log.i("web-state", "delete tab id:" + tabId);
+        new File(browserActivity.getFilesDir(), "webstack-" + tabId).delete();
     }
 
     public WebViewBrowserController(BrowserActivity browserActivity, BrowserControllerListener browserControllerListener, boolean z) {
@@ -3352,22 +3356,22 @@ public class WebViewBrowserController extends AbsBrowserController implements Ab
         this.f4709i = 0;
         this.f4710j = false;
         this.f4711k = 0;
-        this.f4712l = 1;
-        this.f4713m = m6731J();
+        this.mScrollY = 1;
+        this.colors = getColorsByTheme();
         this.f4714n = 1;
         this.f4715o = 0;
-        this.f4716p = null;
-        this.f4717q = null;
+        this.webView = null;
+        this.webView1 = null;
         this.f4718r = false;
         this.f4719s = false;
         this.f4723w = false;
-        this.f4724x = null;
+        this.tabId = null;
         this.f4725y = null;
         this.f4726z = null;
-        this.f4704D = null;
+        this.layoutBrowserSubwindow = null;
         this.f4706F = false;
-        this.f4707G = new C1543a();
-        this.f4708H = new C1554l();
+        this.webChromeClient = new C1543a();
+        this.webViewClient = new C1554l();
         this.f4710j = z;
         m6775K0();
         if (z) {

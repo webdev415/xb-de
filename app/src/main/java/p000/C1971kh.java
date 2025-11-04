@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Comparator;
 
-/* loaded from: classes.dex */
 public final class C1971kh implements Comparator {
 
     public static final C1971kh f6022l = new C1971kh();

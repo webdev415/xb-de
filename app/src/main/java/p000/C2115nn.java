@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C2115nn extends AbstractRunnableC1744fn {
 
     public final Runnable f6479n;

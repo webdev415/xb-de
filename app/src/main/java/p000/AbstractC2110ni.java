@@ -2,7 +2,6 @@ package p000;
 
 import java.lang.reflect.Array;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2110ni {
 
     public static final float[][] f6466a = (float[][]) Array.newInstance((Class<?>) Float.TYPE, AbstractC2156oi.f6578b.length, 8);

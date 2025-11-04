@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
 
-/* loaded from: classes.dex */
 public abstract class AbstractBinderC1841hq extends AbstractBinderC2488vr implements InterfaceC0437Jd {
     public AbstractBinderC1841hq() {
         super("com.google.android.gms.common.internal.IGmsCallbacks");

@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C2222q0 extends AbstractResourceManager {
     public C2222q0(String str) {
         super(str, false);

@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.os.Bundle;
 
-/* loaded from: classes.dex */
 public final class C0976VA {
 
     public final Context f2944a;

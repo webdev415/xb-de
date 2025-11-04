@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public class C0969V3 {
 
     public int f2920a = -1;

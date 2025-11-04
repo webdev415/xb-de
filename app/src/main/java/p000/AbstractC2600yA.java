@@ -2,7 +2,6 @@ package p000;
 
 import android.content.Context;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2600yA implements InterfaceC0241FA {
 
     public final C2266qz f8058a;

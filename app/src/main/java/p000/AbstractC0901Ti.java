@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0901Ti {
 
     public static final C0855Si f2766a;

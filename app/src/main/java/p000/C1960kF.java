@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Map;
 
-/* loaded from: classes.dex */
 public final class C1960kF implements Comparable, Map.Entry {
 
     public final Comparable f5996l;

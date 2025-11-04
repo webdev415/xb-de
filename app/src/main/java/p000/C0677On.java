@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Iterator;
 
-/* loaded from: classes.dex */
 public final class C0677On implements InterfaceC0031Al {
 
     public final InterfaceC0031Al f2056a;

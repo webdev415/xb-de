@@ -2,7 +2,6 @@ package p000;
 
 import java.util.List;
 
-/* loaded from: classes.dex */
 public interface InterfaceC1924jg {
     int mo2807a();
 

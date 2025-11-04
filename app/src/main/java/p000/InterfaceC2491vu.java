@@ -3,7 +3,6 @@ package p000;
 import android.os.Bundle;
 import android.os.IInterface;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2491vu extends IInterface {
     int mo10407a();
 

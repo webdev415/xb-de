@@ -3,7 +3,6 @@ package p000;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/* loaded from: classes.dex */
 public final class C1168ZI extends AbstractC0450Jq {
 
     public final Callable f3434n;

@@ -10,7 +10,6 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1113Y9 {
     public static int m4885a(int i) {
         return ((i + 7) & (-8)) / 8;

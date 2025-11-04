@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.view.InputEvent;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0578Mg {
 
     public static final b f1822a = new b(null);

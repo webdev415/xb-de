@@ -2,7 +2,6 @@ package p000;
 
 import java.io.Serializable;
 
-/* loaded from: classes.dex */
 public final class C2017lh extends AbstractC1786gi implements Serializable {
 
     public static final C2017lh f6093l = new C2017lh();

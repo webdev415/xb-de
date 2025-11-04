@@ -11,8 +11,7 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import com.xbrowser.play.R;
 import java.net.URISyntaxException;
 
-/* loaded from: classes.dex */
-public class ViewOnClickListenerC0166Di extends AbstractDialogC2267r implements View.OnClickListener {
+public class ViewOnClickListenerC0166Di extends BaseDialog implements View.OnClickListener {
 
     public BrowserActivity f409b;
 
@@ -27,7 +26,7 @@ public class ViewOnClickListenerC0166Di extends AbstractDialogC2267r implements 
         @Override
         public void onClick(View view) throws URISyntaxException {
             ViewOnClickListenerC0166Di.this.dismiss();
-            ViewOnClickListenerC0166Di.this.f409b.m6302c2();
+            ViewOnClickListenerC0166Di.this.f409b.openSiteFromCurrentTab();
         }
     }
 
@@ -49,7 +48,7 @@ public class ViewOnClickListenerC0166Di extends AbstractDialogC2267r implements 
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_page_info);
         TextView textView = (TextView) findViewById(R.id.page_title);
         if (textView != null) {
@@ -58,7 +57,7 @@ public class ViewOnClickListenerC0166Di extends AbstractDialogC2267r implements 
         TextView textView2 = (TextView) findViewById(R.id.page_url);
         if (textView2 != null) {
             if (!TextUtils.isEmpty(this.f411d) && this.f411d.indexOf("baidu.com") > 0) {
-                this.f411d = this.f411d.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().f4897c0);
+                this.f411d = this.f411d.replaceAll("from=[a-z0-9_]{8,20}", "from=" + SharedPreferencesHelper.getInstance().baiduFakeFeecode);
             }
             textView2.setText(this.f411d);
         }

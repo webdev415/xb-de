@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC2560xG {
     INT(0),
     LONG(0L),

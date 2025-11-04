@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public enum EnumC1159Z9 {
     NO_ERROR(0),
     PROTOCOL_ERROR(1),

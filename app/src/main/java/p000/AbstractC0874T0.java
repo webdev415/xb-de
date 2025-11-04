@@ -6,7 +6,6 @@ import android.content.pm.Signature;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0874T0 {
     public static byte[] m4082a(Context context, String str) {
         MessageDigest messageDigestM4083b;

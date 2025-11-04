@@ -2,7 +2,6 @@ package p000;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-/* loaded from: classes.dex */
 public final class RunnableC2049mC implements Runnable {
 
     public final AtomicReference f6148l;

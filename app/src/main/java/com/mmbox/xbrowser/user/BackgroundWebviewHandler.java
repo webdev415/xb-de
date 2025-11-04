@@ -29,10 +29,9 @@ import p000.AbstractC2313s;
 import p000.C0232F1;
 import p000.ResourceCacheManager;
 import p000.PhoneUtils;
-import p000.C2061mf;
+import p000.JSManager;
 import p000.C2107nf;
 
-/* loaded from: classes.dex */
 public class BackgroundWebviewHandler extends AbstractC2313s {
 
     public WebView f5122e = null;
@@ -98,16 +97,16 @@ public class BackgroundWebviewHandler extends AbstractC2313s {
                     BrowserActivity.getActivity().getHandler().postDelayed(new b(zBooleanValue), 15000L);
                 } else {
                     if (i == 22) {
-                        C2061mf.m8471f0().m8542n0(BackgroundWebviewHandler.this.f5122e, "import_bm");
+                        JSManager.getInstance().injectJavascript(BackgroundWebviewHandler.this.f5122e, "import_bm");
                         j = 150000;
                         BackgroundWebviewHandler backgroundWebviewHandler2 = BackgroundWebviewHandler.this;
                         backgroundWebviewHandler2.f5125h = false;
                         backgroundWebviewHandler2.m7165f(j);
                     }
                     if (i == 52) {
-                        C2061mf.m8471f0().m8542n0(BackgroundWebviewHandler.this.f5122e, "xjsapi");
-                        C2061mf.m8471f0().m8542n0(BackgroundWebviewHandler.this.f5122e, "preload");
-                        BrowserActivity.getActivity().m6361u0("native_call_load_finished()");
+                        JSManager.getInstance().injectJavascript(BackgroundWebviewHandler.this.f5122e, "xjsapi");
+                        JSManager.getInstance().injectJavascript(BackgroundWebviewHandler.this.f5122e, "preload");
+                        BrowserActivity.getActivity().updateTitle("native_call_load_finished()");
                         Log.i("jslog", "=======  preload  end ==============");
                     }
                 }
@@ -173,7 +172,7 @@ public class BackgroundWebviewHandler extends AbstractC2313s {
 
                 @Override
                 public void mo844a(String str, String str2) {
-                    FileUtils.moveOrRenameFile(str, ResourceCacheManager.getInstance().m2046a(ResourceCacheManager.getInstance().m2046a(this.f5135a, 0), 1));
+                    FileUtils.moveOrRenameFile(str, ResourceCacheManager.getInstance().getUrlOrFilePath(ResourceCacheManager.getInstance().getUrlOrFilePath(this.f5135a, 0), 1));
                 }
 
                 @Override

@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public interface InterfaceC0358Hq {
     InterfaceC0909Tq mo1617g(String str);
 

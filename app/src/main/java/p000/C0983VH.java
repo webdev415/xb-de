@@ -5,7 +5,6 @@ import android.os.IInterface;
 import android.os.Parcel;
 import p000.InterfaceC0667Od;
 
-/* loaded from: classes.dex */
 public final class C0983VH extends AbstractC0954Up implements IInterface {
     public C0983VH(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.dynamite.IDynamiteLoaderV2");

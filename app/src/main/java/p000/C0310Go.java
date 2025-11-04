@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import com.mmbox.xbrowser.BrowserActivity;
 import com.xbrowser.play.R;
 
-/* loaded from: classes.dex */
 public class C0310Go {
 
     public static C0310Go f982g;
@@ -47,14 +46,14 @@ public class C0310Go {
         }
     }
 
-    public static C0310Go m1445b() {
+    public static C0310Go getInstance() {
         if (f982g == null) {
             f982g = new C0310Go();
         }
         return f982g;
     }
 
-    public void m1446c(BrowserActivity browserActivity) {
+    public void init(BrowserActivity browserActivity) {
         this.f983a = browserActivity;
         this.f984b = new FrameLayout(browserActivity);
         this.f984b.addView(View.inflate(this.f983a, R.layout.play_speed_indicator, null));
@@ -66,7 +65,7 @@ public class C0310Go {
     public void m1447d(FrameLayout frameLayout) {
         this.f988f = false;
         frameLayout.removeView(this.f984b);
-        this.f983a.m6361u0("_XJSAPI_.update_play_speed(1.0)");
+        this.f983a.updateTitle("_XJSAPI_.update_play_speed(1.0)");
     }
 
     public void m1448e(FrameLayout frameLayout) {
@@ -77,7 +76,7 @@ public class C0310Go {
         layoutParams.gravity = 49;
         layoutParams.topMargin = this.f987e;
         frameLayout.addView(this.f984b, layoutParams);
-        this.f983a.m6361u0("_XJSAPI_.update_play_speed(3.0)");
+        this.f983a.updateTitle("_XJSAPI_.update_play_speed(3.0)");
         m1449f();
     }
 

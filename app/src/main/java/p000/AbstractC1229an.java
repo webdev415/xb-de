@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC1229an {
     public static final int m5302a() {
         return AbstractC1330bn.m5679a();

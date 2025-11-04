@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class C1039Wi {
 
     public static C1039Wi f3079g;
@@ -41,7 +40,7 @@ public class C1039Wi {
 
         @Override
         public void run() {
-            String strMo1573b = ((InterfaceC1300b3) BrowserActivity.getActivity().m6222J0().m9316y()).mo1573b();
+            String strMo1573b = ((InterfaceC1300b3) BrowserActivity.getActivity().getTabManager().m9316y()).getUrlFromTitle();
             if (!C1039Wi.this.m4525r(strMo1573b)) {
                 C1039Wi.this.f3082c = strMo1573b;
             }
@@ -53,8 +52,8 @@ public class C1039Wi {
                 c1039Wi2.m4518j(c1039Wi2.f3082c, strM443A, this.f3088n, this.f3086l);
             }
             if (C1039Wi.this.m4520l()) {
-                BrowserActivity.getActivity().m6361u0("native_call_notify_got_data()");
-            } else if (BrowserActivity.getActivity().m6218I0().m6394C().m1431n() != 3) {
+                BrowserActivity.getActivity().updateTitle("native_call_notify_got_data()");
+            } else if (BrowserActivity.getActivity().getActivityDelegate().m6394C().m1431n() != 3) {
                 BrowserActivity.getActivity().m6263T1();
             } else if (C1039Wi.this.f3081b == 1) {
                 C1039Wi.this.m4527t();
@@ -69,7 +68,7 @@ public class C1039Wi {
         @Override
         public void run() {
             if (BrowserActivity.getActivity().m6338m1()) {
-                BrowserActivity.getActivity().m6361u0("native_call_parse_content_error()");
+                BrowserActivity.getActivity().updateTitle("native_call_parse_content_error()");
             }
         }
     }
@@ -123,7 +122,7 @@ public class C1039Wi {
                 return;
             }
             C1039Wi.this.f3082c = this.f3094l;
-            C1825ha.m7824d().m7831h(0L, 52, this.f3094l, null);
+            EventQueueManager.getInstance().processEvent(0L, 52, this.f3094l, null);
             C1039Wi.m4516i(C1039Wi.this);
         }
     }
@@ -178,7 +177,7 @@ public class C1039Wi {
     }
 
     public boolean m4520l() {
-        return m4525r(((InterfaceC1300b3) BrowserActivity.getActivity().m6222J0().m9316y()).mo1573b());
+        return m4525r(((InterfaceC1300b3) BrowserActivity.getActivity().getTabManager().m9316y()).getUrlFromTitle());
     }
 
     public void m4521m() {
@@ -252,9 +251,9 @@ public class C1039Wi {
     public void m4527t() {
         if (this.f3080a.size() <= 0) {
             this.f3081b = 1;
-            C2061mf.m8471f0().m8542n0(((WebViewBrowserController) BrowserActivity.getActivity().m6210G0()).m6770F0(), "preload");
+            JSManager.getInstance().injectJavascript(((WebViewBrowserController) BrowserActivity.getActivity().getBrowserController()).m6770F0(), "preload");
         } else {
-            String strMo1573b = ((InterfaceC1300b3) BrowserActivity.getActivity().m6222J0().m9316y()).mo1573b();
+            String strMo1573b = ((InterfaceC1300b3) BrowserActivity.getActivity().getTabManager().m9316y()).getUrlFromTitle();
             this.f3084e = strMo1573b;
             this.f3083d = strMo1573b;
             BrowserActivity.getActivity().openUrl(ApiEndpointsManager.getInstance().getArticleListEndpoint(), true, 16);

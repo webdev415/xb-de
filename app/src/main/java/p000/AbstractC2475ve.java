@@ -2,7 +2,6 @@ package p000;
 
 import android.content.Context;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2475ve {
 
     public static Context f7674a;

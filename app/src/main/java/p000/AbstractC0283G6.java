@@ -3,7 +3,6 @@ package p000;
 import p000.InterfaceC0191E6;
 import p000.InterfaceC2550x6;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC0283G6 extends AbstractC2635z implements InterfaceC2550x6 {
 
     public static final a f856m = new a(null);

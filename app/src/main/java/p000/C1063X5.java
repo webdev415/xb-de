@@ -13,9 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
-import p000.C1063X5;
 
-/* loaded from: classes.dex */
 public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
 
     public static final InterfaceC2388tj f3173i = new InterfaceC2388tj() {
@@ -51,13 +49,13 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
         this.f3179f = c1778ga;
         this.f3181h = interfaceC0833S5;
         ArrayList arrayList = new ArrayList<>();
-        arrayList.add(C0420J5.m1802s(c1778ga, C1778ga.class, InterfaceC0722Pm.class, InterfaceC2526wj.class));
-        arrayList.add(C0420J5.m1802s(this, InterfaceC0650O5.class, new Class[0]));
+        arrayList.add(Component.m1802s(c1778ga, C1778ga.class, InterfaceC0722Pm.class, InterfaceC2526wj.class));
+        arrayList.add(Component.m1802s(this, InterfaceC0650O5.class, new Class[0]));
         Iterator it = collection.iterator();
         while (it.hasNext()) {
-            C0420J5 c0420j5 = (C0420J5) it.next();
-            if (c0420j5 != null) {
-                arrayList.add(c0420j5);
+            Component component = (Component) it.next();
+            if (component != null) {
+                arrayList.add(component);
             }
         }
         this.f3177d = m4633o(iterable);
@@ -110,7 +108,7 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
             }
             Iterator it2 = list.iterator();
             while (it2.hasNext()) {
-                Object[] array = ((C0420J5) it2.next()).m1806j().toArray();
+                Object[] array = ((Component) it2.next()).m1806j().toArray();
                 int length = array.length;
                 int i = 0;
                 while (true) {
@@ -136,11 +134,11 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
             }
             Iterator it3 = list.iterator();
             while (it3.hasNext()) {
-                final C0420J5 c0420j5 = (C0420J5) it3.next();
-                this.f3174a.put(c0420j5, new C0117Cf(new InterfaceC2388tj() {
+                final Component component = (Component) it3.next();
+                this.f3174a.put(component, new C0117Cf(new InterfaceC2388tj() {
                     @Override
                     public final Object get() {
-                        return this.f2820a.m4639p(c0420j5);
+                        return this.f2820a.m4639p(component);
                     }
                 }));
             }
@@ -157,9 +155,9 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
 
     public final void m4637m(Map map, boolean z) {
         for (Map.Entry entry : map.entrySet()) {
-            C0420J5 c0420j5 = (C0420J5) entry.getKey();
+            Component component = (Component) entry.getKey();
             InterfaceC2388tj interfaceC2388tj = (InterfaceC2388tj) entry.getValue();
-            if (c0420j5.m1808n() || (c0420j5.m1809o() && z)) {
+            if (component.m1808n() || (component.m1809o() && z)) {
                 interfaceC2388tj.get();
             }
         }
@@ -176,8 +174,8 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
         }
     }
 
-    public final Object m4639p(C0420J5 c0420j5) {
-        return c0420j5.m1804h().mo432a(new C0582Mk(c0420j5, this));
+    public final Object m4639p(Component component) {
+        return component.m1804h().mo432a(new C0582Mk(component, this));
     }
 
     public final void m4640s() {
@@ -191,21 +189,21 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
         Map map;
         C0167Dj c0167DjM877b;
         InterfaceC2388tj interfaceC2388tjM7422c;
-        for (C0420J5 c0420j5 : this.f3174a.keySet()) {
-            for (C0193E8 c0193e8 : c0420j5.m1803g()) {
-                if (c0193e8.m881f() && !this.f3176c.containsKey(c0193e8.m877b())) {
+        for (Component component : this.f3174a.keySet()) {
+            for (Dependency dependency : component.m1803g()) {
+                if (dependency.m881f() && !this.f3176c.containsKey(dependency.m877b())) {
                     map = this.f3176c;
-                    c0167DjM877b = c0193e8.m877b();
+                    c0167DjM877b = dependency.m877b();
                     interfaceC2388tjM7422c = C0255Ff.m1250b(Collections.emptySet());
-                } else if (this.f3175b.containsKey(c0193e8.m877b())) {
+                } else if (this.f3175b.containsKey(dependency.m877b())) {
                     continue;
                 } else {
-                    if (c0193e8.m880e()) {
-                        throw new C0853Sg(String.format("Unsatisfied dependency for component %s: %s", c0420j5, c0193e8.m877b()));
+                    if (dependency.m880e()) {
+                        throw new C0853Sg(String.format("Unsatisfied dependency for component %s: %s", component, dependency.m877b()));
                     }
-                    if (!c0193e8.m881f()) {
+                    if (!dependency.m881f()) {
                         map = this.f3175b;
-                        c0167DjM877b = c0193e8.m877b();
+                        c0167DjM877b = dependency.m877b();
                         interfaceC2388tjM7422c = C1692ei.m7422c();
                     }
                 }
@@ -218,10 +216,10 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
         ArrayList arrayList = new ArrayList<>();
         Iterator it = list.iterator();
         while (it.hasNext()) {
-            C0420J5 c0420j5 = (C0420J5) it.next();
-            if (c0420j5.m1810p()) {
-                final InterfaceC2388tj interfaceC2388tj = (InterfaceC2388tj) this.f3174a.get(c0420j5);
-                for (C0167Dj c0167Dj : c0420j5.m1806j()) {
+            Component component = (Component) it.next();
+            if (component.m1810p()) {
+                final InterfaceC2388tj interfaceC2388tj = (InterfaceC2388tj) this.f3174a.get(component);
+                for (C0167Dj c0167Dj : component.m1806j()) {
                     if (this.f3175b.containsKey(c0167Dj)) {
                         final C1692ei c1692ei = (C1692ei) ((InterfaceC2388tj) this.f3175b.get(c0167Dj));
                         arrayList.add(new Runnable() {
@@ -243,10 +241,10 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
         ArrayList arrayList = new ArrayList<>();
         HashMap map = new HashMap<>();
         for (Map.Entry entry : this.f3174a.entrySet()) {
-            C0420J5 c0420j5 = (C0420J5) entry.getKey();
-            if (!c0420j5.m1810p()) {
+            Component component = (Component) entry.getKey();
+            if (!component.m1810p()) {
                 InterfaceC2388tj interfaceC2388tj = (InterfaceC2388tj) entry.getValue();
-                for (C0167Dj c0167Dj : c0420j5.m1806j()) {
+                for (C0167Dj c0167Dj : component.m1806j()) {
                     if (!map.containsKey(c0167Dj)) {
                         map.put(c0167Dj, new HashSet());
                     }
@@ -286,8 +284,8 @@ public class C1063X5 implements InterfaceC0466K5, InterfaceC0650O5 {
             this.f3182a = executor;
         }
 
-        public b m4646b(C0420J5 c0420j5) {
-            this.f3184c.add(c0420j5);
+        public b m4646b(Component component) {
+            this.f3184c.add(component);
             return this;
         }
 

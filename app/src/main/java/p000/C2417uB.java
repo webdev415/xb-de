@@ -2,7 +2,6 @@ package p000;
 
 import java.util.Comparator;
 
-/* loaded from: classes.dex */
 public final class C2417uB implements Comparator {
     @Override
     public final int compare(Object obj, Object obj2) {

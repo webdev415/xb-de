@@ -5,7 +5,6 @@ import com.mmbox.xbrowser.SharedPreferencesHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
 public class UserResourceManager extends AbstractResourceManager {
 
     // --- User info ---

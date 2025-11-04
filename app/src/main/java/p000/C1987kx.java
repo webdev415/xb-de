@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteException;
 
-/* loaded from: classes.dex */
 public final class C1987kx extends AbstractC1656dt {
 
     public final C2079mx f6044l;

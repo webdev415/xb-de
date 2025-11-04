@@ -3,7 +3,6 @@ package p000;
 import android.content.Context;
 import android.media.AudioManager;
 
-/* loaded from: classes.dex */
 public class C0462K1 {
 
     public static C0462K1 f1509e;
@@ -16,7 +15,7 @@ public class C0462K1 {
 
     public int f1513d = 2;
 
-    public static C0462K1 m2249b() {
+    public static C0462K1 getInstance() {
         if (f1509e == null) {
             f1509e = new C0462K1();
         }
@@ -35,7 +34,7 @@ public class C0462K1 {
         return this.f1510a.getStreamMaxVolume(this.f1511b);
     }
 
-    public void m2253e(Context context) {
+    public void init(Context context) {
         this.f1510a = (AudioManager) context.getSystemService("audio");
     }
 

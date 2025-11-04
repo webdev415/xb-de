@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2182p6 {
 
     public static final int[] f6629a = new int[0];

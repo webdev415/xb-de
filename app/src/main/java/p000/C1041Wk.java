@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1041Wk {
 
     public static C1041Wk f3103b;

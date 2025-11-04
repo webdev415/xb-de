@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
-/* loaded from: classes.dex */
 public final class C2604yE {
 
     public final Context f8065a;

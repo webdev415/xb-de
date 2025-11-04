@@ -1,6 +1,5 @@
 package p000;
 
-/* loaded from: classes.dex */
 public final class C1839ho extends AbstractC0283G6 {
 
     public static final C1839ho f5770n = new C1839ho();

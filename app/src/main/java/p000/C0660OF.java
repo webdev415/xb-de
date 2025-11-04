@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-/* loaded from: classes.dex */
 public final class C0660OF {
 
     public static final Uri f2016f = new Uri.Builder().scheme("content").authority("com.google.android.gms.chimera").build();

@@ -2,7 +2,6 @@ package p000;
 
 import android.os.IInterface;
 
-/* loaded from: classes.dex */
 public interface InterfaceC2487vq extends IInterface {
     boolean mo9081e();
 

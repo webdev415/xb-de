@@ -2,7 +2,6 @@ package p000;
 
 import java.io.EOFException;
 
-/* loaded from: classes.dex */
 public abstract class AbstractC2455v3 {
 
     public static final byte[] f7653a = AbstractC1296b.m5573a("0123456789abcdef");

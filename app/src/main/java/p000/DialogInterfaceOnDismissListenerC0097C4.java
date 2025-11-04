@@ -9,8 +9,7 @@ import com.xbrowser.play.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* loaded from: classes.dex */
-public class DialogInterfaceOnDismissListenerC0097C4 extends AbstractDialogC2267r implements DialogInterface.OnDismissListener {
+public class DialogInterfaceOnDismissListenerC0097C4 extends BaseDialog implements DialogInterface.OnDismissListener {
 
     public BrowserActivity f239b;
 
@@ -33,13 +32,13 @@ public class DialogInterfaceOnDismissListenerC0097C4 extends AbstractDialogC2267
 
         @Override
         public void onDismiss(DialogInterface dialogInterface) throws JSONException {
-            C2061mf.m8471f0().executionPoint = DialogInterfaceOnDismissListenerC0097C4.this.f240c;
+            JSManager.getInstance().executionPoint = DialogInterfaceOnDismissListenerC0097C4.this.f240c;
             try {
                 JSONObject jSONObject = new JSONObject();
                 jSONObject.put("transId", "option_changed");
-                jSONObject.put("selectedOptionName", C1224ai.m5285e().m5297m("script_execute_mode"));
+                jSONObject.put("selectedOptionName", C1224ai.getInstance().m5297m("script_execute_mode"));
                 jSONObject.put("ex_point", DialogInterfaceOnDismissListenerC0097C4.this.f240c);
-                C1199a3.m5090f().m5094e("event_app_to_page", jSONObject);
+                C1199a3.getInstance().m5094e("event_app_to_page", jSONObject);
             } catch (Exception unused) {
             }
         }
@@ -54,7 +53,7 @@ public class DialogInterfaceOnDismissListenerC0097C4 extends AbstractDialogC2267
     }
 
     @Override
-    public void mo320a(Bundle bundle) {
+    public void initView(Bundle bundle) {
         setContentView(R.layout.dlg_choose_ex_point);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         radioGroup.check(m400e());

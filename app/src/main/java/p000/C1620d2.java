@@ -7,7 +7,6 @@ import p000.AbstractC0619Nb;
 import p000.AbstractComponentCallbacksC0159Db;
 import p000.LayoutInflaterFactory2C0435Jb;
 
-/* loaded from: classes.dex */
 public final class C1620d2 extends AbstractC0619Nb implements LayoutInflaterFactory2C0435Jb.e {
 
     public final LayoutInflaterFactory2C0435Jb f5267s;
